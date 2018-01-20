@@ -118,7 +118,7 @@ namespace Battlehub.MeshDeformer2
             Event e = Event.current;
             switch (e.type)
             {
-                case EventType.keyDown:
+                case EventType.KeyDown:
                     {
                         if (Event.current.keyCode == (KeyCode.V))
                         {
@@ -126,7 +126,7 @@ namespace Battlehub.MeshDeformer2
                         }
                         break;
                     }
-                case EventType.keyUp:
+                case EventType.KeyUp:
                     {
                         if (Event.current.keyCode == (KeyCode.V))
                         {
