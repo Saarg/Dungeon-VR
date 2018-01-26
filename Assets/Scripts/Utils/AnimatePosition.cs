@@ -28,9 +28,13 @@ public class AnimatePosition : MonoBehaviour {
 	public float offset = 0;
 	public bool requestedStop = false;
 	public bool runOnStart = false;
+	public bool runOnEnable = false;
+
+	public bool enableOnStart = true;
+	public bool disableOnStop = false;	
 
 	/// <summary>  
-	///		Starts the animation if runOnStart is true
+	///		Start the animation if runOnStart is true
 	/// </summary> 
 	void Start() {
 		if (runOnStart) {
@@ -39,10 +43,20 @@ public class AnimatePosition : MonoBehaviour {
 	}
 
 	/// <summary>  
+	///		OnEnable the animation if runOnEnable is true
+	/// </summary> 
+	void OnEnable() {
+		if (runOnEnable) {
+			StartAnimation();
+		}
+	}
+
+	/// <summary>  
 	/// 	Run the animation if not already running
 	/// </summary> 
 	public void StartAnimation () {
-		gameObject.SetActive(true);
+		if (enableOnStart)
+			gameObject.SetActive(true);
 
 		if (!running)
 			StartCoroutine(RunAnimation());
@@ -76,6 +90,9 @@ public class AnimatePosition : MonoBehaviour {
 
 		running = false;
 		requestedStop = false;
+
+		if (disableOnStop)
+			gameObject.SetActive(false);
 		
 		transform.localPosition = startPos;
 		transform.localRotation = Quaternion.Euler(startRot);
