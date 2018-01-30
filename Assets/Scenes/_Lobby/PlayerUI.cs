@@ -19,6 +19,7 @@ public class PlayerUI : NetworkLobbyPlayer {
 
 	public static int playerCount = 0;
 	public int curPlayer;
+	public int curClass = 5;
 
 	public static PlayerUI localPlayer;
 
@@ -26,21 +27,24 @@ public class PlayerUI : NetworkLobbyPlayer {
 	private Image classLogo;
 
 	void Start () {
+		transform.SetParent(GameObject.Find("UI").transform);
+
 		curPlayer = playerCount++;
 
 		pName = transform.Find("Name").GetComponent<Text>();
 		classLogo = transform.Find("ClassLogo").GetComponent<Image>();
 
 		if (curPlayer == 0) {
+			classLogo.sprite = GMClass;
 			CmdSelectClass(4);
 
-			transform.position = new Vector3(-300, 50, 800);
+			transform.localPosition = new Vector3(-300, 50, 0);
 			pName.text = "GameMaster";
 			gameObject.name = "GameMaster";
 		} else {
 			classLogo.sprite = null;
 
-			transform.position = new Vector3(100 * (curPlayer-1), 50, 800);
+			transform.localPosition = new Vector3(110 * (curPlayer-1), 50, 0);
 			pName.text = "Player " + curPlayer;
 			gameObject.name = "Player " + curPlayer;
 		}
@@ -79,5 +83,12 @@ public class PlayerUI : NetworkLobbyPlayer {
 				classLogo.sprite = null;
 				break;
 		}
+
+		if (curClass >= 0 && curClass <= 3)
+			NetworkLobbyManager.singleton.GetComponent<LobbyManager>().classButtons.transform.GetChild(curClass).GetComponent<Button>().interactable = true;
+		if (c >= 0 && c <= 3)		
+			NetworkLobbyManager.singleton.GetComponent<LobbyManager>().classButtons.transform.GetChild(c).GetComponent<Button>().interactable = false;
+
+		curClass = c;
 	}
 }
