@@ -7,10 +7,18 @@ public class LobbyManager : MonoBehaviour {
 	public string VRPlayScene;
 
 	public GameObject classButtons;
+	public GameObject readyButton;
+
+	private NetworkLobbyManager nlm;
+
+	void Start() {
+		readyButton.SetActive(false);
+		classButtons.SetActive(false);
+
+		nlm = GetComponent<NetworkLobbyManager>();
+	}
 
 	public void SelectClass(int c) {
-		Debug.Log(PlayerUI.localPlayer.name);
-
 		PlayerUI.localPlayer.CmdSelectClass(c);
 	}
 
@@ -23,12 +31,13 @@ public class LobbyManager : MonoBehaviour {
 	}
 
 	void Update () {
-		if (PlayerUI.localPlayer != null && PlayerUI.localPlayer.curPlayer == 0) {
-			classButtons.SetActive(false);
+		if (PlayerUI.localPlayer != null && PlayerUI.playerCount > nlm.minPlayers) {
+			classButtons.SetActive(PlayerUI.localPlayer.curPlayer != 0);
 
-			GetComponent<NetworkLobbyManager>().playScene = VRPlayScene;
-		} else {
-			classButtons.SetActive(true);			
+			readyButton.SetActive(true);
+
+			if (PlayerUI.localPlayer.curPlayer == 0)
+				nlm.playScene = VRPlayScene;
 		}
 	}
 }

@@ -36,7 +36,7 @@ public class PlayerUI : NetworkLobbyPlayer {
 
 		if (curPlayer == 0) {
 			classLogo.sprite = GMClass;
-			CmdSelectClass(4);
+			curClass = 4;
 
 			transform.localPosition = new Vector3(-300, 50, 0);
 			pName.text = "GameMaster";
@@ -54,11 +54,9 @@ public class PlayerUI : NetworkLobbyPlayer {
 		localPlayer = this;
 	}
 
-	
-
 	[Command]	
 	public void CmdSelectClass(int c) {
-		RpcUpdateSprite(Mathf.Clamp(c, 0, 5));
+		RpcUpdateSprite(c);
 	}
 
 	[ClientRpc]
@@ -89,6 +87,6 @@ public class PlayerUI : NetworkLobbyPlayer {
 		if (c >= 0 && c <= 3)		
 			NetworkLobbyManager.singleton.GetComponent<LobbyManager>().classButtons.transform.GetChild(c).GetComponent<Button>().interactable = false;
 
-		curClass = c;
+		curClass = c;		
 	}
 }

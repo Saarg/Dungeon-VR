@@ -564,7 +564,7 @@ MonoBehaviour:
   m_ShowLobbyGUI: 0
   m_MaxPlayers: 5
   m_MaxPlayersPerConnection: 1
-  m_MinPlayers: 2
+  m_MinPlayers: 1
   m_LobbyPlayerPrefab: {fileID: 114061252566873030, guid: 9f5195cdad405494fb21e8e957bcb5e9,
     type: 2}
   m_GamePlayerPrefab: {fileID: 1945821046297192, guid: 9f5195cdad405494fb21e8e957bcb5e9,
@@ -600,6 +600,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VRPlayScene: VRNetworkTest
   classButtons: {fileID: 1441638320}
+  readyButton: {fileID: 1483394369}
 --- !u!114 &531842791
 MonoBehaviour:
   m_ObjectHideFlags: 0
