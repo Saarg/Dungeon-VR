@@ -16,14 +16,30 @@ public class AutoConnect : MonoBehaviour {
 			GetComponent<NetworkManagerHUD>().enabled = false;			
 		#endif
 
-		if (HeadlessModeDetection.IsHeadlessMode() || startServer) {
-			GetComponent<NetworkManager>().StartServer();
+		if (HeadlessModeDetection.IsHeadlessMode()) {
+			if (GetComponent<NetworkManager>() != null)
+				GetComponent<NetworkManager>().StartServer();
+			else
+				GetComponent<NetworkLobbyManager>().StartServer();
+		}
+		else if (startServer || PlayerPrefs.GetInt("isGameMaster") != 0) {
+			if (GetComponent<NetworkManager>() != null)
+				GetComponent<NetworkManager>().StartHost();
+			else
+				GetComponent<NetworkLobbyManager>().StartHost();
 		}
 		else if (PlayerPrefs.GetString("ip") != null && PlayerPrefs.GetString("ip") != "") {
-			NetworkManager nm = GetComponent<NetworkManager>();
+			if (GetComponent<NetworkManager>() != null) {			
+				NetworkManager nm = GetComponent<NetworkManager>();
 
-			nm.networkAddress = PlayerPrefs.GetString("ip");
-			nm.StartClient();
+				nm.networkAddress = PlayerPrefs.GetString("ip");
+				nm.StartClient();
+			} else {
+				NetworkLobbyManager nm = GetComponent<NetworkLobbyManager>();
+
+				nm.networkAddress = PlayerPrefs.GetString("ip");
+				nm.StartClient();
+			}
 		}
 	}
 

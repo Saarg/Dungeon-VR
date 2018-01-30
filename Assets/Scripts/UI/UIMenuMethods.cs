@@ -13,6 +13,18 @@ public class UIMenuMethods : MonoBehaviour {
 	/// </summary>
 	/// <param name="name">scene name or path</param>  
 	public void LoadScene(string name) {
+		PlayerPrefs.SetInt("isGameMaster", 0);		
+
+		SceneManager.LoadSceneAsync(name, LoadSceneMode.Single);
+	}
+
+	/// <summary>
+	/// 	Load async scene, default single mode
+	/// </summary>
+	/// <param name="name">scene name or path</param>  
+	public void LoadSceneAsHost(string name) {
+		PlayerPrefs.SetInt("isGameMaster", 1);		
+
 		SceneManager.LoadSceneAsync(name, LoadSceneMode.Single);
 	}
 
