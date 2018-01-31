@@ -22,6 +22,7 @@ public class PlayerUI : NetworkLobbyPlayer {
 	public int curClass = 5;
 
 	public static PlayerUI localPlayer;
+	public static PlayerUI GameMaster;
 
 	private Text pName;
 	private Image classLogo;
@@ -41,6 +42,8 @@ public class PlayerUI : NetworkLobbyPlayer {
 			transform.localPosition = new Vector3(-300, 50, 0);
 			pName.text = "GameMaster";
 			gameObject.name = "GameMaster";
+
+			GameMaster = this;
 		} else {
 			classLogo.sprite = null;
 
