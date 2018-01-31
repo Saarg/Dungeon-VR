@@ -16,10 +16,16 @@ public class Living : NetworkBehaviour {
 	[Header("Life")]
 	public float maxLife = 100;
 
-	[SyncVar(hook="UpdateLife")]
+    [SyncVar(hook="UpdateLife")]
 	public float curLife = 100f;
 
-	[Header("Movement")]	
+    [Header("Mana")]
+    public float maxMana = 100;
+
+    [SyncVar(hook = "UpdateMana")]
+    public float curMana = 100f;
+
+    [Header("Movement")]	
 	public float speed = 1f;
 	public bool canJump = true;
 	public MoveStatus moveStatus;
@@ -51,4 +57,15 @@ public class Living : NetworkBehaviour {
 			OnDeath();
 		}
 	}
+
+    /// <summary>  
+	/// 	curMana hook, clamps the mana between 0 and maxMana
+	/// </summary>
+	/// <remarks>
+	/// 	Use this function to update entity's mana
+	/// </remarks>
+    void UpdateMana(float mana)
+    {
+        curMana = Mathf.Clamp(mana, 0, maxMana);     
+    }
 }
