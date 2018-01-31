@@ -5,6 +5,9 @@ using UnityEngine.Networking;
 
 [RequireComponent(typeof(NetworkManager))]
 
+/// <summary>
+/// autoconnect or not according to headless mode or playerprefs
+/// </summary>
 public class AutoConnect : MonoBehaviour {
 
 	public bool startServer = false;
