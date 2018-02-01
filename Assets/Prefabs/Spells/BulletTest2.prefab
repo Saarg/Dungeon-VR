@@ -29,7 +29,7 @@ GameObject:
   - component: {fileID: 54832131363674886}
   - component: {fileID: 114382221323574870}
   m_Layer: 0
-  m_Name: Bullet
+  m_Name: BulletTest2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
   _referenceCollection:
     _collection:
     - {fileID: 1792118448359034}
-  _assetGuid: eda447bcd5ce648d3a3135b0bbcd48f7
+  _assetGuid: 4a0dabe02cd397846bf0209ea5b96c7d
 --- !u!114 &114382221323574870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -132,10 +132,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8cc672cfd374faa8805b33b5a8c9dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 5
-  damage: 2
+  velocity: 10
+  damage: 5
   lifeTime: 10
-  damageType: 2
+  damageType: 1
 --- !u!114 &114437627997469432
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -150,22 +150,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 237
-    i1: 164
-    i2: 71
-    i3: 188
-    i4: 213
-    i5: 206
-    i6: 100
-    i7: 141
-    i8: 58
-    i9: 49
-    i10: 53
-    i11: 176
-    i12: 187
-    i13: 205
-    i14: 72
-    i15: 247
+    i0: 74
+    i1: 13
+    i2: 171
+    i3: 224
+    i4: 44
+    i5: 211
+    i6: 151
+    i7: 132
+    i8: 107
+    i9: 240
+    i10: 32
+    i11: 158
+    i12: 165
+    i13: 185
+    i14: 108
+    i15: 125
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &114498547960178032
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: 34ff8876-a58d-4ff0-80ae-ec86fbe6f7cd
+  _guid: 72b3c758-43e7-48b3-a080-df21769bc2c1
 --- !u!114 &114568894372906278
 MonoBehaviour:
   m_ObjectHideFlags: 1

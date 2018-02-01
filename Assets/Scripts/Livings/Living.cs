@@ -48,7 +48,31 @@ public class Living : NetworkBehaviour {
 		curLife = Mathf.Clamp(life, 0, maxLife);
 
 		if (curLife == 0f) {
-			OnDeath();
+            if(OnDeath != null)
+			    OnDeath();
+            Destroy(gameObject);
 		}
 	}
+
+    public void TakeDamage(int damage, Bullet.DamageTypeEnum damageType)
+    {
+        UpdateLife(curLife - CalculateResisance(damage, damageType));
+    }
+
+    int CalculateResisance(int damage, Bullet.DamageTypeEnum damageType)
+    {
+        switch (damageType)
+        {
+            case Bullet.DamageTypeEnum.fire:
+                return Mathf.FloorToInt((float)damage * fire);
+            case Bullet.DamageTypeEnum.ice:
+                return Mathf.FloorToInt((float)damage * ice);
+            case Bullet.DamageTypeEnum.lightning:
+                return Mathf.FloorToInt((float)damage * lightning);
+            case Bullet.DamageTypeEnum.poison:
+                return Mathf.FloorToInt((float)damage * poison);
+            default:
+                return damage;
+        }
+    }
 }
