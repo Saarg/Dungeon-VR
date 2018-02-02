@@ -76,8 +76,8 @@ public class AnimatePosition : MonoBehaviour {
 
 		running = false;
 		requestedStop = false;
-		
-		transform.localPosition = startPos;
+
+        transform.localPosition = startPos;
 		transform.localRotation = Quaternion.Euler(startRot);
 	}
 }
