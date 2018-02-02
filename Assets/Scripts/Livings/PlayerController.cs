@@ -11,8 +11,8 @@ public class PlayerController : Living {
     public enum PlayerClassEnum
     {
         Assassin,
-        Soigneur,
-        Sorcier,
+        Healer,
+        Sorcerer,
         Tank,
     };
 
