@@ -29,7 +29,10 @@ public class Bullet : MonoBehaviour {
 
     [SerializeField]
     float lifeTime;
-    
+
+    [SerializeField]
+    bool destroyOnHit;
+
     public string OwnerTag { get; set; }
 
     [SerializeField]
@@ -59,6 +62,7 @@ public class Bullet : MonoBehaviour {
         if (comp != null)
             comp.TakeDamage(Damage, DamageType);
 
-		Destroy(gameObject);
+        if(destroyOnHit)
+		    Destroy(gameObject);
 	}
 }

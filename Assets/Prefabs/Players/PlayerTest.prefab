@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 136885804505263022}
   - component: {fileID: 54896288658264104}
   - component: {fileID: 114621865126034964}
+  - component: {fileID: 114064954143847534}
   m_Layer: 0
   m_Name: PlayerTest
   m_TagString: Player
@@ -2314,6 +2315,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guid: 35f13c67-ba5a-4aa1-bddf-b6bd9651305f
+--- !u!114 &114064954143847534
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1038169052092530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21d7dae0d1d9ebe47946a0daf169bf17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 1792118448359034, guid: eda447bcd5ce648d3a3135b0bbcd48f7, type: 2}
+  firingInterval: 1
+  manaCost: 1
+  unlimitedAmmo: 1
+  maxAmmo: 1
+  damageType: 0
 --- !u!114 &114072157341576462
 MonoBehaviour:
   m_ObjectHideFlags: 11
@@ -2902,6 +2920,7 @@ MonoBehaviour:
   cam: {fileID: 20293041392594200}
   spellOrigin: {fileID: 4972697528079158}
   ammo: {fileID: 1792118448359034, guid: eda447bcd5ce648d3a3135b0bbcd48f7, type: 2}
+  weapon: {fileID: 114064954143847534}
 --- !u!114 &114629334338391074
 MonoBehaviour:
   m_ObjectHideFlags: 11
