@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    public TrapType trapType = TrapType.Ground;
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	

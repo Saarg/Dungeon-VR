@@ -5,11 +5,11 @@ using UnityEngine;
 public class TrapDropZone : MonoBehaviour {
 
     public Trap placedTrap;
+    public TrapType allowedTrapType = TrapType.Ground;
 
     public void AttachTrapToDropZone(object o, VRTK.InteractableObjectEventArgs e)
-    {
-        
-        if (placedTrap == null)
+    {      
+        if (placedTrap == null && e.interactingObject.GetComponent<TrapControllerManager>().selectedTrap.trapType == allowedTrapType)
         {
             // Need to add a way to rotate the trap (Touchpad should be find for that)
             placedTrap = Instantiate(e.interactingObject.GetComponent<TrapControllerManager>().selectedTrap, transform.position, transform.rotation);
@@ -26,4 +26,11 @@ public class TrapDropZone : MonoBehaviour {
     {
         Destroy(placedTrap.gameObject);
     }
+}
+
+public enum TrapType
+{
+    Ground,
+    Wall,
+    Ceiling
 }
