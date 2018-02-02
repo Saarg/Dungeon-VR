@@ -2259,7 +2259,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1038169052092530}
   serializedVersion: 2
-  m_Mass: 70
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -2905,15 +2905,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLife: 100
   curLife: 100
+  maxMana: 100
+  curMana: 100
   speed: 6
-  canJump: 1
+  JumpSpeed: 70
   moveStatus: 0
+  canRun: 1
+  canJump: 1
+  canMove: 0
+  lowJump: 0
   fire: 1
   ice: 1
   lightning: 1
   poison: 1
   spellOrigin: {fileID: 4972697528079158}
   ammo: {fileID: 1792118448359034, guid: eda447bcd5ce648d3a3135b0bbcd48f7, type: 2}
+  isGrounded: 1
 --- !u!114 &114629334338391074
 MonoBehaviour:
   m_ObjectHideFlags: 11

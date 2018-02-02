@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 /// <summary>  
 /// 	Enum used to know the movement capacity of the entity
 /// </summary>
-public enum MoveStatus {Free, Slow, Heavy, None};  
+public enum MoveStatus {Free, Ralenti, Casting, Immobilisé };  
 
 /// <summary>  
 /// 	Mother class of every living entity
@@ -27,10 +27,16 @@ public class Living : NetworkBehaviour {
 
     [Header("Movement")]	
 	public float speed = 1f;
-	public bool canJump = true;
-	public MoveStatus moveStatus;
+    public float JumpSpeed = 1.0f;
 
-	[Header("Weakness/Strength")]
+    [Header("Etat movement")]
+    public MoveStatus moveStatus;
+    public bool canRun = true;
+    public bool canJump = true;
+    public bool canMove = false;
+    public bool lowJump = false;
+
+    [Header("Weakness/Strength")]
 	[Range(0f, 2f)]
 	public float fire = 1f;
 	[Range(0f, 2f)]	

@@ -11,7 +11,6 @@ using UnityEngine.Networking;
 public class PlayerController : Living
 {
 
-    //public Camera cam;
     Transform cam;
 
     private float turnSpeed = 50;
@@ -22,6 +21,14 @@ public class PlayerController : Living
     private Animator _animator;
     private Rigidbody rigidBody;
 
+    [SerializeField]
+    [Range(1.0f, 3.0f)] 
+    private float JumpFactor = 2;
+
+    [SerializeField]
+    [Range(1.0f, 3.0f)]
+    private float RunFactor = 2;
+    
     [Header("jump")]
     public bool isGrounded;
 
@@ -34,6 +41,7 @@ public class PlayerController : Living
         _animator = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody>();
         cam = Camera.main.transform;
+        ApplyMoveStatus("Free");
 
         if (!isLocalPlayer)
         {
@@ -42,46 +50,45 @@ public class PlayerController : Living
     }
 
     /// <summary>  
+    ///     Camera follow player and player orientation depend of the camera
     /// 	Translate and rotate player
+    /// 	Jump player if input
     ///		Updates animator
+    ///		Take move status into consideration
     /// </summary>
     void FixedUpdate()
     {
         if (isLocalPlayer)
         {
-            /*float x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
-			float z = Input.GetAxis("Vertical") * Time.deltaTime * speed;
-
-			transform.Rotate(0, x, 0);
-			transform.Translate(0, 0, z);
-
-			if (Input.GetButtonDown("Fire1")) {
-				CmdFire();
-			}
-
-			if (Input.GetButtonDown("Jump") && canJump) {
-				_animator.SetTrigger("Jump");
-			}
-
-			_animator.SetFloat("Speed", z);*/
-
             ///////////////////////////////////////////////////////////////////////////////////////////////////////
-            Vector3 dir = (cam.right * Input.GetAxis("Horizontal") * Time.deltaTime) + (cam.forward * Input.GetAxis("Vertical") * Time.deltaTime);
+            Vector3 dir = (cam.right * Input.GetAxis("Horizontal") * Time.deltaTime) + (cam.forward * Input.GetAxis("Vertical") /** Time.deltaTime*/);
             dir.y = 0;
-
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            if (canMove)
             {
-                rigidBody.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), turnSpeed * Time.deltaTime);
-                rigidBody.velocity = transform.forward * speed;
-                //_animator.SetTrigger("Running");;//Animation de course
-                if(Input.GetAxis("Horizontal") != 0)
+                if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
                 {
-                    _animator.SetFloat("Speed", /*Input.GetAxis("Horizontal")* */Time.deltaTime * speed);
-                }
+                    rigidBody.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), turnSpeed);
+                    var v3 = Vector3.zero;
+                    if (canRun)
+                    {
+                        v3 = transform.forward * speed;
+                        v3.y = rigidBody.velocity.y;
+                    }
+                    else
+                    {
+                        v3 = transform.forward * speed/ RunFactor;
+                        v3.y = rigidBody.velocity.y;
+                    }
+                    rigidBody.velocity = v3;
+                    if (Input.GetAxis("Horizontal") != 0)
+                    {
+                        _animator.SetFloat("Speed", speed);
+                    }
 
-                if (Input.GetAxis("Vertical") != 0)
-                {
-                    _animator.SetFloat("Speed",/*Input.GetAxis("Vertical")* */Time.deltaTime * speed);
+                    if (Input.GetAxis("Vertical") != 0)
+                    {
+                        _animator.SetFloat("Speed", speed);
+                    }
                 }
             }
             /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,45 +97,47 @@ public class PlayerController : Living
                 CmdFire();
             }
 
-            if (Input.GetButtonDown("Jump") && canJump && isGrounded)
+            if (Input.GetButtonDown("Jump") && isGrounded && canJump)
             {
                 _animator.SetTrigger("Jump");
+                if (lowJump)
+                {
+                    rigidBody.AddForce(Vector3.up * JumpSpeed / JumpFactor, ForceMode.Impulse);
+                }
+                else
+                {
+                    rigidBody.AddForce(Vector3.up * JumpSpeed, ForceMode.Impulse);
+                }
             }
 
-            if(Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
+            if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0 && !Input.GetButtonDown("Jump"))
             {
                 //_animator.SetTrigger("Idle");;//animation Idle
                 _animator.SetFloat("Speed", 0);
             }
         }
     }
- 
-    
+
+    /// <summary>  
+    /// 	Use to allow player another jump after hitting the ground
+    /// </summary>
     void OnCollisionEnter(Collision coll)
     {
-        if(coll.collider.tag.Equals("Ground"))
+        if (coll.collider.tag.Equals("Ground"))
         {
             isGrounded = true;
-            Debug.Log(coll.collider.tag);
         }
     }
 
-    /*void OnCollisionStay(Collision coll)
-    {
-        if (coll.collider.tag == "Ground")
-        {
-            isGrounded = true;
-        }
-    }*/
-
+    /// <summary>  
+    /// 	Use to prevent player another jump in air
+    /// </summary>
     void OnCollisionExit(Collision coll)
     {
-        Debug.Log("sortir collision");
-        if (isGrounded && coll.collider.tag.Equals("Ground"))
+        if (coll.collider.tag.Equals("Ground"))
         {
             isGrounded = false;
         }
-
     }
 
     /// <summary>  
@@ -144,5 +153,39 @@ public class PlayerController : Living
         NetworkServer.Spawn(bullet);
     }
 
-    
+    /// <summary>  
+    /// 	Move status liste and way to apply them
+    /// </summary>
+    public void ApplyMoveStatus(string status)
+    {
+        switch (status)
+        {
+            case "Free":
+                canRun = true;
+                canJump = true;
+                canMove = true;
+                lowJump = false;
+                break;
+            case "Ralenti":
+                canRun = false;
+                canJump = true;
+                canMove = true;
+                lowJump = false;
+                break;
+            case "Casting":
+                canRun = true;
+                canJump = false;
+                canMove = true;
+                lowJump = true;
+                break;
+            case "Immobilisé":
+                canRun = false;
+                canJump = false;
+                canMove = false;
+                lowJump = false;
+                break;
+            default:
+                break;
+        }
+    }
 }

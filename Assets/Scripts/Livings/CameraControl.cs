@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>  
+/// 	Camera control
+/// 	Distance from the followed player and angle of vision
+/// </summary>
 public class CameraControl : MonoBehaviour
 {
     //Determines the limitations of vertical camera movement
     private const float Y_ANGLE_MIN = 0.0f;
     private const float Y_ANGLE_MAX = 25.0f;
 
-    public Transform character; 
+    public Transform character; //character followed by the camera
 
     private float distance = - 5.0f; // Distance from character
     private float currentX = 0.0f; // Holds value of X mouse movement
