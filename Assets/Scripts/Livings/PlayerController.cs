@@ -8,60 +8,184 @@ using UnityEngine.Networking;
 /// <summary>  
 /// 	Player controller
 /// </summary>
-public class PlayerController : Living {
+public class PlayerController : Living
+{
 
-	public Camera cam;
+    Transform cam;
 
-	public Transform spellOrigin;
-	public GameObject ammo;
+    private float turnSpeed = 50;
 
-	private Animator _animator;
+    public Transform spellOrigin;
+    public GameObject ammo;
 
-	/// <summary>  
-	/// 	Fetch animator
-	///		Destroy camera if not localplayer
-	/// </summary>
-	void Start() {
-		_animator = GetComponent<Animator>();
+    private Animator _animator;
+    private Rigidbody rigidBody;
 
-		if (!isLocalPlayer) {
-			Destroy(cam.gameObject);
-		}		
-	}
+    [SerializeField]
+    [Range(1.0f, 3.0f)] 
+    private float JumpFactor = 2;
 
-	/// <summary>  
-	/// 	Translate and rotate player
-	///		Updates animator
-	/// </summary>
-	void Update () {
-		if (isLocalPlayer) {
-			float x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
-			float z = Input.GetAxis("Vertical") * Time.deltaTime * speed;
+    [SerializeField]
+    [Range(1.0f, 3.0f)]
+    private float RunFactor = 2;
+    
+    [Header("jump")]
+    public bool isGrounded;
 
-			transform.Rotate(0, x, 0);
-			transform.Translate(0, 0, z);
+    /// <summary>  
+    /// 	Fetch animator
+    ///		Destroy camera if not localplayer
+    /// </summary>
+    void Start()
+    {
+        _animator = GetComponent<Animator>();
+        rigidBody = GetComponent<Rigidbody>();
+        cam = Camera.main.transform;
+        ApplyMoveStatus("Free");
 
-			if (Input.GetButtonDown("Fire1")) {
-				CmdFire();
-			}
+        if (!isLocalPlayer)
+        {
+            Destroy(cam.gameObject);
+        }
+    }
 
-			if (Input.GetButtonDown("Jump") && canJump) {
-				_animator.SetTrigger("Jump");
-			}
+    /// <summary>  
+    ///     Camera follow player and player orientation depend of the camera
+    /// 	Translate and rotate player
+    /// 	Jump player if input
+    ///		Updates animator
+    ///		Take move status into consideration
+    /// </summary>
+    void FixedUpdate()
+    {
+        if (isLocalPlayer)
+        {
+            ///////////////////////////////////////////////////////////////////////////////////////////////////////
+            Vector3 dir = (cam.right * Input.GetAxis("Horizontal") * Time.deltaTime) + (cam.forward * Input.GetAxis("Vertical") /** Time.deltaTime*/);
+            dir.y = 0;
+            if (canMove)
+            {
+                if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+                {
+                    rigidBody.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), turnSpeed);
+                    var v3 = Vector3.zero;
+                    if (canRun)
+                    {
+                        v3 = transform.forward * speed;
+                        v3.y = rigidBody.velocity.y;
+                    }
+                    else
+                    {
+                        v3 = transform.forward * speed/ RunFactor;
+                        v3.y = rigidBody.velocity.y;
+                    }
+                    rigidBody.velocity = v3;
+                    if (Input.GetAxis("Horizontal") != 0)
+                    {
+                        _animator.SetFloat("Speed", speed);
+                    }
 
-			_animator.SetFloat("Speed", z);
-		}
-	}
+                    if (Input.GetAxis("Vertical") != 0)
+                    {
+                        _animator.SetFloat("Speed", speed);
+                    }
+                }
+            }
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////
+            if (Input.GetButtonDown("Fire1"))
+            {
+                CmdFire();
+            }
 
-	/// <summary>  
-	/// 	Instanciate and spawn bullet
-	/// </summary>
-	[Command]
-	void CmdFire() {
-		GameObject bullet = Instantiate(ammo, spellOrigin.position, spellOrigin.rotation);
+            if (Input.GetButtonDown("Jump") && isGrounded && canJump)
+            {
+                _animator.SetTrigger("Jump");
+                if (lowJump)
+                {
+                    rigidBody.AddForce(Vector3.up * JumpSpeed / JumpFactor, ForceMode.Impulse);
+                }
+                else
+                {
+                    rigidBody.AddForce(Vector3.up * JumpSpeed, ForceMode.Impulse);
+                }
+            }
 
-		bullet.GetComponent<Rigidbody>().velocity = spellOrigin.forward * 10;
+            if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0 && !Input.GetButtonDown("Jump"))
+            {
+                //_animator.SetTrigger("Idle");;//animation Idle
+                _animator.SetFloat("Speed", 0);
+            }
+        }
+    }
 
-		NetworkServer.Spawn(bullet);
-	}
+    /// <summary>  
+    /// 	Use to allow player another jump after hitting the ground
+    /// </summary>
+    void OnCollisionEnter(Collision coll)
+    {
+        if (coll.collider.tag.Equals("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
+    /// <summary>  
+    /// 	Use to prevent player another jump in air
+    /// </summary>
+    void OnCollisionExit(Collision coll)
+    {
+        if (coll.collider.tag.Equals("Ground"))
+        {
+            isGrounded = false;
+        }
+    }
+
+    /// <summary>  
+    /// 	Instanciate and spawn bullet
+    /// </summary>
+    [Command]
+    void CmdFire()
+    {
+        GameObject bullet = Instantiate(ammo, spellOrigin.position, spellOrigin.rotation);
+
+        bullet.GetComponent<Rigidbody>().velocity = spellOrigin.forward * 10;
+
+        NetworkServer.Spawn(bullet);
+    }
+
+    /// <summary>  
+    /// 	Move status liste and way to apply them
+    /// </summary>
+    public void ApplyMoveStatus(string status)
+    {
+        switch (status)
+        {
+            case "Free":
+                canRun = true;
+                canJump = true;
+                canMove = true;
+                lowJump = false;
+                break;
+            case "Ralenti":
+                canRun = false;
+                canJump = true;
+                canMove = true;
+                lowJump = false;
+                break;
+            case "Casting":
+                canRun = true;
+                canJump = false;
+                canMove = true;
+                lowJump = true;
+                break;
+            case "Immobilisé":
+                canRun = false;
+                canJump = false;
+                canMove = false;
+                lowJump = false;
+                break;
+            default:
+                break;
+        }
+    }
 }

@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 /// <summary>  
 /// 	Enum used to know the movement capacity of the entity
 /// </summary>
-public enum MoveStatus {Free, Slow, Heavy, None};  
+public enum MoveStatus {Free, Ralenti, Casting, Immobilisé };  
 
 /// <summary>  
 /// 	Mother class of every living entity
@@ -16,15 +16,27 @@ public class Living : NetworkBehaviour {
 	[Header("Life")]
 	public float maxLife = 100;
 
-	[SyncVar(hook="UpdateLife")]
+    [SyncVar(hook="UpdateLife")]
 	public float curLife = 100f;
 
-	[Header("Movement")]	
-	public float speed = 1f;
-	public bool canJump = true;
-	public MoveStatus moveStatus;
+    [Header("Mana")]
+    public float maxMana = 100;
 
-	[Header("Weakness/Strength")]
+    [SyncVar(hook = "UpdateMana")]
+    public float curMana = 100f;
+
+    [Header("Movement")]	
+	public float speed = 1f;
+    public float JumpSpeed = 1.0f;
+
+    [Header("Etat movement")]
+    public MoveStatus moveStatus;
+    public bool canRun = true;
+    public bool canJump = true;
+    public bool canMove = false;
+    public bool lowJump = false;
+
+    [Header("Weakness/Strength")]
 	[Range(0f, 2f)]
 	public float fire = 1f;
 	[Range(0f, 2f)]	
@@ -51,4 +63,15 @@ public class Living : NetworkBehaviour {
 			OnDeath();
 		}
 	}
+
+    /// <summary>  
+	/// 	curMana hook, clamps the mana between 0 and maxMana
+	/// </summary>
+	/// <remarks>
+	/// 	Use this function to update entity's mana
+	/// </remarks>
+    void UpdateMana(float mana)
+    {
+        curMana = Mathf.Clamp(mana, 0, maxMana);     
+    }
 }
