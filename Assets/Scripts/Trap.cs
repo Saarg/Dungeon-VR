@@ -5,6 +5,7 @@ using UnityEngine;
 public class Trap : MonoBehaviour {
 
     public TrapType trapType = TrapType.Ground;
+    public AnimatePosition animatePosition;
 
     // Use this for initialization
     void Start () {
@@ -15,4 +16,20 @@ public class Trap : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void StartTrap()
+    {
+        animatePosition.StartAnimation();
+    }
+
+    public void StopTrap()
+    {
+
+    }
+
+    public void RemoveTrap()
+    {
+        // Give gold back
+        Destroy(gameObject);
+    }
 }
