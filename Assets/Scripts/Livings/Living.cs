@@ -74,4 +74,50 @@ public class Living : NetworkBehaviour {
     {
         curMana = Mathf.Clamp(mana, 0, maxMana);     
     }
+
+	/// <summary>  
+    /// 	Command to update move status
+    /// </summary>
+	[Command]
+    public void CmdApplyMoveStatus(MoveStatus status)
+    {
+		RpcApplyMoveStatus(status);
+	}
+
+    /// <summary>  
+    /// 	Rpc in charge of updating move status
+    /// </summary>
+	[ClientRpc]
+	private void RpcApplyMoveStatus(MoveStatus status)
+    {
+        switch (moveStatus)
+        {
+            case MoveStatus.Free:
+                canRun = true;
+                canJump = true;
+                canMove = true;
+                lowJump = false;
+                break;
+            case MoveStatus.Ralenti:
+                canRun = false;
+                canJump = true;
+                canMove = true;
+                lowJump = false;
+                break;
+            case MoveStatus.Casting:
+                canRun = true;
+                canJump = false;
+                canMove = true;
+                lowJump = true;
+                break;
+            case MoveStatus.Immobilisé:
+                canRun = false;
+                canJump = false;
+                canMove = false;
+                lowJump = false;
+                break;
+            default:
+                break;
+        }
+    }
 }

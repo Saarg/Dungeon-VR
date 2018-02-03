@@ -13,6 +13,8 @@ public class AutoConnect : MonoBehaviour {
 	public bool startServer = false;
 
 	void Start () {
+		Debug.Log("gm: " + PlayerPrefs.GetInt("isGameMaster") + " ip: " +  PlayerPrefs.GetString("ip"));
+
 		#if UNITY_EDITOR
 			GetComponent<NetworkManagerHUD>().enabled = true;
 		#else

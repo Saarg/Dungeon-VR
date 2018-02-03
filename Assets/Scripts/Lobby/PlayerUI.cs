@@ -21,15 +21,19 @@ namespace Lobby {
 		[SerializeField, HideInInspector]
 		private Sprite mageClass;
 
-		public static int playerCount = 0;
 		public int curPlayer;
 		public int curClass = 5;
 
 		public static PlayerUI localPlayer;
 		public static PlayerUI GameMaster;
+		public static int minPlayers;
+		public static int playerCount = 0;
 
-		private Text pName;
-		private Image classLogo;
+		public GameObject classButtons;
+		public GameObject readyButtons;
+
+		public Text pName;
+		public Image classLogo;
 
 		/// <summary>
 		/// Start is used to setup parent, name, classLogo and position
@@ -39,24 +43,58 @@ namespace Lobby {
 
 			curPlayer = playerCount++;
 
-			pName = transform.Find("Name").GetComponent<Text>();
-			classLogo = transform.Find("ClassLogo").GetComponent<Image>();
+			readyButtons.SetActive(false);				
+
+			if (!isLocalPlayer) {
+				classButtons.SetActive(false);
+			}
 
 			if (curPlayer == 0) {
-				classLogo.sprite = GMClass;
 				curClass = 4;
 
-				transform.localPosition = new Vector3(-300, 50, 0);
+				pName.transform.parent.localPosition = new Vector3(-300, 50, 0);
 				pName.text = "GameMaster";
 				gameObject.name = "GameMaster";
 
-				GameMaster = this;
-			} else {
-				classLogo.sprite = null;
+				PlayerPrefs.SetInt("isGameMaster", 1);
 
-				transform.localPosition = new Vector3(110 * (curPlayer-1), 50, 0);
+				GameMaster = this;
+
+				classButtons.SetActive(false);
+			} else {
+				curClass = curPlayer - 1;				
+
+				pName.transform.parent.localPosition = new Vector3(110 * (curPlayer-1), 50, 0);
 				pName.text = "Player " + curPlayer;
 				gameObject.name = "Player " + curPlayer;
+
+				PlayerPrefs.SetInt("isGameMaster", 0);				
+			}	
+
+			StartCoroutine(UpdateData());
+		}
+
+		/// <summary>
+		/// This function is called when the MonoBehaviour will be destroyed.
+		/// </summary>
+		void OnDestroy()
+		{
+			StopAllCoroutines();
+		}
+
+		/// <summary>
+		/// Update is called every frame, if the MonoBehaviour is enabled.
+		/// </summary>
+		IEnumerator UpdateData()
+		{
+			while(isLocalPlayer) {
+				CmdSelectClass(curClass);
+
+				// Hardcoded 5 since minPlayers not accesible from here
+				if (NetworkLobbyManager.singleton.numPlayers >= minPlayers) {
+					readyButtons.SetActive(true);
+				}
+				yield return new WaitForSeconds(0.5f);
 			}
 		}
 
@@ -68,7 +106,7 @@ namespace Lobby {
 		}
 
 		/// <summary>
-		/// Command to request a class refresh
+		/// Command to switch class 
 		/// </summary>
 		/// <param name="c">class integer tank, healer, assasin, mage, gm</param>  
 		[Command]	
@@ -79,9 +117,13 @@ namespace Lobby {
 		/// <summary>
 		/// Rpc updating the player's class
 		/// </summary>
-		/// <param name="c">class integer tank, healer, assasin, mage, gm</param>  
+		/// <param name="c">class integer tank, healer, assasin, mage, gm or -1 for self update</param>  
 		[ClientRpc]
 		void RpcUpdateSprite(int c) {
+			if (c < 0) {
+				c = curClass;
+			}
+
 			switch (c) {
 				case 0:
 					classLogo.sprite = tankClass;
@@ -104,10 +146,10 @@ namespace Lobby {
 			}
 
 			if (curClass >= 0 && curClass <= 3)
-				NetworkLobbyManager.singleton.GetComponent<LobbyManager>().classButtons.transform.GetChild(curClass).GetComponent<Button>().interactable = true;
+				classButtons.transform.GetChild(curClass).GetComponent<Button>().interactable = true;
 			if (c >= 0 && c <= 3)		
-				NetworkLobbyManager.singleton.GetComponent<LobbyManager>().classButtons.transform.GetChild(c).GetComponent<Button>().interactable = false;
-
+				classButtons.transform.GetChild(c).GetComponent<Button>().interactable = false;
+			
 			curClass = c;		
 		}
 	}

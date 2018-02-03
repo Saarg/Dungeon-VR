@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 
 namespace Lobby
@@ -8,57 +9,65 @@ namespace Lobby
 	/// <summary>
 	/// Script used to control manage the lobby, ready, not ready, selectclass and other
 	/// </summary>
-	public class LobbyManager : MonoBehaviour {
-		public string VRPlayScene;
+	public class LobbyManager : NetworkLobbyManager {
 
-		public GameObject classButtons;
-		public GameObject readyButton;
-
-		private NetworkLobbyManager nlm;
+		public static GameObject curGamePlayer;
 
 		/// <summary>
-		/// Init the menu
+		/// SERVER: if not on the lobby, spawn player
 		/// </summary>
-		void Start() {
-			readyButton.SetActive(false);
-			classButtons.SetActive(false);
+		public override void OnServerAddPlayer(NetworkConnection conn, short playerControllerId)
+		{
+			Debug.Log("OnServerAddPlayer");
 
-			nlm = GetComponent<NetworkLobbyManager>();
-		}
+			// Give access to PlayerUI to minPlayers
+			PlayerUI.minPlayers = minPlayers;
 
-		/// <summary>
-		/// Request class update for localplayer
-		/// </summary>
-		public void SelectClass(int c) {
-			PlayerUI.localPlayer.CmdSelectClass(c);
-		}
+			if (SceneManager.GetActiveScene().name == "NetworkTest") {
+				GameObject player = GameObject.Instantiate(gamePlayerPrefab);
 
-		/// <summary>
-		/// Localplayer is ready
-		/// </summary>
-		public void Ready() {
-			PlayerUI.localPlayer.SendReadyToBeginMessage();
-		}
-
-		/// <summary>
-		/// Localplayer is not ready
-		/// </summary>
-		public void NotReady() {
-			PlayerUI.localPlayer.SendNotReadyToBeginMessage();
-		}
-
-		/// <summary>
-		/// show buttons or not according to players
-		/// </summary>
-		void Update () {
-			if (PlayerUI.localPlayer != null && PlayerUI.playerCount > nlm.minPlayers) {
-				classButtons.SetActive(PlayerUI.localPlayer.curPlayer != 0);
-
-				readyButton.SetActive(true);
-
-				if (PlayerUI.localPlayer.curPlayer == 0)
-					nlm.playScene = VRPlayScene;
+				NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
 			}
+
+			base.OnServerAddPlayer(conn, playerControllerId);
+		}
+
+		/// <summary>
+		/// CLIENT: position player and apply lobby settings
+		/// </summary>
+		public override void OnLobbyClientSceneChanged(NetworkConnection conn) {
+			Debug.Log("OnLobbyClientSceneChanged");
+
+			if (PlayerUI.localPlayer.curPlayer > 0) {
+				PlayerController pc = curGamePlayer.GetComponent<PlayerController>();
+
+				pc.playerId = PlayerUI.localPlayer.curPlayer;
+				pc.playerClass = PlayerUI.localPlayer.curClass;
+
+				curGamePlayer.transform.position = new Vector3(-12.25f + 5 * PlayerUI.localPlayer.curPlayer, 0, 0);
+			} else {
+				curGamePlayer.SetActive(false);
+			}
+
+			base.OnLobbyClientSceneChanged(conn);
+		}
+
+		public override void OnLobbyServerSceneChanged(string sceneName) {
+			Debug.Log("OnLobbyServerSceneChanged");
+
+			base.OnLobbyServerSceneChanged(sceneName);
+		}
+
+		public override void OnLobbyServerPlayersReady() {
+			Debug.Log("OnLobbyServerPlayersReady");	
+
+			base.OnLobbyServerPlayersReady();
+		}
+
+		public override bool OnLobbyServerSceneLoadedForPlayer(GameObject lobbyPlayer, GameObject gamePlayer) {
+			Debug.Log("OnLobbyServerSceneLoadedForPlayer");	
+
+			return base.OnLobbyServerSceneLoadedForPlayer(lobbyPlayer, gamePlayer);
 		}
 	}
 }

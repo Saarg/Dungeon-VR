@@ -10,8 +10,7 @@ using UnityEngine.Networking;
 /// </summary>
 public class PlayerController : Living
 {
-
-    Transform cam;
+    public Transform cam;
 
     private float turnSpeed = 50;
 
@@ -32,6 +31,12 @@ public class PlayerController : Living
     [Header("jump")]
     public bool isGrounded;
 
+    [Header("NetworkData")]
+    [SyncVar]
+    public int playerId;
+    [SyncVar]    
+    public int playerClass;
+
     /// <summary>  
     /// 	Fetch animator
     ///		Destroy camera if not localplayer
@@ -40,12 +45,14 @@ public class PlayerController : Living
     {
         _animator = GetComponent<Animator>();
         rigidBody = GetComponent<Rigidbody>();
-        cam = Camera.main.transform;
-        ApplyMoveStatus("Free");
-
+        
         if (!isLocalPlayer)
         {
             Destroy(cam.gameObject);
+        } else {
+            CmdApplyMoveStatus(MoveStatus.Free); 
+
+            Lobby.LobbyManager.curGamePlayer = gameObject;
         }
     }
 
@@ -60,7 +67,6 @@ public class PlayerController : Living
     {
         if (isLocalPlayer)
         {
-            ///////////////////////////////////////////////////////////////////////////////////////////////////////
             Vector3 dir = (cam.right * Input.GetAxis("Horizontal") * Time.deltaTime) + (cam.forward * Input.GetAxis("Vertical") /** Time.deltaTime*/);
             dir.y = 0;
             if (canMove)
@@ -91,7 +97,7 @@ public class PlayerController : Living
                     }
                 }
             }
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////
+            
             if (Input.GetButtonDown("Fire1"))
             {
                 CmdFire();
@@ -153,39 +159,23 @@ public class PlayerController : Living
         NetworkServer.Spawn(bullet);
     }
 
-    /// <summary>  
-    /// 	Move status liste and way to apply them
-    /// </summary>
-    public void ApplyMoveStatus(string status)
-    {
-        switch (status)
-        {
-            case "Free":
-                canRun = true;
-                canJump = true;
-                canMove = true;
-                lowJump = false;
-                break;
-            case "Ralenti":
-                canRun = false;
-                canJump = true;
-                canMove = true;
-                lowJump = false;
-                break;
-            case "Casting":
-                canRun = true;
-                canJump = false;
-                canMove = true;
-                lowJump = true;
-                break;
-            case "Immobilisé":
-                canRun = false;
-                canJump = false;
-                canMove = false;
-                lowJump = false;
-                break;
-            default:
-                break;
-        }
+    [Command]
+    public void CmdUpdatePlayerId(int id) {
+        RpcUpdatePlayerId(id);
+    }
+
+    [ClientRpc]
+    public void RpcUpdatePlayerId(int id) {
+        playerId = id;
+    }
+
+    [Command]
+    public void CmdUpdatePlayerClass(int id) {
+        RpcUpdatePlayerClass(id);
+    }
+
+    [ClientRpc]
+    public void RpcUpdatePlayerClass(int id) {
+        playerClass = id;
     }
 }
