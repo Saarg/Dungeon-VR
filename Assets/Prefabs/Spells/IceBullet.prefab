@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114255667342871850}
   - component: {fileID: 65388045470852414}
   m_Layer: 0
-  m_Name: BulletParticleTest
+  m_Name: IceBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -416,6 +416,10 @@ MonoBehaviour:
   damage: 2
   lifeTime: 10
   destroyOnHit: 1
+  continuousDamage: 0
+  damageTickInterval: 0
+  boxCollider: {fileID: 65388045470852414}
+  followSpellOrigin: 0
   damageType: 2
 --- !u!114 &114284011352089946
 MonoBehaviour:

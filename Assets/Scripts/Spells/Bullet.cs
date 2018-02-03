@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>  
 /// 	Basic bullet script destroying the gameobject on collision or 10s
@@ -25,7 +23,7 @@ public class Bullet : MonoBehaviour {
 
     [SerializeField]
     int damage;
-    public int Damage{ get { return damage; } }
+    public int Damage { get { return damage; } }
 
     [SerializeField]
     float lifeTime;
@@ -33,22 +31,46 @@ public class Bullet : MonoBehaviour {
     [SerializeField]
     bool destroyOnHit;
 
+    [SerializeField]
+    bool continuousDamage;
+
+    [SerializeField]
+    float damageTickInterval;
+
+    [SerializeField]
+    BoxCollider boxCollider;
+
+    [SerializeField]
+    bool followSpellOrigin;
+
+    Weapon spellOrigin;
+    public Weapon SpellOrigin { get { return spellOrigin; } set { spellOrigin = value; } }
+
     public string OwnerTag { get; set; }
 
     [SerializeField]
     DamageTypeEnum damageType;
     public DamageTypeEnum DamageType { get { return damageType; } }
 
+    float lastDamageTick;
+
     /// <summary>  
     /// 	Destroy the object avec 10s
     /// </summary>
     void Start() {
+        lastDamageTick = Time.time;
 		Destroy(gameObject, lifeTime);
 	}
 
     void Update()
     {
         GetComponent<Rigidbody>().velocity = Direction * velocity;
+
+        if (followSpellOrigin)
+            transform.position = spellOrigin.SpellOrigin.position;
+
+        if (continuousDamage)
+            DamageTick();
     }
 
     /// <summary>  
@@ -58,6 +80,9 @@ public class Bullet : MonoBehaviour {
         if (col.gameObject.tag == OwnerTag)
             return;
 
+        if (continuousDamage)
+            return;
+
         var comp = col.gameObject.GetComponent<Living>();
         if (comp != null)
             comp.TakeDamage(Damage, DamageType);
@@ -65,4 +90,40 @@ public class Bullet : MonoBehaviour {
         if(destroyOnHit)
 		    Destroy(gameObject);
 	}
+
+    private void DamageTick()
+    {
+        if (Time.time - lastDamageTick < damageTickInterval)
+            return;
+
+        if (boxCollider == null)
+            return;
+
+        var rot = Quaternion.LookRotation(spellOrigin.SpellOrigin.forward, Vector3.up);
+        if(followSpellOrigin)
+            transform.rotation = rot;
+
+        Vector3 half = new Vector3(boxCollider.size.x / 2, boxCollider.size.y / 2, boxCollider.size.z / 2);
+        Collider[] colliders = Physics.OverlapBox(transform.position + transform.forward * (boxCollider.size.z / 2), half, rot);
+        
+        foreach (var col in colliders)
+        {
+            if (col.gameObject.tag == OwnerTag)
+                continue;
+
+            var comp = col.gameObject.GetComponent<Living>();
+            if (comp != null)
+                comp.TakeDamage(Damage, DamageType);
+        }
+
+        lastDamageTick = Time.time;
+    }
+
+    private void OnDrawGizmos()
+    {        
+        /*
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(transform.position + transform.forward * (boxCollider.size.z/2), boxCollider.size);
+        */
+    }
 }

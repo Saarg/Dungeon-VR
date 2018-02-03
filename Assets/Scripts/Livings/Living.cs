@@ -75,4 +75,14 @@ public class Living : NetworkBehaviour {
                 return damage;
         }
     }
+
+    public float GetCurLife()
+    {
+        return curLife;
+    }
+
+    public float GetMaxLife()
+    {
+        return maxLife;
+    }
 }

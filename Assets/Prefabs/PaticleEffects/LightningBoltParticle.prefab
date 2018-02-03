@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 114689510403960720}
   - component: {fileID: 114922421193406048}
   m_Layer: 0
-  m_Name: Lightning bolt blue 1
+  m_Name: LightningBoltParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -239,13 +239,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1609553405650196}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4987559958594352}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!4 &4987559958594352
 Transform:
   m_ObjectHideFlags: 1
@@ -304,7 +304,7 @@ Light:
   m_ShadowAngle: 0
 --- !u!114 &114174980264951220
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1724434658270704}
@@ -316,7 +316,7 @@ MonoBehaviour:
   _guid: e5bd5558-0fd9-469a-bc1a-6194f72ad599
 --- !u!114 &114213631039214862
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1899323339131100}
@@ -328,7 +328,7 @@ MonoBehaviour:
   _guid: 0887641a-0fd3-4caa-ba34-ad0b56fb94ee
 --- !u!114 &114231186746467382
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1561343990137488}
@@ -340,7 +340,7 @@ MonoBehaviour:
   _guid: caa12ee6-7054-4086-a41f-3be05fc7d1a1
 --- !u!114 &114338792226450954
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1484952826598642}
@@ -352,7 +352,7 @@ MonoBehaviour:
   _guid: 74e8ad81-acd4-4e25-831d-85812015c0d9
 --- !u!114 &114554148760102648
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1254235779880552}
@@ -364,7 +364,7 @@ MonoBehaviour:
   _guid: 6b1b22ba-10d1-4061-9e72-2cfeddcb53e5
 --- !u!114 &114588505772681114
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1110770149471704}
@@ -376,7 +376,7 @@ MonoBehaviour:
   _guid: 33086200-6e87-43e0-9d93-784a1d3e8377
 --- !u!114 &114689510403960720
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1253134213469702}
@@ -400,7 +400,7 @@ MonoBehaviour:
   _assetGuid: d2a0326385c43b64fab8b2609d66d0e4
 --- !u!114 &114922421193406048
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1253134213469702}
@@ -412,7 +412,7 @@ MonoBehaviour:
   _guid: 4749be5f-8c04-4bde-883b-bdbef69a2724
 --- !u!114 &114935645674351588
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1609553405650196}

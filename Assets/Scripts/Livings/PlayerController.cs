@@ -84,7 +84,47 @@ public class PlayerController : Living {
 
         FillMana();
         CheckForWeapon();
+        UpdateTarget();
 	}
+
+    GameObject target = null;
+
+    void UpdateTarget()
+    {
+        var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, 20f);
+        foreach (var hit in hits)
+        {
+            Living living = hit.transform.gameObject.GetComponent<Living>();
+            if (living != null)
+            {
+                target = hit.transform.gameObject;
+                return;
+            }
+        }
+
+        target = null;
+    }
+
+    public bool HasTarget()
+    {
+        return target != null;
+    }
+
+    public int TargetCurLife()
+    {
+        if(target == null)
+            return 0;
+
+        return (int)target.GetComponent<Living>().GetCurLife();
+    }
+
+    public int TargetMaxLife()
+    {
+        if (target == null)
+            return 0;
+
+        return (int)target.GetComponent<Living>().GetMaxLife();
+    }
 
     void CheckForWeapon()
     {
@@ -173,7 +213,10 @@ public class PlayerController : Living {
         
         GameObject bullet = Instantiate(weapon.Bullet, weapon.SpellOrigin.position, rot);
         Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponentInParent<Collider>(), true);
+        bullet.GetComponent<Bullet>().OwnerTag = gameObject.tag;
         bullet.GetComponent<Bullet>().Direction = direction;
+        bullet.GetComponent<Bullet>().SpellOrigin = weapon;
+
         lastShotTime = Time.time;
     }
 	/// <summary>  

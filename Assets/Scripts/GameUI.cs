@@ -10,6 +10,9 @@ public class GameUI : MonoBehaviour {
     Image manaBar;
 
     [SerializeField]
+    Image targetBar;
+
+    [SerializeField]
     PlayerController player;
 
     [SerializeField]
@@ -65,9 +68,12 @@ public class GameUI : MonoBehaviour {
 	void Update () {
         healthBar.fillAmount = (float)player.curLife / (float)player.maxLife;
         manaBar.fillAmount = (float)player.CurrentMana / (float)player.MaxMana;
-        
-	}
 
+        targetBar.gameObject.SetActive(player.HasTarget());
+        if(player.HasTarget())
+            targetBar.fillAmount = (float)player.TargetCurLife() / (float)player.TargetMaxLife();
+	}
+    
     public void HideWeaponStats()
     {
         weaponStats.SetActive(false);
