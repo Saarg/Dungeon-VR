@@ -73,7 +73,12 @@ public class GameUI : MonoBehaviour {
         if(player.HasTarget())
             targetBar.fillAmount = (float)player.TargetCurLife() / (float)player.TargetMaxLife();
 	}
-    
+
+    public void SetPlayerController(PlayerController playerController)
+    {
+        player = playerController;
+    }
+
     public void HideWeaponStats()
     {
         weaponStats.SetActive(false);
@@ -88,7 +93,7 @@ public class GameUI : MonoBehaviour {
         }
         else
         {
-            canEquipIcon.SetActive(!weapon.CanEquip(player.playerClass));
+            canEquipIcon.SetActive(!weapon.CanEquip(player.playerClassID));
             weaponName.text = weapon.WeaponName;
 
             switch (weapon.WeaponType)

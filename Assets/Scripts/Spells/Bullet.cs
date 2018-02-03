@@ -67,8 +67,9 @@ public class Bullet : MonoBehaviour {
         GetComponent<Rigidbody>().velocity = Direction * velocity;
 
         if (followSpellOrigin)
-            transform.position = spellOrigin.SpellOrigin.position;
-
+            if (spellOrigin != null)
+                transform.position = spellOrigin.SpellOrigin.position;
+        
         if (continuousDamage)
             DamageTick();
     }
@@ -99,7 +100,10 @@ public class Bullet : MonoBehaviour {
         if (boxCollider == null)
             return;
 
-        var rot = Quaternion.LookRotation(spellOrigin.SpellOrigin.forward, Vector3.up);
+        var rot = Quaternion.identity;
+        if(spellOrigin != null)
+            rot = Quaternion.LookRotation(spellOrigin.SpellOrigin.forward, Vector3.up);
+
         if(followSpellOrigin)
             transform.rotation = rot;
 

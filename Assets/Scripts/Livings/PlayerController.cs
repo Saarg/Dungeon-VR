@@ -6,7 +6,9 @@ using UnityEngine.Networking;
 /// <summary>  
 /// 	Player controller
 /// </summary>
-public class PlayerController : Living {
+public class PlayerController : Living
+{
+    public Transform cam;
 
     public enum PlayerClassEnum
     {
@@ -15,85 +17,171 @@ public class PlayerController : Living {
         Sorcerer,
         Tank,
     };
+    private float turnSpeed = 50;
 
-    public Camera cam;
     public GameUI gameUI;
 
 	public Transform spellOrigin;
 	public GameObject ammo;
     public Transform weaponGrip;
 
-    public PlayerClassEnum playerClass;
+    private Animator _animator;
+    private Rigidbody rigidBody;
+    public PlayerClassEnum playerClassID;
     public Weapon weapon;
     public GameObject WeaponObject;
     float lastShotTime = 0;
 
-    public int MaxMana { get { return maxMana; } }
-    int maxMana = 100;
-    public int CurrentMana { get { return currentMana; } }
-    int currentMana = 100;
+    [SerializeField]
+    [Range(1.0f, 3.0f)] 
+    private float JumpFactor = 2;
+
+    public int MaxMana { get { return (int)maxMana; } }
+    public int CurrentMana { get { return (int)curMana; } }
 
     float manaFillRate = 0.2f;
     float lastManaFill = 0;
 
     public Vector3 weaponDetectionRange;
 
-    private Animator _animator;
+    [SerializeField]
+    [Range(1.0f, 3.0f)]
+    private float RunFactor = 2;
+    
+    [Header("jump")]
+    public bool isGrounded;
 
-	/// <summary>  
-	/// 	Fetch animator
-	///		Destroy camera if not localplayer
-	/// </summary>
-	void Start() {
-		_animator = GetComponent<Animator>();
+    [Header("NetworkData")]
+    [SyncVar]
+    public int playerId;
+    [SyncVar]    
+    public int playerClass;
+
+    GameObject target = null;
+
+    /// <summary>  
+    /// 	Fetch animator
+    ///		Destroy camera if not localplayer
+    /// </summary>
+    void Start()
+    {
+        GameObject ui = GameObject.Find("GameUI");
+        if (ui != null)
+        { 
+            gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
+            gameUI.SetPlayerController(this);
+            gameUI.enabled = true;
+        }
+
+        _animator = GetComponent<Animator>();
+        rigidBody = GetComponent<Rigidbody>();
         weapon = WeaponObject.GetComponent<Weapon>();
         var droppedWeapon = WeaponObject.GetComponent<DroppedWeapon>();
         if (droppedWeapon != null)
             Destroy(droppedWeapon);
-        /*
-		if (!isLocalPlayer) {
-			Destroy(cam.gameObject);
-		}*/		
-	}
-
-	/// <summary>  
-	/// 	Translate and rotate player
-	///		Updates animator
-	/// </summary>
-	void Update () {
-
-        //if (isLocalPlayer) 
-        if (true)
+       
+        if (!isLocalPlayer)
         {
-            float x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
-			float z = Input.GetAxis("Vertical") * Time.deltaTime * speed;
+            Destroy(cam.gameObject);
+        } else {
+            CmdApplyMoveStatus(MoveStatus.Free); 
 
-			transform.Rotate(0, x, 0);
-			transform.Translate(0, 0, z);
+            Lobby.LobbyManager.curGamePlayer = gameObject;
+        }
+    }
 
-			if (Input.GetButtonDown("Fire1")) 
+    /// <summary>  
+    /// 	Translate and rotate player
+    ///		Updates animator
+    /// </summary>
+    void Update()
+    {
+
+        if (isLocalPlayer)
+        {
+            FillMana();
+            CheckForWeapon();
+            UpdateTarget();
+        }
+    }
+
+    /// <summary>  
+    ///     Camera follow player and player orientation depend of the camera
+    /// 	Translate and rotate player
+    /// 	Jump player if input
+    ///		Updates animator
+    ///		Take move status into consideration
+    /// </summary>
+    void FixedUpdate()
+    {
+        if (isLocalPlayer)
+        {
+            Vector3 dir = (cam.right * Input.GetAxis("Horizontal") * Time.deltaTime) + (cam.forward * Input.GetAxis("Vertical") /** Time.deltaTime*/);
+            dir.y = 0;
+            if (canMove)
+            {
+                if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+                {
+                    rigidBody.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), turnSpeed);
+                    var v3 = Vector3.zero;
+                    if (canRun)
+                    {
+                        v3 = transform.forward * speed;
+                        v3.y = rigidBody.velocity.y;
+                    }
+                    else
+                    {
+                        v3 = transform.forward * speed/ RunFactor;
+                        v3.y = rigidBody.velocity.y;
+                    }
+                    rigidBody.velocity = v3;
+                    if (Input.GetAxis("Horizontal") != 0)
+                    {
+                        _animator.SetFloat("Speed", speed);
+                    }
+
+                    if (Input.GetAxis("Vertical") != 0)
+                    {
+                        _animator.SetFloat("Speed", speed);
+                    }
+                }
+            }
+            
+            if (Input.GetButtonDown("Fire1"))
+            {
                 if (Time.time - lastShotTime > weapon.FiringInterval)
-                    Fire();
+                    CmdFire();
+            }
 
-			if (Input.GetButtonDown("Jump") && canJump) {
-				_animator.SetTrigger("Jump");
-			}
+            if (Input.GetButtonDown("Jump") && isGrounded && canJump)
+            {
+                _animator.SetTrigger("Jump");
+                if (lowJump)
+                {
+                    rigidBody.AddForce(Vector3.up * JumpSpeed / JumpFactor, ForceMode.Impulse);
+                }
+                else
+                {
+                    rigidBody.AddForce(Vector3.up * JumpSpeed, ForceMode.Impulse);
+                }
+            }
 
-			_animator.SetFloat("Speed", z);
-		}
-
-        FillMana();
-        CheckForWeapon();
-        UpdateTarget();
-	}
-
-    GameObject target = null;
+            if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0 && !Input.GetButtonDown("Jump"))
+            {
+                //_animator.SetTrigger("Idle");;//animation Idle
+                _animator.SetFloat("Speed", 0);
+            }
+        }
+    }
 
     void UpdateTarget()
     {
         var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, 20f);
         foreach (var hit in hits)
         {
+            if (hit.collider.gameObject.tag == "Player")
+                continue;
+
             Living living = hit.transform.gameObject.GetComponent<Living>();
             if (living != null)
             {
@@ -128,6 +216,9 @@ public class PlayerController : Living {
 
     void CheckForWeapon()
     {
+        if (gameUI == null)
+            return;
+
         var colliders = Physics.OverlapBox(transform.position, weaponDetectionRange);
         GameObject closestObj = null;
         float closestDistance = float.MaxValue;
@@ -154,7 +245,7 @@ public class PlayerController : Living {
             gameUI.ShowWeaponStats(closestWeapon);
             if (Input.GetButtonDown("PickUpWeapon"))
             {
-                if (closestWeapon.CanEquip(playerClass))
+                if (closestWeapon.CanEquip(playerClassID))
                 {
                     Destroy(closestObj.GetComponent<DroppedWeapon>());
                     GameObject dropWeapon = WeaponObject;
@@ -176,24 +267,26 @@ public class PlayerController : Living {
     {
         if (Time.time - lastManaFill > manaFillRate)
         {
-            currentMana += 1;
-            currentMana = Mathf.Clamp(currentMana, 0, maxMana);
+            UpdateMana(CurrentMana + 1);
             lastManaFill = Time.time;
         }
     }
 
-
-
-    void Fire()
+    /// <summary>  
+    /// 	Instanciate and spawn bullet
+    /// </summary>
+    [Command]
+    void CmdFire()
     {
-        if (weapon.UseMana && currentMana < weapon.ManaCost)
+        if (weapon.UseMana && curMana < weapon.ManaCost)
             return;
         else if (weapon.UseMana)
-            currentMana -= weapon.ManaCost;
+            UpdateMana(CurrentMana - weapon.ManaCost);
 
         var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, 20f);
         var endPoint = cam.gameObject.transform.position + cam.gameObject.transform.forward * 20f;
         Vector3 direction = Vector3.zero;
+
         foreach (var hit in hits)
         {
             if (hit.collider.tag == "Player")
@@ -218,17 +311,47 @@ public class PlayerController : Living {
         bullet.GetComponent<Bullet>().SpellOrigin = weapon;
 
         lastShotTime = Time.time;
+        NetworkServer.Spawn(bullet);
     }
-	/// <summary>  
-	/// 	Instanciate and spawn bullet
-	/// </summary>
-	[Command]
-	void CmdFire() {
-		GameObject bullet = Instantiate(weapon.Bullet, weapon.SpellOrigin.position, weapon.SpellOrigin.rotation);
-        Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponentInParent<Collider>(),true);
-        bullet.GetComponent<Bullet>().OwnerTag = gameObject.tag;
-		bullet.GetComponent<Rigidbody>().velocity = weapon.SpellOrigin.forward * 10;
-        
-		NetworkServer.Spawn(bullet);
-	}
+    /// <summary>  
+    /// 	Use to allow player another jump after hitting the ground
+    /// </summary>
+    void OnCollisionEnter(Collision coll)
+    {
+        if (coll.collider.tag.Equals("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
+    /// <summary>  
+    /// 	Use to prevent player another jump in air
+    /// </summary>
+    void OnCollisionExit(Collision coll)
+    {
+        if (coll.collider.tag.Equals("Ground"))
+        {
+            isGrounded = false;
+        }
+    }
+
+    [Command]
+    public void CmdUpdatePlayerId(int id) {
+        RpcUpdatePlayerId(id);
+    }
+
+    [ClientRpc]
+    public void RpcUpdatePlayerId(int id) {
+        playerId = id;
+    }
+
+    [Command]
+    public void CmdUpdatePlayerClass(int id) {
+        RpcUpdatePlayerClass(id);
+    }
+
+    [ClientRpc]
+    public void RpcUpdatePlayerClass(int id) {
+        playerClass = id;
+    }
 }
