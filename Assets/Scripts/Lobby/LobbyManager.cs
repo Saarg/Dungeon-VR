@@ -44,7 +44,7 @@ namespace Lobby
 				pc.playerId = PlayerUI.localPlayer.curPlayer;
 				pc.playerClass = PlayerUI.localPlayer.curClass;
 
-				curGamePlayer.transform.position = new Vector3(-12.25f + 5 * PlayerUI.localPlayer.curPlayer, 0, 0);
+				curGamePlayer.transform.position = new Vector3(-30, 50, -9 + 3 * PlayerUI.localPlayer.curPlayer);
 			} else {
 				curGamePlayer.SetActive(false);
 			}

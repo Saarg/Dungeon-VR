@@ -11,13 +11,13 @@ public class AdditiveSceneLoader : MonoBehaviour {
 	public string[] scenes;
 
 	/// <summary>
-	/// Load async additive scenes then destroy the gameobject
+	/// Load additive scenes then destroy the gameobject
 	/// </summary>
 	void Start () {
 		foreach (string s in scenes)
 		{
 			if (SceneManager.GetSceneByName(s).isLoaded == false)
-				SceneManager.LoadSceneAsync(s, LoadSceneMode.Additive);
+				SceneManager.LoadScene(s, LoadSceneMode.Additive);
 			else
 				Debug.Log("Scene " + s + " already loaded");
 		}
