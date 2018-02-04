@@ -5,7 +5,7 @@ using UnityEngine;
 public class TrapDropZone : MonoBehaviour {
 
     public Trap placedTrap;
-    public TrapType allowedTrapType = TrapType.Ground;
+    public TrapType allowedTrapType;
 
     public void AttachTrapToDropZone(object o, VRTK.InteractableObjectEventArgs e)
     {      
