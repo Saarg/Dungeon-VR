@@ -8,6 +8,10 @@ using UnityEngine.Networking;
 /// </summary>
 public class PlayerController : Living
 {
+    private Animator _animator;
+    private NetworkAnimator _netAnimator;
+    private Rigidbody rigidBody;
+
     public Transform cam;
 
     public enum PlayerClassEnum
@@ -21,23 +25,20 @@ public class PlayerController : Living
     public GameUI gameUI;
 
     [Header("Weapon")]
+    public GameObject defaultWeapon;
     public Transform weaponGrip;
-
-    private Animator _animator;
-    private NetworkAnimator _netAnimator;
-    private Rigidbody rigidBody;
     public PlayerClassEnum playerClassID;
     public Weapon weapon;
-    public GameObject WeaponObject;
+    [SyncVar] public GameObject WeaponObject;
     float lastShotTime = 0;
+    public Vector3 weaponDetectionRange;    
 
-    public int MaxMana { get { return (int)maxMana; } }
-    public int CurrentMana { get { return (int)curMana; } }
-
+    [Header("Mana")]
     float manaFillRate = 0.2f;
     float lastManaFill = 0;
 
-    public Vector3 weaponDetectionRange;
+    public int MaxMana { get { return (int)maxMana; } }
+    public int CurrentMana { get { return (int)curMana; } }
 
     [Header("Movement")]   
     private float turnSpeed = 50;     
@@ -77,10 +78,6 @@ public class PlayerController : Living
         _animator = GetComponent<Animator>();
         _netAnimator = GetComponent<NetworkAnimator>();
         rigidBody = GetComponent<Rigidbody>();
-        weapon = WeaponObject.GetComponent<Weapon>();
-        var droppedWeapon = WeaponObject.GetComponent<DroppedWeapon>();
-        if (droppedWeapon != null)
-            Destroy(droppedWeapon);
        
         if (!isLocalPlayer)
         {
@@ -92,12 +89,26 @@ public class PlayerController : Living
         }
     }
 
+    public override void OnStartServer() {
+        // if no weapon spawn default 
+        if (WeaponObject == null) {
+            GameObject w = Instantiate(defaultWeapon, weaponGrip);
+
+            NetworkServer.Spawn(w);
+
+            WeaponObject = w;
+        }
+    }
+
     /// <summary>  
     /// 	Translate and rotate player
     ///		Updates animator
     /// </summary>
     void Update()
     {
+        if (isServer && WeaponObject != null && weapon == null) {
+            RpcPickupWeapon(WeaponObject.GetComponent<NetworkIdentity>().netId);            
+        }
 
         if (isLocalPlayer)
         {
@@ -151,7 +162,7 @@ public class PlayerController : Living
             
             if (Input.GetButton("Fire1"))
             {
-                if (Time.time - lastShotTime > weapon.FiringInterval)
+                if (weapon != null && Time.time - lastShotTime > weapon.FiringInterval)
                     Fire();
             }
 
@@ -248,20 +259,46 @@ public class PlayerController : Living
             {
                 if (closestWeapon.CanEquip(playerClassID))
                 {
-                    Destroy(closestObj.GetComponent<DroppedWeapon>());
-                    GameObject dropWeapon = WeaponObject;
-                    dropWeapon.transform.SetParent(null);
-                    dropWeapon.transform.localPosition = new Vector3(dropWeapon.transform.localPosition.x,0,dropWeapon.transform.localPosition.z);
-                    dropWeapon.transform.rotation = Quaternion.identity;
-                    dropWeapon.AddComponent<DroppedWeapon>();
-                    WeaponObject = closestObj;
-                    WeaponObject.transform.SetParent(weaponGrip);
-                    WeaponObject.transform.localPosition = Vector3.zero;
-                    WeaponObject.transform.localRotation = Quaternion.identity;
-                    weapon = WeaponObject.GetComponent<Weapon>();
+                    CmdPickupWeapon(closestObj.GetComponent<NetworkIdentity>().netId);
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Ask the server to pickup the weapon
+    /// </summary>    
+    [Command]
+    void CmdPickupWeapon(NetworkInstanceId weaponNetId) {
+        RpcPickupWeapon(weaponNetId);
+    }
+
+    /// <summary>
+    /// Pickup weapon on ALL CLIENTS!
+    /// </summary> 
+    [ClientRpc]
+    void RpcPickupWeapon(NetworkInstanceId weaponNetId) {
+        GameObject closestObj = ClientScene.FindLocalObject(weaponNetId);
+
+        if (closestObj == null) {
+            Debug.LogError("Weapon: " + weaponNetId + " not found!");
+            return;
+        }
+
+        if (WeaponObject != null) {
+            GameObject dropWeapon = WeaponObject;
+            dropWeapon.transform.SetParent(null);
+            dropWeapon.transform.localPosition = new Vector3(dropWeapon.transform.localPosition.x,0,dropWeapon.transform.localPosition.z);
+            dropWeapon.transform.rotation = Quaternion.identity;
+            dropWeapon.AddComponent<DroppedWeapon>();
+        }
+
+        Destroy(closestObj.GetComponent<DroppedWeapon>());        
+        WeaponObject = closestObj;
+        WeaponObject.transform.SetParent(weaponGrip);
+        WeaponObject.transform.localPosition = Vector3.zero;
+        WeaponObject.transform.localRotation = Quaternion.identity;
+        weapon = WeaponObject.GetComponent<Weapon>();
     }
 
     void FillMana()

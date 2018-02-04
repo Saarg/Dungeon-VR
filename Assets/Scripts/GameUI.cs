@@ -118,44 +118,56 @@ public class GameUI : MonoBehaviour {
             fireRate.text = weapon.FiringInterval.ToString() + " Sec";
             manaCost.text = weapon.ManaCost.ToString();
 
-            if (player.weapon.Bullet.GetComponent<Bullet>().Damage > bullet.Damage)
+            if (player.weapon != null && player.weapon.Bullet.GetComponent<Bullet>().Damage > bullet.Damage)
                 damageModifier.color = Color.red;
-            else if (player.weapon.Bullet.GetComponent<Bullet>().Damage == bullet.Damage)
+            else if (player.weapon != null && player.weapon.Bullet.GetComponent<Bullet>().Damage == bullet.Damage)
                 damageModifier.color = Color.black;
             else
                 damageModifier.color = Color.green;
 
-            int damageDifference = player.weapon.Bullet.GetComponent<Bullet>().Damage - bullet.Damage;
-            if (damageDifference > 0)
-                damageModifier.text = string.Format("(-{0})", damageDifference);
-            else
-                damageModifier.text = string.Format("(+{0})", Mathf.Abs(damageDifference));
+            if (player.weapon != null) {
+                int damageDifference = player.weapon.Bullet.GetComponent<Bullet>().Damage - bullet.Damage;
+                if (damageDifference > 0)
+                    damageModifier.text = string.Format("(-{0})", damageDifference);
+                else
+                    damageModifier.text = string.Format("(+{0})", Mathf.Abs(damageDifference));
+            } else {
+                damageModifier.text = "";
+            }
 
-            if (player.weapon.FiringInterval > weapon.FiringInterval)
+            if (player.weapon != null && player.weapon.FiringInterval > weapon.FiringInterval)
                 fireRateModifier.color = Color.green;
-            else if (player.weapon.FiringInterval == weapon.FiringInterval)
+            else if (player.weapon != null && player.weapon.FiringInterval == weapon.FiringInterval)
                 fireRateModifier.color = Color.black;
             else
                 fireRateModifier.color = Color.red;
 
-            float fireRateDifference = player.weapon.FiringInterval - weapon.FiringInterval;
-            if (fireRateDifference < 0)
-                fireRateModifier.text = string.Format("(+{0})", Mathf.Abs(fireRateDifference));
-            else
-                fireRateModifier.text = string.Format("(-{0})", fireRateDifference);
+            if (player.weapon != null) {            
+                float fireRateDifference = player.weapon.FiringInterval - weapon.FiringInterval;
+                if (fireRateDifference < 0)
+                    fireRateModifier.text = string.Format("(+{0})", Mathf.Abs(fireRateDifference));
+                else
+                    fireRateModifier.text = string.Format("(-{0})", fireRateDifference);
+            } else {
+                manaCostModifier.text = "";
+            }
 
-            if (player.weapon.ManaCost > weapon.ManaCost)
+            if (player.weapon != null && player.weapon.ManaCost > weapon.ManaCost)
                 manaCostModifier.color = Color.green;
-            else if (player.weapon.ManaCost == weapon.ManaCost)
+            else if (player.weapon != null && player.weapon.ManaCost == weapon.ManaCost)
                 manaCostModifier.color = Color.black;
             else
                 manaCostModifier.color = Color.red;
 
-            int manaCostDifference = player.weapon.ManaCost - weapon.ManaCost;
-            if (manaCostDifference > 0)
-                manaCostModifier.text = string.Format("(-{0})", manaCostDifference);
-            else
-                manaCostModifier.text = string.Format("(+{0})", Mathf.Abs(manaCostDifference));
+            if (player.weapon != null) {
+                int manaCostDifference = player.weapon.ManaCost - weapon.ManaCost;
+                if (manaCostDifference > 0)
+                    manaCostModifier.text = string.Format("(-{0})", manaCostDifference);
+                else
+                    manaCostModifier.text = string.Format("(+{0})", Mathf.Abs(manaCostDifference));
+            } else {
+                manaCostModifier.text = "";
+            }
 
             fireIcon.SetActive(bullet.DamageType == Bullet.DamageTypeEnum.fire);
             iceIcon.SetActive(bullet.DamageType == Bullet.DamageTypeEnum.ice);

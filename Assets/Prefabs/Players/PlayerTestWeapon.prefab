@@ -1124,12 +1124,13 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4109110145096428}
+  - component: {fileID: 114149389987538694}
+  - component: {fileID: 114541546016486860}
   - component: {fileID: 114466160069266692}
   - component: {fileID: 114991488822340058}
   - component: {fileID: 114231880740337244}
   - component: {fileID: 114350861364449064}
   - component: {fileID: 65182016800863682}
-  - component: {fileID: 114149389987538694}
   m_Layer: 0
   m_Name: WeaponTest2
   m_TagString: Untagged
@@ -3088,6 +3089,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guid: f49b2133-9086-4baf-a9a8-06f67944c939
+--- !u!114 &114541546016486860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1932844154484176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 228
+    i1: 178
+    i2: 253
+    i3: 217
+    i4: 196
+    i5: 79
+    i6: 243
+    i7: 228
+    i8: 234
+    i9: 172
+    i10: 62
+    i11: 171
+    i12: 239
+    i13: 118
+    i14: 138
+    i15: 48
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114543872034357436
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3202,22 +3235,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLife: 100
   curLife: 100
+  maxMana: 100
+  curMana: 100
   speed: 6
-  canJump: 1
+  JumpSpeed: 1
   moveStatus: 0
+  canRun: 1
+  canJump: 1
+  canMove: 0
+  lowJump: 0
   fire: 1
   ice: 1
   lightning: 1
   poison: 1
   cam: {fileID: 0}
   gameUI: {fileID: 0}
-  spellOrigin: {fileID: 4972697528079158}
-  ammo: {fileID: 1792118448359034, guid: eda447bcd5ce648d3a3135b0bbcd48f7, type: 2}
   weaponGrip: {fileID: 4224354130748972}
-  playerClass: 3
+  playerClassID: 0
   weapon: {fileID: 114064954143847534}
   WeaponObject: {fileID: 1932844154484176}
   weaponDetectionRange: {x: 2, y: 2, z: 2}
+  RunFactor: 2
+  JumpFactor: 2
+  isGrounded: 0
+  playerId: 0
+  playerClass: 3
 --- !u!114 &114629334338391074
 MonoBehaviour:
   m_ObjectHideFlags: 1
