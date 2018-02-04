@@ -17,24 +17,19 @@ public class PlayerController : Living
         Sorcerer,
         Tank,
     };
-    private float turnSpeed = 50;
 
     public GameUI gameUI;
 
-	public Transform spellOrigin;
-	public GameObject ammo;
+    [Header("Weapon")]
     public Transform weaponGrip;
 
     private Animator _animator;
+    private NetworkAnimator _netAnimator;
     private Rigidbody rigidBody;
     public PlayerClassEnum playerClassID;
     public Weapon weapon;
     public GameObject WeaponObject;
     float lastShotTime = 0;
-
-    [SerializeField]
-    [Range(1.0f, 3.0f)] 
-    private float JumpFactor = 2;
 
     public int MaxMana { get { return (int)maxMana; } }
     public int CurrentMana { get { return (int)curMana; } }
@@ -44,11 +39,17 @@ public class PlayerController : Living
 
     public Vector3 weaponDetectionRange;
 
+    [Header("Movement")]   
+    private float turnSpeed = 50;     
+
     [SerializeField]
     [Range(1.0f, 3.0f)]
     private float RunFactor = 2;
     
-    [Header("jump")]
+    [Header("Jump")]
+    [SerializeField]
+    [Range(1.0f, 3.0f)] 
+    private float JumpFactor = 2;
     public bool isGrounded;
 
     [Header("NetworkData")]
@@ -74,6 +75,7 @@ public class PlayerController : Living
         }
 
         _animator = GetComponent<Animator>();
+        _netAnimator = GetComponent<NetworkAnimator>();
         rigidBody = GetComponent<Rigidbody>();
         weapon = WeaponObject.GetComponent<Weapon>();
         var droppedWeapon = WeaponObject.GetComponent<DroppedWeapon>();
@@ -147,15 +149,15 @@ public class PlayerController : Living
                 }
             }
             
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButton("Fire1"))
             {
                 if (Time.time - lastShotTime > weapon.FiringInterval)
-                    CmdFire();
+                    Fire();
             }
 
-            if (Input.GetButtonDown("Jump") && isGrounded && canJump)
+            if (Input.GetButton("Jump") && isGrounded && canJump)
             {
-                _animator.SetTrigger("Jump");
+                _netAnimator.SetTrigger("Jump");
                 if (lowJump)
                 {
                     rigidBody.AddForce(Vector3.up * JumpSpeed / JumpFactor, ForceMode.Impulse);
@@ -166,9 +168,8 @@ public class PlayerController : Living
                 }
             }
 
-            if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0 && !Input.GetButtonDown("Jump"))
+            if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0 && !Input.GetButton("Jump"))
             {
-                //_animator.SetTrigger("Idle");;//animation Idle
                 _animator.SetFloat("Speed", 0);
             }
         }
@@ -273,11 +274,9 @@ public class PlayerController : Living
     }
 
     /// <summary>  
-    /// 	Instanciate and spawn bullet
+    /// Client side compute fire data
     /// </summary>
-    [Command]
-    void CmdFire()
-    {
+    void Fire() {
         if (weapon.UseMana && curMana < weapon.ManaCost)
             return;
         else if (weapon.UseMana)
@@ -303,16 +302,29 @@ public class PlayerController : Living
             direction = (endPoint - weapon.SpellOrigin.position).normalized;
        
         var rot = Quaternion.LookRotation(direction, Vector3.up);
-        
+
+        CmdFire(direction, rot);
+        lastShotTime = Time.time;
+    }
+
+    /// <summary>  
+    /// 	Instanciate and spawn bullet
+    /// </summary>
+    [Command]
+    void CmdFire(Vector3 direction, Quaternion rot)
+    {
         GameObject bullet = Instantiate(weapon.Bullet, weapon.SpellOrigin.position, rot);
+
         Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponentInParent<Collider>(), true);
+
         bullet.GetComponent<Bullet>().OwnerTag = gameObject.tag;
+        bullet.GetComponent<Bullet>().spawnedBy = netId;
         bullet.GetComponent<Bullet>().Direction = direction;
         bullet.GetComponent<Bullet>().SpellOrigin = weapon;
 
-        lastShotTime = Time.time;
-        NetworkServer.Spawn(bullet);
+        NetworkServer.Spawn(bullet);    
     }
+
     /// <summary>  
     /// 	Use to allow player another jump after hitting the ground
     /// </summary>

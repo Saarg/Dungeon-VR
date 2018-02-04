@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 4328555770830632}
   - component: {fileID: 114691350309167756}
   - component: {fileID: 114450838304901048}
+  - component: {fileID: 114334326725237550}
   - component: {fileID: 95689691197791890}
   - component: {fileID: 114418166092139924}
   - component: {fileID: 114792738334932170}
@@ -2736,6 +2737,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guid: b3611d52-20f1-4e64-8bd1-8f7d28385aae
+--- !u!114 &114334326725237550
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1038169052092530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1590678366, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 95689691197791890}
+  m_ParameterSendBits: 3
+  param0: 
+  param1: 
+  param2: 
+  param3: 
+  param4: 
+  param5: 
 --- !u!114 &114348570632370582
 MonoBehaviour:
   m_ObjectHideFlags: 11
@@ -2941,7 +2961,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 1
-  m_SendInterval: 0.05
+  m_SendInterval: 0.033333335
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
@@ -3034,6 +3054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 4328555770830632}
+  distance: {x: 0, y: 2, z: -4}
   viewOffset: {x: 0, y: 2, z: 0}
 --- !u!114 &114520794278983650
 MonoBehaviour:
@@ -3168,17 +3189,14 @@ MonoBehaviour:
   lightning: 1
   poison: 1
   cam: {fileID: 4027142094991298}
-  camera: {fileID: 0}
   gameUI: {fileID: 0}
-  spellOrigin: {fileID: 4972697528079158}
-  ammo: {fileID: 1792118448359034, guid: eda447bcd5ce648d3a3135b0bbcd48f7, type: 2}
   weaponGrip: {fileID: 4890140661535168}
   playerClassID: 0
   weapon: {fileID: 114883228205435904}
   WeaponObject: {fileID: 1035041615175502}
-  JumpFactor: 2
   weaponDetectionRange: {x: 2, y: 2, z: 2}
   RunFactor: 2
+  JumpFactor: 2
   isGrounded: 0
   playerId: 0
   playerClass: 0

@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 /// <summary>  
 /// 	Basic bullet script destroying the gameobject on collision or 10s
 /// </summary>
-public class Bullet : MonoBehaviour {
+public class Bullet : NetworkBehaviour {
 
     public enum DamageTypeEnum
     {
@@ -14,19 +15,21 @@ public class Bullet : MonoBehaviour {
     };
 
     [SerializeField]
-    float velocity;
+    [SyncVar] float velocity;
 
+    [SyncVar] Vector3 direction;
     public Vector3 Direction
     {
-        get; set;
+        get { return direction; }
+        set { direction = value; }
     }
 
     [SerializeField]
-    int damage;
+    [SyncVar] int damage;
     public int Damage { get { return damage; } }
 
     [SerializeField]
-    float lifeTime;
+    [SyncVar] float lifeTime;
 
     [SerializeField]
     bool destroyOnHit;
@@ -47,6 +50,8 @@ public class Bullet : MonoBehaviour {
     public Weapon SpellOrigin { get { return spellOrigin; } set { spellOrigin = value; } }
 
     public string OwnerTag { get; set; }
+    
+    [SyncVar] public NetworkInstanceId spawnedBy;
 
     [SerializeField]
     DamageTypeEnum damageType;
@@ -59,13 +64,18 @@ public class Bullet : MonoBehaviour {
     /// </summary>
     void Start() {
         lastDamageTick = Time.time;
-		Destroy(gameObject, lifeTime);
 	}
+
+    public override void OnStartClient() {
+        Physics.IgnoreCollision(GetComponent<Collider>(), ClientScene.FindLocalObject(spawnedBy).GetComponent<Collider>());
+
+        GetComponent<Rigidbody>().velocity = Direction * velocity;        
+
+		Destroy(gameObject, lifeTime);
+    }
 
     void Update()
     {
-        GetComponent<Rigidbody>().velocity = Direction * velocity;
-
         if (followSpellOrigin)
             if (spellOrigin != null)
                 transform.position = spellOrigin.SpellOrigin.position;
