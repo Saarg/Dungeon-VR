@@ -26,6 +26,21 @@ public class Weapon : MonoBehaviour {
     public GameObject Bullet { get { return bullet; } }
 
     [SerializeField]
+    public bool shootingOffset;
+
+    [SerializeField]
+    bool spreadBullet;
+    public bool SpreadBullet { get { return spreadBullet; } }
+
+    [SerializeField]
+    float spreadAngle;
+    public float SpreadAngle { get { return spreadAngle; } }
+
+    [SerializeField]
+    int numberOfBullet;
+    public int NumberOfBullet { get{ return numberOfBullet; } }
+
+    [SerializeField]
     float firingInterval;
     public float FiringInterval { get { return firingInterval; } }
 
@@ -36,6 +51,10 @@ public class Weapon : MonoBehaviour {
     [SerializeField]
     bool useMana;
     public bool UseMana { get { return useMana; } }
+
+    [SerializeField]
+    bool drainMana;
+    public bool DrainMana { get { return drainMana; } }
 
     [SerializeField]
     Transform spellOrigin;

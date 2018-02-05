@@ -10,6 +10,8 @@ using UnityEngine.Networking;
 /// </summary>
 public class PlayerController : Living
 {
+    const float RAY_LENGTH = 20f;
+
     private Animator _animator;
     private NetworkAnimator _netAnimator;
     private Rigidbody rigidBody;
@@ -33,7 +35,11 @@ public class PlayerController : Living
     public Weapon weapon;
     [SyncVar] public GameObject WeaponObject;
     float lastShotTime = 0;
-    public Vector3 weaponDetectionRange;    
+    public Vector3 weaponDetectionRange;
+    bool firing;
+    Bullet persistentBullet;
+    float lastManaDrain;
+
 
     [Header("Mana")]
     float manaFillRate = 0.2f;
@@ -62,6 +68,8 @@ public class PlayerController : Living
     public int playerClass;
 
     GameObject target = null;
+    float offsetValue;
+    Vector3 offset;
 
     /// <summary>  
     /// 	Fetch animator
@@ -120,16 +128,58 @@ public class PlayerController : Living
         if (isLocalPlayer)
         {
             UpdateJump();
-
             FillMana();
             CheckForWeapon();
             UpdateTarget();
+            UpdateFire();
+        }
+    }
 
+    void UpdateFire()
+    {
+        if (!firing)
+        {
             if (Input.GetButtonDown("Fire1"))
             {
                 if (weapon != null && Time.time - lastShotTime > weapon.FiringInterval)
+                {
                     Fire();
+                    if (weapon.DrainMana)
+                        firing = true;
+                }
             }
+        }
+        if (Input.GetButtonUp("Fire1"))
+        {
+            StopContinuouFire();
+        }
+
+        if (firing)
+        {
+            if (Time.time - lastManaDrain > weapon.FiringInterval)
+            {
+                if (CurrentMana - weapon.ManaCost > 0)
+                {
+                    UpdateMana(CurrentMana - weapon.ManaCost);
+                }
+                else
+                {
+                    UpdateMana(0);
+                    StopContinuouFire();
+                }
+                lastManaDrain = Time.time;
+            }
+        }
+    }
+
+    void StopContinuouFire()
+    {
+        if (weapon.DrainMana)
+        {
+            if (persistentBullet != null)
+                persistentBullet.DestroyPersistentBullet();
+            persistentBullet = null;
+            firing = false;
         }
     }
 
@@ -157,7 +207,7 @@ public class PlayerController : Living
 
     void UpdateTarget()
     {
-        var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, 20f);
+        var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, RAY_LENGTH);
         foreach (var hit in hits)
         {
             if (hit.collider.gameObject.tag == "Player")
@@ -271,6 +321,7 @@ public class PlayerController : Living
             {
                 if (closestWeapon.CanEquip(playerClassID))
                 {
+                    StopContinuouFire();
                     CmdPickupWeapon(closestObj.GetComponent<NetworkIdentity>().netId);
                 }
             }
@@ -295,25 +346,43 @@ public class PlayerController : Living
         else if (weapon.UseMana)
             UpdateMana(CurrentMana - weapon.ManaCost);
 
-        var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, 20f);
-        var endPoint = cam.gameObject.transform.position + cam.gameObject.transform.forward * 20f;
+        var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, RAY_LENGTH);
+        var endPoint = cam.gameObject.transform.position + cam.gameObject.transform.forward * RAY_LENGTH;
+        var offsetPts = endPoint;
         Vector3 direction = Vector3.zero;
-
+         
         foreach (var hit in hits)
         {
             if (hit.collider.tag == "Player")
                 continue;
 
+            if (hit.transform.gameObject.layer == 9)
+                continue;
+
+            offsetPts = hit.point;
             direction = (hit.point - weapon.SpellOrigin.position).normalized;
             break;
         }
 
         if (direction == Vector3.zero)
             direction = (endPoint - weapon.SpellOrigin.position).normalized;
-       
-        var rot = Quaternion.LookRotation(direction, Vector3.up);
+        offsetValue = Mathf.Lerp(0, RAY_LENGTH, (offsetPts - weapon.SpellOrigin.position).magnitude / RAY_LENGTH);
 
-        CmdFire(direction, rot);
+        var rot = Quaternion.LookRotation(direction, Vector3.up);
+ 
+        if (weapon.SpreadBullet)
+        {
+            for (int i = 0; i < weapon.NumberOfBullet; i++)
+            {
+                Vector3 end = new Vector3(endPoint.x + UnityEngine.Random.Range(-weapon.SpreadAngle, weapon.SpreadAngle), endPoint.y + UnityEngine.Random.Range(-weapon.SpreadAngle, weapon.SpreadAngle), endPoint.z + UnityEngine.Random.Range(-weapon.SpreadAngle, weapon.SpreadAngle));
+                Vector3 spreadDirection = (end - weapon.SpellOrigin.position).normalized;
+                var spreadRot = Quaternion.LookRotation(spreadDirection, Vector3.up);
+                CmdFire(spreadDirection, spreadRot);
+            }
+        }
+        else
+            CmdFire(direction, rot);
+
         lastShotTime = Time.time;
     }
 
@@ -384,16 +453,24 @@ public class PlayerController : Living
     [Command]
     void CmdFire(Vector3 direction, Quaternion rot)
     {
-        GameObject bullet = Instantiate(weapon.Bullet, weapon.SpellOrigin.position, rot);
+        GameObject bulletObj = Instantiate(weapon.Bullet, weapon.SpellOrigin.position, rot);
+        Bullet bullet = bulletObj.GetComponent<Bullet>();
 
-        Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponentInParent<Collider>(), true);
+        Physics.IgnoreCollision(bulletObj.GetComponent<Collider>(), GetComponentInParent<Collider>(), true);
+        bullet.OwnerTag = gameObject.tag;
+        bullet.spawnedBy = netId;
 
-        bullet.GetComponent<Bullet>().OwnerTag = gameObject.tag;
-        bullet.GetComponent<Bullet>().spawnedBy = netId;
-        bullet.GetComponent<Bullet>().Direction = direction;
+        offset = Vector3.zero;
+        if (weapon.shootingOffset)
+            offset = new Vector3(0, offsetValue / RAY_LENGTH, 0);
+
+        bullet.Direction = direction + offset;
         bullet.GetComponent<Bullet>().SpellOrigin = weapon;
 
-        NetworkServer.Spawn(bullet);    
+        if (weapon.DrainMana)
+            persistentBullet = bullet;
+
+        NetworkServer.Spawn(bulletObj);    
     }
 
     [Command]
