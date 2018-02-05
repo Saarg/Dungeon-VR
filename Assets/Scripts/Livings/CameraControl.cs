@@ -15,9 +15,11 @@ public class CameraControl : MonoBehaviour
 
     public Transform character; //character followed by the camera
 
-    private float distance = - 5.0f; // Distance from character
+    public Vector3 distance = new Vector3(0, 2, -4); // Distance from character
     private float currentX = 0.0f; // Holds value of X mouse movement
     private float currentY = 0.0f; // Holds value of Y mouse movement
+
+    public Vector3 viewOffset;
     
     void Start(){
 
@@ -32,7 +34,7 @@ public class CameraControl : MonoBehaviour
 
     void LateUpdate()
     {                
-        gameObject.transform.position = character.position + Quaternion.Euler(currentY, currentX, 0) * new Vector3(0, 3, distance);
-        gameObject.transform.LookAt(character.position);
+        gameObject.transform.position = character.position + Quaternion.Euler(currentY, currentX, 0) * distance;
+        gameObject.transform.LookAt(character.position + character.InverseTransformDirection(viewOffset));
     }
 }
