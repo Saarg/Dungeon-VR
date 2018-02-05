@@ -534,6 +534,9 @@ MonoBehaviour:
   offset: 0
   requestedStop: 0
   runOnStart: 0
+  runOnEnable: 0
+  enableOnStart: 1
+  disableOnStop: 0
 --- !u!114 &114603574283637856
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -576,7 +579,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d8e2ebe1995d0243bb5144a2de614cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapType: 0
+  trapType: 2
   animatePosition: {fileID: 114587310326724120}
 --- !u!114 &114871778727022378
 MonoBehaviour:
