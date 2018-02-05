@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(Animator))]
@@ -93,6 +95,7 @@ public class PlayerController : Living
         // if no weapon spawn default 
         if (WeaponObject == null) {
             GameObject w = Instantiate(defaultWeapon, weaponGrip);
+            Destroy(w.GetComponent<DroppedWeapon>());
 
             NetworkServer.Spawn(w);
 
@@ -112,9 +115,17 @@ public class PlayerController : Living
 
         if (isLocalPlayer)
         {
+            UpdateMovement();
+
             FillMana();
             CheckForWeapon();
             UpdateTarget();
+
+            if (Input.GetButtonDown("Fire1"))
+            {
+                if (weapon != null && Time.time - lastShotTime > weapon.FiringInterval)
+                    Fire();
+            }
         }
     }
 
@@ -125,63 +136,21 @@ public class PlayerController : Living
     ///		Updates animator
     ///		Take move status into consideration
     /// </summary>
-    void FixedUpdate()
+    void UpdateMovement()
     {
         if (isLocalPlayer)
         {
-            Vector3 dir = (cam.right * Input.GetAxis("Horizontal") * Time.deltaTime) + (cam.forward * Input.GetAxis("Vertical") /** Time.deltaTime*/);
-            dir.y = 0;
-            if (canMove)
-            {
-                if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
-                {
-                    rigidBody.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), turnSpeed);
-                    var v3 = Vector3.zero;
-                    if (canRun)
-                    {
-                        v3 = transform.forward * speed;
-                        v3.y = rigidBody.velocity.y;
-                    }
-                    else
-                    {
-                        v3 = transform.forward * speed/ RunFactor;
-                        v3.y = rigidBody.velocity.y;
-                    }
-                    rigidBody.velocity = v3;
-                    if (Input.GetAxis("Horizontal") != 0)
-                    {
-                        _animator.SetFloat("Speed", speed);
-                    }
-
-                    if (Input.GetAxis("Vertical") != 0)
-                    {
-                        _animator.SetFloat("Speed", speed);
-                    }
-                }
-            }
-            
-            if (Input.GetButton("Fire1"))
-            {
-                if (weapon != null && Time.time - lastShotTime > weapon.FiringInterval)
-                    Fire();
-            }
-
-            if (Input.GetButton("Jump") && isGrounded && canJump)
+            if (Input.GetButtonDown("Jump") && isGrounded && canJump)
             {
                 _netAnimator.SetTrigger("Jump");
                 if (lowJump)
                 {
-                    rigidBody.AddForce(Vector3.up * JumpSpeed / JumpFactor, ForceMode.Impulse);
+                    rigidBody.AddForce(Vector3.up * JumpSpeed / JumpFactor, ForceMode.VelocityChange);
                 }
                 else
                 {
-                    rigidBody.AddForce(Vector3.up * JumpSpeed, ForceMode.Impulse);
+                    rigidBody.AddForce(Vector3.up * JumpSpeed, ForceMode.VelocityChange);
                 }
-            }
-
-            if (Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0 && !Input.GetButton("Jump"))
-            {
-                _animator.SetFloat("Speed", 0);
             }
         }
     }
@@ -203,6 +172,46 @@ public class PlayerController : Living
         }
 
         target = null;
+    }
+
+    /// <summary>
+    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void FixedUpdate()
+    {
+        if (isLocalPlayer) {
+            Vector3 dir = (cam.right * Input.GetAxis("Horizontal") * Time.deltaTime) + (cam.forward * Input.GetAxis("Vertical") * Time.deltaTime);
+            dir.y = 0;
+            dir.Normalize();
+
+            Vector3 lookDir = cam.forward;
+            lookDir.y = 0;
+            lookDir.Normalize();
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);            
+
+            if (canMove)
+            {
+                if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0))
+                {
+                    if (canRun && rigidBody.velocity.magnitude < speed)
+                    {
+                        rigidBody.AddForce(dir, ForceMode.VelocityChange);                 
+                    }
+                    else if (rigidBody.velocity.magnitude < speed / RunFactor)
+                    {
+                        rigidBody.AddForce(dir, ForceMode.VelocityChange);                                         
+                    }
+                }
+            }
+            
+            rigidBody.velocity = new Vector3(rigidBody.velocity.x * 0.9f, rigidBody.velocity.y, rigidBody.velocity.z * 0.9f);
+        }
+
+        Vector3 locVel = transform.InverseTransformDirection(rigidBody.velocity);
+
+        _animator.SetFloat("SpeedZ", locVel.z);
+        _animator.SetFloat("SpeedX", locVel.x);        
     }
 
     public bool HasTarget()
@@ -370,6 +379,7 @@ public class PlayerController : Living
         if (coll.collider.tag.Equals("Ground"))
         {
             isGrounded = true;
+            _animator.ResetTrigger("Jump");
         }
     }
 
@@ -380,7 +390,7 @@ public class PlayerController : Living
     {
         if (coll.collider.tag.Equals("Ground"))
         {
-            isGrounded = false;
+            isGrounded = false;        
         }
     }
 
