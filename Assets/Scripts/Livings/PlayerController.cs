@@ -18,10 +18,10 @@ public class PlayerController : Living
 
     public enum PlayerClassEnum
     {
-        Assassin,
+        Tank,        
         Healer,
+        Assassin,
         Sorcerer,
-        Tank,
     };
 
     public GameUI gameUI;
@@ -58,7 +58,7 @@ public class PlayerController : Living
     [Header("NetworkData")]
     [SyncVar]
     public int playerId;
-    [SyncVar]    
+    [SyncVar(hook="UpdateClass")]    
     public int playerClass;
 
     GameObject target = null;
@@ -91,6 +91,10 @@ public class PlayerController : Living
         }
     }
 
+    public override void OnStartLocalPlayer() {
+        playerClassID = (PlayerClassEnum)(Mathf.Clamp(playerClass-1, 0, 3));
+    }
+
     public override void OnStartServer() {
         // if no weapon spawn default 
         if (WeaponObject == null) {
@@ -115,7 +119,7 @@ public class PlayerController : Living
 
         if (isLocalPlayer)
         {
-            UpdateMovement();
+            UpdateJump();
 
             FillMana();
             CheckForWeapon();
@@ -129,14 +133,10 @@ public class PlayerController : Living
         }
     }
 
-    /// <summary>  
-    ///     Camera follow player and player orientation depend of the camera
-    /// 	Translate and rotate player
+    /// <summary> 
     /// 	Jump player if input
-    ///		Updates animator
-    ///		Take move status into consideration
     /// </summary>
-    void UpdateMovement()
+    void UpdateJump()
     {
         if (isLocalPlayer)
         {
@@ -174,8 +174,11 @@ public class PlayerController : Living
         target = null;
     }
 
-    /// <summary>
-    /// This function is called every fixed framerate frame, if the MonoBehaviour is enabled.
+    /// <summary>  
+    ///     Camera follow player and player orientation depend of the camera
+    /// 	Translate and rotate player
+    ///		Updates animator
+    ///		Take move status into consideration
     /// </summary>
     void FixedUpdate()
     {
@@ -274,42 +277,6 @@ public class PlayerController : Living
         }
     }
 
-    /// <summary>
-    /// Ask the server to pickup the weapon
-    /// </summary>    
-    [Command]
-    void CmdPickupWeapon(NetworkInstanceId weaponNetId) {
-        RpcPickupWeapon(weaponNetId);
-    }
-
-    /// <summary>
-    /// Pickup weapon on ALL CLIENTS!
-    /// </summary> 
-    [ClientRpc]
-    void RpcPickupWeapon(NetworkInstanceId weaponNetId) {
-        GameObject closestObj = ClientScene.FindLocalObject(weaponNetId);
-
-        if (closestObj == null) {
-            Debug.LogError("Weapon: " + weaponNetId + " not found!");
-            return;
-        }
-
-        if (WeaponObject != null) {
-            GameObject dropWeapon = WeaponObject;
-            dropWeapon.transform.SetParent(null);
-            dropWeapon.transform.localPosition = new Vector3(dropWeapon.transform.localPosition.x,0,dropWeapon.transform.localPosition.z);
-            dropWeapon.transform.rotation = Quaternion.identity;
-            dropWeapon.AddComponent<DroppedWeapon>();
-        }
-
-        Destroy(closestObj.GetComponent<DroppedWeapon>());        
-        WeaponObject = closestObj;
-        WeaponObject.transform.SetParent(weaponGrip);
-        WeaponObject.transform.localPosition = Vector3.zero;
-        WeaponObject.transform.localRotation = Quaternion.identity;
-        weapon = WeaponObject.GetComponent<Weapon>();
-    }
-
     void FillMana()
     {
         if (Time.time - lastManaFill > manaFillRate)
@@ -354,24 +321,6 @@ public class PlayerController : Living
     }
 
     /// <summary>  
-    /// 	Instanciate and spawn bullet
-    /// </summary>
-    [Command]
-    void CmdFire(Vector3 direction, Quaternion rot)
-    {
-        GameObject bullet = Instantiate(weapon.Bullet, weapon.SpellOrigin.position, rot);
-
-        Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponentInParent<Collider>(), true);
-
-        bullet.GetComponent<Bullet>().OwnerTag = gameObject.tag;
-        bullet.GetComponent<Bullet>().spawnedBy = netId;
-        bullet.GetComponent<Bullet>().Direction = direction;
-        bullet.GetComponent<Bullet>().SpellOrigin = weapon;
-
-        NetworkServer.Spawn(bullet);    
-    }
-
-    /// <summary>  
     /// 	Use to allow player another jump after hitting the ground
     /// </summary>
     void OnCollisionEnter(Collision coll)
@@ -394,6 +343,62 @@ public class PlayerController : Living
         }
     }
 
+    // Commands and RPC //
+
+    /// <summary>
+    /// Ask the server to pickup the weapon
+    /// </summary>    
+    [Command]
+    void CmdPickupWeapon(NetworkInstanceId weaponNetId) {
+        RpcPickupWeapon(weaponNetId);
+    }
+
+    /// <summary>
+    /// Pickup weapon on ALL CLIENTS!
+    /// </summary> 
+    [ClientRpc]
+    void RpcPickupWeapon(NetworkInstanceId weaponNetId) {
+        GameObject closestObj = ClientScene.FindLocalObject(weaponNetId);
+
+        if (closestObj == null) {
+            Debug.LogError("Weapon: " + weaponNetId + " not found!");
+            return;
+        }
+
+        if (WeaponObject != null) {
+            GameObject dropWeapon = WeaponObject;
+            dropWeapon.transform.SetParent(null);
+            dropWeapon.transform.localPosition = new Vector3(dropWeapon.transform.localPosition.x,0,dropWeapon.transform.localPosition.z);
+            dropWeapon.transform.rotation = Quaternion.identity;
+            dropWeapon.AddComponent<DroppedWeapon>();
+        }
+
+        Destroy(closestObj.GetComponent<DroppedWeapon>());        
+        WeaponObject = closestObj;
+        WeaponObject.transform.SetParent(weaponGrip);
+        WeaponObject.transform.localPosition = Vector3.zero;
+        WeaponObject.transform.localRotation = Quaternion.identity;
+        weapon = WeaponObject.GetComponent<Weapon>();
+    }
+
+    /// <summary>  
+    /// 	Instanciate and spawn bullet
+    /// </summary>
+    [Command]
+    void CmdFire(Vector3 direction, Quaternion rot)
+    {
+        GameObject bullet = Instantiate(weapon.Bullet, weapon.SpellOrigin.position, rot);
+
+        Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponentInParent<Collider>(), true);
+
+        bullet.GetComponent<Bullet>().OwnerTag = gameObject.tag;
+        bullet.GetComponent<Bullet>().spawnedBy = netId;
+        bullet.GetComponent<Bullet>().Direction = direction;
+        bullet.GetComponent<Bullet>().SpellOrigin = weapon;
+
+        NetworkServer.Spawn(bullet);    
+    }
+
     [Command]
     public void CmdUpdatePlayerId(int id) {
         RpcUpdatePlayerId(id);
@@ -412,5 +417,12 @@ public class PlayerController : Living
     [ClientRpc]
     public void RpcUpdatePlayerClass(int id) {
         playerClass = id;
+    }
+
+    // SyncVar hooks //
+
+    void UpdateClass(int c) {
+        playerClass = c;
+        playerClassID = (PlayerClassEnum)(Mathf.Clamp(playerClass-1, 0, 3));
     }
 }
