@@ -304,9 +304,6 @@ public class PlayerController : Living
             if (hit.collider.tag == "Player")
                 continue;
 
-            if ((endPoint - hit.point).sqrMagnitude > (endPoint - weapon.SpellOrigin.position).sqrMagnitude)
-                continue;
-
             direction = (hit.point - weapon.SpellOrigin.position).normalized;
             break;
         }
