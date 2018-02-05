@@ -11,8 +11,6 @@ namespace Lobby
 	/// </summary>
 	public class LobbyManager : NetworkLobbyManager {
 
-		public static GameObject curGamePlayer;
-
 		/// <summary>
 		/// SERVER: if not on the lobby, spawn player
 		/// </summary>
@@ -36,18 +34,7 @@ namespace Lobby
 		/// CLIENT: position player and apply lobby settings
 		/// </summary>
 		public override void OnLobbyClientSceneChanged(NetworkConnection conn) {
-			Debug.Log("OnLobbyClientSceneChanged");
-
-			if (PlayerUI.localPlayer.curPlayer > 0) {
-				PlayerController pc = curGamePlayer.GetComponent<PlayerController>();
-
-				pc.playerId = PlayerUI.localPlayer.curPlayer;
-				pc.playerClass = PlayerUI.localPlayer.curClass;
-
-				curGamePlayer.transform.position = new Vector3(-30, 50, -9 + 3 * PlayerUI.localPlayer.curPlayer);
-			} else {
-				curGamePlayer.SetActive(false);
-			}
+			Debug.Log("OnLobbyClientSceneChanged to " + SceneManager.GetActiveScene().name);
 
 			base.OnLobbyClientSceneChanged(conn);
 		}

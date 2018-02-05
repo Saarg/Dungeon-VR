@@ -84,14 +84,12 @@ public class PlayerController : Living
         if (!isLocalPlayer)
         {
             Destroy(cam.gameObject);
-        } else {
-            CmdApplyMoveStatus(MoveStatus.Free); 
-
-            Lobby.LobbyManager.curGamePlayer = gameObject;
         }
     }
 
     public override void OnStartLocalPlayer() {
+        CmdApplyMoveStatus(MoveStatus.Free);
+        
         playerClassID = (PlayerClassEnum)(Mathf.Clamp(playerClass-1, 0, 3));
     }
 
