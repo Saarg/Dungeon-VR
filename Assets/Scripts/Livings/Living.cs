@@ -45,6 +45,8 @@ public class Living : NetworkBehaviour {
 	public float lightning = 1f;
 	[Range(0f, 2f)]	
 	public float poison = 1f;
+	[Range(0f, 2f)]	
+	public float physical = 1f;
 
 	// Events
 	public delegate void DeathEvent();
@@ -125,10 +127,10 @@ public class Living : NetworkBehaviour {
 
     public void TakeDamage(int damage, Bullet.DamageTypeEnum damageType)
     {
-        UpdateLife(curLife - CalculateResisance(damage, damageType));
+        UpdateLife(curLife - CalculateResistance(damage, damageType));
     }
 
-    int CalculateResisance(int damage, Bullet.DamageTypeEnum damageType)
+    int CalculateResistance(int damage, Bullet.DamageTypeEnum damageType)
     {
         switch (damageType)
         {
@@ -140,6 +142,8 @@ public class Living : NetworkBehaviour {
                 return Mathf.FloorToInt((float)damage * lightning);
             case Bullet.DamageTypeEnum.poison:
                 return Mathf.FloorToInt((float)damage * poison);
+			case Bullet.DamageTypeEnum.physical:
+				return Mathf.FloorToInt((float)damage * physical);
             default:
                 return damage;
         }
