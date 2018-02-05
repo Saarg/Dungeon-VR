@@ -58,8 +58,6 @@ public class PlayerController : Living
     [Header("NetworkData")]
     [SyncVar]
     public int playerId;
-    [SyncVar(hook="UpdateClass")]    
-    public int playerClass;
 
     GameObject target = null;
 
@@ -89,8 +87,6 @@ public class PlayerController : Living
 
     public override void OnStartLocalPlayer() {
         CmdApplyMoveStatus(MoveStatus.Free);
-        
-        playerClassID = (PlayerClassEnum)(Mathf.Clamp(playerClass-1, 0, 3));
     }
 
     public override void OnStartServer() {
@@ -111,8 +107,8 @@ public class PlayerController : Living
     /// </summary>
     void Update()
     {
-        if (isServer && WeaponObject != null && weapon == null) {
-            RpcPickupWeapon(WeaponObject.GetComponent<NetworkIdentity>().netId);            
+        if (isLocalPlayer && WeaponObject != null && weapon == null) {
+            CmdPickupWeapon(WeaponObject.GetComponent<NetworkIdentity>().netId);            
         }
 
         if (isLocalPlayer)
@@ -363,7 +359,7 @@ public class PlayerController : Living
             return;
         }
 
-        if (WeaponObject != null) {
+        if (WeaponObject != null && weapon == null) {
             GameObject dropWeapon = WeaponObject;
             dropWeapon.transform.SetParent(null);
             dropWeapon.transform.localPosition = new Vector3(dropWeapon.transform.localPosition.x,0,dropWeapon.transform.localPosition.z);
@@ -414,13 +410,6 @@ public class PlayerController : Living
 
     [ClientRpc]
     public void RpcUpdatePlayerClass(int id) {
-        playerClass = id;
-    }
-
-    // SyncVar hooks //
-
-    void UpdateClass(int c) {
-        playerClass = c;
-        playerClassID = (PlayerClassEnum)(Mathf.Clamp(playerClass-1, 0, 3));
+        playerClassID = (PlayerClassEnum) id;
     }
 }

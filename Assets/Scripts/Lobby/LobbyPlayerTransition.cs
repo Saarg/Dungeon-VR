@@ -9,15 +9,14 @@ namespace Lobby {
     public class LobbyPlayerTransition: NetworkBehaviour {
 
         public override void OnStartLocalPlayer() {
-            //Time.timeScale = 0;
-
-            Debug.Log(PlayerUI.localPlayer.curPlayer);
+            if (PlayerUI.localPlayer == null)
+                Destroy(this);
 
             if (PlayerUI.localPlayer.curPlayer > 0) {
                 PlayerController pc = GetComponent<PlayerController>();
 
                 pc.playerId = PlayerUI.localPlayer.curPlayer;
-                pc.playerClass = PlayerUI.localPlayer.curClass;
+                pc.playerClassID = (PlayerController.PlayerClassEnum) PlayerUI.localPlayer.curClass;
 
                 transform.position = new Vector3(-30, 50, -9 + 3 * PlayerUI.localPlayer.curPlayer);
 
@@ -25,16 +24,9 @@ namespace Lobby {
             } else {
                 SceneManager.LoadScene("VRTestScene", LoadSceneMode.Additive);
 
-                RpcStartPlaying();
+                NetworkServer.Destroy(gameObject);
+                Destroy(GameObject.Find("GameUI"));
             }
         }
-
-        [ClientRpc]
-        void RpcStartPlaying()
-        {
-            //Time.timeScale = 1;
-            Destroy(gameObject);  
-        }
-
     }
 }
