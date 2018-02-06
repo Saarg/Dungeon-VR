@@ -12,6 +12,7 @@ public class Bullet : NetworkBehaviour {
         lightning,
         ice,
         poison,
+		physical
     };
 
     [SerializeField]
