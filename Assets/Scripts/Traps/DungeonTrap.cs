@@ -12,6 +12,7 @@ public abstract class DungeonTrap : MonoBehaviour {
 	public bool isBuilt = false;		//if true the trap is set
 	public bool isActive = false; 		//if false, the trap will never be triggered
 	public bool isDestroyable;			//if true, the trap can be attacked and destroyed 
+	public bool isDesactivable;			//if true, the trap can be desactivated
 	public bool isDestroyedAfterUse;	//if true, the trap will be destroyed after effects have been applied
 	public float health;
 	public float maxHealth;
@@ -51,14 +52,14 @@ public abstract class DungeonTrap : MonoBehaviour {
 	protected virtual void Update(){
 		if (Input.GetKeyDown ("1") && !this.isBuilt) StartCoroutine ("Building");
 		if (Input.GetKeyDown ("2") && this.isBuilt && !this.isActive) StartCoroutine ("Activation");
-		if (Input.GetKeyDown ("3") && this.isBuilt && this.isActive) StartCoroutine ("Desactivation");
+		if (Input.GetKeyDown ("3") && this.isBuilt && this.isActive && this.isDesactivable) StartCoroutine ("Desactivation");
 		if (Input.GetKeyDown ("4")) Damage(10);
 
 		lastActivation += Time.deltaTime;
 	}
 
 	public bool IsReady(){
-		return (lastActivation >= cooldownTime);
+		return ((lastActivation >= cooldownTime) && this.isActive);
 	}
 
 	IEnumerator Building(){
@@ -123,7 +124,7 @@ public abstract class DungeonTrap : MonoBehaviour {
 	}
 
 	public virtual void OnHurtingAreaTriggerEnter(Collider _col){
-		if (_col.gameObject.CompareTag ("Player")) {
+		if (this.isActive && _col.gameObject.CompareTag ("Player")) {
 			_col.gameObject.GetComponent<PlayerController>().TakeDamage(this.damage, Bullet.DamageTypeEnum.physical);
 		}
 	}
