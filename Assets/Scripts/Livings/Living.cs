@@ -128,7 +128,6 @@ public class Living : NetworkBehaviour {
     public void TakeDamage(int damage, Bullet.DamageTypeEnum damageType)
     {
         UpdateLife(curLife - CalculateResistance(damage, damageType));
-		Debug.Log ("damage");
     }
 
     int CalculateResistance(int damage, Bullet.DamageTypeEnum damageType)
