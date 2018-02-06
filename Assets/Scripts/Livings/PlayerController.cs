@@ -71,6 +71,21 @@ public class PlayerController : Living
     float offsetValue;
     Vector3 offset;
 
+
+    /* public Transform Healer;
+     public Transform Assassin;
+     public Transform Tank;
+     public Transform Mage;*/
+
+    public UnityEngine.Object Assassin;
+    public UnityEngine.Object Healer;
+    public UnityEngine.Object Mage;
+    public UnityEngine.Object Tank;
+
+    private void Awake()
+    {
+        ApplyTexture();
+    }
     /// <summary>  
     /// 	Fetch animator
     ///		Destroy camera if not localplayer
@@ -88,7 +103,7 @@ public class PlayerController : Living
         _animator = GetComponent<Animator>();
         _netAnimator = GetComponent<NetworkAnimator>();
         rigidBody = GetComponent<Rigidbody>();
-       
+        
         if (!isLocalPlayer)
         {
             Destroy(cam.gameObject);
@@ -498,5 +513,27 @@ public class PlayerController : Living
     void UpdateClass(int c) {
         playerClass = c;
         playerClassID = (PlayerClassEnum)(Mathf.Clamp(playerClass-1, 0, 3));
+    }
+
+    void ApplyTexture()
+    {
+        switch (playerClassID)
+        {
+            case PlayerClassEnum.Healer:
+               //Instantiate(Healer, transform);
+                break;
+            case PlayerClassEnum.Tank:
+                //Instantiate(Tank, transform);
+                break;
+            case PlayerClassEnum.Sorcerer:
+                // Instantiate(Mage,transform);
+                break;
+            case PlayerClassEnum.Assassin:
+                //Instantiate(Assassin, transform);
+                break;
+            default:
+
+                break;
+        }
     }
 }
