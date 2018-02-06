@@ -304,6 +304,8 @@ GameObject:
   - component: {fileID: 23582773681751362}
   - component: {fileID: 64036337227574288}
   - component: {fileID: 114065241544020884}
+  - component: {fileID: 65430771490944384}
+  - component: {fileID: 114534210358257830}
   m_Layer: 0
   m_Name: DTP_FloorTraps_SawbladeSlit_Slit_Mesh
   m_TagString: Untagged
@@ -397,7 +399,7 @@ Transform:
   m_GameObject: {fileID: 1886844600736152}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 2.141788, z: 1}
   m_Children: []
   m_Father: {fileID: 4354814212415938}
   m_RootOrder: 1
@@ -537,6 +539,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5, y: 1, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!65 &65430771490944384
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1886844600736152}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.816757, y: 0.18783079, z: 0.22043608}
+  m_Center: {x: 0.0014378626, y: 0.093915395, z: 0}
 --- !u!114 &114010283795399166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1244,6 +1258,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guid: 7acf7686-b23d-40ed-9099-b8209159fc56
+--- !u!114 &114534210358257830
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1886844600736152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7762d65fcc58b9d408c3a94e2c7455ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parent: {fileID: 114216217798558926}
 --- !u!114 &114535675706817254
 MonoBehaviour:
   m_ObjectHideFlags: 1

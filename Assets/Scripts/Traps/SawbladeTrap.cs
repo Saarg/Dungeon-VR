@@ -10,17 +10,22 @@ public class SawbladeTrap : PeriodicTrap {
 	
 	protected override void Update () {
 		base.Update ();
-
 	}
 
-	public void OnSawTriggerEnter(Collider _col){
+	public override void OnHurtingAreaTriggerEnter(Collider _col){
 		if (_col.gameObject.CompareTag ("Player")) {
 			target = _col.gameObject.GetComponent<PlayerController>();
-			Effect ();
+			Effects ();
 		}
 	}
 
-	protected override void Effect(){
+	public override void OnDamageAreaTriggerEnter(Collider _col){
+		if (_col.gameObject.GetComponent<Bullet> ()) {
+			this.Damage (_col.gameObject.GetComponent<Bullet> ().Damage);
+		}
+	}
+
+	protected override void Effects(){
 		target.TakeDamage (damage, Bullet.DamageTypeEnum.physical);
 	}
 

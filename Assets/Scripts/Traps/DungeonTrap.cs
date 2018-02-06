@@ -105,13 +105,15 @@ public abstract class DungeonTrap : MonoBehaviour {
 	}
 
 	public void ApplyEffect(){
-		if (isDestroyedAfterUse) DestroyTrap ();
-
 		if (this.IsReady ()) {
-			Effect ();
+			Effects ();
 			lastActivation = 0;
+
+			if (isDestroyedAfterUse) DestroyTrap ();
 		}
 	}
 
-	protected abstract void Effect();
+	protected virtual void Effects(){}
+	public virtual void OnDamageAreaTriggerEnter(Collider _col){}
+	public virtual void OnHurtingAreaTriggerEnter(Collider _col){}
 }

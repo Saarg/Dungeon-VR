@@ -206,28 +206,38 @@ Prefab:
     - target: {fileID: 224647952608496466, guid: b4011e6b4f8f4b8409378191e9e1218d,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224647952608496466, guid: b4011e6b4f8f4b8409378191e9e1218d,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224532951699713062, guid: b4011e6b4f8f4b8409378191e9e1218d,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224514567791677470, guid: b4011e6b4f8f4b8409378191e9e1218d,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224596260750289664, guid: b4011e6b4f8f4b8409378191e9e1218d,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 224514567791677470, guid: b4011e6b4f8f4b8409378191e9e1218d,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65430771490944384, guid: b4011e6b4f8f4b8409378191e9e1218d,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114436968005512766, guid: b4011e6b4f8f4b8409378191e9e1218d,
+        type: 2}
+      propertyPath: parent
+      value: 
+      objectReference: {fileID: 2088438866}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b4011e6b4f8f4b8409378191e9e1218d, type: 2}
   m_IsPrefabParent: 0
@@ -529,3 +539,9 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &2088438866 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114216217798558926, guid: b4011e6b4f8f4b8409378191e9e1218d,
+    type: 2}
+  m_PrefabInternal: {fileID: 296101525}
+  m_Script: {fileID: 11500000, guid: 90b6dd478b8e4024ba9ac453e77c6771, type: 3}
