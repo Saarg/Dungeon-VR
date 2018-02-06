@@ -58,10 +58,6 @@ public abstract class DungeonTrap : MonoBehaviour {
 		lastActivation += Time.deltaTime;
 	}
 
-	public bool IsReady(){
-		return ((lastActivation >= cooldownTime) && this.isActive);
-	}
-
 	IEnumerator Building(){
 		buildingBar.gameObject.SetActive (true);
 		while(!buildingBar.Complete){
@@ -104,6 +100,10 @@ public abstract class DungeonTrap : MonoBehaviour {
 
 	public void DestroyTrap(){
 		DestroyObject (this.gameObject);
+	}
+
+	public bool IsReady(){
+		return ((lastActivation >= cooldownTime) && this.isActive);
 	}
 
 	public void ApplyEffect(){
