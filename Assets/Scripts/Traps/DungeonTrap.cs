@@ -15,6 +15,7 @@ public abstract class DungeonTrap : MonoBehaviour {
 	public bool isDestroyedAfterUse;	//if true, the trap will be destroyed after effects have been applied
 	public float health;
 	public float maxHealth;
+	public int damage;
 
 	[Header("Timers")]
 	public float buildingTime;		//time needed for the trap to be built
@@ -114,6 +115,16 @@ public abstract class DungeonTrap : MonoBehaviour {
 	}
 
 	protected virtual void Effects(){}
-	public virtual void OnDamageAreaTriggerEnter(Collider _col){}
-	public virtual void OnHurtingAreaTriggerEnter(Collider _col){}
+
+	public virtual void OnDamageAreaTriggerEnter(Collider _col){
+		if (this.isDestroyable && _col.gameObject.GetComponent<Bullet> ()) {
+			this.Damage (_col.gameObject.GetComponent<Bullet> ().Damage);
+		}
+	}
+
+	public virtual void OnHurtingAreaTriggerEnter(Collider _col){
+		if (_col.gameObject.CompareTag ("Player")) {
+			_col.gameObject.GetComponent<PlayerController>().TakeDamage(this.damage, Bullet.DamageTypeEnum.physical);
+		}
+	}
 }

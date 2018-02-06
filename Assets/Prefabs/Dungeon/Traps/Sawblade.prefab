@@ -343,8 +343,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4354814212415938}
   - component: {fileID: 65049537976164898}
-  - component: {fileID: 114216217798558926}
   - component: {fileID: 114626162918329172}
+  - component: {fileID: 114715655852586038}
   - component: {fileID: 114653455608638404}
   - component: {fileID: 114495051814627166}
   - component: {fileID: 114252555505444964}
@@ -382,7 +382,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1981552004055192}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.23, y: 0.04, z: 4.29}
+  m_LocalPosition: {x: -7.85, y: 0.04, z: 4.29}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4703201412381742}
@@ -546,7 +546,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1886844600736152}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4.816757, y: 0.18783079, z: 0.22043608}
@@ -658,34 +658,6 @@ MonoBehaviour:
   currentValue: 0
   complete: 0
   slider: {fileID: 114224821759836002}
---- !u!114 &114216217798558926
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1981552004055192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90b6dd478b8e4024ba9ac453e77c6771, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isBuilt: 0
-  isActive: 0
-  isDestroyable: 0
-  isDestroyedAfterUse: 0
-  health: 20
-  maxHealth: 20
-  buildingTime: 1.5
-  activationTime: 2
-  desactivationTime: 2
-  cooldownTime: 1.5
-  lastActivation: 0
-  healthBar: {fileID: 114514638355134000}
-  buildingBar: {fileID: 114829726798776698}
-  activationBar: {fileID: 114935119781212122}
-  desactivationBar: {fileID: 114158833821932330}
-  damage: 0
-  target: {fileID: 0}
 --- !u!114 &114224821759836002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -967,7 +939,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8d96bc285c7db84497ab44bd83de734, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentTrap: {fileID: 114216217798558926}
+  parent: {fileID: 114715655852586038}
 --- !u!114 &114443227188711924
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1269,7 +1241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7762d65fcc58b9d408c3a94e2c7455ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 114216217798558926}
+  parent: {fileID: 114715655852586038}
 --- !u!114 &114535675706817254
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1466,6 +1438,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guid: 9b167f46-a2f1-4291-a31d-2736df79f19d
+--- !u!114 &114715655852586038
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1981552004055192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad54a7e1148ec7640b82a895aa2d3e7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBuilt: 0
+  isActive: 0
+  isDestroyable: 1
+  isDestroyedAfterUse: 0
+  health: 30
+  maxHealth: 30
+  buildingTime: 1.5
+  activationTime: 1
+  desactivationTime: 1
+  cooldownTime: 1
+  lastActivation: 0
+  healthBar: {fileID: 114514638355134000}
+  buildingBar: {fileID: 114829726798776698}
+  activationBar: {fileID: 114935119781212122}
+  desactivationBar: {fileID: 114158833821932330}
+  damage: 0
+  target: {fileID: 0}
 --- !u!114 &114757348122029630
 MonoBehaviour:
   m_ObjectHideFlags: 1
