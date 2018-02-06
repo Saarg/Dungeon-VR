@@ -50,12 +50,24 @@ public abstract class DungeonTrap : MonoBehaviour {
 	}
 
 	protected virtual void Update(){
-		if (Input.GetKeyDown ("1") && !this.isBuilt) StartCoroutine ("Building");
-		if (Input.GetKeyDown ("2") && this.isBuilt && !this.isActive) StartCoroutine ("Activation");
-		if (Input.GetKeyDown ("3") && this.isBuilt && this.isActive && this.isDesactivable) StartCoroutine ("Desactivation");
-		if (Input.GetKeyDown ("4")) Damage(10);
+//		if (Input.GetKeyDown ("1")) Build();
+//		if (Input.GetKeyDown ("2")) Activate();
+//		if (Input.GetKeyDown ("3")) Desactivate();
+//		if (Input.GetKeyDown ("4")) TakeDamage(10);
 
 		lastActivation += Time.deltaTime;
+	}
+
+	public void Build(){
+		if (!this.isBuilt) StartCoroutine ("Building");
+	}
+
+	public void Activate(){
+		if(this.isBuilt && !this.isActive) StartCoroutine ("Activation");
+	}
+
+	public void Desactivate(){
+		if(this.isBuilt && this.isActive && this.isDesactivable) StartCoroutine ("Desactivation");
 	}
 
 	IEnumerator Building(){
@@ -90,7 +102,7 @@ public abstract class DungeonTrap : MonoBehaviour {
 		activationBar.CurrentValue = 0;
 	}
 
-	public void Damage(float damage){
+	public void TakeDamage(float damage){
 		healthBar.gameObject.SetActive (true);
 		health -= damage;
 		healthBar.Progress (damage * -1);
@@ -119,7 +131,7 @@ public abstract class DungeonTrap : MonoBehaviour {
 
 	public virtual void OnDamageAreaTriggerEnter(Collider _col){
 		if (this.isDestroyable && _col.gameObject.GetComponent<Bullet> ()) {
-			this.Damage (_col.gameObject.GetComponent<Bullet> ().Damage);
+			this.TakeDamage (_col.gameObject.GetComponent<Bullet> ().Damage);
 		}
 	}
 
