@@ -40,6 +40,9 @@ public class Bullet : NetworkBehaviour {
     bool destroyOnHit;
 
     [SerializeField]
+    bool explodeOnHit;
+
+    [SerializeField]
     bool continuousDamage;
 
     [SerializeField]
@@ -95,18 +98,39 @@ public class Bullet : NetworkBehaviour {
     /// </summary>
     private void OnTriggerEnter(Collider col)
     {
+
         if (col.gameObject.tag == OwnerTag)
             return;
 
         if (continuousDamage)
             return;
 
-        var comp = col.gameObject.GetComponent<Living>();
-        if (comp != null)
-            comp.TakeDamage(Damage, DamageType);
+        if (explodeOnHit)
+            Explode();
+        else
+        {
+            var comp = col.gameObject.GetComponent<Living>();
+            if (comp != null)
+                comp.TakeDamage(Damage, DamageType);
 
-        if (destroyOnHit)
-            Destroy(gameObject);
+            if (destroyOnHit)
+                Destroy(gameObject);
+        }
+    }
+
+    private void Explode()
+    {
+        var hits = Physics.OverlapSphere(transform.position, 3f);
+        foreach (var hit in hits)
+        {
+            if (hit.gameObject.tag == OwnerTag)
+                continue;
+
+            var comp = hit.gameObject.GetComponent<Living>();
+            if (comp != null)
+                comp.TakeDamage(Damage, DamageType);
+        }
+        Destroy(gameObject);
     }
 
     private void DamageTick()
