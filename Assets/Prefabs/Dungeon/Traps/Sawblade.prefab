@@ -327,6 +327,7 @@ GameObject:
   - component: {fileID: 114483238780155220}
   - component: {fileID: 114529274660043428}
   - component: {fileID: 114436968005512766}
+  - component: {fileID: 64352024279410714}
   m_Layer: 0
   m_Name: DTP_FloorTraps_SawbladeSlit_Sawblade_Mesh
   m_TagString: Trap
@@ -382,7 +383,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1981552004055192}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.85, y: 0.04, z: 4.29}
+  m_LocalPosition: {x: -7.85, y: 0.05, z: 4.29}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4703201412381742}
@@ -524,6 +525,20 @@ MeshCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Convex: 1
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300000, guid: 510be8adcc23f9a4d97c31bae6e13d39, type: 3}
+--- !u!64 &64352024279410714
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1928898483145376}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: 510be8adcc23f9a4d97c31bae6e13d39, type: 3}
@@ -1455,6 +1470,7 @@ MonoBehaviour:
   isDestroyedAfterUse: 0
   health: 30
   maxHealth: 30
+  damage: 0
   buildingTime: 1.5
   activationTime: 1
   desactivationTime: 1
@@ -1464,8 +1480,6 @@ MonoBehaviour:
   buildingBar: {fileID: 114829726798776698}
   activationBar: {fileID: 114935119781212122}
   desactivationBar: {fileID: 114158833821932330}
-  damage: 0
-  target: {fileID: 0}
 --- !u!114 &114757348122029630
 MonoBehaviour:
   m_ObjectHideFlags: 1
