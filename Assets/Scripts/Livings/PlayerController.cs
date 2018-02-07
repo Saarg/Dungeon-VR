@@ -3,8 +3,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(Animator))]
-
 /// <summary>  
 /// 	Player controller
 /// </summary>
@@ -29,9 +27,8 @@ public class PlayerController : Living
     public GameUI gameUI;
 
     [Header("Weapon")]
-    public GameObject defaultWeapon;
     public Transform weaponGrip;
-    public PlayerClassEnum playerClassID;
+    [SyncVar] public PlayerClassEnum playerClassID;
     public Weapon weapon;
     [SyncVar] public GameObject WeaponObject;
     float lastShotTime = 0;
@@ -40,26 +37,12 @@ public class PlayerController : Living
     Bullet persistentBullet;
     float lastManaDrain;
 
-
     [Header("Mana")]
     float manaFillRate = 0.2f;
     float lastManaFill = 0;
 
     public int MaxMana { get { return (int)maxMana; } }
     public int CurrentMana { get { return (int)curMana; } }
-
-    [Header("Movement")]   
-    private float turnSpeed = 50;     
-
-    [SerializeField]
-    [Range(1.0f, 3.0f)]
-    private float RunFactor = 2;
-    
-    [Header("Jump")]
-    [SerializeField]
-    [Range(1.0f, 3.0f)] 
-    private float JumpFactor = 2;
-    public bool isGrounded;
 
     [Header("NetworkData")]
     [SyncVar]
@@ -72,10 +55,6 @@ public class PlayerController : Living
     [SerializeField]
     GameObject[] classPrefab;
 
-    private void Awake()
-    {
-        ApplyTexture();
-    }
     /// <summary>  
     /// 	Fetch animator
     ///		Destroy camera if not localplayer
@@ -90,8 +69,7 @@ public class PlayerController : Living
             gameUI.enabled = true;
         }
 
-        _animator = GetComponent<Animator>();
-        _netAnimator = GetComponent<NetworkAnimator>();
+        
         rigidBody = GetComponent<Rigidbody>();
         
         if (!isLocalPlayer)
@@ -104,15 +82,19 @@ public class PlayerController : Living
         CmdApplyMoveStatus(MoveStatus.Free);
     }
 
-    public override void OnStartServer() {
-        // if no weapon spawn default 
-        if (WeaponObject == null) {
-            GameObject w = Instantiate(defaultWeapon, weaponGrip);
-            Destroy(w.GetComponent<DroppedWeapon>());
+    public override void OnStartClient() { 
+        if (currentClassObject != null) {
+            _animator = currentClassObject.GetComponent<Animator>();
+            _netAnimator = currentClassObject.GetComponent<NetworkAnimator>();
 
-            NetworkServer.Spawn(w);
+            PlayerClassDesignation cd = currentClassObject.GetComponent<PlayerClassDesignation>();
+        
+            cd.transform.SetParent(transform);
 
-            WeaponObject = w;
+            weaponGrip = cd.weaponGrip;
+
+            WeaponObject.transform.SetParent(weaponGrip);
+            weapon = WeaponObject.GetComponent<Weapon>();
         }
     }
 
@@ -122,10 +104,6 @@ public class PlayerController : Living
     /// </summary>
     void Update()
     {
-        if (isLocalPlayer && WeaponObject != null && weapon == null) {
-            CmdPickupWeapon(WeaponObject.GetComponent<NetworkIdentity>().netId);            
-        }
-
         if (isLocalPlayer)
         {
             UpdateJump();
@@ -196,11 +174,11 @@ public class PlayerController : Living
                 _netAnimator.SetTrigger("Jump");
                 if (lowJump)
                 {
-                    rigidBody.AddForce(Vector3.up * JumpSpeed / JumpFactor, ForceMode.VelocityChange);
+                    rigidBody.AddForce(Vector3.up * jumpHeight / jumpFactor, ForceMode.VelocityChange);
                 }
                 else
                 {
-                    rigidBody.AddForce(Vector3.up * JumpSpeed, ForceMode.VelocityChange);
+                    rigidBody.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
                 }
             }
         }
@@ -252,7 +230,7 @@ public class PlayerController : Living
                     {
                         rigidBody.AddForce(dir, ForceMode.VelocityChange);                 
                     }
-                    else if (rigidBody.velocity.magnitude < speed / RunFactor)
+                    else if (rigidBody.velocity.magnitude < speed / runFactor)
                     {
                         rigidBody.AddForce(dir, ForceMode.VelocityChange);                                         
                     }
@@ -260,12 +238,14 @@ public class PlayerController : Living
             }
             
             rigidBody.velocity = new Vector3(rigidBody.velocity.x * 0.9f, rigidBody.velocity.y, rigidBody.velocity.z * 0.9f);
-        }
 
-        Vector3 locVel = transform.InverseTransformDirection(rigidBody.velocity);
+            Vector3 locVel = transform.InverseTransformDirection(rigidBody.velocity);
 
-        _animator.SetFloat("SpeedZ", locVel.z);
-        _animator.SetFloat("SpeedX", locVel.x);        
+            if (_animator != null) {
+                _animator.SetFloat("SpeedZ", locVel.z);
+                _animator.SetFloat("SpeedX", locVel.x);
+            }  
+        }  
     }
 
     public bool HasTarget()
@@ -395,7 +375,9 @@ public class PlayerController : Living
         if (coll.collider.tag.Equals("Ground"))
         {
             isGrounded = true;
-            _animator.ResetTrigger("Jump");
+
+            if (_animator != null)
+                _animator.ResetTrigger("Jump");
         }
     }
 
@@ -432,7 +414,7 @@ public class PlayerController : Living
             return;
         }
 
-        if (WeaponObject != null && weapon == null) {
+        if (WeaponObject != null) {
             GameObject dropWeapon = WeaponObject;
             dropWeapon.transform.SetParent(null);
             dropWeapon.transform.localPosition = new Vector3(dropWeapon.transform.localPosition.x,0,dropWeapon.transform.localPosition.z);
@@ -484,35 +466,57 @@ public class PlayerController : Living
         playerId = id;
     }
 
+    [SyncVar] GameObject currentClassObject;
     [Command]
     public void CmdUpdatePlayerClass(int id) {
-        RpcUpdatePlayerClass(id);
+        if (currentClassObject != null) {
+            NetworkServer.Destroy(currentClassObject);
+        }
+
+        GameObject go = Instantiate(classPrefab[(int)id], transform);
+
+        _animator = go.GetComponent<Animator>();
+        _netAnimator = go.GetComponent<NetworkAnimator>();
+
+        PlayerClassDesignation cd = go.GetComponent<PlayerClassDesignation>();
+
+        maxLife = cd.maxLife;
+        maxMana = cd.maxMana;
+
+        speed = cd.speed;
+        jumpHeight = cd.jumpHeight;
+
+        fire = cd.fire;
+        ice = cd.ice;
+        lightning = cd.lightning;
+        poison = cd.poison;
+        physical = cd.physical;
+
+        weaponGrip = cd.weaponGrip;
+
+        NetworkServer.Spawn(go);
+        currentClassObject = go;
+
+        GameObject w = Instantiate(cd.defaultWeapon, weaponGrip);
+        Destroy(w.GetComponent<DroppedWeapon>());
+
+        NetworkServer.Spawn(w);
+
+        RpcClassUpdated(cd.netId, w.GetComponent<NetworkIdentity>().netId);
     }
 
     [ClientRpc]
-    public void RpcUpdatePlayerClass(int id) {
-        playerClassID = (PlayerClassEnum) id;
-    }
+    private void RpcClassUpdated(NetworkInstanceId classModelId, NetworkInstanceId weaponNetId){
+        PlayerClassDesignation cd = ClientScene.FindLocalObject(classModelId).GetComponent<PlayerClassDesignation>();
+        
+        cd.transform.SetParent(transform);
 
-    void ApplyTexture()
-    {
-        switch (playerClassID)
-        {
-            case PlayerClassEnum.Healer:
-               //Instantiate(Healer, transform);
-                break;
-            case PlayerClassEnum.Tank:
-                //Instantiate(Tank, transform);
-                break;
-            case PlayerClassEnum.Sorcerer:
-                // Instantiate(Mage,transform);
-                break;
-            case PlayerClassEnum.Assassin:
-                //Instantiate(Assassin, transform);
-                break;
-            default:
+        _animator = cd.GetComponent<Animator>();
+        _netAnimator = cd.GetComponent<NetworkAnimator>();
 
-                break;
-        }
+        weaponGrip = cd.weaponGrip;
+
+        if (weaponNetId != null)
+            CmdPickupWeapon(weaponNetId);
     }
 }

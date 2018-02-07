@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class PlayerClassDesignation : MonoBehaviour {
+public class PlayerClassDesignation : NetworkBehaviour {
 
-    public GameObject Weapongrip;
-    public GameObject DefaultWeapon;
+    public Transform weaponGrip;
+    public GameObject defaultWeapon;
 
     [Header("Life")]
     public float maxLife = 100;
@@ -16,7 +16,12 @@ public class PlayerClassDesignation : MonoBehaviour {
 
     [Header("Movement")]
     public float speed = 6f;
-    public float JumpSpeed = 6f;
+    public float jumpHeight = 6f;
+
+    [SerializeField]
+    [Range(1.0f, 3.0f)] 
+    private float jumpFactor = 2;
+    public bool isGrounded;
 
     [Header("Weakness/Strength")]
     [Range(0f, 2f)]

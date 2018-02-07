@@ -9,14 +9,23 @@ namespace Lobby {
     public class LobbyPlayerTransition: NetworkBehaviour {
 
         public override void OnStartLocalPlayer() {
-            if (PlayerUI.localPlayer == null)
+            if (PlayerUI.localPlayer == null) {
+                PlayerController pc = GetComponent<PlayerController>();
+
+                pc.playerId = 1;
+                pc.CmdUpdatePlayerClass(0);
+
+                transform.position = new Vector3(0, 0, 0);
+
                 Destroy(this);
+                return;
+            }
 
             if (PlayerUI.localPlayer.curPlayer > 0) {
                 PlayerController pc = GetComponent<PlayerController>();
 
                 pc.playerId = PlayerUI.localPlayer.curPlayer;
-                pc.playerClassID = (PlayerController.PlayerClassEnum) PlayerUI.localPlayer.curClass;
+                pc.CmdUpdatePlayerClass(PlayerUI.localPlayer.curClass);
 
                 transform.position = new Vector3(-30, 50, -9 + 3 * PlayerUI.localPlayer.curPlayer);
 

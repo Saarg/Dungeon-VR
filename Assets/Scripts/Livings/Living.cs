@@ -14,20 +14,29 @@ public enum MoveStatus {Free, Ralenti, Casting, Immobilisé };
 public class Living : NetworkBehaviour {
 
 	[Header("Life")]
-	public float maxLife = 100;
+	[SyncVar] public float maxLife = 100;
 
     [SyncVar(hook="UpdateLife")]
 	public float curLife = 100f;
 
     [Header("Mana")]
-    public float maxMana = 100;
+    [SyncVar] public float maxMana = 100;
 
     [SyncVar(hook = "UpdateMana")]
     public float curMana = 100f;
 
     [Header("Movement")]	
-	public float speed = 1f;
-    public float JumpSpeed = 1.0f;
+	[SyncVar] public float speed = 1f;
+    [Header("Movement")]   
+    [SyncVar] protected float turnSpeed = 50;     
+
+    [SerializeField]
+    [Range(1.0f, 3.0f)]
+    [SyncVar] protected float runFactor = 2;
+
+    [SyncVar] public float jumpHeight = 1.0f;
+    [SyncVar] public float jumpFactor = 2.0f;
+    protected bool isGrounded;
 
     [Header("Etat movement")]
     public MoveStatus moveStatus;
