@@ -71,16 +71,8 @@ public class PlayerController : Living
     float offsetValue;
     Vector3 offset;
 
-
-    /* public Transform Healer;
-     public Transform Assassin;
-     public Transform Tank;
-     public Transform Mage;*/
-
-    public UnityEngine.Object Assassin;
-    public UnityEngine.Object Healer;
-    public UnityEngine.Object Mage;
-    public UnityEngine.Object Tank;
+    [SerializeField]
+    GameObject[] classPrefab;
 
     private void Awake()
     {
