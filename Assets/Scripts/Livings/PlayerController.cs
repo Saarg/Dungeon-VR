@@ -10,8 +10,8 @@ public class PlayerController : Living
 {
     const float RAY_LENGTH = 20f;
 
-    private Animator _animator;
-    private NetworkAnimator _netAnimator;
+    public Animator _animator;
+    public NetworkAnimator _netAnimator;
     private Rigidbody rigidBody;
 
     public Transform cam;
@@ -90,10 +90,14 @@ public class PlayerController : Living
             PlayerClassDesignation cd = currentClassObject.GetComponent<PlayerClassDesignation>();
         
             cd.transform.SetParent(transform);
+            cd.transform.localPosition = Vector3.zero;
+            cd.transform.localRotation = Quaternion.identity;
 
             weaponGrip = cd.weaponGrip;
 
             WeaponObject.transform.SetParent(weaponGrip);
+            WeaponObject.transform.localPosition = Vector3.zero;
+            WeaponObject.transform.localRotation = Quaternion.identity;
             weapon = WeaponObject.GetComponent<Weapon>();
         }
     }
@@ -111,6 +115,15 @@ public class PlayerController : Living
             CheckForWeapon();
             UpdateTarget();
             UpdateFire();
+
+            Vector3 locVel = transform.InverseTransformDirection(rigidBody.velocity);
+
+            if (_animator != null) {
+                _animator.SetFloat("SpeedZ", locVel.z);
+                _animator.SetFloat("SpeedX", locVel.x);
+            }  
+        } else if (rigidBody != null) {
+            Destroy(rigidBody);
         }
     }
 
@@ -238,13 +251,6 @@ public class PlayerController : Living
             }
             
             rigidBody.velocity = new Vector3(rigidBody.velocity.x * 0.9f, rigidBody.velocity.y, rigidBody.velocity.z * 0.9f);
-
-            Vector3 locVel = transform.InverseTransformDirection(rigidBody.velocity);
-
-            if (_animator != null) {
-                _animator.SetFloat("SpeedZ", locVel.z);
-                _animator.SetFloat("SpeedX", locVel.x);
-            }  
         }  
     }
 
@@ -376,7 +382,7 @@ public class PlayerController : Living
         {
             isGrounded = true;
 
-            if (_animator != null)
+            if (_animator != null && isLocalPlayer)
                 _animator.ResetTrigger("Jump");
         }
     }
@@ -494,13 +500,13 @@ public class PlayerController : Living
 
         weaponGrip = cd.weaponGrip;
 
-        NetworkServer.Spawn(go);
+        NetworkServer.SpawnWithClientAuthority(go, gameObject);
         currentClassObject = go;
 
         GameObject w = Instantiate(cd.defaultWeapon, weaponGrip);
         Destroy(w.GetComponent<DroppedWeapon>());
 
-        NetworkServer.Spawn(w);
+        NetworkServer.SpawnWithClientAuthority(w, gameObject);
 
         RpcClassUpdated(cd.netId, w.GetComponent<NetworkIdentity>().netId);
     }
@@ -510,13 +516,15 @@ public class PlayerController : Living
         PlayerClassDesignation cd = ClientScene.FindLocalObject(classModelId).GetComponent<PlayerClassDesignation>();
         
         cd.transform.SetParent(transform);
+        cd.transform.localPosition = Vector3.zero;
+        cd.transform.localRotation = Quaternion.identity;
 
         _animator = cd.GetComponent<Animator>();
         _netAnimator = cd.GetComponent<NetworkAnimator>();
 
         weaponGrip = cd.weaponGrip;
 
-        if (weaponNetId != null)
+        if (weaponNetId != null && isLocalPlayer)
             CmdPickupWeapon(weaponNetId);
     }
 }

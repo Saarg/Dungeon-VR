@@ -2525,9 +2525,14 @@ MonoBehaviour:
   weaponType: 0
   AllowedClass: 
   bullet: {fileID: 1792118448359034, guid: eda447bcd5ce648d3a3135b0bbcd48f7, type: 2}
+  shootingOffset: 0
+  spreadBullet: 0
+  spreadAngle: 0
+  numberOfBullet: 0
   firingInterval: 0.1
   manaCost: 10
   useMana: 1
+  drainMana: 0
   spellOrigin: {fileID: 0}
 --- !u!114 &114072157341576462
 MonoBehaviour:
@@ -3120,7 +3125,7 @@ MonoBehaviour:
     i14: 138
     i15: 48
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114543872034357436
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3238,7 +3243,9 @@ MonoBehaviour:
   maxMana: 100
   curMana: 100
   speed: 6
-  JumpSpeed: 1
+  runFactor: 2
+  jumpHeight: 1
+  jumpFactor: 2
   moveStatus: 0
   canRun: 1
   canJump: 1
@@ -3248,6 +3255,9 @@ MonoBehaviour:
   ice: 1
   lightning: 1
   poison: 1
+  physical: 1
+  _animator: {fileID: 0}
+  _netAnimator: {fileID: 0}
   cam: {fileID: 0}
   gameUI: {fileID: 0}
   weaponGrip: {fileID: 4224354130748972}
@@ -3255,11 +3265,8 @@ MonoBehaviour:
   weapon: {fileID: 114064954143847534}
   WeaponObject: {fileID: 1932844154484176}
   weaponDetectionRange: {x: 2, y: 2, z: 2}
-  RunFactor: 2
-  JumpFactor: 2
-  isGrounded: 0
   playerId: 0
-  playerClass: 3
+  classPrefab: []
 --- !u!114 &114629334338391074
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3678,9 +3685,14 @@ MonoBehaviour:
   weaponType: 1
   AllowedClass: 03000000010000000200000000000000
   bullet: {fileID: 1516226059751338, guid: 2c3fefb97a2e1c148b072a62c4cdc0a8, type: 2}
+  shootingOffset: 0
+  spreadBullet: 0
+  spreadAngle: 0
+  numberOfBullet: 0
   firingInterval: 0.5
   manaCost: 10
   useMana: 1
+  drainMana: 0
   spellOrigin: {fileID: 4919230200581938}
 --- !u!114 &114996726355161494
 MonoBehaviour:

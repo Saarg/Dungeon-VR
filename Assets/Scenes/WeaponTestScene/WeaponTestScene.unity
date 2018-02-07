@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -749,13 +749,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLife: 10
   curLife: 10
+  maxMana: 100
+  curMana: 100
   speed: 1
-  canJump: 0
+  runFactor: 2
+  jumpHeight: 1
+  jumpFactor: 2
   moveStatus: 3
+  canRun: 1
+  canJump: 0
+  canMove: 0
+  lowJump: 0
   fire: 0.5
   ice: 2
   lightning: 0.25
   poison: 0
+  physical: 1
 --- !u!114 &1568325146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1006,13 +1015,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLife: 10
   curLife: 10
+  maxMana: 100
+  curMana: 100
   speed: 1
-  canJump: 0
+  runFactor: 2
+  jumpHeight: 1
+  jumpFactor: 2
   moveStatus: 3
+  canRun: 1
+  canJump: 0
+  canMove: 0
+  lowJump: 0
   fire: 0
   ice: 2
   lightning: 1
   poison: 0
+  physical: 1
 --- !u!114 &1834152853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1363,13 +1381,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLife: 10
   curLife: 10
+  maxMana: 100
+  curMana: 100
   speed: 1
-  canJump: 0
+  runFactor: 2
+  jumpHeight: 1
+  jumpFactor: 2
   moveStatus: 3
+  canRun: 1
+  canJump: 0
+  canMove: 0
+  lowJump: 0
   fire: 2
   ice: 0.5
   lightning: 2
   poison: 0
+  physical: 1
 --- !u!114 &1977804835
 MonoBehaviour:
   m_ObjectHideFlags: 0

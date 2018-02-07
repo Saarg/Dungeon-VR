@@ -9,7 +9,7 @@ namespace Lobby {
     public class LobbyPlayerTransition: NetworkBehaviour {
 
         public override void OnStartLocalPlayer() {
-            if (PlayerUI.localPlayer == null) {
+            if (PlayerUI.localPlayer == null && !PlayerUI.gameMaster) {
                 PlayerController pc = GetComponent<PlayerController>();
 
                 pc.playerId = 1;
