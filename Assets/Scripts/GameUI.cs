@@ -61,7 +61,7 @@ public class GameUI : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+		Cursor.lockState = CursorLockMode.Locked;
 	}
 	
 	// Update is called once per frame
@@ -73,6 +73,15 @@ public class GameUI : MonoBehaviour {
         if(player.HasTarget())
             targetBar.fillAmount = (float)player.TargetCurLife() / (float)player.TargetMaxLife();
 	}
+
+    /// <summary>
+    /// Callback sent to all game objects when the player gets or loses focus.
+    /// </summary>
+    /// <param name="focusStatus">The focus state of the application.</param>
+    void OnApplicationFocus(bool focusStatus)
+    {
+        Cursor.lockState = focusStatus ? CursorLockMode.Locked : CursorLockMode.None;
+    }
 
     public void SetPlayerController(PlayerController playerController)
     {
