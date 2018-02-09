@@ -6,7 +6,7 @@ public class DisparitionSpell : TargetSpell {
 
 	void Start(){}
 
-	protected override void Effects (GameObject caster){
+	protected override void Effects (GameObject caster, GameObject target){
 		//TODO
 		//make the character model deseapear
 	}
