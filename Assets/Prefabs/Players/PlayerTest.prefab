@@ -1545,7 +1545,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1038169052092530}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -13.784668, y: -6.4276152e-18, z: 2.8947403}
+  m_LocalPosition: {x: -3.8876214, y: 2.4208336e-18, z: -1.0902466}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4851141419093170}
@@ -3109,9 +3109,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ac4f47a5ee861409602d70581b0b89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaCost: 0
-  castingTime: 0
-  wallPrefab: {fileID: 1000332402429566, guid: 1baa1fb95bf0a694c80b1f08b125f014, type: 2}
+  lastActivation: 0
+  manaCost: 10
+  range: 5
+  caster: {fileID: 114621865126034964}
+  castingTime: 1
+  cooldown: 10
+  castingBar: {fileID: 114945859423824284}
+  wallPrefab: {fileID: 1776676113195886, guid: 1baa1fb95bf0a694c80b1f08b125f014, type: 2}
+  spawningPoint: {fileID: 0}
 --- !u!114 &114621865126034964
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3134,6 +3140,7 @@ MonoBehaviour:
   canJump: 1
   canMove: 0
   lowJump: 0
+  isCasting: 0
   fire: 1
   ice: 1
   lightning: 1
@@ -3153,9 +3160,6 @@ MonoBehaviour:
   isGrounded: 0
   playerId: 0
   playerClass: 0
-  isCasting: 0
-  castingBar: {fileID: 114945859423824284}
-  wallspell: {fileID: 114621202081441688}
 --- !u!114 &114629334338391074
 MonoBehaviour:
   m_ObjectHideFlags: 1

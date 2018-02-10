@@ -31,8 +31,6 @@ public class Wall : MonoBehaviour {
 
 		if (lifetime <= 0 || health <= 0)
 			DestroyWall ();
-
-		if (Input.GetKeyDown ("1")) { TakeDamage (10); }
 	}
 
 	private void DecreaseLifetime(){
@@ -41,7 +39,6 @@ public class Wall : MonoBehaviour {
 	}
 
 	public void TakeDamage(float damages){
-		healthBar.gameObject.SetActive (true);
 		health -= damages;
 		healthBar.Progress (damages * -1);
 	}
@@ -51,7 +48,7 @@ public class Wall : MonoBehaviour {
 		GameObject.DestroyObject(this.gameObject);
 	}
 
-	void OnTriggerEnter(Collider _col){
+	public void OnTriggerEnter(Collider _col){
 		if (_col.gameObject.GetComponent<Bullet> ()) {
 			GameObject.DestroyObject (_col.gameObject);
 			TakeDamage (_col.gameObject.GetComponent<Bullet> ().Damage);

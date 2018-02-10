@@ -36,6 +36,9 @@ public class Living : NetworkBehaviour {
     public bool canMove = false;
     public bool lowJump = false;
 
+	[Header ("Spells")]
+	public bool isCasting = false;
+
     [Header("Weakness/Strength")]
 	[Range(0f, 2f)]
 	public float fire = 1f;

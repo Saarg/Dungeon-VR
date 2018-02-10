@@ -61,11 +61,6 @@ public class PlayerController : Living
     [SyncVar(hook="UpdateClass")]    
     public int playerClass;
 
-	[Header("Spells")]
-	public bool isCasting;
-	public ProgressBar castingBar;
-	public WallSpell wallspell;
-
     GameObject target = null;
 
     /// <summary>  
@@ -85,9 +80,7 @@ public class PlayerController : Living
         _animator = GetComponent<Animator>();
         _netAnimator = GetComponent<NetworkAnimator>();
         rigidBody = GetComponent<Rigidbody>();
-		wallspell = GetComponent<WallSpell> ();
 
-		isCasting = false;
        
         if (!isLocalPlayer)
         {
@@ -139,8 +132,6 @@ public class PlayerController : Living
                     Fire();
             }
         }
-
-		if(Input.GetKeyDown("1")) Cast (wallspell);
 	}
 
     /// <summary> 
@@ -436,31 +427,5 @@ public class PlayerController : Living
         playerClassID = (PlayerClassEnum)(Mathf.Clamp(playerClass-1, 0, 3));
     }
 
-	public void Cast(Spell spell){
-		if (!isCasting && curMana >= spell.manaCost && spell.IsReady()) {
-			castingBar.MinValue = 0;
-			castingBar.MaxValue = spell.castingTime;
-			castingBar.StartValue = 0;
-			castingBar.CurrentValue = 0;
 
-			isCasting = true;
-
-			StartCoroutine (Casting (spell));
-		} else {
-			Debug.Log ("spell cannot be cast");
-		}
-
-	}
-
-	protected IEnumerator Casting(Spell spell){
-		castingBar.gameObject.SetActive (true);
-		//TODO add animation
-		//TODO add sound
-		while(!castingBar.Complete){
-			castingBar.Progress (Time.deltaTime);
-			yield return 0;
-		}
-		spell.ApplyEffect (this.gameObject);
-		castingBar.gameObject.SetActive (false);
-	}	
 }
