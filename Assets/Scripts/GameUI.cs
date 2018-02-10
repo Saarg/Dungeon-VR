@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class GameUI : MonoBehaviour {
 
@@ -57,6 +58,15 @@ public class GameUI : MonoBehaviour {
     [SerializeField]
     Text manaCostModifier;
 
+    [SerializeField]
+    Image baseWeaponImage;
+
+    [SerializeField]
+    Image shortRangeWeaponImage;
+
+    [SerializeField]
+    Image longRangeWeaponImage;
+
     Weapon lastShownWeapon = null;
 	
 	// Update is called once per frame
@@ -72,6 +82,30 @@ public class GameUI : MonoBehaviour {
     public void SetPlayerController(PlayerController playerController)
     {
         player = playerController;
+    }
+
+    public void SetWeaponImages(Dictionary<Weapon.WeaponTypeEnum, GameObject> weapons)
+    {
+        if (weapons[Weapon.WeaponTypeEnum.Base] == null)
+            baseWeaponImage.color = Color.gray;
+        else if (player.inventory.CurrentWeapon == Weapon.WeaponTypeEnum.Base)
+            baseWeaponImage.color = Color.green;
+        else
+            baseWeaponImage.color = Color.red;
+
+        if (weapons[Weapon.WeaponTypeEnum.ShortRange] == null)
+            shortRangeWeaponImage.color = Color.gray;
+        else if (player.inventory.CurrentWeapon == Weapon.WeaponTypeEnum.ShortRange)
+            shortRangeWeaponImage.color = Color.green;
+        else
+            shortRangeWeaponImage.color = Color.red;
+
+        if (weapons[Weapon.WeaponTypeEnum.LongRange] == null)
+            longRangeWeaponImage.color = Color.gray;
+        else if (player.inventory.CurrentWeapon == Weapon.WeaponTypeEnum.LongRange)
+            longRangeWeaponImage.color = Color.green;
+        else
+            longRangeWeaponImage.color = Color.red;
     }
 
     public void HideWeaponStats()
@@ -113,15 +147,21 @@ public class GameUI : MonoBehaviour {
             fireRate.text = weapon.FiringInterval.ToString() + " Sec";
             manaCost.text = weapon.ManaCost.ToString();
 
-            if (player.weapon != null && player.weapon.Bullet.GetComponent<Bullet>().Damage > bullet.Damage)
+            Weapon inventoryWeapon = player.GetWeapon(weapon.WeaponType);
+
+            damageModifier.text = string.Empty;
+            fireRateModifier.text = string.Empty;
+            manaCostModifier.text = string.Empty;
+
+            if (inventoryWeapon != null && inventoryWeapon.Bullet.GetComponent<Bullet>().Damage > bullet.Damage)
                 damageModifier.color = Color.red;
-            else if (player.weapon != null && player.weapon.Bullet.GetComponent<Bullet>().Damage == bullet.Damage)
+            else if (inventoryWeapon != null && inventoryWeapon.Bullet.GetComponent<Bullet>().Damage == bullet.Damage)
                 damageModifier.color = Color.black;
             else
                 damageModifier.color = Color.green;
 
-            if (player.weapon != null) {
-                int damageDifference = player.weapon.Bullet.GetComponent<Bullet>().Damage - bullet.Damage;
+            if (inventoryWeapon != null) {
+                int damageDifference = inventoryWeapon.Bullet.GetComponent<Bullet>().Damage - bullet.Damage;
                 if (damageDifference > 0)
                     damageModifier.text = string.Format("(-{0})", damageDifference);
                 else
@@ -130,15 +170,15 @@ public class GameUI : MonoBehaviour {
                 damageModifier.text = "";
             }
 
-            if (player.weapon != null && player.weapon.FiringInterval > weapon.FiringInterval)
+            if (inventoryWeapon != null && inventoryWeapon.FiringInterval > weapon.FiringInterval)
                 fireRateModifier.color = Color.green;
-            else if (player.weapon != null && player.weapon.FiringInterval == weapon.FiringInterval)
+            else if (inventoryWeapon != null && inventoryWeapon.FiringInterval == weapon.FiringInterval)
                 fireRateModifier.color = Color.black;
             else
                 fireRateModifier.color = Color.red;
 
-            if (player.weapon != null) {            
-                float fireRateDifference = player.weapon.FiringInterval - weapon.FiringInterval;
+            if (inventoryWeapon != null) {            
+                float fireRateDifference = inventoryWeapon.FiringInterval - weapon.FiringInterval;
                 if (fireRateDifference < 0)
                     fireRateModifier.text = string.Format("(+{0})", Mathf.Abs(fireRateDifference));
                 else
@@ -147,15 +187,15 @@ public class GameUI : MonoBehaviour {
                 manaCostModifier.text = "";
             }
 
-            if (player.weapon != null && player.weapon.ManaCost > weapon.ManaCost)
+            if (inventoryWeapon != null && inventoryWeapon.ManaCost > weapon.ManaCost)
                 manaCostModifier.color = Color.green;
-            else if (player.weapon != null && player.weapon.ManaCost == weapon.ManaCost)
+            else if (inventoryWeapon != null && inventoryWeapon.ManaCost == weapon.ManaCost)
                 manaCostModifier.color = Color.black;
             else
                 manaCostModifier.color = Color.red;
 
-            if (player.weapon != null) {
-                int manaCostDifference = player.weapon.ManaCost - weapon.ManaCost;
+            if (inventoryWeapon != null) {
+                int manaCostDifference = inventoryWeapon.ManaCost - weapon.ManaCost;
                 if (manaCostDifference > 0)
                     manaCostModifier.text = string.Format("(-{0})", manaCostDifference);
                 else
