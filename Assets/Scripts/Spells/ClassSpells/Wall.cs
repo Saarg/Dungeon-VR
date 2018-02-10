@@ -11,6 +11,11 @@ public class Wall : MonoBehaviour {
 
 	[SerializeField] private ProgressBar healthBar;
 	[SerializeField] private ProgressBar lifetimeBar;
+	[SerializeField] private float spawningTime;
+
+	private float height = 2.5f;
+	private bool isBuilt = false;
+	private bool isDestroying = false;
 
 	void Start(){
 		healthBar.MaxValue = maxHealth;
@@ -24,13 +29,16 @@ public class Wall : MonoBehaviour {
 		lifetime = maxLifetime;
 
 		lifetimeBar.gameObject.SetActive (true);
+
+		CreateWall ();
 	}
-
+		
 	void Update () {
-		DecreaseLifetime ();
+		if(isBuilt)
+			DecreaseLifetime ();
 
-		if (lifetime <= 0 || health <= 0)
-			DestroyWall ();
+		if ((lifetime <= 0 || health <= 0) && !isDestroying)
+			StartCoroutine ("Destroying");
 	}
 
 	private void DecreaseLifetime(){
@@ -43,8 +51,33 @@ public class Wall : MonoBehaviour {
 		healthBar.Progress (damages * -1);
 	}
 
-	protected void DestroyWall(){
-		//TODO make the wall disapear smoohthly
+	private void CreateWall(){
+		transform.position = new Vector3 (transform.position.x, transform.position.y - height, transform.position.z);
+
+		StartCoroutine ("Creating");
+	}
+
+	protected IEnumerator Creating(){
+		float t = 0;
+		while (t < spawningTime) {
+			transform.position = new Vector3 (transform.position.x, transform.position.y + height*Time.deltaTime, transform.position.z);
+			t += Time.deltaTime;
+			yield return 0;
+		}
+
+		isBuilt = true;
+	}
+
+	protected IEnumerator Destroying(){
+		isDestroying = true;
+
+		float t = 0;
+		while (t < spawningTime) {
+			transform.position = new Vector3 (transform.position.x, transform.position.y - height*Time.deltaTime, transform.position.z);
+			t += Time.deltaTime;
+			yield return 0;
+		}
+
 		GameObject.DestroyObject(this.gameObject);
 	}
 
