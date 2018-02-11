@@ -188,6 +188,11 @@ public class PlayerController : Living
                 _netAnimator.SetTrigger("Jump");
                 if (isServer)
                     _animator.ResetTrigger("Jump");
+
+                // If not moving jump is in place, just play the anim
+                if (rigidBody.velocity.sqrMagnitude < 0.5) {
+                    return;
+                }
                 
                 if (lowJump)
                 {
