@@ -124,7 +124,7 @@ public abstract class DungeonTrap : MonoBehaviour {
 	}
 
 	public virtual void OnHurtingAreaTriggerEnter(Collider _col){
-		if (this.isActive && _col.gameObject.CompareTag ("Player")) {
+		if (this.isActive && _col.CompareTag ("Player")) {
 			_col.gameObject.GetComponent<PlayerController>().TakeDamage(this.damage, Bullet.DamageTypeEnum.physical);
 		}
 	}

@@ -76,6 +76,11 @@ public class Living : NetworkBehaviour {
         }
     }
 
+    [Command]
+    void CmdUpdateLife(float life) {
+        UpdateLife(life);
+    }
+
 	/// <summary>  
 	/// 	curLife hook, sends death event if life goes to 0 and clamps the life between 0 and maxlife
 	/// </summary>
@@ -170,7 +175,7 @@ public class Living : NetworkBehaviour {
 
     public void TakeDamage(int damage, Bullet.DamageTypeEnum damageType)
     {
-        UpdateLife(curLife - CalculateResistance(damage, damageType));
+        CmdUpdateLife(curLife - CalculateResistance(damage, damageType));
     }
 
     int CalculateResistance(int damage, Bullet.DamageTypeEnum damageType)
