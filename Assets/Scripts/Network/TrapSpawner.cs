@@ -42,6 +42,9 @@ public class TrapSpawner : NetworkBehaviour {
 	}
 
 	void Respawn() {
+		if (!spawnForClients)
+			return;
+
 		RpcClearTraps();
 
 		foreach(GameObject s in spawnedTraps) {
@@ -87,11 +90,7 @@ public class TrapSpawner : NetworkBehaviour {
 
 	public void AddTrap(TrapSpawn trap) {
 		if (isServer) {
-			if (spawnForClients) {
-				RpcSpawnForclients(trap);
-			} else {
-				traps.Add(trap);
-			}
+			traps.Add(trap);
 		}
 	}
 
