@@ -13,6 +13,8 @@ public class TrapSpawn {
 
 public class TrapSpawner : NetworkBehaviour {
 
+	public static TrapSpawner singleton;
+
 	public List<TrapSpawn> traps;
 	List<GameObject> spawnedTraps = new List<GameObject>();
 
@@ -20,6 +22,8 @@ public class TrapSpawner : NetworkBehaviour {
 
 	public override void OnStartServer()
 	{
+		singleton = this;
+
 		foreach (TrapSpawn t in traps) {
 			Spawn(t);
 		}
@@ -89,6 +93,30 @@ public class TrapSpawner : NetworkBehaviour {
 				traps.Add(trap);
 			}
 		}
+	}
+
+	public void DestroyTrap(GameObject t) {
+		RpcDestroyTrap(spawnedTraps.FindIndex(x => x == t));
+	}
+
+	[ClientRpc]
+	public void RpcDestroyTrap(int i) {
+		GameObject go = spawnedTraps[i];
+
+		spawnedTraps.RemoveAt(i);
+
+		Destroy(go);
+	}
+
+	public void DamageTrap(GameObject t, float damage) {
+		RpcDamageTrap(spawnedTraps.FindIndex(x => x == t), damage);
+	}
+
+	[ClientRpc]
+	public void RpcDamageTrap(int i, float damage) {
+		GameObject go = spawnedTraps[i];
+
+		go.GetComponent<DungeonTrap>().Damage(damage);
 	}
 
 	public void AddClient(NetworkConnection conn) {
