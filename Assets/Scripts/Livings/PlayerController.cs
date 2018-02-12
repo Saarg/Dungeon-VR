@@ -132,6 +132,9 @@ public class PlayerController : Living
                     Fire();
             }
         }
+
+		if(Input.GetKeyDown("1")) GetComponent<WallSpell>().Cast();
+		if(Input.GetKeyDown("2")) GetComponent<ExplosionSpell>().Cast();
 	}
 
     /// <summary> 

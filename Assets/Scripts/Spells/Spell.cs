@@ -23,8 +23,6 @@ public abstract class Spell : MonoBehaviour {
 
 	protected virtual void Update(){
 		lastActivation += Time.deltaTime;
-
-		if(Input.GetKeyDown("1")) Cast ();
 	}
 
 	public bool IsReady(){
