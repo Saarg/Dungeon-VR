@@ -84,13 +84,16 @@ public class Bullet : NetworkBehaviour {
     {
         if (destroying)
             return;
-
-        if (followSpellOrigin)
-            if (spellOrigin != null)
-                transform.position = spellOrigin.SpellOrigin.position;
         
         if (continuousDamage)
             DamageTick();
+    }
+
+    public void UpdatePosition()
+    {
+        if (followSpellOrigin)
+            if (spellOrigin != null)
+                transform.position = spellOrigin.SpellOrigin.position;
     }
 
     /// <summary>  
@@ -98,7 +101,6 @@ public class Bullet : NetworkBehaviour {
     /// </summary>
     private void OnTriggerEnter(Collider col)
     {
-
         if (col.gameObject.tag == OwnerTag)
             return;
 

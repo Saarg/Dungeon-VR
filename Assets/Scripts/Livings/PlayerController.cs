@@ -8,13 +8,14 @@ using UnityEngine.Networking;
 /// </summary>
 public class PlayerController : Living
 {
-    const float RAY_LENGTH = 20f;
+    const float RAY_LENGTH = 50f;
 
     public Animator _animator;
     public NetworkAnimator _netAnimator;
     private Rigidbody rigidBody;
 
     public Transform cam;
+    public InventoryController inventory;
 
     public enum PlayerClassEnum
     {
@@ -26,16 +27,7 @@ public class PlayerController : Living
 
     public GameUI gameUI;
 
-    [Header("Weapon")]
-    public Transform weaponGrip;
     [SyncVar] public PlayerClassEnum playerClassID;
-    public Weapon weapon;
-    [SyncVar] public GameObject WeaponObject;
-    float lastShotTime = 0;
-    public Vector3 weaponDetectionRange;
-    bool firing;
-    Bullet persistentBullet;
-    float lastManaDrain;
 
     [Header("Mana")]
     float manaFillRate = 0.2f;
@@ -49,11 +41,12 @@ public class PlayerController : Living
     public int playerId;
 
     GameObject target = null;
-    float offsetValue;
-    Vector3 offset;
 
     [SerializeField]
     GameObject[] classPrefab;
+
+    [SyncVar] GameObject currentClassObject;
+    [SyncVar] int defaultWeaponId;
 
     /// <summary>  
     /// 	Fetch animator
@@ -61,12 +54,15 @@ public class PlayerController : Living
     /// </summary>
     void Start()
     {
-        GameObject ui = GameObject.Find("GameUI");
-        if (ui != null)
-        { 
-            gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
-            gameUI.SetPlayerController(this);
-            gameUI.enabled = true;
+        if (isLocalPlayer)
+        {
+            GameObject ui = GameObject.Find("GameUI");
+            if (ui != null)
+            {
+                gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
+                gameUI.SetPlayerController(this);
+                gameUI.enabled = true;
+            }
         }
 
         
@@ -84,23 +80,30 @@ public class PlayerController : Living
         GameUI.instance.SetPlayerController(this);
     }
 
-    public override void OnStartClient() { 
+    public override void OnStartClient() {
+
         if (currentClassObject != null) {
             _animator = currentClassObject.GetComponent<Animator>();
             _netAnimator = currentClassObject.GetComponent<NetworkAnimator>();
 
             PlayerClassDesignation cd = currentClassObject.GetComponent<PlayerClassDesignation>();
-        
+
             cd.transform.SetParent(transform);
             cd.transform.localPosition = Vector3.zero;
             cd.transform.localRotation = Quaternion.identity;
+            inventory.weaponGrip = cd.weaponGrip;
+        }
 
-            weaponGrip = cd.weaponGrip;
-
-            WeaponObject.transform.SetParent(weaponGrip);
-            WeaponObject.transform.localPosition = Vector3.zero;
-            WeaponObject.transform.localRotation = Quaternion.identity;
-            weapon = WeaponObject.GetComponent<Weapon>();
+        if (!isLocalPlayer)
+        {
+            inventory.InitializedOtherClient();
+        }
+        
+        if (isLocalPlayer)
+        {
+            PlayerClassDesignation cd = currentClassObject.GetComponent<PlayerClassDesignation>();
+            inventory.InitializeWeaponInformation(new NetworkInstanceId((uint)defaultWeaponId), cd);
+            inventory.CmdPickupWeapon(new NetworkInstanceId((uint)defaultWeaponId), netId);
         }
     }
 
@@ -115,9 +118,7 @@ public class PlayerController : Living
         {
             UpdateJump();
             FillMana();
-            CheckForWeapon();
             UpdateTarget();
-            UpdateFire();
 
             Vector3 locVel = transform.InverseTransformDirection(rigidBody.velocity);
 
@@ -127,54 +128,6 @@ public class PlayerController : Living
             }  
         } else if (rigidBody != null) {
             Destroy(rigidBody);
-        }
-    }
-
-    void UpdateFire()
-    {
-        if (!firing)
-        {
-            if (Input.GetButtonDown("Fire1"))
-            {
-                if (weapon != null && Time.time - lastShotTime > weapon.FiringInterval)
-                {
-                    Fire();
-                    if (weapon.DrainMana)
-                        firing = true;
-                }
-            }
-        }
-        if (Input.GetButtonUp("Fire1"))
-        {
-            StopContinuouFire();
-        }
-
-        if (firing)
-        {
-            if (Time.time - lastManaDrain > weapon.FiringInterval)
-            {
-                if (CurrentMana - weapon.ManaCost > 0)
-                {
-                    UpdateMana(CurrentMana - weapon.ManaCost);
-                }
-                else
-                {
-                    UpdateMana(0);
-                    StopContinuouFire();
-                }
-                lastManaDrain = Time.time;
-            }
-        }
-    }
-
-    void StopContinuouFire()
-    {
-        if (weapon.DrainMana)
-        {
-            if (persistentBullet != null)
-                persistentBullet.DestroyPersistentBullet();
-            persistentBullet = null;
-            firing = false;
         }
     }
 
@@ -210,21 +163,24 @@ public class PlayerController : Living
 
     void UpdateTarget()
     {
-        var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, RAY_LENGTH);
-        foreach (var hit in hits)
+        if (isLocalPlayer)
         {
-            if (hit.collider.gameObject.tag == "Player")
-                continue;
-
-            Living living = hit.transform.gameObject.GetComponent<Living>();
-            if (living != null)
+            var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, RAY_LENGTH);
+            foreach (var hit in hits)
             {
-                target = hit.transform.gameObject;
-                return;
-            }
-        }
+                if (hit.collider.gameObject.tag == "Player")
+                    continue;
 
-        target = null;
+                Living living = hit.transform.gameObject.GetComponent<Living>();
+                if (living != null)
+                {
+                    target = hit.transform.gameObject;
+                    return;
+                }
+            }
+
+            target = null;
+        }
     }
 
     /// <summary>  
@@ -297,46 +253,6 @@ public class PlayerController : Living
         return (int)target.GetComponent<Living>().GetMaxLife();
     }
 
-    void CheckForWeapon()
-    {
-        if (gameUI == null)
-            return;
-
-        var colliders = Physics.OverlapBox(transform.position, weaponDetectionRange);
-        GameObject closestObj = null;
-        float closestDistance = float.MaxValue;
-        foreach (var collider in colliders)
-        {
-            var action = collider.GetComponent<DroppedWeapon>();
-            if (action != null)
-            {
-                if ((collider.transform.position - transform.position).sqrMagnitude < closestDistance)
-                {
-                    closestDistance = (collider.transform.position - transform.position).sqrMagnitude;
-                    closestObj = collider.gameObject;
-                }
-            }
-        }
-
-        if (closestObj == null)
-        {
-            gameUI.HideWeaponStats();
-        }
-        else
-        {
-            Weapon closestWeapon = closestObj.GetComponent<Weapon>();
-            gameUI.ShowWeaponStats(closestWeapon);
-            if (Input.GetButtonDown("PickUpWeapon"))
-            {
-                if (closestWeapon.CanEquip(playerClassID))
-                {
-                    StopContinuouFire();
-                    CmdPickupWeapon(closestObj.GetComponent<NetworkIdentity>().netId);
-                }
-            }
-        }
-    }
-
     void FillMana()
     {
         if (Time.time - lastManaFill > manaFillRate)
@@ -345,120 +261,13 @@ public class PlayerController : Living
             lastManaFill = Time.time;
         }
     }
-
-    /// <summary>  
-    /// Client side compute fire data
-    /// </summary>
-    void Fire() {
-        if (weapon.UseMana && curMana < weapon.ManaCost)
-            return;
-        else if (weapon.UseMana)
-            UpdateMana(CurrentMana - weapon.ManaCost);
-
-        var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, RAY_LENGTH);
-        var endPoint = cam.gameObject.transform.position + cam.gameObject.transform.forward * RAY_LENGTH;
-        var offsetPts = endPoint;
-        Vector3 direction = Vector3.zero;
-         
-        foreach (var hit in hits)
-        {
-            if (hit.collider.tag == "Player")
-                continue;
-
-            if (hit.transform.gameObject.layer == 9)
-                continue;
-
-            offsetPts = hit.point;
-            direction = (hit.point - weapon.SpellOrigin.position).normalized;
-            break;
-        }
-
-        if (direction == Vector3.zero)
-            direction = (endPoint - weapon.SpellOrigin.position).normalized;
-        offsetValue = Mathf.Lerp(0, RAY_LENGTH, (offsetPts - weapon.SpellOrigin.position).magnitude / RAY_LENGTH);
-
-        var rot = Quaternion.LookRotation(direction, Vector3.up);
- 
-        if (weapon.SpreadBullet)
-        {
-            for (int i = 0; i < weapon.NumberOfBullet; i++)
-            {
-                Vector3 end = new Vector3(endPoint.x + UnityEngine.Random.Range(-weapon.SpreadAngle, weapon.SpreadAngle), endPoint.y + UnityEngine.Random.Range(-weapon.SpreadAngle, weapon.SpreadAngle), endPoint.z + UnityEngine.Random.Range(-weapon.SpreadAngle, weapon.SpreadAngle));
-                Vector3 spreadDirection = (end - weapon.SpellOrigin.position).normalized;
-                var spreadRot = Quaternion.LookRotation(spreadDirection, Vector3.up);
-                CmdFire(spreadDirection, spreadRot);
-            }
-        }
-        else
-            CmdFire(direction, rot);
-
-        lastShotTime = Time.time;
+    
+    public Weapon GetWeapon(Weapon.WeaponTypeEnum weaponType)
+    {
+        return inventory.GetWeapon(weaponType);
     }
 
     // Commands and RPC //
-
-    /// <summary>
-    /// Ask the server to pickup the weapon
-    /// </summary>    
-    [Command]
-    void CmdPickupWeapon(NetworkInstanceId weaponNetId) {
-        RpcPickupWeapon(weaponNetId);
-    }
-
-    /// <summary>
-    /// Pickup weapon on ALL CLIENTS!
-    /// </summary> 
-    [ClientRpc]
-    void RpcPickupWeapon(NetworkInstanceId weaponNetId) {
-        GameObject closestObj = ClientScene.FindLocalObject(weaponNetId);
-
-        if (closestObj == null) {
-            Debug.LogError("Weapon: " + weaponNetId + " not found!");
-            return;
-        }
-
-        if (WeaponObject != null) {
-            GameObject dropWeapon = WeaponObject;
-            dropWeapon.transform.SetParent(null);
-            dropWeapon.transform.localPosition = new Vector3(dropWeapon.transform.localPosition.x,0,dropWeapon.transform.localPosition.z);
-            dropWeapon.transform.rotation = Quaternion.identity;
-            dropWeapon.AddComponent<DroppedWeapon>();
-        }
-
-        Destroy(closestObj.GetComponent<DroppedWeapon>());        
-        WeaponObject = closestObj;
-        WeaponObject.transform.SetParent(weaponGrip);
-        WeaponObject.transform.localPosition = Vector3.zero;
-        WeaponObject.transform.localRotation = Quaternion.identity;
-        weapon = WeaponObject.GetComponent<Weapon>();
-    }
-
-    /// <summary>  
-    /// 	Instanciate and spawn bullet
-    /// </summary>
-    [Command]
-    void CmdFire(Vector3 direction, Quaternion rot)
-    {
-        GameObject bulletObj = Instantiate(weapon.Bullet, weapon.SpellOrigin.position, rot);
-        Bullet bullet = bulletObj.GetComponent<Bullet>();
-
-        Physics.IgnoreCollision(bulletObj.GetComponent<Collider>(), GetComponentInParent<Collider>(), true);
-        bullet.OwnerTag = gameObject.tag;
-        bullet.spawnedBy = netId;
-
-        offset = Vector3.zero;
-        if (weapon.shootingOffset)
-            offset = new Vector3(0, offsetValue / RAY_LENGTH, 0);
-
-        bullet.Direction = direction + offset;
-        bullet.GetComponent<Bullet>().SpellOrigin = weapon;
-
-        if (weapon.DrainMana)
-            persistentBullet = bullet;
-
-        NetworkServer.Spawn(bulletObj);    
-    }
-
     [Command]
     public void CmdUpdatePlayerId(int id) {
         RpcUpdatePlayerId(id);
@@ -469,7 +278,6 @@ public class PlayerController : Living
         playerId = id;
     }
 
-    [SyncVar] GameObject currentClassObject;
     [Command]
     public void CmdUpdatePlayerClass(int id) {
         if (currentClassObject != null) {
@@ -477,7 +285,7 @@ public class PlayerController : Living
         }
 
         GameObject go = Instantiate(classPrefab[(int)id], transform);
-
+       
         _animator = go.GetComponent<Animator>();
         _netAnimator = go.GetComponent<NetworkAnimator>();
 
@@ -495,23 +303,22 @@ public class PlayerController : Living
         poison = cd.poison;
         physical = cd.physical;
 
-        weaponGrip = cd.weaponGrip;
-
         NetworkServer.SpawnWithClientAuthority(go, gameObject);
         currentClassObject = go;
 
-        GameObject w = Instantiate(cd.defaultWeapon, weaponGrip);
+        GameObject w = Instantiate(cd.defaultWeapon, cd.weaponGrip);
         Destroy(w.GetComponent<DroppedWeapon>());
-
+        defaultWeaponId = (int)w.GetComponent<NetworkIdentity>().netId.Value;
+        
         NetworkServer.SpawnWithClientAuthority(w, gameObject);
-
         RpcClassUpdated(cd.netId, w.GetComponent<NetworkIdentity>().netId);
     }
 
     [ClientRpc]
     private void RpcClassUpdated(NetworkInstanceId classModelId, NetworkInstanceId weaponNetId){
         PlayerClassDesignation cd = ClientScene.FindLocalObject(classModelId).GetComponent<PlayerClassDesignation>();
-        
+        GameObject weaponObj = ClientScene.FindLocalObject(weaponNetId);
+        defaultWeaponId = (int)weaponObj.GetComponent<NetworkIdentity>().netId.Value;
         cd.transform.SetParent(transform);
         cd.transform.localPosition = Vector3.zero;
         cd.transform.localRotation = Quaternion.identity;
@@ -519,9 +326,7 @@ public class PlayerController : Living
         _animator = cd.GetComponent<Animator>();
         _netAnimator = cd.GetComponent<NetworkAnimator>();
 
-        weaponGrip = cd.weaponGrip;
-
-        if (weaponNetId != null && isLocalPlayer)
-            CmdPickupWeapon(weaponNetId);
+        inventory.weaponGrip = cd.weaponGrip;
+        inventory.InitializeWeaponInformation(weaponNetId, cd);
     }
 }
