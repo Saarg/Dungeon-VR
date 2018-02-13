@@ -189,8 +189,10 @@ public class ShootingController : NetworkBehaviour {
     {
         GameObject bulletObj = ClientScene.FindLocalObject(bulletId);
         GameObject weaponObj = ClientScene.FindLocalObject(weaponId);
+        Bullet bullet = bulletObj.GetComponent<Bullet>();
+        bullet.OwnerTag = gameObject.tag;
         if (weaponObj.GetComponent<Weapon>().DrainMana)
-            persistentBullet = bulletObj.GetComponent<Bullet>();
-        bulletObj.GetComponent<Bullet>().SpellOrigin = weaponObj.GetComponent<Weapon>();
+            persistentBullet = bullet;
+        bullet.SpellOrigin = weaponObj.GetComponent<Weapon>();
     }
 }
