@@ -24,7 +24,8 @@ public class TrapSpawner : NetworkBehaviour {
 	public GameObject GM_UI;
 	
 	public override void OnStartClient() {
-		GM_UI.SetActive(isServer);
+		if (GM_UI != null)
+			GM_UI.SetActive(isServer);
 	}
 
 	public override void OnStartServer()

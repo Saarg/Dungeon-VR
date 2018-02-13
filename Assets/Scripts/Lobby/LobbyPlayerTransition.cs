@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -9,11 +8,11 @@ namespace Lobby {
     public class LobbyPlayerTransition: NetworkBehaviour {
 
         public override void OnStartLocalPlayer() {
-            if (PlayerUI.localPlayer == null && !PlayerUI.gameMaster) {
+            if (SceneManager.GetActiveScene().name != "NetworkTest") {
                 PlayerController pc = GetComponent<PlayerController>();
 
-                pc.playerId = 1;
-                pc.CmdUpdatePlayerClass(0);
+                pc.playerId = Random.Range(0, 3);
+                pc.CmdUpdatePlayerClass(pc.playerId);
 
                 transform.position = new Vector3(0, 0, 0);
 
@@ -31,9 +30,10 @@ namespace Lobby {
 
                 Destroy(this);
             } else {
-                SceneManager.LoadScene("VRTestScene", LoadSceneMode.Additive);
+                Destroy(GameObject.Find("GameUI"));
 
-                Destroy(GameUI.instance.gameObject);         
+                SceneManager.LoadSceneAsync("VRTestScene", LoadSceneMode.Additive);
+    
                 NetworkServer.Destroy(gameObject);
             }
         }

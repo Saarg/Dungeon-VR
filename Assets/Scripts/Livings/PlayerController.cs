@@ -76,8 +76,6 @@ public class PlayerController : Living
 
     public override void OnStartLocalPlayer() {
         CmdApplyMoveStatus(MoveStatus.Free);
-
-        GameUI.instance.SetPlayerController(this);
     }
 
     public override void OnStartClient() {
@@ -230,6 +228,11 @@ public class PlayerController : Living
             
             rigidBody.velocity = new Vector3(rigidBody.velocity.x * 0.9f, rigidBody.velocity.y, rigidBody.velocity.z * 0.9f);
         }  
+    }
+
+    void OnDestroy()
+    {
+        Destroy(GameObject.Find("GameUI"));
     }
 
     public bool HasTarget()

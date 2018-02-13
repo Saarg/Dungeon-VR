@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public class GameUI : MonoBehaviour {
 
-    public static GameUI instance;
-
     [SerializeField]
     Image healthBar;
 
@@ -71,11 +69,6 @@ public class GameUI : MonoBehaviour {
 
     Weapon lastShownWeapon = null;
 
-    void Start()
-    {
-        instance = this;
-    }
-
 	// Update is called once per frame
 	void Update () {
         healthBar.fillAmount = (float)player.curLife / (float)player.maxLife;
@@ -89,6 +82,10 @@ public class GameUI : MonoBehaviour {
     public void SetPlayerController(PlayerController playerController)
     {
         player = playerController;
+
+        foreach(Transform t in transform) {
+            t.gameObject.SetActive(true);
+        }
     }
 
     public void SetWeaponImages(Dictionary<Weapon.WeaponTypeEnum, GameObject> weapons)
