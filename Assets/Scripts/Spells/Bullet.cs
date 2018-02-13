@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using UnityEngine.Networking;
 
 /// <summary>  
@@ -33,7 +34,13 @@ public class Bullet : NetworkBehaviour {
     [SyncVar] float lifeTime;
 
     [SerializeField]
+    [SyncVar] bool persistentBullet;
+
+    [SerializeField]
     bool destroyOnHit;
+
+    [SerializeField]
+    bool explodeOnHit;
 
     [SerializeField]
     bool continuousDamage;
@@ -59,24 +66,25 @@ public class Bullet : NetworkBehaviour {
     public DamageTypeEnum DamageType { get { return damageType; } }
 
     float lastDamageTick;
+    bool destroying = false;
 
-    /// <summary>  
-    /// 	Destroy the object avec 10s
-    /// </summary>
     void Start() {
         lastDamageTick = Time.time;
 	}
 
     public override void OnStartClient() {
         Physics.IgnoreCollision(GetComponent<Collider>(), ClientScene.FindLocalObject(spawnedBy).GetComponent<Collider>());
+        GetComponent<Rigidbody>().velocity = Direction * velocity;
 
-        GetComponent<Rigidbody>().velocity = Direction * velocity;        
-
-		Destroy(gameObject, lifeTime);
+        if (!persistentBullet)
+		    Destroy(gameObject, lifeTime);
     }
 
     void Update()
     {
+        if (destroying)
+            return;
+
         if (followSpellOrigin)
             if (spellOrigin != null)
                 transform.position = spellOrigin.SpellOrigin.position;
@@ -86,22 +94,44 @@ public class Bullet : NetworkBehaviour {
     }
 
     /// <summary>  
-    /// 	Destroy on collision
+    /// 	Destroy on trigger
     /// </summary>
-    void OnCollisionEnter (Collision col) {
+    private void OnTriggerEnter(Collider col)
+    {
+
         if (col.gameObject.tag == OwnerTag)
             return;
 
         if (continuousDamage)
             return;
 
-        var comp = col.gameObject.GetComponent<Living>();
-        if (comp != null)
-            comp.TakeDamage(Damage, DamageType);
+        if (explodeOnHit)
+            Explode();
+        else
+        {
+            var comp = col.gameObject.GetComponent<Living>();
+            if (comp != null)
+                comp.TakeDamage(Damage, DamageType);
 
-        if(destroyOnHit)
-		    Destroy(gameObject);
-	}
+            if (destroyOnHit)
+                Destroy(gameObject);
+        }
+    }
+
+    private void Explode()
+    {
+        var hits = Physics.OverlapSphere(transform.position, 3f);
+        foreach (var hit in hits)
+        {
+            if (hit.gameObject.tag == OwnerTag)
+                continue;
+
+            var comp = hit.gameObject.GetComponent<Living>();
+            if (comp != null)
+                comp.TakeDamage(Damage, DamageType);
+        }
+        Destroy(gameObject);
+    }
 
     private void DamageTick()
     {
@@ -132,6 +162,26 @@ public class Bullet : NetworkBehaviour {
         }
 
         lastDamageTick = Time.time;
+    }
+
+
+    /// <summary>
+    /// Disable particle emitter and damage
+    /// </summary>
+    public void DestroyPersistentBullet()
+    {
+        destroying = true;
+        gameObject.GetComponentInChildren<ParticleSystem>().Stop(true, ParticleSystemStopBehavior.StopEmitting);
+        StartCoroutine(WaitForDestroy());
+    }
+
+    /// <summary>
+    /// Wait for the particle to fade before destroying the gameobject
+    /// </summary>
+    IEnumerator WaitForDestroy()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        Destroy(gameObject);
     }
 
     private void OnDrawGizmos()

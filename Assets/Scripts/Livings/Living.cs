@@ -14,20 +14,32 @@ public enum MoveStatus {Free, Ralenti, Casting, Immobilisé };
 public class Living : NetworkBehaviour {
 
 	[Header("Life")]
-	public float maxLife = 100;
+	[SyncVar] public float maxLife = 100;
 
     [SyncVar(hook="UpdateLife")]
 	public float curLife = 100f;
 
     [Header("Mana")]
-    public float maxMana = 100;
+    [SyncVar] public float maxMana = 100;
 
     [SyncVar(hook = "UpdateMana")]
     public float curMana = 100f;
 
     [Header("Movement")]	
-	public float speed = 1f;
-    public float JumpSpeed = 1.0f;
+	[SyncVar] public float speed = 1f;
+    [Header("Movement")]
+    [SerializeField]
+    [SyncVar] protected float turnSpeed = 50;     
+
+    [SerializeField]
+    [Range(1.0f, 3.0f)]
+    [SyncVar] protected float runFactor = 2;
+
+    [SyncVar] public float jumpHeight = 1.0f;
+    [SyncVar] public float jumpFactor = 2.0f;
+    
+    float lastGroundedCheck;
+    public bool isGrounded;
 
     [Header("Etat movement")]
     public MoveStatus moveStatus;
@@ -51,9 +63,21 @@ public class Living : NetworkBehaviour {
 	[Range(0f, 2f)]	
 	public float physical = 1f;
 
+    Collider _collider;
+
 	// Events
 	public delegate void DeathEvent();
     public event DeathEvent OnDeath;
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    public virtual void Update()
+    {
+        if (isLocalPlayer) {
+            CheckIfGrounded();
+        }
+    }
 
 	/// <summary>  
 	/// 	curLife hook, sends death event if life goes to 0 and clamps the life between 0 and maxlife
@@ -70,6 +94,25 @@ public class Living : NetworkBehaviour {
             Destroy(gameObject);
 		}
 	}
+
+    bool CheckIfGrounded() {
+        if (Time.realtimeSinceStartup - lastGroundedCheck < 0.05f)
+            return isGrounded;
+
+        if (_collider == null) {
+            _collider = GetComponent<Collider>();
+        }
+
+        if (_collider is CapsuleCollider) {
+            isGrounded = Physics.Raycast(transform.position + (_collider as CapsuleCollider).center, -transform.up, (_collider as CapsuleCollider).height/2);
+        }
+        else if (_collider is BoxCollider)
+            isGrounded = Physics.Raycast(transform.position + (_collider as BoxCollider).center, -transform.up, (_collider as BoxCollider).size.y/2);
+        else if (_collider is SphereCollider)
+            isGrounded = Physics.Raycast(transform.position + (_collider as SphereCollider).center, -transform.up, (_collider as SphereCollider).radius/2);
+
+        return isGrounded;
+    }
 
     /// <summary>  
 	/// 	curMana hook, clamps the mana between 0 and maxMana

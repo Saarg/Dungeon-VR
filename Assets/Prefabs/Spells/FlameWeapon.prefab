@@ -210,7 +210,7 @@ MonoBehaviour:
     i14: 145
     i15: 84
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114140792913991770
 MonoBehaviour:
   m_ObjectHideFlags: 11
@@ -303,7 +303,12 @@ MonoBehaviour:
   weaponType: 1
   AllowedClass: 03000000010000000200000000000000
   bullet: {fileID: 1516226059751338, guid: 1e18fecefd6228f44a82876a00f62b6b, type: 2}
-  firingInterval: 1
-  manaCost: 0
+  shootingOffset: 0
+  spreadBullet: 0
+  spreadAngle: 0
+  numberOfBullet: 0
+  firingInterval: 0.2
+  manaCost: 1
   useMana: 0
+  drainMana: 1
   spellOrigin: {fileID: 4330245585126740}

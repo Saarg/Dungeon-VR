@@ -25,7 +25,8 @@ namespace Lobby {
 		public int curClass = 5;
 
 		public static PlayerUI localPlayer;
-		public static PlayerUI GameMaster;
+		/// <remark>True if the gamemaster is in lobby</remark>
+		public static bool gameMaster;
 		public static int minPlayers;
 		public static int playerCount = 0;
 
@@ -58,7 +59,7 @@ namespace Lobby {
 
 				PlayerPrefs.SetInt("isGameMaster", 1);
 
-				GameMaster = this;
+				gameMaster = true;
 
 				classButtons.SetActive(false);
 			} else {

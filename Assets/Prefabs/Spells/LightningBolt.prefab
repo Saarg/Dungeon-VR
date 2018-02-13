@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 198514710723469970}
   - component: {fileID: 199315493877264440}
   - component: {fileID: 114784884894033702}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lightning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 114182533399145846}
   - component: {fileID: 114556771916084728}
   - component: {fileID: 114025118597928094}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Lightning bolt blue 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 198913816704690514}
   - component: {fileID: 199340268234722530}
   - component: {fileID: 114878974114076972}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Flash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4413970839008994}
   - component: {fileID: 114221361349614266}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 198546744598426204}
   - component: {fileID: 199924981686392112}
   - component: {fileID: 114388096213178262}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,9 +116,9 @@ GameObject:
   - component: {fileID: 54495848108322306}
   - component: {fileID: 114255667342871850}
   - component: {fileID: 65388045470852414}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LightningBolt
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 198156561673193824}
   - component: {fileID: 199916585024961582}
   - component: {fileID: 114250650507862380}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Crater
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 198859966505564302}
   - component: {fileID: 199618488697471674}
   - component: {fileID: 114095466262523250}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FlashMain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 198485780502089888}
   - component: {fileID: 199116254362962716}
   - component: {fileID: 114592000970156802}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 4002892358816868}
   - component: {fileID: 108970443059670002}
   - component: {fileID: 114520402777585584}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,7 +355,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1516226059751338}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 20}
@@ -398,7 +398,7 @@ Light:
   m_ShadowAngle: 0
 --- !u!114 &114025118597928094
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1192738957940450}
@@ -409,7 +409,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &114095466262523250
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1600464389062944}
@@ -421,7 +421,7 @@ MonoBehaviour:
   _guid: 74e8ad81-acd4-4e25-831d-85812015c0d9
 --- !u!114 &114182533399145846
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1192738957940450}
@@ -498,7 +498,7 @@ MonoBehaviour:
   m_InterpolateMovement: 1
 --- !u!114 &114221361349614266
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1391352635185958}
@@ -510,7 +510,7 @@ MonoBehaviour:
   _guid: e0c26c5c-0833-4df0-897c-bed43c0b5266
 --- !u!114 &114250650507862380
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1530325650676302}
@@ -534,6 +534,7 @@ MonoBehaviour:
   velocity: 0
   damage: 2
   lifeTime: 1
+  persistentBullet: 0
   destroyOnHit: 0
   continuousDamage: 0
   damageTickInterval: 1
@@ -542,7 +543,7 @@ MonoBehaviour:
   damageType: 1
 --- !u!114 &114388096213178262
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1405892739473202}
@@ -554,7 +555,7 @@ MonoBehaviour:
   _guid: 0887641a-0fd3-4caa-ba34-ad0b56fb94ee
 --- !u!114 &114520402777585584
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1811540161536438}
@@ -566,7 +567,7 @@ MonoBehaviour:
   _guid: 6b1b22ba-10d1-4061-9e72-2cfeddcb53e5
 --- !u!114 &114556771916084728
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1192738957940450}
@@ -578,7 +579,7 @@ MonoBehaviour:
   _guid: 4749be5f-8c04-4bde-883b-bdbef69a2724
 --- !u!114 &114592000970156802
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1671335166500134}
@@ -590,7 +591,7 @@ MonoBehaviour:
   _guid: caa12ee6-7054-4086-a41f-3be05fc7d1a1
 --- !u!114 &114671132884070786
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1516226059751338}
@@ -602,7 +603,7 @@ MonoBehaviour:
   _guid: 0e23edb5-307c-4722-a196-ec6bc6fcb055
 --- !u!114 &114784884894033702
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1006366327608094}
@@ -614,7 +615,7 @@ MonoBehaviour:
   _guid: 6908d387-6aed-46d0-b20c-9f194861769e
 --- !u!114 &114878974114076972
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1388314198784358}
@@ -626,7 +627,7 @@ MonoBehaviour:
   _guid: 33086200-6e87-43e0-9d93-784a1d3e8377
 --- !u!114 &114973276767836998
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1516226059751338}

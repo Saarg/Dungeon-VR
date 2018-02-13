@@ -3,15 +3,15 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(Animator))]
-
 /// <summary>  
 /// 	Player controller
 /// </summary>
 public class PlayerController : Living
 {
-    private Animator _animator;
-    private NetworkAnimator _netAnimator;
+    const float RAY_LENGTH = 20f;
+
+    public Animator _animator;
+    public NetworkAnimator _netAnimator;
     private Rigidbody rigidBody;
 
     public Transform cam;
@@ -27,13 +27,15 @@ public class PlayerController : Living
     public GameUI gameUI;
 
     [Header("Weapon")]
-    public GameObject defaultWeapon;
     public Transform weaponGrip;
-    public PlayerClassEnum playerClassID;
+    [SyncVar] public PlayerClassEnum playerClassID;
     public Weapon weapon;
     [SyncVar] public GameObject WeaponObject;
     float lastShotTime = 0;
-    public Vector3 weaponDetectionRange;    
+    public Vector3 weaponDetectionRange;
+    bool firing;
+    Bullet persistentBullet;
+    float lastManaDrain;
 
     [Header("Mana")]
     float manaFillRate = 0.2f;
@@ -42,26 +44,16 @@ public class PlayerController : Living
     public int MaxMana { get { return (int)maxMana; } }
     public int CurrentMana { get { return (int)curMana; } }
 
-    [Header("Movement")]   
-    private float turnSpeed = 50;     
-
-    [SerializeField]
-    [Range(1.0f, 3.0f)]
-    private float RunFactor = 2;
-    
-    [Header("Jump")]
-    [SerializeField]
-    [Range(1.0f, 3.0f)] 
-    private float JumpFactor = 2;
-    public bool isGrounded;
-
     [Header("NetworkData")]
     [SyncVar]
     public int playerId;
-    [SyncVar(hook="UpdateClass")]    
-    public int playerClass;
 
     GameObject target = null;
+    float offsetValue;
+    Vector3 offset;
+
+    [SerializeField]
+    GameObject[] classPrefab;
 
     /// <summary>  
     /// 	Fetch animator
@@ -77,34 +69,36 @@ public class PlayerController : Living
             gameUI.enabled = true;
         }
 
-        _animator = GetComponent<Animator>();
-        _netAnimator = GetComponent<NetworkAnimator>();
+        
         rigidBody = GetComponent<Rigidbody>();
-
-       
+        
         if (!isLocalPlayer)
         {
             Destroy(cam.gameObject);
-        } else {
-            CmdApplyMoveStatus(MoveStatus.Free); 
-
-            Lobby.LobbyManager.curGamePlayer = gameObject;
         }
     }
 
     public override void OnStartLocalPlayer() {
-        playerClassID = (PlayerClassEnum)(Mathf.Clamp(playerClass-1, 0, 3));
+        CmdApplyMoveStatus(MoveStatus.Free);
     }
 
-    public override void OnStartServer() {
-        // if no weapon spawn default 
-        if (WeaponObject == null) {
-            GameObject w = Instantiate(defaultWeapon, weaponGrip);
-            Destroy(w.GetComponent<DroppedWeapon>());
+    public override void OnStartClient() { 
+        if (currentClassObject != null) {
+            _animator = currentClassObject.GetComponent<Animator>();
+            _netAnimator = currentClassObject.GetComponent<NetworkAnimator>();
 
-            NetworkServer.Spawn(w);
+            PlayerClassDesignation cd = currentClassObject.GetComponent<PlayerClassDesignation>();
+        
+            cd.transform.SetParent(transform);
+            cd.transform.localPosition = Vector3.zero;
+            cd.transform.localRotation = Quaternion.identity;
 
-            WeaponObject = w;
+            weaponGrip = cd.weaponGrip;
+
+            WeaponObject.transform.SetParent(weaponGrip);
+            WeaponObject.transform.localPosition = Vector3.zero;
+            WeaponObject.transform.localRotation = Quaternion.identity;
+            weapon = WeaponObject.GetComponent<Weapon>();
         }
     }
 
@@ -112,30 +106,75 @@ public class PlayerController : Living
     /// 	Translate and rotate player
     ///		Updates animator
     /// </summary>
-    void Update()
+    public override void Update()
     {
-        if (isServer && WeaponObject != null && weapon == null) {
-            RpcPickupWeapon(WeaponObject.GetComponent<NetworkIdentity>().netId);            
-        }
-
+        base.Update();
         if (isLocalPlayer)
         {
             UpdateJump();
-
             FillMana();
             CheckForWeapon();
             UpdateTarget();
+            UpdateFire();
 
+            Vector3 locVel = transform.InverseTransformDirection(rigidBody.velocity);
+
+            if (_animator != null) {
+                _animator.SetFloat("SpeedZ", locVel.z);
+                _animator.SetFloat("SpeedX", locVel.x);
+            }  
+        } else if (rigidBody != null) {
+            Destroy(rigidBody);
+        }
+    }
+
+    void UpdateFire()
+    {
+        if (!firing)
+        {
             if (Input.GetButtonDown("Fire1"))
             {
                 if (weapon != null && Time.time - lastShotTime > weapon.FiringInterval)
+                {
                     Fire();
+                    if (weapon.DrainMana)
+                        firing = true;
+                }
             }
         }
+        if (Input.GetButtonUp("Fire1"))
+        {
+            StopContinuouFire();
+        }
 
-		if(Input.GetKeyDown("1")) GetComponent<WallSpell>().Cast();
-		if(Input.GetKeyDown("2")) GetComponent<ExplosionSpell>().Cast();
-	}
+        if (firing)
+        {
+            if (Time.time - lastManaDrain > weapon.FiringInterval)
+            {
+                if (CurrentMana - weapon.ManaCost > 0)
+                {
+                    UpdateMana(CurrentMana - weapon.ManaCost);
+                }
+                else
+                {
+                    UpdateMana(0);
+                    StopContinuouFire();
+                }
+                lastManaDrain = Time.time;
+            }
+        }
+    }
+
+    void StopContinuouFire()
+    {
+        if (weapon.DrainMana)
+        {
+            if (persistentBullet != null)
+                persistentBullet.DestroyPersistentBullet();
+            persistentBullet = null;
+            firing = false;
+        }
+    }
 
     /// <summary> 
     /// 	Jump player if input
@@ -147,13 +186,21 @@ public class PlayerController : Living
             if (Input.GetButtonDown("Jump") && isGrounded && canJump)
             {
                 _netAnimator.SetTrigger("Jump");
+                if (isServer)
+                    _animator.ResetTrigger("Jump");
+
+                // If not moving jump is in place, just play the anim
+                if (rigidBody.velocity.sqrMagnitude < 0.5) {
+                    return;
+                }
+                
                 if (lowJump)
                 {
-                    rigidBody.AddForce(Vector3.up * JumpSpeed / JumpFactor, ForceMode.VelocityChange);
+                    rigidBody.AddForce(Vector3.up * jumpHeight / jumpFactor, ForceMode.VelocityChange);
                 }
                 else
                 {
-                    rigidBody.AddForce(Vector3.up * JumpSpeed, ForceMode.VelocityChange);
+                    rigidBody.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
                 }
             }
         }
@@ -161,7 +208,7 @@ public class PlayerController : Living
 
     void UpdateTarget()
     {
-        var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, 20f);
+        var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, RAY_LENGTH);
         foreach (var hit in hits)
         {
             if (hit.collider.gameObject.tag == "Player")
@@ -191,21 +238,32 @@ public class PlayerController : Living
             dir.y = 0;
             dir.Normalize();
 
-            Vector3 lookDir = cam.forward;
+            float angle = Vector3.Angle(cam.forward, dir);
+            Vector3 lookDir = dir;
             lookDir.y = 0;
-            lookDir.Normalize();
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);            
+            if(lookDir.sqrMagnitude > 0.1f) {
+                if (angle > 90)
+                    lookDir = -lookDir;
+                
+            } else {
+               lookDir = cam.forward;
+               lookDir.y = 0;
+            }
+
+            lookDir.Normalize();            
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);
 
             if (canMove)
             {
                 if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0))
                 {
-                    if (canRun && rigidBody.velocity.magnitude < speed)
+                    float s = speed * (1 - angle/360);
+                    if (canRun && rigidBody.velocity.magnitude < s)
                     {
                         rigidBody.AddForce(dir, ForceMode.VelocityChange);                 
                     }
-                    else if (rigidBody.velocity.magnitude < speed / RunFactor)
+                    else if (rigidBody.velocity.magnitude < s / runFactor)
                     {
                         rigidBody.AddForce(dir, ForceMode.VelocityChange);                                         
                     }
@@ -213,12 +271,7 @@ public class PlayerController : Living
             }
             
             rigidBody.velocity = new Vector3(rigidBody.velocity.x * 0.9f, rigidBody.velocity.y, rigidBody.velocity.z * 0.9f);
-        }
-
-        Vector3 locVel = transform.InverseTransformDirection(rigidBody.velocity);
-
-        _animator.SetFloat("SpeedZ", locVel.z);
-        _animator.SetFloat("SpeedX", locVel.x);        
+        }  
     }
 
     public bool HasTarget()
@@ -275,6 +328,7 @@ public class PlayerController : Living
             {
                 if (closestWeapon.CanEquip(playerClassID))
                 {
+                    StopContinuouFire();
                     CmdPickupWeapon(closestObj.GetComponent<NetworkIdentity>().netId);
                 }
             }
@@ -299,52 +353,44 @@ public class PlayerController : Living
         else if (weapon.UseMana)
             UpdateMana(CurrentMana - weapon.ManaCost);
 
-        var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, 20f);
-        var endPoint = cam.gameObject.transform.position + cam.gameObject.transform.forward * 20f;
+        var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, RAY_LENGTH);
+        var endPoint = cam.gameObject.transform.position + cam.gameObject.transform.forward * RAY_LENGTH;
+        var offsetPts = endPoint;
         Vector3 direction = Vector3.zero;
-
+         
         foreach (var hit in hits)
         {
             if (hit.collider.tag == "Player")
                 continue;
 
-            if ((endPoint - hit.point).sqrMagnitude > (endPoint - weapon.SpellOrigin.position).sqrMagnitude)
+            if (hit.transform.gameObject.layer == 9)
                 continue;
 
+            offsetPts = hit.point;
             direction = (hit.point - weapon.SpellOrigin.position).normalized;
             break;
         }
 
         if (direction == Vector3.zero)
             direction = (endPoint - weapon.SpellOrigin.position).normalized;
-       
+        offsetValue = Mathf.Lerp(0, RAY_LENGTH, (offsetPts - weapon.SpellOrigin.position).magnitude / RAY_LENGTH);
+
         var rot = Quaternion.LookRotation(direction, Vector3.up);
+ 
+        if (weapon.SpreadBullet)
+        {
+            for (int i = 0; i < weapon.NumberOfBullet; i++)
+            {
+                Vector3 end = new Vector3(endPoint.x + UnityEngine.Random.Range(-weapon.SpreadAngle, weapon.SpreadAngle), endPoint.y + UnityEngine.Random.Range(-weapon.SpreadAngle, weapon.SpreadAngle), endPoint.z + UnityEngine.Random.Range(-weapon.SpreadAngle, weapon.SpreadAngle));
+                Vector3 spreadDirection = (end - weapon.SpellOrigin.position).normalized;
+                var spreadRot = Quaternion.LookRotation(spreadDirection, Vector3.up);
+                CmdFire(spreadDirection, spreadRot);
+            }
+        }
+        else
+            CmdFire(direction, rot);
 
-        CmdFire(direction, rot);
         lastShotTime = Time.time;
-    }
-
-    /// <summary>  
-    /// 	Use to allow player another jump after hitting the ground
-    /// </summary>
-    void OnCollisionEnter(Collision coll)
-    {
-        if (coll.collider.tag.Equals("Ground"))
-        {
-            isGrounded = true;
-            _animator.ResetTrigger("Jump");
-        }
-    }
-
-    /// <summary>  
-    /// 	Use to prevent player another jump in air
-    /// </summary>
-    void OnCollisionExit(Collision coll)
-    {
-        if (coll.collider.tag.Equals("Ground"))
-        {
-            isGrounded = false;        
-        }
     }
 
     // Commands and RPC //
@@ -391,16 +437,24 @@ public class PlayerController : Living
     [Command]
     void CmdFire(Vector3 direction, Quaternion rot)
     {
-        GameObject bullet = Instantiate(weapon.Bullet, weapon.SpellOrigin.position, rot);
+        GameObject bulletObj = Instantiate(weapon.Bullet, weapon.SpellOrigin.position, rot);
+        Bullet bullet = bulletObj.GetComponent<Bullet>();
 
-        Physics.IgnoreCollision(bullet.GetComponent<Collider>(), GetComponentInParent<Collider>(), true);
+        Physics.IgnoreCollision(bulletObj.GetComponent<Collider>(), GetComponentInParent<Collider>(), true);
+        bullet.OwnerTag = gameObject.tag;
+        bullet.spawnedBy = netId;
 
-        bullet.GetComponent<Bullet>().OwnerTag = gameObject.tag;
-        bullet.GetComponent<Bullet>().spawnedBy = netId;
-        bullet.GetComponent<Bullet>().Direction = direction;
+        offset = Vector3.zero;
+        if (weapon.shootingOffset)
+            offset = new Vector3(0, offsetValue / RAY_LENGTH, 0);
+
+        bullet.Direction = direction + offset;
         bullet.GetComponent<Bullet>().SpellOrigin = weapon;
 
-        NetworkServer.Spawn(bullet);    
+        if (weapon.DrainMana)
+            persistentBullet = bullet;
+
+        NetworkServer.Spawn(bulletObj);    
     }
 
     [Command]
@@ -413,22 +467,59 @@ public class PlayerController : Living
         playerId = id;
     }
 
+    [SyncVar] GameObject currentClassObject;
     [Command]
     public void CmdUpdatePlayerClass(int id) {
-        RpcUpdatePlayerClass(id);
+        if (currentClassObject != null) {
+            NetworkServer.Destroy(currentClassObject);
+        }
+
+        GameObject go = Instantiate(classPrefab[(int)id], transform);
+
+        _animator = go.GetComponent<Animator>();
+        _netAnimator = go.GetComponent<NetworkAnimator>();
+
+        PlayerClassDesignation cd = go.GetComponent<PlayerClassDesignation>();
+
+        maxLife = cd.maxLife;
+        maxMana = cd.maxMana;
+
+        speed = cd.speed;
+        jumpHeight = cd.jumpHeight;
+
+        fire = cd.fire;
+        ice = cd.ice;
+        lightning = cd.lightning;
+        poison = cd.poison;
+        physical = cd.physical;
+
+        weaponGrip = cd.weaponGrip;
+
+        NetworkServer.SpawnWithClientAuthority(go, gameObject);
+        currentClassObject = go;
+
+        GameObject w = Instantiate(cd.defaultWeapon, weaponGrip);
+        Destroy(w.GetComponent<DroppedWeapon>());
+
+        NetworkServer.SpawnWithClientAuthority(w, gameObject);
+
+        RpcClassUpdated(cd.netId, w.GetComponent<NetworkIdentity>().netId);
     }
 
     [ClientRpc]
-    public void RpcUpdatePlayerClass(int id) {
-        playerClass = id;
+    private void RpcClassUpdated(NetworkInstanceId classModelId, NetworkInstanceId weaponNetId){
+        PlayerClassDesignation cd = ClientScene.FindLocalObject(classModelId).GetComponent<PlayerClassDesignation>();
+        
+        cd.transform.SetParent(transform);
+        cd.transform.localPosition = Vector3.zero;
+        cd.transform.localRotation = Quaternion.identity;
+
+        _animator = cd.GetComponent<Animator>();
+        _netAnimator = cd.GetComponent<NetworkAnimator>();
+
+        weaponGrip = cd.weaponGrip;
+
+        if (weaponNetId != null && isLocalPlayer)
+            CmdPickupWeapon(weaponNetId);
     }
-
-    // SyncVar hooks //
-
-    void UpdateClass(int c) {
-        playerClass = c;
-        playerClassID = (PlayerClassEnum)(Mathf.Clamp(playerClass-1, 0, 3));
-    }
-
-
 }

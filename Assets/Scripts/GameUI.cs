@@ -58,11 +58,6 @@ public class GameUI : MonoBehaviour {
     Text manaCostModifier;
 
     Weapon lastShownWeapon = null;
-
-    // Use this for initialization
-    void Start () {
-		
-	}
 	
 	// Update is called once per frame
 	void Update () {

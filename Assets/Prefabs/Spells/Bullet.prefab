@@ -135,7 +135,12 @@ MonoBehaviour:
   velocity: 5
   damage: 2
   lifeTime: 10
+  persistentBullet: 0
   destroyOnHit: 1
+  continuousDamage: 0
+  damageTickInterval: 0
+  boxCollider: {fileID: 0}
+  followSpellOrigin: 0
   damageType: 2
 --- !u!114 &114437627997469432
 MonoBehaviour:
@@ -209,7 +214,7 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1792118448359034}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 1
