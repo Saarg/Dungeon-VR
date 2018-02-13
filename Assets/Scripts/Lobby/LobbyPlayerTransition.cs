@@ -4,8 +4,14 @@ using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 namespace Lobby {
+
     [RequireComponent(typeof(PlayerController))]
     public class LobbyPlayerTransition: NetworkBehaviour {
+
+        [SerializeField, HideInInspector]
+        private GameObject VR_Scripts;
+        [SerializeField, HideInInspector]
+        private GameObject VR_SDK;
 
         public override void OnStartLocalPlayer() {
             if (SceneManager.GetActiveScene().name != "NetworkTest") {
@@ -32,8 +38,11 @@ namespace Lobby {
             } else {
                 Destroy(GameObject.Find("GameUI"));
 
-                SceneManager.LoadSceneAsync("VRTestScene", LoadSceneMode.Additive);
-    
+                SceneManager.LoadSceneAsync("VRNetworkTest", LoadSceneMode.Additive);
+
+                Instantiate(VR_Scripts);
+                Instantiate(VR_SDK);
+
                 NetworkServer.Destroy(gameObject);
             }
         }

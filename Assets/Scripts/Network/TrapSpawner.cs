@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 public class TrapSpawn {
 	public string path;
 	public Vector3 position;
-	public Vector3 rotation;
+	public Quaternion rotation;
 }
 
 public class TrapSpawner : NetworkBehaviour {
@@ -59,8 +59,8 @@ public class TrapSpawner : NetworkBehaviour {
 			TrapSpawn t = new TrapSpawn();
 
 			t.path = s.name.Substring(0, s.name.Length - 7);
-			t.position = s.transform.localPosition;
-			t.rotation = s.transform.localEulerAngles;
+			t.position = s.transform.position;
+			t.rotation = s.transform.rotation;
 
 			RpcSpawnForclients(t);
 		}
@@ -91,8 +91,8 @@ public class TrapSpawner : NetworkBehaviour {
 
 		go = Instantiate(go, transform);
 
-		go.transform.localPosition = t.position;
-		go.transform.localEulerAngles = t.rotation;
+		go.transform.position = t.position;
+		go.transform.rotation = t.rotation;
 
 		go.GetComponent<DungeonTrap>().isActive = true;
 

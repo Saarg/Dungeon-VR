@@ -188,10 +188,10 @@ MonoBehaviour:
   m_SendInterval: 0.033333335
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
-  m_SyncSpin: 0
+  m_SyncSpin: 1
   m_MovementTheshold: 0.001
   m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
+  m_SnapThreshold: 10
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
 --- !u!114 &114516611077830756
@@ -219,6 +219,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4757b49771e31a4f923665c7a5a64dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VR_Scripts: {fileID: 1734429009420524, guid: 6174668a4b630074e9686d7b57950b7c, type: 2}
+  VR_SDK: {fileID: 1180526799799916, guid: 7fa7bee53edf5a046bd751ea96570beb, type: 2}
 --- !u!114 &114621865126034964
 MonoBehaviour:
   m_ObjectHideFlags: 1
