@@ -80,6 +80,8 @@ public class PlayerController : Living
 
     public override void OnStartLocalPlayer() {
         CmdApplyMoveStatus(MoveStatus.Free);
+
+        GameUI.instance.SetPlayerController(this);
     }
 
     public override void OnStartClient() { 

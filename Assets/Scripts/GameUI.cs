@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour {
 
+    public static GameUI instance;
+
     [SerializeField]
     Image healthBar;
 
@@ -58,7 +60,12 @@ public class GameUI : MonoBehaviour {
     Text manaCostModifier;
 
     Weapon lastShownWeapon = null;
-	
+
+    void Start()
+    {
+        instance = this;
+    }
+
 	// Update is called once per frame
 	void Update () {
         healthBar.fillAmount = (float)player.curLife / (float)player.maxLife;

@@ -27,14 +27,14 @@ namespace Lobby {
                 pc.playerId = PlayerUI.localPlayer.curPlayer;
                 pc.CmdUpdatePlayerClass(PlayerUI.localPlayer.curClass);
 
-                transform.position = new Vector3(-30, 50, -9 + 3 * PlayerUI.localPlayer.curPlayer);
+                transform.position = new Vector3(-23, 40, -9 + 3 * PlayerUI.localPlayer.curPlayer);
 
                 Destroy(this);
             } else {
                 SceneManager.LoadScene("VRTestScene", LoadSceneMode.Additive);
 
+                Destroy(GameUI.instance.gameObject);         
                 NetworkServer.Destroy(gameObject);
-                Destroy(GameObject.Find("GameUI"));
             }
         }
     }

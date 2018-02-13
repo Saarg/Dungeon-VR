@@ -17,8 +17,15 @@ public class TrapSpawner : NetworkBehaviour {
 
 	public List<TrapSpawn> traps;
 	List<GameObject> spawnedTraps = new List<GameObject>();
-
+	
 	public bool spawnForClients;
+
+	[Header("InEditorHelp")]
+	public GameObject GM_UI;
+	
+	public override void OnStartClient() {
+		GM_UI.SetActive(isServer);
+	}
 
 	public override void OnStartServer()
 	{
@@ -51,8 +58,8 @@ public class TrapSpawner : NetworkBehaviour {
 			TrapSpawn t = new TrapSpawn();
 
 			t.path = s.name.Substring(0, s.name.Length - 7);
-			t.position = s.transform.position;
-			t.rotation = s.transform.rotation.eulerAngles;
+			t.position = s.transform.localPosition;
+			t.rotation = s.transform.localEulerAngles;
 
 			RpcSpawnForclients(t);
 		}
@@ -81,7 +88,10 @@ public class TrapSpawner : NetworkBehaviour {
 	void Spawn(TrapSpawn t) {
 		GameObject go = Resources.Load(t.path) as GameObject;
 
-		go = Instantiate(go, t.position, Quaternion.Euler(t.rotation));
+		go = Instantiate(go, transform);
+
+		go.transform.localPosition = t.position;
+		go.transform.localEulerAngles = t.rotation;
 
 		go.GetComponent<DungeonTrap>().isActive = true;
 
@@ -122,6 +132,10 @@ public class TrapSpawner : NetworkBehaviour {
 		StartCoroutine(WaitForConnectionIsReady(conn, () => {
 			Respawn();
 		}));
+	}
+
+	public void StartSpawningForClients() {
+		spawnForClients = true;
 	}
 
 	IEnumerator WaitForConnectionIsReady(NetworkConnection conn, Action cb) {
