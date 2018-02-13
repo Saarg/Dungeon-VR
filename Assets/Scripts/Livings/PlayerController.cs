@@ -45,18 +45,24 @@ public class PlayerController : Living
     [SerializeField]
     GameObject[] classPrefab;
 
+    [SyncVar] GameObject currentClassObject;
+    [SyncVar] int defaultWeaponId;
+
     /// <summary>  
     /// 	Fetch animator
     ///		Destroy camera if not localplayer
     /// </summary>
     void Start()
     {
-        GameObject ui = GameObject.Find("GameUI");
-        if (ui != null)
-        { 
-            gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
-            gameUI.SetPlayerController(this);
-            gameUI.enabled = true;
+        if (isLocalPlayer)
+        {
+            GameObject ui = GameObject.Find("GameUI");
+            if (ui != null)
+            {
+                gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
+                gameUI.SetPlayerController(this);
+                gameUI.enabled = true;
+            }
         }
 
         
@@ -73,15 +79,29 @@ public class PlayerController : Living
     }
 
     public override void OnStartClient() {
+
         if (currentClassObject != null) {
             _animator = currentClassObject.GetComponent<Animator>();
             _netAnimator = currentClassObject.GetComponent<NetworkAnimator>();
 
             PlayerClassDesignation cd = currentClassObject.GetComponent<PlayerClassDesignation>();
 
-            var inventoryController = gameObject.GetComponent<InventoryController>();
-            if (inventoryController != null)
-                inventoryController.InitializeWeaponInformation(null, cd);       
+            cd.transform.SetParent(transform);
+            cd.transform.localPosition = Vector3.zero;
+            cd.transform.localRotation = Quaternion.identity;
+            inventory.weaponGrip = cd.weaponGrip;
+        }
+
+        if (!isLocalPlayer)
+        {
+            inventory.InitializedOtherClient();
+        }
+        
+        if (isLocalPlayer)
+        {
+            PlayerClassDesignation cd = currentClassObject.GetComponent<PlayerClassDesignation>();
+            inventory.InitializeWeaponInformation(new NetworkInstanceId((uint)defaultWeaponId), cd);
+            inventory.CmdPickupWeapon(new NetworkInstanceId((uint)defaultWeaponId), netId);
         }
     }
 
@@ -132,21 +152,24 @@ public class PlayerController : Living
 
     void UpdateTarget()
     {
-        var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, RAY_LENGTH);
-        foreach (var hit in hits)
+        if (isLocalPlayer)
         {
-            if (hit.collider.gameObject.tag == "Player")
-                continue;
-
-            Living living = hit.transform.gameObject.GetComponent<Living>();
-            if (living != null)
+            var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, RAY_LENGTH);
+            foreach (var hit in hits)
             {
-                target = hit.transform.gameObject;
-                return;
-            }
-        }
+                if (hit.collider.gameObject.tag == "Player")
+                    continue;
 
-        target = null;
+                Living living = hit.transform.gameObject.GetComponent<Living>();
+                if (living != null)
+                {
+                    target = hit.transform.gameObject;
+                    return;
+                }
+            }
+
+            target = null;
+        }
     }
 
     /// <summary>  
@@ -258,15 +281,14 @@ public class PlayerController : Living
         playerId = id;
     }
 
-    [SyncVar] GameObject currentClassObject;
     [Command]
-    public void CmdUpdatePlayerClass(int id) {       
+    public void CmdUpdatePlayerClass(int id) {
         if (currentClassObject != null) {
             NetworkServer.Destroy(currentClassObject);
         }
 
         GameObject go = Instantiate(classPrefab[(int)id], transform);
-
+       
         _animator = go.GetComponent<Animator>();
         _netAnimator = go.GetComponent<NetworkAnimator>();
 
@@ -289,20 +311,17 @@ public class PlayerController : Living
 
         GameObject w = Instantiate(cd.defaultWeapon, cd.weaponGrip);
         Destroy(w.GetComponent<DroppedWeapon>());
-
+        defaultWeaponId = (int)w.GetComponent<NetworkIdentity>().netId.Value;
+        
         NetworkServer.SpawnWithClientAuthority(w, gameObject);
-
         RpcClassUpdated(cd.netId, w.GetComponent<NetworkIdentity>().netId);
-
-        var inventoryController = gameObject.GetComponent<InventoryController>();
-        if (inventoryController != null)
-            inventoryController.InitializeWeaponInformation(w, cd);
     }
 
     [ClientRpc]
     private void RpcClassUpdated(NetworkInstanceId classModelId, NetworkInstanceId weaponNetId){
         PlayerClassDesignation cd = ClientScene.FindLocalObject(classModelId).GetComponent<PlayerClassDesignation>();
-        
+        GameObject weaponObj = ClientScene.FindLocalObject(weaponNetId);
+        defaultWeaponId = (int)weaponObj.GetComponent<NetworkIdentity>().netId.Value;
         cd.transform.SetParent(transform);
         cd.transform.localPosition = Vector3.zero;
         cd.transform.localRotation = Quaternion.identity;
@@ -310,12 +329,7 @@ public class PlayerController : Living
         _animator = cd.GetComponent<Animator>();
         _netAnimator = cd.GetComponent<NetworkAnimator>();
 
-        if (weaponNetId != null && isLocalPlayer)
-        {
-            var inventoryController = gameObject.GetComponent<InventoryController>();
-            if (inventoryController != null)
-                inventoryController.CmdPickupWeapon(weaponNetId);
-            
-        }
+        inventory.weaponGrip = cd.weaponGrip;
+        inventory.InitializeWeaponInformation(weaponNetId, cd);
     }
 }

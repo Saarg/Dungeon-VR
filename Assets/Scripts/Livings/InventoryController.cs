@@ -9,8 +9,12 @@ public class InventoryController : NetworkBehaviour {
     public Vector3 weaponDetectionRange;
     public PlayerController player;
     public ShootingController shootingController;
+    
+    [SyncVar] int baseId;
+    [SyncVar] int shortId;
+    [SyncVar] int longId;
 
-    Weapon.WeaponTypeEnum currentWeapon = Weapon.WeaponTypeEnum.Base;
+    Weapon.WeaponTypeEnum currentWeapon = Weapon.WeaponTypeEnum.ShortRange;
     public Weapon.WeaponTypeEnum CurrentWeapon { get { return currentWeapon; } }
 
     Dictionary<Weapon.WeaponTypeEnum, GameObject> weaponDictionary = new Dictionary<Weapon.WeaponTypeEnum, GameObject>()
@@ -23,38 +27,96 @@ public class InventoryController : NetworkBehaviour {
     List<Weapon.WeaponTypeEnum> weaponTypeList = new List<Weapon.WeaponTypeEnum>()
     {
         Weapon.WeaponTypeEnum.Base,
-        Weapon.WeaponTypeEnum.ShortRange,
         Weapon.WeaponTypeEnum.LongRange,
+        Weapon.WeaponTypeEnum.ShortRange,
     };
 
+    [SyncVar]
     int weaponTypeIndex;
 
-    public void InitializeWeaponInformation(GameObject weaponObj, PlayerClassDesignation playerClass)
+    public void InitializedOtherClient()
     {
-        if (playerClass != null)
+        if(baseId != 0)
+            InitializeOtherClientWeapon(Weapon.WeaponTypeEnum.Base, baseId);
+
+        if (shortId != 0)
+            InitializeOtherClientWeapon(Weapon.WeaponTypeEnum.ShortRange, shortId);
+
+        if (longId != 0)
+            InitializeOtherClientWeapon(Weapon.WeaponTypeEnum.LongRange, longId);
+    }
+
+    void InitializeOtherClientWeapon(Weapon.WeaponTypeEnum weaponType, int id)
+    {
+        GameObject weaponObj = ClientScene.FindLocalObject(new NetworkInstanceId((uint)id));
+        weaponObj.transform.SetParent(weaponGrip.transform);
+        Destroy(weaponObj.GetComponent<DroppedWeapon>());
+        weaponDictionary[weaponType] = weaponObj;
+        weaponObj.SetActive(weaponTypeIndex == (int)weaponType);
+        if (weaponTypeIndex == (int)weaponType)
         {
-            Weapon weapon;
-            if (weaponObj != null)
-            {
-                weapon = weaponObj.GetComponent<Weapon>();
-                weaponDictionary[weapon.WeaponType] = weaponObj;
-            }
-
-            PlayerClassDesignation cd = playerClass.GetComponent<PlayerClassDesignation>();
-
-            cd.transform.SetParent(transform);
-            cd.transform.localPosition = Vector3.zero;
-            cd.transform.localRotation = Quaternion.identity;
-
-            weaponGrip = cd.weaponGrip;
-
-            weaponObj.transform.SetParent(weaponGrip);
-            weaponObj.transform.localPosition = Vector3.zero;
-            weaponObj.transform.localRotation = Quaternion.identity;
-            
-            weapon = weaponObj.GetComponent<Weapon>();
+            currentWeapon = weaponType;
+            shootingController.weapon = weaponDictionary[currentWeapon].GetComponent<Weapon>();
         }
     }
+
+    public void InitializeWeaponInformation(NetworkInstanceId weaponId, PlayerClassDesignation playerClass)
+    {
+        if (playerClass != null)
+            CmdInitializeWeapon(weaponId, player.netId, playerClass.netId);
+    }
+
+    /// <summary>
+    /// Ask the server to initialize weapon
+    /// </summary>    
+    [Command]
+    void CmdInitializeWeapon(NetworkInstanceId weaponNetId, NetworkInstanceId playerNetId, NetworkInstanceId playerClassNetId)
+    {
+        RpcInitializeWeapon(weaponNetId, playerNetId, playerClassNetId);
+    }
+
+    /// <summary>
+    /// Switch initialize weapon on ALL CLIENTS!
+    /// </summary> 
+    [ClientRpc]
+    void RpcInitializeWeapon(NetworkInstanceId weaponNetId, NetworkInstanceId playerNetId, NetworkInstanceId playerClassNetId)
+    {
+        GameObject weaponObj = ClientScene.FindLocalObject(weaponNetId);
+        GameObject playerObj = ClientScene.FindLocalObject(playerNetId);
+        GameObject playerClassObj = ClientScene.FindLocalObject(playerClassNetId);
+        playerObj.GetComponent<PlayerController>().inventory.InitializeWeapon(weaponObj, playerClassObj.GetComponent<PlayerClassDesignation>());
+    }
+
+    public void InitializeWeapon(GameObject weaponObj, PlayerClassDesignation playerClass)
+    {
+        Weapon weapon;
+        if (weaponObj != null)
+        {
+            weapon = weaponObj.GetComponent<Weapon>();
+            weaponDictionary[weapon.WeaponType] = weaponObj;
+        }
+        if(weaponObj.GetComponent<DroppedWeapon>() != null)
+            Destroy(weaponObj.GetComponent<DroppedWeapon>());
+        PlayerClassDesignation cd = playerClass.GetComponent<PlayerClassDesignation>();
+
+        cd.transform.SetParent(transform);
+        cd.transform.localPosition = Vector3.zero;
+        cd.transform.localRotation = Quaternion.identity;
+
+        weaponGrip = cd.weaponGrip;
+
+        weaponObj.transform.SetParent(weaponGrip);
+        weaponObj.transform.localPosition = Vector3.zero;
+        weaponObj.transform.localRotation = Quaternion.identity;
+
+        weapon = weaponObj.GetComponent<Weapon>();
+        uint id = weaponObj.GetComponent<NetworkIdentity>().netId.Value;
+        shootingController.weapon = weaponDictionary[currentWeapon].GetComponent<Weapon>();
+        SetId(id, weapon.WeaponType);
+        if (player.isLocalPlayer)
+            gameUI.SetWeaponImages(weaponDictionary);
+    }
+
 
     // Use this for initialization
     void Start () {
@@ -67,8 +129,11 @@ public class InventoryController : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        UpdateInput();
-        CheckForWeapon();
+        if (player.isLocalPlayer)
+        {
+            UpdateInput();
+            CheckForWeapon();
+        }
     }
 
     void UpdateInput()
@@ -95,7 +160,6 @@ public class InventoryController : NetworkBehaviour {
             if (weaponDictionary[weaponTypeList[index]] != null)
             {
                 SwitchEquippedWeapon(weaponTypeList[index]);
-                weaponTypeIndex = index;
             }
             else
             {
@@ -106,7 +170,6 @@ public class InventoryController : NetworkBehaviour {
                 if (weaponDictionary[weaponTypeList[index]] != null)
                 {
                     SwitchEquippedWeapon(weaponTypeList[index]);
-                    weaponTypeIndex = index;
                 }
             }
         }
@@ -120,7 +183,6 @@ public class InventoryController : NetworkBehaviour {
             if (weaponDictionary[weaponTypeList[index]] != null)
             {
                 SwitchEquippedWeapon(weaponTypeList[index]);
-                weaponTypeIndex = index;
             }
             else
             {
@@ -131,7 +193,6 @@ public class InventoryController : NetworkBehaviour {
                 if (weaponDictionary[weaponTypeList[index]] != null)
                 {
                     SwitchEquippedWeapon(weaponTypeList[index]);
-                    weaponTypeIndex = index;
                 }
             }
         }
@@ -140,15 +201,7 @@ public class InventoryController : NetworkBehaviour {
     void SwitchEquippedWeapon(Weapon.WeaponTypeEnum weaponType)
     {
         if (weaponDictionary[weaponType] != null)
-        {
-            if (weaponDictionary[currentWeapon] != null)
-                weaponDictionary[currentWeapon].SetActive(false);
-
-            currentWeapon = weaponType;
-            weaponDictionary[currentWeapon].SetActive(true);
-            shootingController.weapon = weaponDictionary[currentWeapon].GetComponent<Weapon>();
-            gameUI.SetWeaponImages(weaponDictionary);
-        }
+            CmdSwitchEquippedWeapon(weaponDictionary[weaponType].GetComponent<NetworkIdentity>().netId, player.netId); 
     }
 
     void DropWeapon(Weapon.WeaponTypeEnum weaponType)
@@ -177,59 +230,79 @@ public class InventoryController : NetworkBehaviour {
     /// Ask the server to pickup the weapon
     /// </summary>    
     [Command]
-    public void CmdPickupWeapon(NetworkInstanceId weaponNetId)
+    public void CmdPickupWeapon(NetworkInstanceId weaponNetId, NetworkInstanceId playerNetId)
     {
-        RpcPickupWeapon(weaponNetId);
+        RpcPickupWeapon(weaponNetId, playerNetId);
     }
 
     /// <summary>
     /// Pickup weapon on ALL CLIENTS!
     /// </summary> 
     [ClientRpc]
-    void RpcPickupWeapon(NetworkInstanceId weaponNetId)
+    void RpcPickupWeapon(NetworkInstanceId weaponNetId, NetworkInstanceId playerNetId)
     {
-        GameObject closestObj = ClientScene.FindLocalObject(weaponNetId);
+        GameObject weapon = ClientScene.FindLocalObject(weaponNetId);
+        GameObject player = ClientScene.FindLocalObject(playerNetId);
 
-        if (closestObj == null)
-        {
-            Debug.LogError("Weapon: " + weaponNetId + " not found!");
-            return;
-        }
+        player.GetComponent<PlayerController>().inventory.PickUpWeapon(weapon);
+    }
 
-        Weapon weapon = closestObj.GetComponent<Weapon>();
+    public void PickUpWeapon(GameObject weaponObj)
+    {
+        uint id = weaponObj.GetComponent<NetworkIdentity>().netId.Value;
+        
+        Weapon weapon = weaponObj.GetComponent<Weapon>();
 
         if (weaponDictionary[weapon.WeaponType] != null)
             DropWeapon(weapon.WeaponType);
 
-        Destroy(closestObj.GetComponent<DroppedWeapon>());
+        Destroy(weaponObj.GetComponent<DroppedWeapon>());
 
-        GameObject WeaponObject = closestObj;
+        GameObject WeaponObject = weaponObj;
         WeaponObject.transform.SetParent(weaponGrip);
         WeaponObject.transform.localPosition = Vector3.zero;
         WeaponObject.transform.localRotation = Quaternion.identity;
         weapon = WeaponObject.GetComponent<Weapon>();
         weaponDictionary[weapon.WeaponType] = WeaponObject;
         shootingController.weapon = weapon;
-        shootingController.WeaponObject = WeaponObject;
-        SwitchEquippedWeapon(weapon.WeaponType);
+        if(player.isLocalPlayer)
+            SwitchEquippedWeapon(weapon.WeaponType);
+        SetId(id, weapon.WeaponType);
     }
 
     /// <summary>
     /// Ask the server to switch equipped weapon
     /// </summary>    
     [Command]
-    void CmdSwitchEquippedWeapon()
+    void CmdSwitchEquippedWeapon(NetworkInstanceId weaponNetId, NetworkInstanceId playerNetId)
     {
-
+        RpcSwithEquippedWeapon(weaponNetId, playerNetId);
     }
 
     /// <summary>
     /// Switch equipped weapon on ALL CLIENTS!
     /// </summary> 
     [ClientRpc]
-    void RpcSwithEquippedWeapon()
+    void RpcSwithEquippedWeapon(NetworkInstanceId weaponNetId, NetworkInstanceId playerNetId)
     {
+        GameObject weaponObj = ClientScene.FindLocalObject(weaponNetId);
+        GameObject playerObj = ClientScene.FindLocalObject(playerNetId);
+        playerObj.GetComponent<PlayerController>().inventory.SwitchWeapon(weaponObj);
+    }
 
+    public void SwitchWeapon(GameObject weaponObj)
+    {
+        Weapon weapon = weaponObj.GetComponent<Weapon>();
+
+        if (weaponDictionary[currentWeapon] != null)
+            weaponDictionary[currentWeapon].SetActive(false);
+
+        currentWeapon = weapon.WeaponType;
+        weaponTypeIndex = (int)currentWeapon;
+        weaponDictionary[currentWeapon].SetActive(true);
+        shootingController.weapon = weaponDictionary[currentWeapon].GetComponent<Weapon>();
+        if(player.isLocalPlayer)
+            gameUI.SetWeaponImages(weaponDictionary);
     }
 
     void CheckForWeapon()
@@ -265,10 +338,20 @@ public class InventoryController : NetworkBehaviour {
             {
                 if (closestWeapon.CanEquip(player.playerClassID))
                 {
-                    shootingController.StopContinuouFire();
-                    CmdPickupWeapon(closestObj.GetComponent<NetworkIdentity>().netId);
+                    shootingController.CmdStopContinousFire();
+                    CmdPickupWeapon(closestObj.GetComponent<NetworkIdentity>().netId, player.netId);
                 }
             }
         }
+    }
+
+    void SetId(uint id, Weapon.WeaponTypeEnum weaponType)
+    {
+        if (weaponType == Weapon.WeaponTypeEnum.Base)
+            baseId = (int)id;
+        else if (weaponType == Weapon.WeaponTypeEnum.ShortRange)
+            shortId = (int)id;
+        else if (weaponType == Weapon.WeaponTypeEnum.LongRange)
+            longId = (int)id;
     }
 }
