@@ -99,7 +99,11 @@ public abstract class DungeonTrap : MonoBehaviour {
 	}
 
 	public void DestroyTrap(){
-		DestroyObject (this.gameObject);
+		if (TrapSpawner.singleton != null) {
+			TrapSpawner.singleton.DestroyTrap(gameObject);
+		} else {
+			// DestroyObject (this.gameObject);
+		}
 	}
 
 	public bool IsReady(){
@@ -119,12 +123,18 @@ public abstract class DungeonTrap : MonoBehaviour {
 
 	public virtual void OnDamageAreaTriggerEnter(Collider _col){
 		if (this.isDestroyable && _col.gameObject.GetComponent<Bullet> ()) {
-			this.Damage (_col.gameObject.GetComponent<Bullet> ().Damage);
+			float damage = _col.gameObject.GetComponent<Bullet> ().Damage;
+
+			if (TrapSpawner.singleton != null) {
+				TrapSpawner.singleton.DamageTrap(gameObject, damage);
+			} else {
+				// this.Damage (damage);
+			}
 		}
 	}
 
 	public virtual void OnHurtingAreaTriggerEnter(Collider _col){
-		if (this.isActive && _col.gameObject.CompareTag ("Player")) {
+		if (this.isActive && _col.CompareTag ("Player")) {
 			_col.gameObject.GetComponent<PlayerController>().TakeDamage(this.damage, Bullet.DamageTypeEnum.physical);
 		}
 	}

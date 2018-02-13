@@ -27,7 +27,8 @@ public class Living : NetworkBehaviour {
 
     [Header("Movement")]	
 	[SyncVar] public float speed = 1f;
-    [Header("Movement")]   
+    [Header("Movement")]
+    [SerializeField]
     [SyncVar] protected float turnSpeed = 50;     
 
     [SerializeField]
@@ -36,7 +37,9 @@ public class Living : NetworkBehaviour {
 
     [SyncVar] public float jumpHeight = 1.0f;
     [SyncVar] public float jumpFactor = 2.0f;
-    protected bool isGrounded;
+    
+    float lastGroundedCheck;
+    public bool isGrounded;
 
     [Header("Etat movement")]
     public MoveStatus moveStatus;
@@ -57,9 +60,26 @@ public class Living : NetworkBehaviour {
 	[Range(0f, 2f)]	
 	public float physical = 1f;
 
+    Collider _collider;
+
 	// Events
 	public delegate void DeathEvent();
     public event DeathEvent OnDeath;
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    public virtual void Update()
+    {
+        if (isLocalPlayer) {
+            CheckIfGrounded();
+        }
+    }
+
+    [Command]
+    void CmdUpdateLife(float life) {
+        UpdateLife(life);
+    }
 
 	/// <summary>  
 	/// 	curLife hook, sends death event if life goes to 0 and clamps the life between 0 and maxlife
@@ -76,6 +96,25 @@ public class Living : NetworkBehaviour {
             Destroy(gameObject);
 		}
 	}
+
+    bool CheckIfGrounded() {
+        if (Time.realtimeSinceStartup - lastGroundedCheck < 0.05f)
+            return isGrounded;
+
+        if (_collider == null) {
+            _collider = GetComponent<Collider>();
+        }
+
+        if (_collider is CapsuleCollider) {
+            isGrounded = Physics.Raycast(transform.position + (_collider as CapsuleCollider).center, -transform.up, (_collider as CapsuleCollider).height/2);
+        }
+        else if (_collider is BoxCollider)
+            isGrounded = Physics.Raycast(transform.position + (_collider as BoxCollider).center, -transform.up, (_collider as BoxCollider).size.y/2);
+        else if (_collider is SphereCollider)
+            isGrounded = Physics.Raycast(transform.position + (_collider as SphereCollider).center, -transform.up, (_collider as SphereCollider).radius/2);
+
+        return isGrounded;
+    }
 
     /// <summary>  
 	/// 	curMana hook, clamps the mana between 0 and maxMana
@@ -136,7 +175,7 @@ public class Living : NetworkBehaviour {
 
     public void TakeDamage(int damage, Bullet.DamageTypeEnum damageType)
     {
-        UpdateLife(curLife - CalculateResistance(damage, damageType));
+        CmdUpdateLife(curLife - CalculateResistance(damage, damageType));
     }
 
     int CalculateResistance(int damage, Bullet.DamageTypeEnum damageType)

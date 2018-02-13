@@ -236,9 +236,11 @@ MonoBehaviour:
   maxMana: 100
   curMana: 100
   speed: 6
+  turnSpeed: 0.1
   runFactor: 2
   jumpHeight: 6
   jumpFactor: 2
+  isGrounded: 0
   moveStatus: 0
   canRun: 1
   canJump: 1
@@ -352,4 +354,4 @@ CapsuleCollider:
   m_Radius: 0.4375917
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0.13759169}
+  m_Center: {x: 0, y: 0.85, z: 0.13759169}

@@ -109,8 +109,9 @@ public class PlayerController : Living
     /// 	Translate and rotate player
     ///		Updates animator
     /// </summary>
-    void Update()
+    public override void Update()
     {
+        base.Update();
         if (isLocalPlayer)
         {
             UpdateJump();
@@ -138,6 +139,14 @@ public class PlayerController : Living
             if (Input.GetButtonDown("Jump") && isGrounded && canJump)
             {
                 _netAnimator.SetTrigger("Jump");
+                if (isServer)
+                    _animator.ResetTrigger("Jump");
+
+                // If not moving jump is in place, just play the anim
+                if (rigidBody.velocity.sqrMagnitude < 0.5) {
+                    return;
+                }
+                
                 if (lowJump)
                 {
                     rigidBody.AddForce(Vector3.up * jumpHeight / jumpFactor, ForceMode.VelocityChange);
@@ -185,21 +194,32 @@ public class PlayerController : Living
             dir.y = 0;
             dir.Normalize();
 
-            Vector3 lookDir = cam.forward;
+            float angle = Vector3.Angle(cam.forward, dir);
+            Vector3 lookDir = dir;
             lookDir.y = 0;
-            lookDir.Normalize();
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);            
+            if(lookDir.sqrMagnitude > 0.1f) {
+                if (angle > 90)
+                    lookDir = -lookDir;
+                
+            } else {
+               lookDir = cam.forward;
+               lookDir.y = 0;
+            }
+
+            lookDir.Normalize();            
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);
 
             if (canMove)
             {
                 if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0))
                 {
-                    if (canRun && rigidBody.velocity.magnitude < speed)
+                    float s = speed * (1 - angle/360);
+                    if (canRun && rigidBody.velocity.magnitude < s)
                     {
                         rigidBody.AddForce(dir, ForceMode.VelocityChange);                 
                     }
-                    else if (rigidBody.velocity.magnitude < speed / runFactor)
+                    else if (rigidBody.velocity.magnitude < s / runFactor)
                     {
                         rigidBody.AddForce(dir, ForceMode.VelocityChange);                                         
                     }
@@ -243,31 +263,6 @@ public class PlayerController : Living
     public Weapon GetWeapon(Weapon.WeaponTypeEnum weaponType)
     {
         return inventory.GetWeapon(weaponType);
-    }
-
-    /// <summary>  
-    /// 	Use to allow player another jump after hitting the ground
-    /// </summary>
-    void OnCollisionEnter(Collision coll)
-    {
-        if (coll.collider.tag.Equals("Ground"))
-        {
-            isGrounded = true;
-
-            if (_animator != null && isLocalPlayer)
-                _animator.ResetTrigger("Jump");
-        }
-    }
-
-    /// <summary>  
-    /// 	Use to prevent player another jump in air
-    /// </summary>
-    void OnCollisionExit(Collision coll)
-    {
-        if (coll.collider.tag.Equals("Ground"))
-        {
-            isGrounded = false;        
-        }
     }
 
     // Commands and RPC //
