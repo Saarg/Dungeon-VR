@@ -11,9 +11,17 @@ public class TrapDropZone : MonoBehaviour {
     {      
         if (placedTrap == null && e.interactingObject.GetComponent<TrapControllerManager>().selectedTrap.trapType == allowedTrapType)
         {
+            TrapSpawn s = new TrapSpawn();
+
+            s.path = e.interactingObject.GetComponent<TrapControllerManager>().selectedTrap.name;
+            s.position = transform.position;
+            s.rotation = transform.rotation;
+
+            TrapSpawner.singleton.AddTrap(s);
+
             // Need to add a way to rotate the trap (Touchpad should be find for that)
-            placedTrap = Instantiate(e.interactingObject.GetComponent<TrapControllerManager>().selectedTrap, transform.position, transform.rotation);
-            placedTrap.transform.parent = transform;
+            // placedTrap = Instantiate(e.interactingObject.GetComponent<TrapControllerManager>().selectedTrap, transform.position, transform.rotation);
+            // placedTrap.transform.parent = transform;
         }
         else
         {
