@@ -37,6 +37,8 @@ public class Living : NetworkBehaviour {
 
     [SyncVar] public float jumpHeight = 1.0f;
     [SyncVar] public float jumpFactor = 2.0f;
+
+    public Vector3 drag;
     
     float lastGroundedCheck;
     public bool isGrounded;
