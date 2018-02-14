@@ -55,6 +55,7 @@ public abstract class Spell : MonoBehaviour {
 		castingBar.MaxValue = castingTime;
 		castingBar.StartValue = 0;
 		castingBar.CurrentValue = 0;
+		castingBar.Complete = false;
 
 		caster.isCasting = true;
 

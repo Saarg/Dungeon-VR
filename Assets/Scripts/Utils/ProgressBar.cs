@@ -36,6 +36,7 @@ public class ProgressBar : MonoBehaviour {
 
 	public bool Complete {
 		get { return complete; }
+		set { complete = value; }
 	}
 
 	void Start () {

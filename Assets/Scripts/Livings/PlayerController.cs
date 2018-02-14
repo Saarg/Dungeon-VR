@@ -108,6 +108,9 @@ public class PlayerController : Living
     /// </summary>
     public override void Update()
     {
+		if (Input.GetKeyDown ("1")) this.GetComponent<WallSpell> ().Cast ();
+		if (Input.GetKeyDown ("2")) this.GetComponent<ExplosionSpell> ().Cast ();
+
         base.Update();
         if (isLocalPlayer)
         {
