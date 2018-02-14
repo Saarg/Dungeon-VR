@@ -58,6 +58,7 @@ public abstract class Spell : MonoBehaviour {
 		castingBar.Complete = false;
 
 		caster.isCasting = true;
+		this.GetComponent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
 
 		castingBar.gameObject.SetActive (true);
 

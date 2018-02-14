@@ -29,6 +29,7 @@ public class Wall : MonoBehaviour {
 		lifetime = maxLifetime;
 
 		lifetimeBar.gameObject.SetActive (true);
+		this.GetComponent<Rigidbody> ().isKinematic = true;
 
 		CreateWall ();
 	}
@@ -66,10 +67,13 @@ public class Wall : MonoBehaviour {
 		}
 
 		isBuilt = true;
+		this.GetComponent<Rigidbody> ().isKinematic = false;
 	}
 
 	protected IEnumerator Destroying(){
 		isDestroying = true;
+		isBuilt = false;
+		this.GetComponent<Rigidbody> ().isKinematic = true;
 
 		float t = 0;
 		while (t < spawningTime) {

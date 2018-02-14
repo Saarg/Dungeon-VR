@@ -11,6 +11,6 @@ public class WallSpell : Spell {
 //		Instantiate(wallPrefab, spawningPoint.transform.position, spawningPoint.transform.rotation);
 
 		spawningPoint = caster.transform;
-		Instantiate(wallPrefab, spawningPoint.position + spawningPoint.transform.forward*2, spawningPoint.rotation);
+		Instantiate(wallPrefab, spawningPoint.position + spawningPoint.transform.forward * range, spawningPoint.rotation);
 	}
 }
