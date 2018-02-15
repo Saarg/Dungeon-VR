@@ -110,6 +110,7 @@ public class PlayerController : Living
     {
 		if (Input.GetKeyDown ("1")) this.GetComponent<WallSpell> ().Cast ();
 		if (Input.GetKeyDown ("2")) this.GetComponent<ExplosionSpell> ().Cast ();
+        if (Input.GetKeyDown("3")) this.GetComponent<Invisibility>().Cast();
 
         base.Update();
         if (isLocalPlayer)
