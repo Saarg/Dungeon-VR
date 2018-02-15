@@ -199,7 +199,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1038169052092530}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.9598372, y: -1.0139275e-17, z: 4.5663233}
+  m_LocalPosition: {x: 0.84563965, y: -3.727436e-18, z: 1.6786878}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4027142094991298}
@@ -308,6 +308,8 @@ MonoBehaviour:
   manaCost: 10
   range: 5
   caster: {fileID: 114621865126034964}
+  targetingSystem: {fileID: 0}
+  target: {x: 0, y: 0, z: 0}
   castingTime: 2
   cooldown: 5
   castingBar: {fileID: 114759494316044310}
@@ -328,6 +330,8 @@ MonoBehaviour:
   manaCost: 10
   range: 5
   caster: {fileID: 114621865126034964}
+  targetingSystem: {fileID: 114220210257750120}
+  target: {x: 0, y: 0, z: 0}
   castingTime: 2
   cooldown: 5
   castingBar: {fileID: 114759494316044310}
@@ -405,9 +409,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6beb72841bed18f47a79ec31e6cf74bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  callingObject: {fileID: 4328555770830632}
+  callingObject: {fileID: 114621865126034964}
   projo: {fileID: 119783574001501906}
-  lastPos: {x: 0, y: 0, z: 0}
+  target: {x: 0, y: 0, z: 0}
 --- !u!114 &114418166092139924
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -648,6 +652,7 @@ MonoBehaviour:
   canMove: 0
   lowJump: 0
   isCasting: 0
+  isTargeting: 0
   fire: 1
   ice: 1
   lightning: 1

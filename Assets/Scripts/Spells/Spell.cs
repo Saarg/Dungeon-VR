@@ -9,6 +9,9 @@ public abstract class Spell : MonoBehaviour {
 	[SerializeField] protected float manaCost;
 	[SerializeField] protected float range;		//if range is 0, spell will be apply to caster
 	[SerializeField] protected Living caster;
+	[SerializeField] protected Targeting targetingSystem;
+	[SerializeField] protected Vector3 target; //if necessary
+	[SerializeField] protected KeyCode spellKey;
 
 	[Header("Timers")]
 	[SerializeField] protected float castingTime;
@@ -47,15 +50,25 @@ public abstract class Spell : MonoBehaviour {
 			return;
 		}
 
-		StartCoroutine (Casting ());
-	}
-
-	protected IEnumerator Casting(){
 		castingBar.MinValue = 0;
 		castingBar.MaxValue = castingTime;
 		castingBar.StartValue = 0;
 		castingBar.CurrentValue = 0;
 		castingBar.Complete = false;
+
+		if (range > 0) {
+			caster.isTargeting = true;
+			StartCoroutine (targetingSystem.AcquireTarget (range, spellKey));
+		}
+
+		StartCoroutine (Casting ());
+	}
+
+	protected IEnumerator Casting(){
+		//wait for the target
+		while (caster.isTargeting) {
+			yield return 0;
+		}
 
 		caster.isCasting = true;
 		this.GetComponent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
@@ -70,6 +83,8 @@ public abstract class Spell : MonoBehaviour {
 			yield return 0;
 		}
 
+		if(range > 0) target = targetingSystem.getTarget (); //target is needed if range is not 0
+
 		ApplyEffect ();
 
 		castingBar.gameObject.SetActive (false);
@@ -83,4 +98,6 @@ public abstract class Spell : MonoBehaviour {
 	}
 
 	protected abstract void Effects();
+
+	public KeyCode SpellKey(){ return spellKey; }
 }
