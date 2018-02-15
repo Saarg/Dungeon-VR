@@ -40,7 +40,8 @@ public class TrapSpawner : NetworkBehaviour {
 
 	public override void OnStartServer()
 	{
-		LobbyManager.instance.playerConnectDelegate += AddClient;
+		if (LobbyManager.instance != null)
+			LobbyManager.instance.playerConnectDelegate += AddClient;
 
 		singleton = this;
 
@@ -48,7 +49,7 @@ public class TrapSpawner : NetworkBehaviour {
 			Spawn(t);
 		}
 
-		NetworkServer.Spawn(gameObject);
+		// NetworkServer.Spawn(gameObject);
 	}
 
 	void Update () {

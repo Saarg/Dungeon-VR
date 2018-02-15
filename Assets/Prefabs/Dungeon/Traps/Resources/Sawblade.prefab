@@ -302,7 +302,6 @@ GameObject:
   - component: {fileID: 4701736725136396}
   - component: {fileID: 33882955796743790}
   - component: {fileID: 23582773681751362}
-  - component: {fileID: 64036337227574288}
   - component: {fileID: 114065241544020884}
   - component: {fileID: 65430771490944384}
   - component: {fileID: 114534210358257830}
@@ -383,7 +382,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1981552004055192}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.85, y: 0.05, z: 4.29}
+  m_LocalPosition: {x: -8, y: 0, z: 16}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 4703201412381742}
@@ -500,20 +499,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1886844600736152}
   m_Mesh: {fileID: 4300002, guid: 510be8adcc23f9a4d97c31bae6e13d39, type: 3}
---- !u!64 &64036337227574288
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1886844600736152}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 4300002, guid: 510be8adcc23f9a4d97c31bae6e13d39, type: 3}
 --- !u!64 &64323833356801860
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -564,8 +549,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.816757, y: 0.18783079, z: 0.22043608}
-  m_Center: {x: 0.0014378626, y: 0.093915395, z: 0}
+  m_Size: {x: 4.816757, y: 0.1, z: 1.5}
+  m_Center: {x: 0.0014378626, y: 0, z: 0}
 --- !u!114 &114010283795399166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1146,7 +1131,7 @@ MonoBehaviour:
   disableOnStop: 0
 --- !u!114 &114495051814627166
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1981552004055192}
@@ -1391,11 +1376,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d8e2ebe1995d0243bb5144a2de614cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapType: 2
+  trapType: 0
   animatePosition: {fileID: 114483238780155220}
 --- !u!114 &114653455608638404
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1981552004055192}
@@ -1465,13 +1450,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isBuilt: 0
-  isActive: 0
+  isActive: 1
   isDestroyable: 1
   isDesactivable: 0
   isDestroyedAfterUse: 0
   health: 30
   maxHealth: 30
-  damage: 0
+  damage: 10
   buildingTime: 1.5
   activationTime: 1
   desactivationTime: 1
