@@ -111,6 +111,8 @@ public class InventoryController : NetworkBehaviour {
 
         weapon = weaponObj.GetComponent<Weapon>();
         uint id = weaponObj.GetComponent<NetworkIdentity>().netId.Value;
+        currentWeapon = playerClass.defaultWeapon.GetComponent<Weapon>().WeaponType;
+        weaponTypeIndex = (int)currentWeapon;
         shootingController.weapon = weaponDictionary[currentWeapon].GetComponent<Weapon>();
         SetId(id, weapon.WeaponType);
         if (player.isLocalPlayer)
