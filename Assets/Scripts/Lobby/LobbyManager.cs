@@ -11,6 +11,17 @@ namespace Lobby
 	/// </summary>
 	public class LobbyManager : NetworkLobbyManager {
 
+		public static LobbyManager instance;
+
+		/// <summary>
+		/// Start is called on the frame when a script is enabled just before
+		/// any of the Update methods is called the first time.
+		/// </summary>
+		void Start()
+		{
+			instance = this;
+		}
+
 		/// <summary>
 		/// SERVER: if not on the lobby, spawn player
 		/// </summary>
@@ -55,6 +66,15 @@ namespace Lobby
 			Debug.Log("OnLobbyServerSceneLoadedForPlayer");	
 
 			return base.OnLobbyServerSceneLoadedForPlayer(lobbyPlayer, gamePlayer);
+		}
+
+		public delegate void OnPlayerConnect(NetworkConnection conn);
+    	public OnPlayerConnect playerConnectDelegate;
+
+		public override void OnServerConnect(NetworkConnection conn)
+		{
+			if (playerConnectDelegate != null)
+				playerConnectDelegate(conn);
 		}
 	}
 }

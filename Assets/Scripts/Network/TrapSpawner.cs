@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using Lobby;
 
 [Serializable]
 public class TrapSpawn {
@@ -16,6 +17,7 @@ public class TrapSpawner : NetworkBehaviour {
 	public static TrapSpawner singleton;
 
 	public List<TrapSpawn> traps;
+	[SerializeField]
 	List<GameObject> spawnedTraps = new List<GameObject>();
 	
 	public bool spawnForClients;
@@ -26,10 +28,20 @@ public class TrapSpawner : NetworkBehaviour {
 	public override void OnStartClient() {
 		if (GM_UI != null)
 			GM_UI.SetActive(isServer);
+
+		if (!isServer) {
+			foreach (GameObject s in spawnedTraps) {
+				Destroy(s);
+			}
+
+			spawnedTraps.Clear();
+		}
 	}
 
 	public override void OnStartServer()
 	{
+		LobbyManager.instance.playerConnectDelegate += AddClient;
+
 		singleton = this;
 
 		foreach (TrapSpawn t in traps) {
@@ -42,7 +54,7 @@ public class TrapSpawner : NetworkBehaviour {
 	void Update () {
 		if (isServer && spawnForClients) {
 			foreach (TrapSpawn t in traps) {
-				RpcSpawnForclients(t);
+				RpcSpawnForClients(t);
 			}
 
 			traps.Clear();
@@ -53,7 +65,7 @@ public class TrapSpawner : NetworkBehaviour {
 		if (!spawnForClients)
 			return;
 
-		RpcClearTraps();
+		RpcClearTrapsForClients();
 
 		foreach(GameObject s in spawnedTraps) {
 			TrapSpawn t = new TrapSpawn();
@@ -62,12 +74,29 @@ public class TrapSpawner : NetworkBehaviour {
 			t.position = s.transform.position;
 			t.rotation = s.transform.rotation;
 
-			RpcSpawnForclients(t);
+			RpcSpawnForClients(t);
+		}
+	}
+
+	void Respawn(NetworkConnection conn) {
+		if (!spawnForClients)
+			return;
+
+		TargetClearTrapsForClient(conn);
+
+		foreach(GameObject s in spawnedTraps) {
+			TrapSpawn t = new TrapSpawn();
+
+			t.path = s.name.Substring(0, s.name.Length - 7);
+			t.position = s.transform.position;
+			t.rotation = s.transform.rotation;
+
+			TargetSpawnForClient(conn, t);
 		}
 	}
 
 	[ClientRpc]
-	void RpcClearTraps() {
+	void RpcClearTrapsForClients() {
 		if (isServer)
 			return;
 
@@ -79,7 +108,45 @@ public class TrapSpawner : NetworkBehaviour {
 	}
 
 	[ClientRpc]
-	public void RpcSpawnForclients(TrapSpawn trap) {
+	public void RpcSpawnForClients(TrapSpawn trap) {
+		if (isServer)
+			return;
+
+		Spawn(trap);
+	}
+
+	[TargetRpc]
+	void TargetRespawnForClient(NetworkConnection conn) {
+		if (!spawnForClients)
+			return;
+
+		TargetClearTrapsForClient(conn);
+
+		foreach(GameObject s in spawnedTraps) {
+			TrapSpawn t = new TrapSpawn();
+
+			t.path = s.name.Substring(0, s.name.Length - 7);
+			t.position = s.transform.position;
+			t.rotation = s.transform.rotation;
+
+			TargetSpawnForClient(conn, t);
+		}
+	}
+
+	[TargetRpc]
+	void TargetClearTrapsForClient(NetworkConnection conn) {
+		if (isServer)
+			return;
+
+		foreach (GameObject s in spawnedTraps) {
+			Destroy(s);
+		}
+
+		spawnedTraps.Clear();
+	}
+
+	[TargetRpc]
+	public void TargetSpawnForClient(NetworkConnection conn, TrapSpawn trap) {
 		if (isServer)
 			return;
 
@@ -87,6 +154,7 @@ public class TrapSpawner : NetworkBehaviour {
 	}
 
 	void Spawn(TrapSpawn t) {
+		Debug.Log(t.path);
 		GameObject go = Resources.Load(t.path) as GameObject;
 
 		go = Instantiate(go, transform);
@@ -101,7 +169,7 @@ public class TrapSpawner : NetworkBehaviour {
 
 	public void AddTrap(TrapSpawn trap) {
 		if (isServer) {
-			traps.Add(trap);
+			Spawn(trap);
 		}
 	}
 
@@ -131,12 +199,16 @@ public class TrapSpawner : NetworkBehaviour {
 
 	public void AddClient(NetworkConnection conn) {
 		StartCoroutine(WaitForConnectionIsReady(conn, () => {
-			Respawn();
+			if (spawnForClients)
+				TargetRespawnForClient(conn);
+			else
+				TargetClearTrapsForClient(conn);
 		}));
 	}
 
 	public void StartSpawningForClients() {
 		spawnForClients = true;
+		Respawn();
 	}
 
 	IEnumerator WaitForConnectionIsReady(NetworkConnection conn, Action cb) {
