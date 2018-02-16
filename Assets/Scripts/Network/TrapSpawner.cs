@@ -43,13 +43,14 @@ public class TrapSpawner : NetworkBehaviour {
 		if (LobbyManager.instance != null)
 			LobbyManager.instance.playerConnectDelegate += AddClient;
 
+		if (GameManager.instance != null)
+			GameManager.instance.onStartGame += StartSpawningForClients;
+
 		singleton = this;
 
 		foreach (TrapSpawn t in traps) {
 			Spawn(t);
 		}
-
-		// NetworkServer.Spawn(gameObject);
 	}
 
 	void Update () {
