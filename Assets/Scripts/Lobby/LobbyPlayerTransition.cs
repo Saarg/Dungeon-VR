@@ -40,8 +40,8 @@ namespace Lobby {
 
                 SceneManager.LoadSceneAsync("VRNetworkTest", LoadSceneMode.Additive);
 
-                Instantiate(VR_Scripts);
                 Instantiate(VR_SDK);
+                // Instantiate(VR_Scripts);
 
                 NetworkServer.Destroy(gameObject);
             }
