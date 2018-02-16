@@ -10,7 +10,6 @@ public class WallSpell : Spell {
 	protected override void Effects(){
 //		Instantiate(wallPrefab, spawningPoint.transform.position, spawningPoint.transform.rotation);
 
-		spawningPoint = caster.transform;
-		Instantiate(wallPrefab, spawningPoint.position + spawningPoint.transform.forward * range, spawningPoint.rotation);
+		Instantiate(wallPrefab, this.target, caster.transform.rotation);
 	}
 }

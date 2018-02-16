@@ -18,8 +18,7 @@ public class Targeting : MonoBehaviour {
 
 	public IEnumerator AcquireTarget(float range, KeyCode key){
 		targeting = true;
-		projo.transform.position = callingObject.transform.forward * range;
-		projo.transform.position += new Vector3 (0, 2.1f, 0);
+		projo.transform.localPosition = new Vector3(0, 2.1f, range);
 		projo.gameObject.SetActive (true);
 
 		while (!Input.GetKeyDown (key)) {

@@ -49,6 +49,10 @@ public abstract class Spell : MonoBehaviour {
 			Debug.Log ("Spell is not ready");
 			return;
 		}
+		if (caster.isTargeting) {
+			Debug.Log ("Already targeting for a spell");
+			return;
+		}
 
 		castingBar.MinValue = 0;
 		castingBar.MaxValue = castingTime;
