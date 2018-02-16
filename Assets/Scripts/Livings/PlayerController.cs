@@ -232,7 +232,7 @@ public class PlayerController : Living
 
     void OnDestroy()
     {
-        Destroy(GameObject.Find("GameUI"));
+        gameUI.SetPlayerController(null);
     }
 
     public bool HasTarget()

@@ -36,8 +36,6 @@ namespace Lobby {
 
                 Destroy(this);
             } else {
-                Destroy(GameObject.Find("GameUI"));
-
                 SceneManager.LoadSceneAsync("VRNetworkTest", LoadSceneMode.Additive);
 
                 Instantiate(VR_Scripts);
