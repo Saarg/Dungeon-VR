@@ -25,11 +25,12 @@ GameObject:
   - component: {fileID: 114792738334932170}
   - component: {fileID: 136885804505263022}
   - component: {fileID: 54896288658264104}
-  - component: {fileID: 114887130063210564}
   - component: {fileID: 114621865126034964}
   - component: {fileID: 114570918177313064}
   - component: {fileID: 114046034150066448}
   - component: {fileID: 114024697287393318}
+  - component: {fileID: 114887130063210564}
+  - component: {fileID: 114637536983081342}
   m_Layer: 0
   m_Name: PlayerTest
   m_TagString: Player
@@ -275,7 +276,7 @@ MonoBehaviour:
   spawningPoint: {fileID: 0}
 --- !u!114 &114048573908616452
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1096707078535530}
@@ -287,7 +288,7 @@ MonoBehaviour:
   _guid: 5b6349f9-8b79-4038-911a-8c83073b89b6
 --- !u!114 &114061414602267784
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1096497640146390}
@@ -299,7 +300,7 @@ MonoBehaviour:
   _guid: 855f9602-d4f1-4f5e-9cb1-f58dcea40f7a
 --- !u!114 &114132935520477524
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1448668148569392}
@@ -311,7 +312,7 @@ MonoBehaviour:
   _guid: 27f8e1ed-2a8d-4aca-b13e-651c12a1c343
 --- !u!114 &114196350624596130
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1095541610783580}
@@ -323,7 +324,7 @@ MonoBehaviour:
   _guid: 54c0e660-4f87-442c-ac61-5614c5f228df
 --- !u!114 &114418166092139924
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1038169052092530}
@@ -346,7 +347,7 @@ MonoBehaviour:
   _assetGuid: 348fba6018b964493b39dea78c3a8176
 --- !u!114 &114418756626441182
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1215295761401924}
@@ -567,6 +568,27 @@ MonoBehaviour:
   - {fileID: 1545199772545022, guid: e61670aec83a70e46b50b4ac7d5e9580, type: 2}
   - {fileID: 1473256315083314, guid: e67f7a2843b58504696338200a7d88cb, type: 2}
   - {fileID: 1241146669113484, guid: 5ca84cd8524a9a940afb55fb5ffc5cef, type: 2}
+--- !u!114 &114637536983081342
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1038169052092530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2108be70f25ea6848a83c23840f16296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastActivation: 0
+  manaCost: 0
+  range: 0
+  caster: {fileID: 114621865126034964}
+  castingTime: 2
+  cooldown: 5
+  castingBar: {fileID: 114759494316044310}
+  healingPrefab: {fileID: 1268060325693632, guid: a9d06ba19533af649afe0be1ad01f34f,
+    type: 2}
+  spawningPoint: {fileID: 0}
 --- !u!114 &114691350309167756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -639,7 +661,7 @@ MonoBehaviour:
   slider: {fileID: 114541582252936868}
 --- !u!114 &114792738334932170
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1038169052092530}
@@ -665,14 +687,14 @@ MonoBehaviour:
   range: 0
   caster: {fileID: 114621865126034964}
   castingTime: 2
-  cooldown: 60
+  cooldown: 5
   castingBar: {fileID: 114759494316044310}
   colstart: {r: 0, g: 0, b: 0, a: 0}
   colend: {r: 0, g: 0, b: 0, a: 0}
   Duration: 5
 --- !u!114 &114988907256552528
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1114446238097744}

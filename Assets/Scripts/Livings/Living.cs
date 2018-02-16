@@ -176,6 +176,11 @@ public class Living : NetworkBehaviour {
         UpdateLife(curLife - CalculateResistance(damage, damageType));
     }
 
+    public void Heal(int heal)
+    {
+        UpdateLife(curLife + heal);
+    }
+
     int CalculateResistance(int damage, Bullet.DamageTypeEnum damageType)
     {
         switch (damageType)

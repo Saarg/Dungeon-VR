@@ -6,7 +6,7 @@ public class Invisibility : Spell
 {
     [SerializeField] Color colstart;
     [SerializeField] Color colend;
-    [SerializeField] float Duration;
+    [SerializeField] float duration;
 
     Renderer[] _renderers;
 
@@ -65,7 +65,7 @@ public class Invisibility : Spell
 
     IEnumerator InvisibilityPeriode()
     {
-        yield return new WaitForSeconds(Duration);
+        yield return new WaitForSeconds(duration);
         EndEffects();
     }
 
