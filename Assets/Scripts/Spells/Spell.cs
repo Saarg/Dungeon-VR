@@ -1,21 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public abstract class Spell : MonoBehaviour {
+public abstract class Spell : NetworkBehaviour {
 
 	[Header("Description")]
 	[SerializeField] protected float lastActivation;
 	[SerializeField] protected float manaCost;
 	[SerializeField] protected float range;		//if range is 0, spell will be apply to caster
-	[SerializeField] protected Living caster;
+	public Living caster { protected get; set;}
 
 	[Header("Timers")]
 	[SerializeField] protected float castingTime;
 	[SerializeField] protected float cooldown;
 
-	[Header("Progress Bars")]
-	[SerializeField] protected ProgressBar castingBar;
+	public ProgressBar castingBar { protected get; set;}
 
 	protected virtual void Start(){
 		lastActivation = cooldown;
@@ -33,7 +33,8 @@ public abstract class Spell : MonoBehaviour {
 		GameObject.Destroy(this.gameObject);
 	}
 
-	public void Cast(){
+	[Command]
+	public void CmdCast(){
 		if (caster.isCasting) {
 			Debug.Log ("Already casting");
 			return;
@@ -47,7 +48,12 @@ public abstract class Spell : MonoBehaviour {
 			return;
 		}
 
-		StartCoroutine (Casting ());
+		RpcStartCasting();
+	}
+
+	[ClientRpc]
+	void RpcStartCasting() {
+		StartCoroutine (Casting ());		
 	}
 
 	protected IEnumerator Casting(){
@@ -58,7 +64,9 @@ public abstract class Spell : MonoBehaviour {
 		castingBar.Complete = false;
 
 		caster.isCasting = true;
-		this.GetComponent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
+		if (isLocalPlayer) {
+			this.GetComponent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
+		}
 
 		castingBar.gameObject.SetActive (true);
 
@@ -77,7 +85,9 @@ public abstract class Spell : MonoBehaviour {
 	}
 
 	public void ApplyEffect (){
-		caster.curMana -= manaCost;
+		if (isServer)
+			caster.curMana -= manaCost;
+		
 		Effects ();
 		lastActivation = 0;
 	}

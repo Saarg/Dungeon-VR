@@ -2466,7 +2466,7 @@ Animator:
   m_GameObject: {fileID: 1038169052092530}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 2bb69a3e36f55446ab7e191429bf5bee, type: 3}
-  m_Controller: {fileID: 9100000, guid: cf63605a21ffe4deda835defb38d9353, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3243,9 +3243,11 @@ MonoBehaviour:
   maxMana: 100
   curMana: 100
   speed: 6
+  turnSpeed: 50
   runFactor: 2
   jumpHeight: 1
   jumpFactor: 2
+  isGrounded: 0
   moveStatus: 0
   canRun: 1
   canJump: 1
@@ -3259,12 +3261,9 @@ MonoBehaviour:
   _animator: {fileID: 0}
   _netAnimator: {fileID: 0}
   cam: {fileID: 0}
+  inventory: {fileID: 0}
   gameUI: {fileID: 0}
-  weaponGrip: {fileID: 4224354130748972}
   playerClassID: 0
-  weapon: {fileID: 114064954143847534}
-  WeaponObject: {fileID: 1932844154484176}
-  weaponDetectionRange: {x: 2, y: 2, z: 2}
   playerId: 0
   classPrefab: []
 --- !u!114 &114629334338391074

@@ -619,6 +619,7 @@ GameObject:
   - component: {fileID: 114886444271322486}
   - component: {fileID: 114231486423613370}
   - component: {fileID: 114993631846435046}
+  - component: {fileID: 114549714664901092}
   m_Layer: 0
   m_Name: Healer
   m_TagString: Player
@@ -2617,6 +2618,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guid: 0356aaa5-529b-4290-97b8-84289dfd5201
+--- !u!114 &114549714664901092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1545199772545022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2108be70f25ea6848a83c23840f16296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lastActivation: 0
+  manaCost: 50
+  range: 0
+  caster: {fileID: 0}
+  castingTime: 2
+  cooldown: 5
+  castingBar: {fileID: 0}
+  healingPrefab: {fileID: 1268060325693632, guid: a9d06ba19533af649afe0be1ad01f34f,
+    type: 2}
+  spawningPoint: {fileID: 0}
 --- !u!114 &114553995228527770
 MonoBehaviour:
   m_ObjectHideFlags: 11

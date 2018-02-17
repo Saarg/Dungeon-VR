@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Invisibility : Spell
+public class InvisibilitySpell : Spell
 {
     [SerializeField] Color colstart;
     [SerializeField] Color colend;
@@ -17,9 +17,9 @@ public class Invisibility : Spell
         _renderers = caster.GetComponentsInChildren<Renderer>();
 
         if (_renderers.Length > 0) {
-            colstart = _renderers[0].material.color;
+            colstart = Color.white;
             colstart.a = 0.1f;
-            colend = _renderers[0].material.color;
+            colend = Color.white;
         }
     }
 

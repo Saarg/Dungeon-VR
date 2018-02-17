@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 
 /// <summary>  
@@ -25,6 +26,7 @@ public class PlayerController : Living
     };
 
     public GameUI gameUI;
+    Spell spell;
 
     [Header("Weapon")]
     public Transform weaponGrip;
@@ -40,6 +42,9 @@ public class PlayerController : Living
     [Header("Mana")]
     float manaFillRate = 0.2f;
     float lastManaFill = 0;
+
+    [SerializeField]
+    ProgressBar castingBar;
 
     public int MaxMana { get { return (int)maxMana; } }
     public int CurrentMana { get { return (int)curMana; } }
@@ -94,6 +99,9 @@ public class PlayerController : Living
             cd.transform.localRotation = Quaternion.identity;
 
             weaponGrip = cd.weaponGrip;
+            spell = cd.GetComponent<Spell>();
+            spell.caster = this;
+            spell.castingBar = castingBar;
 
             WeaponObject.transform.SetParent(weaponGrip);
             WeaponObject.transform.localPosition = Vector3.zero;
@@ -108,14 +116,11 @@ public class PlayerController : Living
     /// </summary>
     public override void Update()
     {
-		if (Input.GetKeyDown ("1")) this.GetComponent<WallSpell> ().Cast ();
-		if (Input.GetKeyDown ("2")) this.GetComponent<ExplosionSpell> ().Cast ();
-        if (Input.GetKeyDown("3")) this.GetComponent<Invisibility>().Cast();
-        if (Input.GetKeyDown("4")) this.GetComponent<HealingSpell>().Cast();
-
-        base.Update();
+		base.Update();
         if (isLocalPlayer)
         {
+            if (Input.GetButtonDown("Fire2")) spell.CmdCast();
+
             UpdateJump();
             FillMana();
             CheckForWeapon();
@@ -499,6 +504,9 @@ public class PlayerController : Living
         physical = cd.physical;
 
         weaponGrip = cd.weaponGrip;
+        spell = cd.GetComponent<Spell>();
+        spell.caster = this;
+        spell.castingBar = castingBar;
 
         NetworkServer.SpawnWithClientAuthority(go, gameObject);
         currentClassObject = go;
@@ -523,6 +531,9 @@ public class PlayerController : Living
         _netAnimator = cd.GetComponent<NetworkAnimator>();
 
         weaponGrip = cd.weaponGrip;
+        spell = cd.GetComponent<Spell>();
+        spell.caster = this;
+        spell.castingBar = castingBar;
 
         if (weaponNetId != null && isLocalPlayer)
             CmdPickupWeapon(weaponNetId);

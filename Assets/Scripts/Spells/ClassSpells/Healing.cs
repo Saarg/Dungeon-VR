@@ -28,7 +28,7 @@ public class Healing : MonoBehaviour {
 
     void EndEffects()
     {
-        GameObject.DestroyObject(this.gameObject);
+        Destroy(gameObject);
     }
 
     IEnumerator HealingPeriode()
