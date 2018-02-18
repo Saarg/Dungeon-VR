@@ -10,7 +10,13 @@ public class Healing : MonoBehaviour {
 
     void Start () {
         InvokeRepeating("Heal", 0.0f,1.0f);
-        StartCoroutine("HealingPeriode");
+        
+        Destroy(gameObject, duration);
+    }
+
+    void OnDestroy()
+    {
+        GetComponentInParent<Living> ().CmdApplyMoveStatus (MoveStatus.Free);
     }
 
     void Heal()
@@ -24,16 +30,5 @@ public class Healing : MonoBehaviour {
                 col.GetComponent<Living>().Heal((int)(col.GetComponent<Living>().maxLife / factorHeal));
             }
         }
-    }
-
-    void EndEffects()
-    {
-        Destroy(gameObject);
-    }
-
-    IEnumerator HealingPeriode()
-    {
-        yield return new WaitForSeconds(duration);
-        EndEffects();
     }
 }

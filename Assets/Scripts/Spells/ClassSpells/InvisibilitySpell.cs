@@ -41,6 +41,8 @@ public class InvisibilitySpell : Spell
             }
         }
 
+        GetComponentInParent<Living> ().CmdApplyMoveStatus (MoveStatus.Free);
+
         StartCoroutine("InvisibilityPeriode");
     }
 

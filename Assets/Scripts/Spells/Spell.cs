@@ -64,8 +64,8 @@ public abstract class Spell : NetworkBehaviour {
 		castingBar.Complete = false;
 
 		caster.isCasting = true;
-		if (isLocalPlayer) {
-			this.GetComponent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
+		if (hasAuthority) {
+			GetComponentInParent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
 		}
 
 		castingBar.gameObject.SetActive (true);

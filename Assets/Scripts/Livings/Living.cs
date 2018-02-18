@@ -140,6 +140,7 @@ public class Living : NetworkBehaviour {
 	[ClientRpc]
 	private void RpcApplyMoveStatus(MoveStatus status)
     {
+        moveStatus = status;
         switch (moveStatus)
         {
             case MoveStatus.Free:
