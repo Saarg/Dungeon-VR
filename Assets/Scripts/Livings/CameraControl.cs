@@ -10,8 +10,8 @@ using UnityEngine.Networking;
 public class CameraControl : MonoBehaviour
 {
     //Determines the limitations of vertical camera movement
-    private const float Y_ANGLE_MIN = 0.0f;
-    private const float Y_ANGLE_MAX = 25.0f;
+    private const float Y_ANGLE_MIN = -30.0f;
+    private const float Y_ANGLE_MAX = 30.0f;
 
     public Transform character; //character followed by the camera
 

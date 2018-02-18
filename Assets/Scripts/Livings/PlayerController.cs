@@ -14,6 +14,7 @@ public class PlayerController : Living
     public NetworkAnimator _netAnimator;
     private Rigidbody rigidBody;
 
+    Transform _lookAt;
     public Transform cam;
     public InventoryController inventory;
 
@@ -90,6 +91,8 @@ public class PlayerController : Living
             cd.transform.localPosition = Vector3.zero;
             cd.transform.localRotation = Quaternion.identity;
             inventory.weaponGrip = cd.weaponGrip;
+
+            _lookAt = cd.transform.Find("LookAt");
         }
 
         if (!isLocalPlayer)
@@ -123,6 +126,7 @@ public class PlayerController : Living
             if (_animator != null) {
                 _animator.SetFloat("SpeedZ", locVel.z);
                 _animator.SetFloat("SpeedX", locVel.x);
+                _animator.SetFloat("Speed", locVel.sqrMagnitude);
             }  
         } else if (rigidBody != null) {
             Destroy(rigidBody);
@@ -190,30 +194,29 @@ public class PlayerController : Living
     void FixedUpdate()
     {
         if (isLocalPlayer) {
-            Vector3 dir = (cam.right * Input.GetAxis("Horizontal") * Time.deltaTime) + (cam.forward * Input.GetAxis("Vertical") * Time.deltaTime);
-            dir.y = 0;
-            dir.Normalize();
+            float angle = Vector3.Angle(cam.forward, transform.forward);
 
-            float angle = Vector3.Angle(cam.forward, dir);
-            Vector3 lookDir = dir;
-            lookDir.y = 0;
-
-            if(lookDir.sqrMagnitude > 0.1f) {
-                if (angle > 90)
-                    lookDir = -lookDir;
-                
-            } else {
-               lookDir = cam.forward;
-               lookDir.y = 0;
+            if (angle < 170) {
+                _lookAt.localPosition = Vector3.Lerp(_lookAt.localPosition, Vector3.up * 1.6f + _lookAt.InverseTransformDirection(cam.forward * 5), Time.deltaTime * 2);
+            }  else {
+                _lookAt.localPosition = Vector3.Lerp(_lookAt.localPosition, Vector3.up * 1.6f + _lookAt.InverseTransformDirection(transform.forward * 5), Time.deltaTime * 2);                
             }
-
-            lookDir.Normalize();            
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);
+            Debug.DrawLine(transform.position + Vector3.up * 1.6f, _lookAt.position, Color.red);
 
             if (canMove)
             {
                 if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0))
                 {
+                    Vector3 dir = (cam.right * Input.GetAxis("Horizontal") * Time.deltaTime) + (cam.forward * Input.GetAxis("Vertical") * Time.deltaTime);
+                    dir.y = 0;
+                    dir.Normalize();
+
+                    Vector3 lookDir = cam.forward;
+                    lookDir.y = 0;
+                    lookDir.Normalize();
+       
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);
+                    
                     float s = speed * (1 - angle/360);
                     if (canRun && rigidBody.velocity.magnitude < s)
                     {
@@ -286,6 +289,7 @@ public class PlayerController : Living
        
         _animator = go.GetComponent<Animator>();
         _netAnimator = go.GetComponent<NetworkAnimator>();
+        _lookAt = go.transform.Find("LookAt");
 
         PlayerClassDesignation cd = go.GetComponent<PlayerClassDesignation>();
 
@@ -323,6 +327,8 @@ public class PlayerController : Living
 
         _animator = cd.GetComponent<Animator>();
         _netAnimator = cd.GetComponent<NetworkAnimator>();
+
+        _lookAt = cd.transform.Find("LookAt");
 
         inventory.weaponGrip = cd.weaponGrip;
         inventory.InitializeWeaponInformation(weaponNetId, cd);
