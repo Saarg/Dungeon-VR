@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4074291170544850}
   - component: {fileID: 135633368956571586}
   - component: {fileID: 114322746133139700}
+  - component: {fileID: 114477413506678306}
+  - component: {fileID: 114828221375921504}
   m_Layer: 2
   m_Name: CustomControllerCollider
   m_TagString: Untagged
@@ -54,6 +56,8 @@ GameObject:
   - component: {fileID: 4093159537682772}
   - component: {fileID: 135919668041919448}
   - component: {fileID: 114195489981150444}
+  - component: {fileID: 114747892435186804}
+  - component: {fileID: 114144914088026838}
   m_Layer: 2
   m_Name: CustomControllerCollider
   m_TagString: Untagged
@@ -71,9 +75,7 @@ GameObject:
   - component: {fileID: 4760633529903144}
   - component: {fileID: 33652543563275110}
   - component: {fileID: 23301632589362282}
-  - component: {fileID: 114995326328274734}
   - component: {fileID: 114983959789762176}
-  - component: {fileID: 114041549648940550}
   m_Layer: 2
   m_Name: Controller
   m_TagString: Untagged
@@ -127,9 +129,7 @@ GameObject:
   - component: {fileID: 4112799564962344}
   - component: {fileID: 33047104111649504}
   - component: {fileID: 23824298480931736}
-  - component: {fileID: 114237767543557368}
   - component: {fileID: 114390796681218522}
-  - component: {fileID: 114782177559543004}
   m_Layer: 2
   m_Name: Controller
   m_TagString: Untagged
@@ -675,17 +675,6 @@ MonoBehaviour:
   controllerEvents: {fileID: 0}
   interactTouch: {fileID: 0}
   interactGrab: {fileID: 0}
---- !u!114 &114041549648940550
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1515766261618780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1491221649, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114061339232085804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -757,7 +746,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: 538f2d43-0b88-4bdc-98a8-52611c17060c
+  _guid: fca2df3f-f3b7-4ea7-ad59-7c89e4dc9ed4
 --- !u!114 &114116961465205502
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -845,6 +834,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guid: e7ea6430-c39e-4300-a118-3c6d07393063
+--- !u!114 &114144914088026838
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1437541678572862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 913c609c7bc09e34cb74e5f31310d65f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114647137882756714}
+        m_MethodName: OnTrapDropZoneEnter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: TriggerUtility_UnityEvent+TriggerEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnExit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114647137882756714}
+        m_MethodName: OnTrapDropZoneExit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: TriggerUtility_UnityEvent+TriggerEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114159653626923306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -874,27 +906,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: 75aa0888-d1a5-4708-959b-4b9fd3bd3e92
---- !u!114 &114237767543557368
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1728388835358898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isConnected: 1
-  _guid: 4c5aab38-dc33-4259-9485-f9e950a52070
-  _referenceCollection:
-    _collection:
-    - {fileID: 1728388835358898}
-    - {fileID: 1293369515307184}
-    - {fileID: 1967750820943124}
-    - {fileID: 1981283063534966}
-  _assetGuid: d4ec40e270a117548a0f6debe6443ee3
+  _guid: 712ee44b-3cee-475b-8b16-dfd7cf60a955
 --- !u!114 &114238524961379502
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -942,7 +954,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: b4725be8-250c-4123-a346-8019d6bb9745
+  _guid: f8a2c7de-628f-493e-8f4f-d9ac5b339594
 --- !u!114 &114249419341785266
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -966,6 +978,12 @@ MonoBehaviour:
     - {fileID: 1762541295950180}
     - {fileID: 1799137275971194}
     - {fileID: 1728388835358898}
+    - {fileID: 1437541678572862}
+    - {fileID: 1978381687343766}
+    - {fileID: 1621519494983738}
+    - {fileID: 1293369515307184}
+    - {fileID: 1967750820943124}
+    - {fileID: 1981283063534966}
   _assetGuid: 6174668a4b630074e9686d7b57950b7c
 --- !u!114 &114266408632412492
 MonoBehaviour:
@@ -1005,7 +1023,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: 75aa0888-d1a5-4708-959b-4b9fd3bd3e92
+  _guid: 2aa431a1-0ffa-4aa7-9e2b-3819a6e9d1dd
 --- !u!114 &114379431168441596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1032,7 +1050,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: edc649a7-9bfc-424f-bdcf-88b2ee8f9166
+  _guid: 9c6df716-d62c-4b95-98a5-7e07e6b85896
 --- !u!114 &114437193768338894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1044,7 +1062,20 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: 538f2d43-0b88-4bdc-98a8-52611c17060c
+  _guid: 143b8464-10e3-40ed-9751-81c5a6a790d3
+--- !u!114 &114477413506678306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1293369515307184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffda1046a70b38c488f2e849bf44bb6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkType: 2
+  identifiers: TrapDropZone
 --- !u!114 &114566750353411578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1100,7 +1131,7 @@ MonoBehaviour:
   customRaycast: {fileID: 0}
   layersToIgnore:
     serializedVersion: 2
-    m_Bits: 4
+    m_Bits: 772
   pointerOriginSmoothingSettings:
     smoothsPosition: 0
     maxAllowedPerFrameDistanceDifference: 0.003
@@ -1138,7 +1169,7 @@ MonoBehaviour:
   customRaycast: {fileID: 0}
   layersToIgnore:
     serializedVersion: 2
-    m_Bits: 4
+    m_Bits: 772
   pointerOriginSmoothingSettings:
     smoothsPosition: 0
     maxAllowedPerFrameDistanceDifference: 0.003
@@ -1203,7 +1234,18 @@ MonoBehaviour:
       Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnTriggerClicked:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
       Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   OnTriggerUnclicked:
@@ -1498,17 +1540,19 @@ MonoBehaviour:
   controllerAttachPoint: {fileID: 54047600088034218}
   controllerEvents: {fileID: 0}
   interactTouch: {fileID: 0}
---- !u!114 &114782177559543004
+--- !u!114 &114747892435186804
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1728388835358898}
+  m_GameObject: {fileID: 1437541678572862}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1491221649, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Script: {fileID: 11500000, guid: ffda1046a70b38c488f2e849bf44bb6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  checkType: 2
+  identifiers: TrapDropZone
 --- !u!114 &114823438271209960
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1521,6 +1565,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guid: 5c4a0de0-1265-4d2d-89ff-5907ff3b0ac7
+--- !u!114 &114828221375921504
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1293369515307184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 913c609c7bc09e34cb74e5f31310d65f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114698071202685042}
+        m_MethodName: OnTrapDropZoneEnter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: TriggerUtility_UnityEvent+TriggerEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnExit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114698071202685042}
+        m_MethodName: OnTrapDropZoneExit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: TriggerUtility_UnityEvent+TriggerEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114845791071135780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1811,7 +1898,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: b4725be8-250c-4123-a346-8019d6bb9745
+  _guid: b27eb9ec-ef0a-47f1-b3b7-b7a10228f634
 --- !u!114 &114943964337516192
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1847,27 +1934,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: edc649a7-9bfc-424f-bdcf-88b2ee8f9166
---- !u!114 &114995326328274734
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1515766261618780}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isConnected: 1
-  _guid: 183f2bdd-051e-4f7c-a017-3e0d487b652b
-  _referenceCollection:
-    _collection:
-    - {fileID: 1515766261618780}
-    - {fileID: 1437541678572862}
-    - {fileID: 1978381687343766}
-    - {fileID: 1621519494983738}
-  _assetGuid: d4ec40e270a117548a0f6debe6443ee3
+  _guid: 6fba4993-e3e1-473e-8063-7fdd049c054c
 --- !u!135 &135633368956571586
 SphereCollider:
   m_ObjectHideFlags: 1

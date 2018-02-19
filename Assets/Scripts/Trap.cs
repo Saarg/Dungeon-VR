@@ -2,34 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Trap : MonoBehaviour {
+
+public abstract class Trap : MonoBehaviour {
+
+    public struct TrapEventArgs
+    {
+
+    }
+
+    public delegate void TrapEventHandler(TrapEventArgs e);
+
+    public event TrapEventHandler TrapRemoved;
 
     public TrapType trapType = TrapType.Ground;
-    public AnimatePosition animatePosition;
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public abstract void StartTrap();
 
-    public void StartTrap()
+    public abstract void StopTrap();
+
+    public void DestroyTrap()
     {
-        animatePosition.StartAnimation();
+        // Reset the trap drop zone
+        TrapRemoved(new TrapEventArgs());
+
+        StartCoroutine("DestroyAfterThrowing");
     }
 
-    public void StopTrap()
+    public IEnumerator DestroyAfterThrowing()
     {
-
-    }
-
-    public void RemoveTrap()
-    {
-        // Give gold back
-        Destroy(gameObject);
+        yield return new WaitForSeconds(3);
+        TrapSpawner.singleton.DestroyTrap(this.gameObject);
     }
 }

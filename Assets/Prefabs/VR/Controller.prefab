@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4505531192117356}
   - component: {fileID: 135329352326954532}
   - component: {fileID: 114538202531676598}
+  - component: {fileID: 114027168102713694}
+  - component: {fileID: 114942673115560250}
   m_Layer: 2
   m_Name: CustomControllerCollider
   m_TagString: Untagged
@@ -234,6 +236,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &114027168102713694
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1240631843561240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffda1046a70b38c488f2e849bf44bb6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  checkType: 2
+  identifiers: TrapDropZone
 --- !u!114 &114306270319657998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -282,6 +297,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guid: edc649a7-9bfc-424f-bdcf-88b2ee8f9166
+--- !u!114 &114942673115560250
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1240631843561240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 913c609c7bc09e34cb74e5f31310d65f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OnTrapDropZoneEnter
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: TriggerUtility_UnityEvent+TriggerEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnExit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: OnTrapDropZoneExit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: TriggerUtility_UnityEvent+TriggerEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114942857693753324
 MonoBehaviour:
   m_ObjectHideFlags: 1

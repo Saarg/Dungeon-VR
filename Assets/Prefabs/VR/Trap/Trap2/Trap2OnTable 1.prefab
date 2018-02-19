@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 114225494266868346}
   - component: {fileID: 114091000877487950}
   - component: {fileID: 114675859637317306}
-  m_Layer: 2
+  m_Layer: 8
   m_Name: Trap2OnTable 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 33172133455986448}
   - component: {fileID: 23167274987973910}
   - component: {fileID: 114183637230977440}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DTP_FloorTraps_RectangleFloorSpears_FloorPlate_Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ GameObject:
   - component: {fileID: 33093411728973204}
   - component: {fileID: 23837374007123810}
   - component: {fileID: 114544820668516078}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DTP_FloorTraps_RectangleFloorSpears_Spear_Mesh
   m_TagString: Trap
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4648014170666270}
   - component: {fileID: 114146777803339598}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ground_Spire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,8 +133,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1061332860331964}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -58.96, y: 64.02, z: -10.67}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4648014170666270}
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trapInHandPrefab: {fileID: 1681440277988584, guid: 2d361134904d6834f9a42ed206868ea6,
     type: 2}
-  associatedTrap: {fileID: 114671969199521958, guid: 28bc6e194d1a74501a579d7174a55db7,
+  associatedTrap: {fileID: 114839925653814128, guid: 484134357baf31245aa08b8cd4fec475,
     type: 2}
 --- !u!114 &114146777803339598
 MonoBehaviour:

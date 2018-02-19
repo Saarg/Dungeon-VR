@@ -5,7 +5,7 @@ using UnityEngine;
 public class TrapOnTable : MonoBehaviour {
 
     public GameObject trapInHandPrefab;
-    public Trap associatedTrap;
+    public DungeonTrap associatedTrap;
 
     // Use this for initialization
     void Start() {
