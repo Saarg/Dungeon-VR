@@ -63,7 +63,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1114446238097744}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4328555770830632}
@@ -155,7 +155,6 @@ MonoBehaviour:
   cam: {fileID: 4027142094991298}
   owner: {fileID: 114621865126034964}
   weapon: {fileID: 0}
-  WeaponObject: {fileID: 0}
 --- !u!114 &114418166092139924
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -235,7 +234,9 @@ MonoBehaviour:
   curLife: 100
   maxMana: 100
   curMana: 100
+  sprintSpeed: 7
   speed: 6
+  walkSpeed: 2
   turnSpeed: 0.1
   runFactor: 2
   jumpHeight: 6

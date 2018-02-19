@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
+using RootMotion.FinalIK;
 
 /// <summary>  
 /// 	Player controller
@@ -13,6 +14,8 @@ public class PlayerController : Living
     public Animator _animator;
     public NetworkAnimator _netAnimator;
     private Rigidbody rigidBody;
+
+    private Amplifier _amplifier;
 
     Transform _lookAt;
     public Transform cam;
@@ -218,6 +221,15 @@ public class PlayerController : Living
                     transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);
                     
                     float s = speed * (1 - angle/360);
+                    _amplifier.bodies[0].horizontalWeight = 1;
+                    if (Input.GetButton("Walk"))
+                        s = walkSpeed * (1 - angle/360);
+                    else if (Input.GetButton("Sprint")) {
+                        s = sprintSpeed * (1 - angle/360);
+                        _amplifier.bodies[0].horizontalWeight = 5;
+                    }
+
+                    
                     if (canRun && rigidBody.velocity.magnitude < s)
                     {
                         rigidBody.AddForce(dir, ForceMode.VelocityChange);                 
@@ -329,6 +341,7 @@ public class PlayerController : Living
         _netAnimator = cd.GetComponent<NetworkAnimator>();
 
         _lookAt = cd.transform.Find("LookAt");
+        _amplifier = cd.GetComponent<Amplifier>();
 
         inventory.weaponGrip = cd.weaponGrip;
         inventory.InitializeWeaponInformation(weaponNetId, cd);

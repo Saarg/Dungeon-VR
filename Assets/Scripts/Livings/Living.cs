@@ -26,7 +26,9 @@ public class Living : NetworkBehaviour {
     public float curMana = 100f;
 
     [Header("Movement")]	
-	[SyncVar] public float speed = 1f;
+	[SyncVar] public float sprintSpeed = 7f;
+	[SyncVar] public float speed = 5f;
+	[SyncVar] public float walkSpeed = 2f;
     [Header("Movement")]
     [SerializeField]
     [SyncVar] protected float turnSpeed = 50;     
