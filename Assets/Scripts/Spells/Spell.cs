@@ -12,6 +12,7 @@ public abstract class Spell : MonoBehaviour {
 	[SerializeField] protected Targeting targetingSystem;
 	[SerializeField] protected Vector3 target; //if necessary
 	[SerializeField] protected KeyCode spellKey;
+	[SerializeField] protected GameObject placeholder;
 
 	[Header("Timers")]
 	[SerializeField] protected float castingTime;
@@ -82,13 +83,15 @@ public abstract class Spell : MonoBehaviour {
 		//TODO add animation
 		//TODO add sound
 
-		if(range > 0) target = targetingSystem.getTarget (); //target is needed if range is not 0
+		if(range > 0){
+			target = targetingSystem.getTarget (); //target is needed if range is not 0
+			placeholder = targetingSystem.getPlaceholder();
+		}
 
 		while(!castingBar.Complete){
 			castingBar.Progress (Time.deltaTime);
 			yield return 0;
 		}
-
 
 		ApplyEffect ();
 

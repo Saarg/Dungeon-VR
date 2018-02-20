@@ -8,7 +8,10 @@ public class Targeting : MonoBehaviour {
 	[SerializeField] private Projector projo;
 	[SerializeField] private Vector3 target;
 
+	private GameObject placeholder;
+
 	public Vector3 getTarget(){ return target; }
+	public GameObject getPlaceholder(){ return placeholder; }
 
 	private bool targeting;
 	private float height; 		//height of the projector
@@ -28,16 +31,13 @@ public class Targeting : MonoBehaviour {
 			yield return 0;
 		}
 
-		printTarget ();
+		//print a clone of the projector so the player knows where is the targeting point
+		placeholder = Instantiate (projo.gameObject, projo.transform.position, projo.transform.rotation);
 
 		targeting = false;
 		projo.gameObject.SetActive (false);
 		target = projo.transform.position + new Vector3(0,-height,0);
 		callingObject.isTargeting = false;
-	}
-
-	private void printTarget(){
-		GameObject newborn = Instantiate (projo.gameObject, projo.transform.position, projo.transform.rotation);
 	}
 }
 

@@ -7,6 +7,7 @@ public class ExplosionSpell : Spell {
 	[SerializeField] private GameObject explosionPrefab;
 
 	protected override void Effects(){
+		Destroy (placeholder.gameObject);
 		Instantiate(explosionPrefab, target, Quaternion.Euler(Vector3.zero));
 	}
 }

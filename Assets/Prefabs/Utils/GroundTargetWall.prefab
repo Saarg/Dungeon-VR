@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114014085463405532}
   - component: {fileID: 114422638009666748}
   m_Layer: 0
-  m_Name: GroundTarget
+  m_Name: GroundTargetWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,7 +53,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1680733379894562}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.57, y: 0.9255686, z: -1.4197645}
+  m_LocalPosition: {x: 7.3937225, y: -7.7948356e-18, z: 3.5104818}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4636763698017600}
@@ -66,13 +66,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1680613976226704}
-  m_LocalRotation: {x: 0.75157696, y: -0, z: -0, w: 0.6596455}
-  m_LocalPosition: {x: -0.12, y: 4.82, z: 0.78}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.17, y: 5, z: -1.15}
+  m_LocalScale: {x: 1, y: 0.15297219, z: 1}
   m_Children: []
   m_Father: {fileID: 4625747835529632}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &114014085463405532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: 19e3663c-1440-4607-8231-c0016873badd
+  _guid: a6c8fe1b-84c6-4752-b152-7b05ccc0c59b
 --- !u!114 &114392732366508726
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -102,7 +102,7 @@ MonoBehaviour:
     _collection:
     - {fileID: 1680733379894562}
     - {fileID: 1680613976226704}
-  _assetGuid: 6b0eb46312cba974aafb3ba1ed324cf8
+  _assetGuid: d31153174dd5e0e419bd0d8f5af8fc7a
 --- !u!114 &114422638009666748
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -115,8 +115,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   callingObject: {fileID: 0}
-  range: 0
-  Projector: {fileID: 119400325799540554}
+  projo: {fileID: 119400325799540554}
+  target: {x: 0, y: 0, z: 0}
 --- !u!114 &114507508058037678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: 3035ea2f-f551-4008-b30a-2e201c380b7c
+  _guid: e04d2e93-1f5b-460b-99a7-a4b679c1463e
 --- !u!119 &119400325799540554
 Projector:
   m_ObjectHideFlags: 1
@@ -141,8 +141,8 @@ Projector:
   m_FarClipPlane: 20
   m_FieldOfView: 50
   m_AspectRatio: 1
-  m_Orthographic: 0
-  m_OrthographicSize: 2
+  m_Orthographic: 1
+  m_OrthographicSize: 3.6
   m_Material: {fileID: 2100000, guid: e30ff3588e719f34bbf0c66f22d97487, type: 2}
   m_IgnoreLayers:
     serializedVersion: 2
