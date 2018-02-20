@@ -330,14 +330,11 @@ public class PlayerController : Living
         poison = cd.poison;
         physical = cd.physical;
 
-<<<<<<< HEAD
-=======
         weaponGrip = cd.weaponGrip;
         spell = cd.GetComponent<Spell>();
         spell.caster = this;
         spell.castingBar = castingBar;
 
->>>>>>> spells
         NetworkServer.SpawnWithClientAuthority(go, gameObject);
         currentClassObject = go;
 
@@ -361,17 +358,7 @@ public class PlayerController : Living
         _animator = cd.GetComponent<Animator>();
         _netAnimator = cd.GetComponent<NetworkAnimator>();
 
-<<<<<<< HEAD
         inventory.weaponGrip = cd.weaponGrip;
         inventory.InitializeWeaponInformation(weaponNetId, cd);
-=======
-        weaponGrip = cd.weaponGrip;
-        spell = cd.GetComponent<Spell>();
-        spell.caster = this;
-        spell.castingBar = castingBar;
-
-        if (weaponNetId != null && isLocalPlayer)
-            CmdPickupWeapon(weaponNetId);
->>>>>>> spells
-    }
+  }
 }

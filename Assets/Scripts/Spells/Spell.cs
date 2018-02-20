@@ -57,33 +57,22 @@ public abstract class Spell : NetworkBehaviour {
 			return;
 		}
 
-		RpcStartCasting();
-	}
-
-	[ClientRpc]
-	void RpcStartCasting() {
-		StartCoroutine (Casting ());
-	}
-
-	protected IEnumerator Casting(){
 		castingBar.MinValue = 0;
 		castingBar.MaxValue = castingTime;
 		castingBar.StartValue = 0;
 		castingBar.CurrentValue = 0;
 		castingBar.Complete = false;
 
-    caster.isCasting = true;
-    castingBar.gameObject.SetActive (true);
+		if (range > 0) {
+			caster.isTargeting = true;
+			StartCoroutine (targetingSystem.AcquireTarget (range, spellKey));
+		}
 
-    if (hasAuthority) {
-      GetComponentInParent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
-    }
+		RpcStartCasting();
+	}
 
-    if (range > 0) {
-      caster.isTargeting = true;
-      StartCoroutine (targetingSystem.AcquireTarget (range, spellKey));
-    }
-
+	[ClientRpc]
+	void RpcStartCasting() {
 		StartCoroutine (Casting ());
 	}
 
@@ -101,6 +90,10 @@ public abstract class Spell : NetworkBehaviour {
 
 			//TODO add animation
 			//TODO add sound
+
+			if (hasAuthority) {
+				GetComponentInParent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
+			}
 
 			if(range > 0){
 				target = targetingSystem.getTarget (); //target is needed if range is not 0

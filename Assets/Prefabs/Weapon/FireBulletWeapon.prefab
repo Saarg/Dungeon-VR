@@ -176,27 +176,27 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 116
-    i1: 76
-    i2: 131
-    i3: 180
-    i4: 182
-    i5: 72
-    i6: 120
-    i7: 36
-    i8: 42
-    i9: 215
-    i10: 46
-    i11: 161
-    i12: 32
-    i13: 140
-    i14: 214
-    i15: 0
+    i0: 251
+    i1: 68
+    i2: 167
+    i3: 251
+    i4: 155
+    i5: 80
+    i6: 162
+    i7: 84
+    i8: 123
+    i9: 246
+    i10: 68
+    i11: 0
+    i12: 153
+    i13: 52
+    i14: 193
+    i15: 199
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
 --- !u!114 &114186403024180098
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1466742563376828}
@@ -210,12 +210,12 @@ MonoBehaviour:
   _referenceCollection:
     _collection:
     - {fileID: 1466742563376828}
-    - {fileID: 1798355303083658}
     - {fileID: 1992822126150018}
-  _assetGuid: 744c83b4b64878242ad72ea1208cd600
+    - {fileID: 1798355303083658}
+  _assetGuid: fb44a7fb9b50a2547bf644009934c1c7
 --- !u!114 &114367023228274856
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1992822126150018}
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
 --- !u!114 &114649333414923062
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1992822126150018}
@@ -247,14 +247,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isConnected: 1
-  _guid: f19708fa-1836-43f1-b90d-05333546337d
+  _guid: 1c811d9b-c434-4412-8c72-0ac3b197b858
   _referenceCollection:
     _collection:
     - {fileID: 1992822126150018}
   _assetGuid: 189b8534dea79ba469eb1e38dab8167c
 --- !u!114 &114694027844053102
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1992822126150018}
@@ -266,7 +266,7 @@ MonoBehaviour:
   _guid: 2802e20d-8fd2-4a0e-980b-6d6fa37c16ff
 --- !u!114 &114717928094953390
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1798355303083658}
@@ -275,10 +275,10 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: 3f20bbe8-bed2-47e3-b7ca-fc9f59c75d9c
+  _guid: 21b518e3-69a4-409f-996b-32ef4fa39615
 --- !u!114 &114736511066336096
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1466742563376828}
@@ -287,7 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: c2ae4748-64c2-4304-9cb6-ad7273125ecb
+  _guid: da8ed6fd-58f2-4d26-a5ad-7b88a1a8e72e
 --- !u!114 &114994472332393298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -299,7 +299,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d7dae0d1d9ebe47946a0daf169bf17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiSprite: {fileID: 21300000, guid: 77993e162e53e1a4daa609d2fd69641a, type: 3}
   weaponName: Fire Bullet
   weaponType: 1
   AllowedClass: 03000000010000000200000000000000
@@ -313,4 +312,3 @@ MonoBehaviour:
   useMana: 1
   drainMana: 0
   spellOrigin: {fileID: 4330245585126740}
-  clip: {fileID: 8300000, guid: e2dd7e2875786614c9b8e63fa450fd9e, type: 3}
