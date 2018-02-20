@@ -8,6 +8,8 @@ using UnityEngine.UI;
 /// </summary>
 public abstract class DungeonTrap : MonoBehaviour {
 
+    public Trap trap;
+
 	[Header("Description")]
 	public bool isBuilt = false;		//if true the trap is set
 	public bool isActive = false; 		//if false, the trap will never be triggered
@@ -31,8 +33,14 @@ public abstract class DungeonTrap : MonoBehaviour {
 	public ProgressBar activationBar;
 	public ProgressBar desactivationBar;
 
-	void Start(){
-		healthBar.MaxValue = maxHealth;
+    private void Awake()
+    {
+        trap = GetComponent<Trap>();
+    }
+
+    void Start(){
+
+        healthBar.MaxValue = maxHealth;
 		healthBar.StartValue = maxHealth;
 		healthBar.CurrentValue = maxHealth;
 		health = maxHealth;
@@ -95,15 +103,7 @@ public abstract class DungeonTrap : MonoBehaviour {
 		health -= damage;
 		healthBar.Progress (damage * -1);
 
-		if (health <= 0) DestroyTrap ();
-	}
-
-	public void DestroyTrap(){
-		if (TrapSpawner.singleton != null) {
-			TrapSpawner.singleton.DestroyTrap(gameObject);
-		} else {
-			// DestroyObject (this.gameObject);
-		}
+		if (health <= 0) trap.DestroyTrap ();
 	}
 
 	public bool IsReady(){
@@ -115,7 +115,7 @@ public abstract class DungeonTrap : MonoBehaviour {
 			Effects ();
 			lastActivation = 0;
 
-			if (isDestroyedAfterUse) DestroyTrap ();
+			if (isDestroyedAfterUse) trap.DestroyTrap ();
 		}
 	}
 

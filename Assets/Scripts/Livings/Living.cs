@@ -37,6 +37,8 @@ public class Living : NetworkBehaviour {
 
     [SyncVar] public float jumpHeight = 1.0f;
     [SyncVar] public float jumpFactor = 2.0f;
+
+    public Vector3 drag;
     
     float lastGroundedCheck;
     public bool isGrounded;
@@ -106,12 +108,12 @@ public class Living : NetworkBehaviour {
         }
 
         if (_collider is CapsuleCollider) {
-            isGrounded = Physics.Raycast(transform.position + (_collider as CapsuleCollider).center, -transform.up, (_collider as CapsuleCollider).height/2);
+            isGrounded = Physics.Raycast(transform.position + (_collider as CapsuleCollider).center, -transform.up, (_collider as CapsuleCollider).height/1.9f);
         }
         else if (_collider is BoxCollider)
-            isGrounded = Physics.Raycast(transform.position + (_collider as BoxCollider).center, -transform.up, (_collider as BoxCollider).size.y/2);
+            isGrounded = Physics.Raycast(transform.position + (_collider as BoxCollider).center, -transform.up, (_collider as BoxCollider).size.y/1.9f);
         else if (_collider is SphereCollider)
-            isGrounded = Physics.Raycast(transform.position + (_collider as SphereCollider).center, -transform.up, (_collider as SphereCollider).radius/2);
+            isGrounded = Physics.Raycast(transform.position + (_collider as SphereCollider).center, -transform.up, (_collider as SphereCollider).radius/1.9f);
 
         return isGrounded;
     }

@@ -8,9 +8,9 @@ public class TrapControllerManager : MonoBehaviour {
 
     [Header("Trap in hand prefab.")]
     private GameObject trapInHand;
-    public Trap selectedTrap;
+    public DungeonTrap selectedTrap;
 
-    public void AttachToHand(GameObject trapInHandToInstantiate, Trap trap)
+    public void AttachToHand(GameObject trapInHandToInstantiate, DungeonTrap trap)
     {
         if(trapInHand != null)
         {
@@ -29,4 +29,18 @@ public class TrapControllerManager : MonoBehaviour {
             selectedTrap = null;
         }
     }
+
+    public void OnTrapDropZoneEnter(object o, TriggerUtility.TriggerEventArgs e)
+    {
+        TrapDropZone trapDropZone = e.triggeredObject.GetComponent<TrapDropZone>();
+        trapDropZone.ShowPreview(this);
+
+    }
+
+    public void OnTrapDropZoneExit(object o, TriggerUtility.TriggerEventArgs e)
+    {
+        TrapDropZone trapDropZone = e.triggeredObject.GetComponent<TrapDropZone>();
+        trapDropZone.DestroyPreview();
+    }
+
 }

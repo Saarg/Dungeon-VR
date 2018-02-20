@@ -110,6 +110,7 @@ public class InventoryController : NetworkBehaviour {
         weaponObj.transform.localRotation = Quaternion.identity;
 
         weapon = weaponObj.GetComponent<Weapon>();
+        currentWeapon = weapon.WeaponType;
         uint id = weaponObj.GetComponent<NetworkIdentity>().netId.Value;
         currentWeapon = playerClass.defaultWeapon.GetComponent<Weapon>().WeaponType;
         weaponTypeIndex = (int)currentWeapon;

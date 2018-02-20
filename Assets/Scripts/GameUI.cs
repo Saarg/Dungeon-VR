@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using System.Text;
 
 public class GameUI : MonoBehaviour {
-
+    [Header("Player")]
+    [SerializeField]
+    Canvas playerUI;
     [SerializeField]
     Image healthBar;
 
@@ -78,6 +81,16 @@ public class GameUI : MonoBehaviour {
 
     Weapon lastShownWeapon = null;
 
+    [Header("GameMode")]
+    [SerializeField]
+    Canvas gamemodeUI;
+    [SerializeField]
+    Text gamemode;
+    [SerializeField]
+    Text timer;
+
+
+
     Vector3 SelectedWeaponScale = new Vector3(1.25f, 1.25f, 1.25f);
     Vector3 UnselectedWeaponScale = Vector3.one;
 
@@ -94,6 +107,8 @@ public class GameUI : MonoBehaviour {
     public void SetPlayerController(PlayerController playerController)
     {
         player = playerController;
+
+        playerUI.gameObject.SetActive(player != null);
     }
 
     public void SetWeaponImages(Dictionary<Weapon.WeaponTypeEnum, GameObject> weapons)
@@ -231,5 +246,21 @@ public class GameUI : MonoBehaviour {
             weaponStats.SetActive(true);
             lastShownWeapon = weapon;
         }
+    }
+
+    public void UpdateGamemodeUI(string mode, float time) {
+        gamemodeUI.gameObject.SetActive(true);
+
+        gamemode.text = mode;
+
+        StringBuilder sb = new StringBuilder();
+
+        if (time / 60 < 10) sb.Append("0");
+        sb.Append(((int)(time / 60)).ToString());
+        sb.Append(":");
+        if (time % 60 < 10) sb.Append("0");
+        sb.Append(((int)(time % 60)).ToString());
+
+        timer.text = sb.ToString();
     }
 }

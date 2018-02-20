@@ -124,8 +124,6 @@ public class PlayerController : Living
                 _animator.SetFloat("SpeedZ", locVel.z);
                 _animator.SetFloat("SpeedX", locVel.x);
             }  
-        } else if (rigidBody != null) {
-            Destroy(rigidBody);
         }
     }
 
@@ -212,7 +210,7 @@ public class PlayerController : Living
 
             if (canMove)
             {
-                if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0))
+                if (dir.sqrMagnitude > 0.1f)
                 {
                     float s = speed * (1 - angle/360);
                     if (canRun && rigidBody.velocity.magnitude < s)
@@ -226,8 +224,15 @@ public class PlayerController : Living
                 }
             }
             
-            rigidBody.velocity = new Vector3(rigidBody.velocity.x * 0.9f, rigidBody.velocity.y, rigidBody.velocity.z * 0.9f);
+            rigidBody.AddForce(-Vector3.Scale(rigidBody.velocity, drag), ForceMode.VelocityChange);
+
+            rigidBody.angularVelocity = Vector3.zero;
         }  
+    }
+
+    void OnDestroy()
+    {
+        gameUI.SetPlayerController(null);
     }
 
     public bool HasTarget()

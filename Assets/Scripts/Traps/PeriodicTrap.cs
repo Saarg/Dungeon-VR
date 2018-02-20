@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class PeriodicTrap : DungeonTrap {
 
-	public Trap activatedPart;
-
 	protected override void Update () {
 		base.Update ();
 
 		if (cooldownTime < lastActivation)
-			Activation ();
+            trap.StartTrap();
 	}
 
-	void Activation(){
-		activatedPart.StartTrap ();
-		lastActivation = 0;
-	}
 }
