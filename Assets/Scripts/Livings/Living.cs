@@ -50,6 +50,7 @@ public class Living : NetworkBehaviour {
 
 	[Header ("Spells")]
 	public bool isCasting = false;
+	public bool isTargeting = false;
 
     [Header("Weakness/Strength")]
 	[Range(0f, 2f)]

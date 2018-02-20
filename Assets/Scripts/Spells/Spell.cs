@@ -9,7 +9,12 @@ public abstract class Spell : NetworkBehaviour {
 	[SerializeField] protected float lastActivation;
 	[SerializeField] protected float manaCost;
 	[SerializeField] protected float range;		//if range is 0, spell will be apply to caster
-	public Living caster { protected get; set;}
+	[SerializeField] protected Living caster;
+	[SerializeField] protected Targeting targetingSystem;
+	[SerializeField] protected Vector3 target; //if necessary
+	[SerializeField] protected Quaternion targetRotation;
+	[SerializeField] protected KeyCode spellKey;
+	[SerializeField] protected GameObject placeholder;
 
 	[Header("Timers")]
 	[SerializeField] protected float castingTime;
@@ -47,13 +52,17 @@ public abstract class Spell : NetworkBehaviour {
 			Debug.Log ("Spell is not ready");
 			return;
 		}
+		if (caster.isTargeting) {
+			Debug.Log ("Already targeting for a spell");
+			return;
+		}
 
 		RpcStartCasting();
 	}
 
 	[ClientRpc]
 	void RpcStartCasting() {
-		StartCoroutine (Casting ());		
+		StartCoroutine (Casting ());
 	}
 
 	protected IEnumerator Casting(){
@@ -63,34 +72,63 @@ public abstract class Spell : NetworkBehaviour {
 		castingBar.CurrentValue = 0;
 		castingBar.Complete = false;
 
-		caster.isCasting = true;
-		if (hasAuthority) {
-			GetComponentInParent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
-		}
+    caster.isCasting = true;
+    castingBar.gameObject.SetActive (true);
 
-		castingBar.gameObject.SetActive (true);
+    if (hasAuthority) {
+      GetComponentInParent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
+    }
 
-		//TODO add animation
-		//TODO add sound
+    if (range > 0) {
+      caster.isTargeting = true;
+      StartCoroutine (targetingSystem.AcquireTarget (range, spellKey));
+    }
 
-		while(!castingBar.Complete){
-			castingBar.Progress (Time.deltaTime);
+		StartCoroutine (Casting ());
+	}
+
+	protected IEnumerator Casting(){
+		//wait for the target
+		while (caster.isTargeting) {
 			yield return 0;
 		}
 
-		ApplyEffect ();
+		if (!targetingSystem.Canceled ()) {
+			caster.isCasting = true;
+			this.GetComponent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
 
-		castingBar.gameObject.SetActive (false);
-		caster.isCasting = false;
+			castingBar.gameObject.SetActive (true);
+
+			//TODO add animation
+			//TODO add sound
+
+			if(range > 0){
+				target = targetingSystem.getTarget (); //target is needed if range is not 0
+				targetRotation = targetingSystem.getTargetRotation();
+				placeholder = targetingSystem.getPlaceholder();
+			}
+
+			while(!castingBar.Complete){
+				castingBar.Progress (Time.deltaTime);
+				yield return 0;
+			}
+
+			ApplyEffect ();
+
+			castingBar.gameObject.SetActive (false);
+			caster.isCasting = false;
+		}
 	}
 
 	public void ApplyEffect (){
 		if (isServer)
 			caster.curMana -= manaCost;
-		
+
 		Effects ();
 		lastActivation = 0;
 	}
 
 	protected abstract void Effects();
+
+	public KeyCode SpellKey(){ return spellKey; }
 }
