@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>  
+/// <summary>
 /// 	Mother class of every trap
 /// </summary>
 public abstract class DungeonTrap : MonoBehaviour {
@@ -13,7 +13,7 @@ public abstract class DungeonTrap : MonoBehaviour {
 	[Header("Description")]
 	public bool isBuilt = false;		//if true the trap is set
 	public bool isActive = false; 		//if false, the trap will never be triggered
-	public bool isDestroyable;			//if true, the trap can be attacked and destroyed 
+	public bool isDestroyable;			//if true, the trap can be attacked and destroyed
 	public bool isDesactivable;			//if true, the trap can be desactivated
 	public bool isDestroyedAfterUse;	//if true, the trap will be destroyed after effects have been applied
 	public float health;
@@ -58,12 +58,24 @@ public abstract class DungeonTrap : MonoBehaviour {
 	}
 
 	protected virtual void Update(){
-		if (Input.GetKeyDown ("1") && !this.isBuilt) StartCoroutine ("Building");
-		if (Input.GetKeyDown ("2") && this.isBuilt && !this.isActive) StartCoroutine ("Activation");
-		if (Input.GetKeyDown ("3") && this.isBuilt && this.isActive && this.isDesactivable) StartCoroutine ("Desactivation");
-		if (Input.GetKeyDown ("4")) Damage(10);
+//		if (Input.GetKeyDown ("1")) Build();
+//		if (Input.GetKeyDown ("2")) Activate();
+//		if (Input.GetKeyDown ("3")) Desactivate();
+//		if (Input.GetKeyDown ("4")) TakeDamage(10);
 
 		lastActivation += Time.deltaTime;
+	}
+
+	public void Build(){
+		if (!this.isBuilt) StartCoroutine ("Building");
+	}
+
+	public void Activate(){
+		if(this.isBuilt && !this.isActive) StartCoroutine ("Activation");
+	}
+
+	public void Desactivate(){
+		if(this.isBuilt && this.isActive && this.isDesactivable) StartCoroutine ("Desactivation");
 	}
 
 	IEnumerator Building(){
@@ -98,7 +110,7 @@ public abstract class DungeonTrap : MonoBehaviour {
 		activationBar.CurrentValue = 0;
 	}
 
-	public void Damage(float damage){
+	public void TakeDamage(float damage){
 		healthBar.gameObject.SetActive (true);
 		health -= damage;
 		healthBar.Progress (damage * -1);
@@ -128,8 +140,9 @@ public abstract class DungeonTrap : MonoBehaviour {
 			if (TrapSpawner.singleton != null) {
 				TrapSpawner.singleton.DamageTrap(gameObject, damage);
 			} else {
-				// this.Damage (damage);
+        this.TakeDamage (_col.gameObject.GetComponent<Bullet> ().Damage);
 			}
+
 		}
 	}
 

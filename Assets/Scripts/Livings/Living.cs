@@ -50,6 +50,10 @@ public class Living : NetworkBehaviour {
     public bool canMove = false;
     public bool lowJump = false;
 
+	[Header ("Spells")]
+	public bool isCasting = false;
+	public bool isTargeting = false;
+
     [Header("Weakness/Strength")]
 	[Range(0f, 2f)]
 	public float fire = 1f;
@@ -144,6 +148,7 @@ public class Living : NetworkBehaviour {
 	[ClientRpc]
 	private void RpcApplyMoveStatus(MoveStatus status)
     {
+        moveStatus = status;
         switch (moveStatus)
         {
             case MoveStatus.Free:
@@ -178,6 +183,11 @@ public class Living : NetworkBehaviour {
     public void TakeDamage(int damage, Bullet.DamageTypeEnum damageType)
     {
         CmdUpdateLife(curLife - CalculateResistance(damage, damageType));
+    }
+
+    public void Heal(int heal)
+    {
+        UpdateLife(curLife + heal);
     }
 
     int CalculateResistance(int damage, Bullet.DamageTypeEnum damageType)

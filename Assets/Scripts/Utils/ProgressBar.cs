@@ -36,6 +36,7 @@ public class ProgressBar : MonoBehaviour {
 
 	public bool Complete {
 		get { return complete; }
+		set { complete = value; }
 	}
 
 	void Start () {
@@ -48,9 +49,13 @@ public class ProgressBar : MonoBehaviour {
 	void Update () {}
 
 	public void Progress(float step){
+		this.gameObject.SetActive (true);
 		currentValue += step;
 		slider.value = currentValue;
 
-		if (currentValue > maxValue) complete = true;
+		if (currentValue > maxValue) {
+			complete = true;
+			this.gameObject.SetActive (false);
+		}
 	}
 }
