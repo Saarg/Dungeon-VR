@@ -11,6 +11,7 @@ public abstract class Spell : MonoBehaviour {
 	[SerializeField] protected Living caster;
 	[SerializeField] protected Targeting targetingSystem;
 	[SerializeField] protected Vector3 target; //if necessary
+	[SerializeField] protected Quaternion targetRotation;
 	[SerializeField] protected KeyCode spellKey;
 	[SerializeField] protected GameObject placeholder;
 
@@ -75,28 +76,31 @@ public abstract class Spell : MonoBehaviour {
 			yield return 0;
 		}
 
-		caster.isCasting = true;
-		this.GetComponent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
+		if (!targetingSystem.Canceled ()) {
+			caster.isCasting = true;
+			this.GetComponent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
 
-		castingBar.gameObject.SetActive (true);
+			castingBar.gameObject.SetActive (true);
 
-		//TODO add animation
-		//TODO add sound
+			//TODO add animation
+			//TODO add sound
 
-		if(range > 0){
-			target = targetingSystem.getTarget (); //target is needed if range is not 0
-			placeholder = targetingSystem.getPlaceholder();
+			if(range > 0){
+				target = targetingSystem.getTarget (); //target is needed if range is not 0
+				targetRotation = targetingSystem.getTargetRotation();
+				placeholder = targetingSystem.getPlaceholder();
+			}
+
+			while(!castingBar.Complete){
+				castingBar.Progress (Time.deltaTime);
+				yield return 0;
+			}
+
+			ApplyEffect ();
+
+			castingBar.gameObject.SetActive (false);
+			caster.isCasting = false;
 		}
-
-		while(!castingBar.Complete){
-			castingBar.Progress (Time.deltaTime);
-			yield return 0;
-		}
-
-		ApplyEffect ();
-
-		castingBar.gameObject.SetActive (false);
-		caster.isCasting = false;
 	}
 
 	public void ApplyEffect (){

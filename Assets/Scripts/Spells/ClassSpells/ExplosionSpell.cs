@@ -8,6 +8,6 @@ public class ExplosionSpell : Spell {
 
 	protected override void Effects(){
 		Destroy (placeholder.gameObject);
-		Instantiate(explosionPrefab, target, Quaternion.Euler(Vector3.zero));
+		Instantiate(explosionPrefab, target, targetRotation);
 	}
 }

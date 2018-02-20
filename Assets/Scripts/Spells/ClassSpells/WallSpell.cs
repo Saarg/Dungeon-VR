@@ -8,8 +8,7 @@ public class WallSpell : Spell {
 	[SerializeField] private Transform spawningPoint;
 
 	protected override void Effects(){
-//		Instantiate(wallPrefab, spawningPoint.transform.position, spawningPoint.transform.rotation);
-
-		Instantiate(wallPrefab, this.target, caster.transform.rotation);
+		Destroy (placeholder.gameObject);
+		Instantiate(wallPrefab, target, targetRotation);
 	}
 }
