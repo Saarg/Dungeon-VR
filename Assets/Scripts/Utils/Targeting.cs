@@ -7,8 +7,12 @@ public class Targeting : MonoBehaviour {
 	[SerializeField] private Living callingObject;
 	[SerializeField] private Projector projo;
 	[SerializeField] private Vector3 target;
+	[SerializeField] private GameObject placeholder;
+
+	public Vector3 getTarget(){ return target; }
 
 	private bool targeting;
+	private float height; 		//height of the projector
 
 	void Start () {
 		projo.gameObject.SetActive (false);
@@ -18,22 +22,23 @@ public class Targeting : MonoBehaviour {
 
 	public IEnumerator AcquireTarget(float range, KeyCode key){
 		targeting = true;
-		projo.transform.localPosition = new Vector3(0, 2.1f, range);
+		projo.transform.localPosition = new Vector3(0, height, range);
 		projo.gameObject.SetActive (true);
 
 		while (!Input.GetKeyDown (key)) {
 			yield return 0;
 		}
 
+		printTarget ();
+
 		targeting = false;
 		projo.gameObject.SetActive (false);
-		target = projo.transform.position;
+		target = projo.transform.position + new Vector3(0,-height,0);
 		callingObject.isTargeting = false;
 	}
 
-	public Vector3 getTarget(){
-		//projection of the projo on the ground
-		return target;
+	private void printTarget(){
+		GameObject newborn = Instantiate (placeholder, projo.transform.position, projo.transform.rotation);
 	}
 }
 
