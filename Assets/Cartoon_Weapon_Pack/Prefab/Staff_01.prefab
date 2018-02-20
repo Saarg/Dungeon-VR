@@ -12,9 +12,7 @@ GameObject:
   - component: {fileID: 2300000}
   - component: {fileID: 114430807827372436}
   - component: {fileID: 114462488510193560}
-  - component: {fileID: 114033703638342426}
-  - component: {fileID: 114054628974457904}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Staff_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,39 +101,9 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100000}
   m_IsPrefabParent: 1
---- !u!114 &114033703638342426
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69ece7887176ff54dbb7394a68d45c7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114054628974457904
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21d7dae0d1d9ebe47946a0daf169bf17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponName: Weapon1
-  weaponType: 0
-  AllowedClass: 03000000
-  bullet: {fileID: 1792118448359034, guid: eda447bcd5ce648d3a3135b0bbcd48f7, type: 2}
-  firingInterval: 2
-  manaCost: 5
-  useMana: 1
-  spellOrigin: {fileID: 0}
 --- !u!114 &114430807827372436
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
@@ -152,7 +120,7 @@ MonoBehaviour:
   _assetGuid: d8796c30149de704bb9c5d4e869fd94d
 --- !u!114 &114462488510193560
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}

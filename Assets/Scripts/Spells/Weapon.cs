@@ -11,6 +11,10 @@ public class Weapon : MonoBehaviour {
     };
 
     [SerializeField]
+    Sprite uiSprite;
+    public Sprite UISprite { get { return uiSprite; } }
+
+    [SerializeField]
     string weaponName;
     public string WeaponName { get { return weaponName; } }
 
@@ -38,7 +42,7 @@ public class Weapon : MonoBehaviour {
 
     [SerializeField]
     int numberOfBullet;
-    public int NumberOfBullet { get{ return numberOfBullet; } }
+    public int NumberOfBullet { get { return numberOfBullet; } }
 
     [SerializeField]
     float firingInterval;
@@ -60,8 +64,17 @@ public class Weapon : MonoBehaviour {
     Transform spellOrigin;
     public Transform SpellOrigin { get { return spellOrigin; } }
 
+    [SerializeField]
+    AudioClip clip;
+
     public bool CanEquip(PlayerController.PlayerClassEnum playerClass)
     {
         return AllowedClass.Contains(playerClass);
+    }
+
+    public void PlaySound()
+    {
+        if(clip != null)
+            AudioSource.PlayClipAtPoint(clip, transform.position);
     }
 }

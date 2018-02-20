@@ -67,8 +67,20 @@ public class GameUI : MonoBehaviour {
     [SerializeField]
     Image longRangeWeaponImage;
 
+    [SerializeField]
+    GameObject baseWeaponIcon;
+
+    [SerializeField]
+    GameObject shortWeaponIcon;
+
+    [SerializeField]
+    GameObject longWeaponIcon;
+
     Weapon lastShownWeapon = null;
-	
+
+    Vector3 SelectedWeaponScale = new Vector3(1.25f, 1.25f, 1.25f);
+    Vector3 UnselectedWeaponScale = Vector3.one;
+
 	// Update is called once per frame
 	void Update () {
         healthBar.fillAmount = (float)player.curLife / (float)player.maxLife;
@@ -86,26 +98,33 @@ public class GameUI : MonoBehaviour {
 
     public void SetWeaponImages(Dictionary<Weapon.WeaponTypeEnum, GameObject> weapons)
     {
-        if (weapons[Weapon.WeaponTypeEnum.Base] == null)
-            baseWeaponImage.color = Color.gray;
-        else if (player.inventory.CurrentWeapon == Weapon.WeaponTypeEnum.Base)
-            baseWeaponImage.color = Color.green;
-        else
-            baseWeaponImage.color = Color.red;
+        baseWeaponIcon.transform.localScale = (player.inventory.CurrentWeapon == Weapon.WeaponTypeEnum.Base) ? SelectedWeaponScale : UnselectedWeaponScale;
+        shortWeaponIcon.transform.localScale = (player.inventory.CurrentWeapon == Weapon.WeaponTypeEnum.ShortRange) ? SelectedWeaponScale : UnselectedWeaponScale;
+        longWeaponIcon.transform.localScale = (player.inventory.CurrentWeapon == Weapon.WeaponTypeEnum.LongRange) ? SelectedWeaponScale : UnselectedWeaponScale;
 
-        if (weapons[Weapon.WeaponTypeEnum.ShortRange] == null)
-            shortRangeWeaponImage.color = Color.gray;
-        else if (player.inventory.CurrentWeapon == Weapon.WeaponTypeEnum.ShortRange)
-            shortRangeWeaponImage.color = Color.green;
+        if (weapons[Weapon.WeaponTypeEnum.Base] != null)
+        {
+            baseWeaponImage.sprite = weapons[Weapon.WeaponTypeEnum.Base].GetComponent<Weapon>().UISprite;
+            baseWeaponImage.enabled = true;
+        }
         else
-            shortRangeWeaponImage.color = Color.red;
+            baseWeaponImage.enabled = false;
 
-        if (weapons[Weapon.WeaponTypeEnum.LongRange] == null)
-            longRangeWeaponImage.color = Color.gray;
-        else if (player.inventory.CurrentWeapon == Weapon.WeaponTypeEnum.LongRange)
-            longRangeWeaponImage.color = Color.green;
+        if (weapons[Weapon.WeaponTypeEnum.LongRange] != null)
+        {
+            longRangeWeaponImage.sprite = weapons[Weapon.WeaponTypeEnum.LongRange].GetComponent<Weapon>().UISprite;
+            longRangeWeaponImage.enabled = true;
+        }
         else
-            longRangeWeaponImage.color = Color.red;
+            longRangeWeaponImage.enabled = false;
+
+        if (weapons[Weapon.WeaponTypeEnum.ShortRange] != null)
+        {
+            shortRangeWeaponImage.sprite = weapons[Weapon.WeaponTypeEnum.ShortRange].GetComponent<Weapon>().UISprite;
+            shortRangeWeaponImage.enabled = true;
+        }
+        else
+            shortRangeWeaponImage.enabled = false;
     }
 
     public void HideWeaponStats()

@@ -153,6 +153,7 @@ public class ShootingController : NetworkBehaviour {
         else
             CmdFire(direction, rot, offset);
 
+        weapon.PlaySound();
         lastShotTime = Time.time;
     }
 

@@ -54,6 +54,9 @@ public class Bullet : NetworkBehaviour {
     [SerializeField]
     bool followSpellOrigin;
 
+    [SerializeField]
+    GameObject spawnOnImpact;
+
     Weapon spellOrigin;
     public Weapon SpellOrigin { get { return spellOrigin; } set { spellOrigin = value; } }
 
@@ -120,8 +123,20 @@ public class Bullet : NetworkBehaviour {
         }
     }
 
+    [Command]
+    void CmdSpawnEffect()
+    {
+        GameObject obj = Instantiate(spawnOnImpact, gameObject.transform.position, Quaternion.identity);
+        Debug.Log(obj);
+        NetworkServer.Spawn(obj);
+       
+    }
+
     private void Explode()
     {
+        if (spawnOnImpact != null)
+            CmdSpawnEffect();
+
         var hits = Physics.OverlapSphere(transform.position, 3f);
         foreach (var hit in hits)
         {
