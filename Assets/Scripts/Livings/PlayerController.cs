@@ -119,8 +119,15 @@ public class PlayerController : Living
 		base.Update();
         if (isLocalPlayer)
         {
-            if (Input.GetButtonDown("Fire2")) spell.CmdCast();
-
+            if (Input.GetButtonDown("Fire2"))
+            {
+                if (spell.IsReady())
+                {
+                    _netAnimator.SetTrigger("Cast");
+                    _animator.SetInteger("anim", (int)playerClassID);
+                }
+                spell.CmdCast();
+            }
             UpdateJump();
             FillMana();
             CheckForWeapon();

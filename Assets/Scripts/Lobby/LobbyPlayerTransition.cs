@@ -13,7 +13,7 @@ namespace Lobby {
                 PlayerController pc = GetComponent<PlayerController>();
 
                 pc.playerId = 1;
-                pc.CmdUpdatePlayerClass(0);
+                pc.CmdUpdatePlayerClass(3);
 
                 transform.position = new Vector3(0, 0, 0);
 
