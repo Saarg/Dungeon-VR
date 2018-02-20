@@ -7,7 +7,6 @@ public class Targeting : MonoBehaviour {
 	[SerializeField] private Living callingObject;
 	[SerializeField] private Projector projo;
 	[SerializeField] private Vector3 target;
-	[SerializeField] private GameObject placeholder;
 
 	public Vector3 getTarget(){ return target; }
 
@@ -38,7 +37,7 @@ public class Targeting : MonoBehaviour {
 	}
 
 	private void printTarget(){
-		GameObject newborn = Instantiate (placeholder, projo.transform.position, projo.transform.rotation);
+		GameObject newborn = Instantiate (projo.gameObject, projo.transform.position, projo.transform.rotation);
 	}
 }
 
