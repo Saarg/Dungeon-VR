@@ -82,12 +82,13 @@ public abstract class Spell : MonoBehaviour {
 		//TODO add animation
 		//TODO add sound
 
+		if(range > 0) target = targetingSystem.getTarget (); //target is needed if range is not 0
+
 		while(!castingBar.Complete){
 			castingBar.Progress (Time.deltaTime);
 			yield return 0;
 		}
 
-		if(range > 0) target = targetingSystem.getTarget (); //target is needed if range is not 0
 
 		ApplyEffect ();
 
