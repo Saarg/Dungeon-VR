@@ -213,6 +213,7 @@ public class InventoryController : NetworkBehaviour {
         {
             GameObject dropWeapon = weaponDictionary[weaponType];
             dropWeapon.transform.SetParent(null);
+            dropWeapon.transform.localScale = Vector3.one;
             dropWeapon.transform.localPosition = new Vector3(dropWeapon.transform.localPosition.x, 0, dropWeapon.transform.localPosition.z);
             dropWeapon.transform.rotation = Quaternion.identity;
             dropWeapon.SetActive(true);
