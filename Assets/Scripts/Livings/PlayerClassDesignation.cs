@@ -34,4 +34,9 @@ public class PlayerClassDesignation : NetworkBehaviour {
     public float poison = 1f;
     [Range(0f, 2f)]
     public float physical = 1f;
+
+    [Header("Collider")]
+    public Vector3 center;
+    public float radius = 1f;
+    public float height = 2f;
 }

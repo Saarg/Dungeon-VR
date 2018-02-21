@@ -10,5 +10,9 @@ public class WallSpell : Spell {
 	protected override void Effects(){
 		Destroy (placeholder.gameObject);
 		Instantiate(wallPrefab, target, targetRotation);
+
+		if (hasAuthority) {
+			caster.CmdApplyMoveStatus (MoveStatus.Free);
+		}
 	}
 }

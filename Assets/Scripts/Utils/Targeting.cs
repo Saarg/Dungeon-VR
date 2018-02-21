@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Targeting : MonoBehaviour {
 
-	[SerializeField] private Living callingObject;
+	public Living callingObject { internal get; set; }
 	[SerializeField] private Projector projo;
 	[SerializeField] private Vector3 target;
 	[SerializeField] private Quaternion targetRotation;
@@ -27,16 +28,17 @@ public class Targeting : MonoBehaviour {
 	
 	void Update () {}
 
-	public IEnumerator AcquireTarget(float range, KeyCode key){
+	public IEnumerator AcquireTarget(float range, Action cast, Action cancel){
 		targeting = true;
 		projo.transform.localPosition = new Vector3(0, height, range);
 		projo.gameObject.SetActive (true);
 
-		while (!Input.GetKeyDown (key) && !Input.GetKeyDown(KeyCode.Escape)) {
+		while (!Input.GetButtonDown ("Fire3") && !Input.GetKeyDown(KeyCode.Escape)) {
+			cancel();
 			yield return 0;
 		}
 
-		if(Input.GetKeyDown(key)){
+		if(Input.GetButtonDown ("Fire3")){
 			//print a clone of the projector so the player knows where is the targeting point
 			placeholder = Instantiate (projo.gameObject, projo.transform.position, projo.transform.rotation);
 			target = projo.transform.position + new Vector3(0,-height,0);
@@ -50,6 +52,8 @@ public class Targeting : MonoBehaviour {
 		targeting = false;
 		projo.gameObject.SetActive (false);
 		callingObject.isTargeting = false;
+
+		cast();
 	}
 }
 

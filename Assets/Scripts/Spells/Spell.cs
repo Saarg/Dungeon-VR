@@ -9,21 +9,36 @@ public abstract class Spell : NetworkBehaviour {
 	[SerializeField] protected float lastActivation;
 	[SerializeField] protected float manaCost;
 	[SerializeField] protected float range;		//if range is 0, spell will be apply to caster
-	[SerializeField] protected Living caster;
+	[SerializeField] protected Living _caster;
+	public Living caster { get { return _caster; } set{ 
+		_caster = value;
+
+		if (targetingSystem != null)
+			targetingSystem.callingObject = _caster;
+	} }
 	[SerializeField] protected Targeting targetingSystem;
 	[SerializeField] protected Vector3 target; //if necessary
 	[SerializeField] protected Quaternion targetRotation;
-	[SerializeField] protected KeyCode spellKey;
 	[SerializeField] protected GameObject placeholder;
 
 	[Header("Timers")]
 	[SerializeField] protected float castingTime;
 	[SerializeField] protected float cooldown;
+	[SerializeField] protected MoveStatus targetingMovement = MoveStatus.Casting;
+	[SerializeField] protected MoveStatus castingMovement = MoveStatus.Casting;
+	[SerializeField] protected MoveStatus effectMovement = MoveStatus.Ralenti;
+	
+
+	private Animator _animator;
+    private NetworkAnimator _netAnimator;
 
 	public ProgressBar castingBar { protected get; set;}
 
 	protected virtual void Start(){
 		lastActivation = cooldown;
+
+		_animator = GetComponent<Animator>();
+        _netAnimator = GetComponent<NetworkAnimator>();
 	}
 
 	protected virtual void Update(){
@@ -62,40 +77,45 @@ public abstract class Spell : NetworkBehaviour {
 
 	[ClientRpc]
 	void RpcStartCasting() {
-		StartCoroutine (Casting ());
-	}
-
-	protected IEnumerator Casting(){
 		castingBar.MinValue = 0;
 		castingBar.MaxValue = castingTime;
 		castingBar.StartValue = 0;
 		castingBar.CurrentValue = 0;
 		castingBar.Complete = false;
 
-    caster.isCasting = true;
-    castingBar.gameObject.SetActive (true);
+		caster.isCasting = true;
+		castingBar.gameObject.SetActive (true);
 
-    if (hasAuthority) {
-      GetComponentInParent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
-    }
+		if (hasAuthority) {
+			caster.CmdApplyMoveStatus (targetingMovement);
+		}
 
-    if (range > 0) {
-      caster.isTargeting = true;
-      StartCoroutine (targetingSystem.AcquireTarget (range, spellKey));
-    }
-
-		StartCoroutine (Casting ());
+		if (range > 0) {
+			caster.isTargeting = true;
+			StartCoroutine (targetingSystem.AcquireTarget (range, () => {
+				StartCoroutine (Casting ());;
+			}, 
+			() => {
+				if (hasAuthority) {
+					caster.CmdApplyMoveStatus (MoveStatus.Free);
+				}
+			}));
+		} else {
+			StartCoroutine (Casting ());
+		}
 	}
 
 	protected IEnumerator Casting(){
-		//wait for the target
-		while (caster.isTargeting) {
-			yield return 0;
-		}
+		if (targetingSystem == null || !targetingSystem.Canceled ()) {
+			if (IsReady())
+			{
+				_netAnimator.SetTrigger("Cast");
+				if (caster is PlayerController)
+					_animator.SetInteger("anim", (int)((caster as PlayerController).playerClassID) );
+			}
 
-		if (!targetingSystem.Canceled ()) {
 			caster.isCasting = true;
-			this.GetComponent<Living> ().CmdApplyMoveStatus (MoveStatus.Casting);
+			caster.CmdApplyMoveStatus (castingMovement);
 
 			castingBar.gameObject.SetActive (true);
 
@@ -128,7 +148,9 @@ public abstract class Spell : NetworkBehaviour {
 		lastActivation = 0;
 	}
 
-	protected abstract void Effects();
-
-	public KeyCode SpellKey(){ return spellKey; }
+	protected virtual void Effects() {
+		if (hasAuthority) {
+			caster.CmdApplyMoveStatus (MoveStatus.Free);
+		}
+	}
 }

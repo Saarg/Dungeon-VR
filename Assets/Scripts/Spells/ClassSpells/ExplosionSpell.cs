@@ -9,5 +9,9 @@ public class ExplosionSpell : Spell {
 	protected override void Effects(){
 		Destroy (placeholder.gameObject);
 		Instantiate(explosionPrefab, target, targetRotation);
+
+		if (hasAuthority) {
+			caster.CmdApplyMoveStatus (MoveStatus.Free);
+		}
 	}
 }

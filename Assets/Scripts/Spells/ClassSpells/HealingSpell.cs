@@ -13,6 +13,10 @@ public class HealingSpell : Spell
         spawningPoint = caster.transform;
         var aura = Instantiate(healingPrefab, spawningPoint.position, spawningPoint.rotation);
         aura.transform.parent = caster.transform;
+
+        if (hasAuthority) {
+			caster.CmdApplyMoveStatus (MoveStatus.Free);
+		}
     }
 
 }
