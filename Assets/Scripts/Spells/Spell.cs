@@ -78,28 +78,28 @@ public abstract class Spell : NetworkBehaviour {
 		if (range > 0) {
 			caster.isTargeting = true;
 			StartCoroutine (targetingSystem.AcquireTarget (range, () => {
-				CmdCast(targetingSystem.getTarget ());
+				CmdCast(targetingSystem.getTarget (), targetingSystem.getTargetRotation ());
 			}, () => {
 				if (hasAuthority) {
 					caster.CmdApplyMoveStatus (MoveStatus.Free);
 				}
 			}));
 		} else {
-			CmdCast(Vector3.zero);
+			CmdCast(Vector3.zero, Quaternion.identity);
 		}
 	}
 
 	[Command]
-	void CmdCast(Vector3 t){
-		RpcStartCasting(t);
+	void CmdCast(Vector3 t, Quaternion r){
+		RpcStartCasting(t, r);
 	}
 
 	[ClientRpc]
-	void RpcStartCasting(Vector3 t) {	
-		StartCoroutine (Casting (t));		
+	void RpcStartCasting(Vector3 t, Quaternion r) {	
+		StartCoroutine (Casting (t, r));		
 	}
 
-	protected IEnumerator Casting(Vector3 t){
+	protected IEnumerator Casting(Vector3 t, Quaternion r){
 		if (targetingSystem == null || !targetingSystem.Canceled ()) {
 			castingBar.MinValue = 0;
 			castingBar.MaxValue = castingTime;
@@ -124,7 +124,7 @@ public abstract class Spell : NetworkBehaviour {
 
 			if(range > 0){
 				target = t;
-				targetRotation = targetingSystem.getTargetRotation();
+				targetRotation = r;
 				placeholder = targetingSystem.getPlaceholder();
 			}
 
