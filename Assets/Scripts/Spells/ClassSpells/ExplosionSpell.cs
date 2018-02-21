@@ -7,7 +7,9 @@ public class ExplosionSpell : Spell {
 	[SerializeField] private GameObject explosionPrefab;
 
 	protected override void Effects(){
-		Destroy (placeholder.gameObject);
+		if (placeholder != null)
+			Destroy (placeholder.gameObject);
+		
 		Instantiate(explosionPrefab, target, targetRotation);
 
 		if (hasAuthority) {

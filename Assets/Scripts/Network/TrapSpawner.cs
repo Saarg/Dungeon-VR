@@ -21,14 +21,8 @@ public class TrapSpawner : NetworkBehaviour {
 	List<GameObject> spawnedTraps = new List<GameObject>();
 	
 	public bool spawnForClients;
-
-	[Header("InEditorHelp")]
-	public GameObject GM_UI;
 	
 	public override void OnStartClient() {
-		if (GM_UI != null)
-			GM_UI.SetActive(isServer);
-
 		if (!isServer) {
 			foreach (GameObject s in spawnedTraps) {
 				Destroy(s);

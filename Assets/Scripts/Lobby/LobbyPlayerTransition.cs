@@ -8,6 +8,8 @@ namespace Lobby {
     [RequireComponent(typeof(PlayerController))]
     public class LobbyPlayerTransition: NetworkBehaviour {
 
+        string[] names = {"Ulrich", "Demagorgon", "Marvin", "Gertrude", "Astriel", "Simone"};
+
         [SerializeField, HideInInspector]
         private GameObject VR_Scripts;
         [SerializeField, HideInInspector]
@@ -22,6 +24,9 @@ namespace Lobby {
 
                 transform.position = new Vector3(0, 0, 0);
 
+                gameObject.name = names[Random.Range(0, names.Length)];
+                pc.CmdSetName(gameObject.name);
+
                 Destroy(this);
                 return;
             }
@@ -33,6 +38,9 @@ namespace Lobby {
                 pc.CmdUpdatePlayerClass(PlayerUI.localPlayer.curClass);
 
                 transform.position = new Vector3(-23, 40, -9 + 3 * PlayerUI.localPlayer.curPlayer);
+
+                gameObject.name = names[Random.Range(0, names.Length)];
+                pc.CmdSetName(gameObject.name);              
 
                 Destroy(this);
             } else {

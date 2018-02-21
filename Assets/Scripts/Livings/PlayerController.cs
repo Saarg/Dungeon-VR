@@ -68,15 +68,19 @@ public class PlayerController : Living
                 gameUI.SetPlayerController(this);
                 gameUI.enabled = true;
             }
-        }
+        } else {
+            Destroy(cam.gameObject);
 
+            GameObject ui = GameObject.Find("GameUI");
+            if (ui != null)
+            {
+                gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
+                gameUI.AddTeamMate(this);
+                gameUI.enabled = true;
+            }
+        }
 
         rigidBody = GetComponent<Rigidbody>();
-
-        if (!isLocalPlayer)
-        {
-            Destroy(cam.gameObject);
-        }
     }
 
     public override void OnStartLocalPlayer() {
@@ -272,7 +276,7 @@ public class PlayerController : Living
     {
         if (Time.time - lastManaFill > manaFillRate)
         {
-            UpdateMana(CurrentMana + 1);
+            CmdUpdateMana(CurrentMana + 1);
             lastManaFill = Time.time;
         }
     }
@@ -354,5 +358,16 @@ public class PlayerController : Living
         spell = cd.GetComponent<Spell>();
         spell.caster = this;
         spell.castingBar = castingBar;
+    }
+
+    [Command]
+    public void CmdSetName(String n) {
+        gameObject.name = n;
+        RpcSetName(n);
+    }
+
+    [ClientRpc]
+    void RpcSetName(String n) {
+        gameObject.name = n;
     }
 }

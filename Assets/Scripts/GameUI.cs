@@ -89,7 +89,13 @@ public class GameUI : MonoBehaviour {
     [SerializeField]
     Text timer;
 
-
+    [Header("Team")]
+    [SerializeField]
+    Canvas teamUI;
+    [SerializeField]
+    List<PlayerController> team = new List<PlayerController>();
+    [SerializeField]
+    GameObject teamPlayerPrefab;
 
     Vector3 SelectedWeaponScale = new Vector3(1.25f, 1.25f, 1.25f);
     Vector3 UnselectedWeaponScale = Vector3.one;
@@ -262,5 +268,22 @@ public class GameUI : MonoBehaviour {
         sb.Append(((int)(time % 60)).ToString());
 
         timer.text = sb.ToString();
+    }
+
+    public void AddTeamMate(PlayerController mate) {
+        if (mate != null) {
+            team.Add(mate);
+
+            GameObject tm = Instantiate(teamPlayerPrefab, teamUI.transform);
+
+            tm.transform.Translate(0, -25f + (team.Count - 1) * -50f, 0);
+            tm.GetComponent<UITeamPlayer>().SetPlayercontroller(mate);
+        }
+    }
+
+    public void RemoveTeamMate(PlayerController mate) {
+        if (mate != null) {
+            team.Remove(mate);
+        }
     }
 }

@@ -122,6 +122,10 @@ public class Living : NetworkBehaviour {
         return isGrounded;
     }
 
+    [Command]
+    public void CmdUpdateMana(float mana) {
+        UpdateMana(mana);
+    }
     /// <summary>  
 	/// 	curMana hook, clamps the mana between 0 and maxMana
 	/// </summary>
