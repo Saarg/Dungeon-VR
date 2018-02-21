@@ -124,12 +124,7 @@ public class PlayerController : Living
         {
             if (Input.GetButtonDown("Fire2"))
             {
-                if (spell.IsReady())
-                {
-                    _netAnimator.SetTrigger("Cast");
-                    _animator.SetInteger("anim", (int)playerClassID);
-                    spell.Cast();
-                }
+                spell.Cast();
             }
             UpdateJump();
             FillMana();
