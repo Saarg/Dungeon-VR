@@ -53,6 +53,8 @@ public class PlayerController : Living
     [SyncVar] GameObject currentClassObject;
     [SyncVar] int defaultWeaponId;
 
+    Transform lookAt;
+
     /// <summary>
     /// 	Fetch animator
     ///		Destroy camera if not localplayer
@@ -109,6 +111,8 @@ public class PlayerController : Living
             spell = cd.GetComponent<Spell>();
             spell.caster = this;
             spell.castingBar = castingBar;
+
+            lookAt = cd.transform.Find("LookAt");
         }
 
         if (!isLocalPlayer)
@@ -133,13 +137,6 @@ public class PlayerController : Living
             UpdateJump();
             FillMana();
             UpdateTarget();
-
-            Vector3 locVel = transform.InverseTransformDirection(rigidBody.velocity);
-
-            if (_animator != null) {
-                _animator.SetFloat("SpeedZ", locVel.z);
-                _animator.SetFloat("SpeedX", locVel.x);
-            }
         }
     }
 
@@ -204,31 +201,39 @@ public class PlayerController : Living
     void FixedUpdate()
     {
         if (isLocalPlayer) {
-            Vector3 dir = (cam.right * Input.GetAxis("Horizontal") * Time.deltaTime) + (cam.forward * Input.GetAxis("Vertical") * Time.deltaTime);
-            dir.y = 0;
-            dir.Normalize();
+            float angle = Vector3.Angle(cam.forward, transform.forward);
 
-            float angle = Vector3.Angle(cam.forward, dir);
-            Vector3 lookDir = dir;
-            lookDir.y = 0;
-
-            if(lookDir.sqrMagnitude > 0.1f) {
-                if (angle > 90)
-                    lookDir = -lookDir;
-
-            } else {
-               lookDir = cam.forward;
-               lookDir.y = 0;
+            if (angle < 170) {
+                lookAt.localPosition = Vector3.Lerp(lookAt.localPosition, Vector3.up * 1.6f + lookAt.InverseTransformDirection(cam.forward * 5), Time.deltaTime * 2);
+            }  else {
+                lookAt.localPosition = Vector3.Lerp(lookAt.localPosition, Vector3.up * 1.6f + lookAt.InverseTransformDirection(transform.forward * 5), Time.deltaTime * 2);                
             }
-
-            lookDir.Normalize();
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);
+            Debug.DrawLine(transform.position + Vector3.up * 1.6f, lookAt.position, Color.red);
 
             if (canMove)
             {
-                if (dir.sqrMagnitude > 0.1f)
+                if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0))
                 {
-                    float s = speed * (1 - angle/360);
+                    Vector3 dir = (cam.right * Input.GetAxis("Horizontal") * Time.deltaTime) + (cam.forward * Input.GetAxis("Vertical") * Time.deltaTime);
+                    dir.y = 0;
+                    dir.Normalize();
+
+                    float a = Vector3.Angle(dir, transform.forward);
+
+                    Vector3 lookDir = cam.forward;
+                    lookDir.y = 0;
+                    lookDir.Normalize();
+       
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);
+                    
+                    float s = speed * (1 - a/360);
+                    // _amplifier.bodies[0].horizontalWeight = 1;
+                    if (Input.GetButton("Walk") || !canRun)
+                        s = walkSpeed * (1 - a/360);
+                    else if (Input.GetButton("Sprint"))
+                        s = sprintSpeed * (1 - a/360);
+                    // _amplifier.bodies[0].horizontalWeight = 5;
+
                     if (canRun && rigidBody.velocity.magnitude < s)
                     {
                         rigidBody.AddForce(dir, ForceMode.VelocityChange);
@@ -238,6 +243,15 @@ public class PlayerController : Living
                         rigidBody.AddForce(dir, ForceMode.VelocityChange);
                     }
                 }
+            }
+
+            Vector3 locVel = transform.InverseTransformDirection(rigidBody.velocity);
+
+            if (_animator != null) {
+                _animator.SetFloat("SpeedZ", locVel.z);
+                _animator.SetFloat("SpeedX", locVel.x);
+
+                _animator.SetFloat("Speed", locVel.sqrMagnitude);
             }
 
             rigidBody.AddForce(-Vector3.Scale(rigidBody.velocity, drag), ForceMode.VelocityChange);
@@ -314,6 +328,8 @@ public class PlayerController : Living
         maxMana = cd.maxMana;
 
         speed = cd.speed;
+        walkSpeed = cd.walkSpeed;
+        sprintSpeed = cd.sprintSpeed;
         jumpHeight = cd.jumpHeight;
 
         fire = cd.fire;
@@ -358,6 +374,8 @@ public class PlayerController : Living
         spell = cd.GetComponent<Spell>();
         spell.caster = this;
         spell.castingBar = castingBar;
+
+        lookAt = cd.transform.Find("LookAt");
     }
 
     [Command]

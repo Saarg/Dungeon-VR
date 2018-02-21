@@ -16,6 +16,8 @@ public class PlayerClassDesignation : NetworkBehaviour {
 
     [Header("Movement")]
     public float speed = 6f;
+	public float walkSpeed = 3f;
+	public float sprintSpeed = 8f;
     public float jumpHeight = 6f;
 
     [SerializeField]
