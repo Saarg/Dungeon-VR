@@ -53,8 +53,7 @@ public abstract class Spell : NetworkBehaviour {
 		GameObject.Destroy(this.gameObject);
 	}
 
-	[Command]
-	public void CmdCast(){
+	public void Cast(){
 		if (caster.isCasting) {
 			Debug.Log ("Already casting");
 			return;
@@ -72,20 +71,6 @@ public abstract class Spell : NetworkBehaviour {
 			return;
 		}
 
-		RpcStartCasting();
-	}
-
-	[ClientRpc]
-	void RpcStartCasting() {
-		castingBar.MinValue = 0;
-		castingBar.MaxValue = castingTime;
-		castingBar.StartValue = 0;
-		castingBar.CurrentValue = 0;
-		castingBar.Complete = false;
-
-		caster.isCasting = true;
-		castingBar.gameObject.SetActive (true);
-
 		if (hasAuthority) {
 			caster.CmdApplyMoveStatus (targetingMovement);
 		}
@@ -93,26 +78,41 @@ public abstract class Spell : NetworkBehaviour {
 		if (range > 0) {
 			caster.isTargeting = true;
 			StartCoroutine (targetingSystem.AcquireTarget (range, () => {
-				StartCoroutine (Casting ());;
-			}, 
-			() => {
+				CmdCast(targetingSystem.getTarget ());
+			}, () => {
 				if (hasAuthority) {
 					caster.CmdApplyMoveStatus (MoveStatus.Free);
 				}
 			}));
 		} else {
-			StartCoroutine (Casting ());
+			CmdCast(Vector3.zero);
 		}
 	}
 
-	protected IEnumerator Casting(){
+	[Command]
+	void CmdCast(Vector3 t){
+		RpcStartCasting(t);
+	}
+
+	[ClientRpc]
+	void RpcStartCasting(Vector3 t) {	
+		StartCoroutine (Casting (t));		
+	}
+
+	protected IEnumerator Casting(Vector3 t){
 		if (targetingSystem == null || !targetingSystem.Canceled ()) {
-			if (IsReady())
-			{
-				_netAnimator.SetTrigger("Cast");
-				if (caster is PlayerController)
-					_animator.SetInteger("anim", (int)((caster as PlayerController).playerClassID) );
-			}
+			castingBar.MinValue = 0;
+			castingBar.MaxValue = castingTime;
+			castingBar.StartValue = 0;
+			castingBar.CurrentValue = 0;
+			castingBar.Complete = false;
+
+			caster.isCasting = true;
+			castingBar.gameObject.SetActive (true);
+
+			_netAnimator.SetTrigger("Cast");
+			if (caster is PlayerController)
+				_animator.SetInteger("anim", (int)((caster as PlayerController).playerClassID) );
 
 			caster.isCasting = true;
 			caster.CmdApplyMoveStatus (castingMovement);
@@ -123,7 +123,7 @@ public abstract class Spell : NetworkBehaviour {
 			//TODO add sound
 
 			if(range > 0){
-				target = targetingSystem.getTarget (); //target is needed if range is not 0
+				target = t;
 				targetRotation = targetingSystem.getTargetRotation();
 				placeholder = targetingSystem.getPlaceholder();
 			}

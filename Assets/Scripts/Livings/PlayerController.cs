@@ -124,7 +124,7 @@ public class PlayerController : Living
         {
             if (Input.GetButtonDown("Fire2"))
             {
-                spell.CmdCast();
+                spell.Cast();
             }
             UpdateJump();
             FillMana();

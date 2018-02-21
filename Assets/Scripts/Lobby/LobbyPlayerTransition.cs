@@ -17,8 +17,8 @@ namespace Lobby {
             if (SceneManager.GetActiveScene().name != "NetworkTest") {
                 PlayerController pc = GetComponent<PlayerController>();
 
-                pc.playerId = 0;
-                pc.CmdUpdatePlayerClass(0);
+                pc.playerId = Random.Range(0, 4);
+                pc.CmdUpdatePlayerClass(pc.playerId);
 
                 transform.position = new Vector3(0, 0, 0);
 
