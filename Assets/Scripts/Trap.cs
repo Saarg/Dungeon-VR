@@ -22,8 +22,11 @@ public abstract class Trap : MonoBehaviour {
 
     public void DestroyTrap()
     {
-        // Reset the trap drop zone
-        TrapRemoved(new TrapEventArgs());
+        if (TrapRemoved != null)
+            TrapRemoved(new TrapEventArgs());
+
+        if (TrapSpawner.singleton != null)
+            TrapSpawner.singleton.DestroyTrap(this.gameObject);
 
         StartCoroutine("DestroyAfterThrowing");
     }

@@ -140,7 +140,7 @@ public abstract class DungeonTrap : MonoBehaviour {
 			if (TrapSpawner.singleton != null) {
 				TrapSpawner.singleton.DamageTrap(gameObject, damage);
 			} else {
-        this.TakeDamage (_col.gameObject.GetComponent<Bullet> ().Damage);
+        		this.TakeDamage (_col.gameObject.GetComponent<Bullet> ().Damage);
 			}
 
 		}

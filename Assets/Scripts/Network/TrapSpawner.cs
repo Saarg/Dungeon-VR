@@ -113,7 +113,7 @@ public class TrapSpawner : NetworkBehaviour {
 
 	[TargetRpc]
 	void TargetRespawnForClient(NetworkConnection conn) {
-		if (!spawnForClients)
+		if (!spawnForClients || conn == null)
 			return;
 
 		TargetClearTrapsForClient(conn);
@@ -177,6 +177,9 @@ public class TrapSpawner : NetworkBehaviour {
 	}
 
 	public void DestroyTrap(GameObject t) {
+		if (!isServer)
+			return;
+
 		RpcDestroyTrap(spawnedTraps.FindIndex(x => x == t));
 	}
 
@@ -190,6 +193,9 @@ public class TrapSpawner : NetworkBehaviour {
 	}
 
 	public void DamageTrap(GameObject t, float damage) {
+		if (!isServer)
+			return;
+		
 		RpcDamageTrap(spawnedTraps.FindIndex(x => x == t), damage);
 	}
 

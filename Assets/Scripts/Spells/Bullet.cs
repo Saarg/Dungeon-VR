@@ -107,6 +107,9 @@ public class Bullet : NetworkBehaviour {
         if (col.gameObject.tag == OwnerTag)
             return;
 
+        if (col.isTrigger)
+            return;
+
         if (continuousDamage)
             return;
 

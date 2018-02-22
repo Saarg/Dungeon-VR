@@ -205,12 +205,15 @@ public class PlayerController : Living
         if (isLocalPlayer) {
             float angle = Vector3.Angle(cam.forward, transform.forward);
 
-            if (angle < 170) {
-                lookAt.localPosition = Vector3.Lerp(lookAt.localPosition, Vector3.up * 1.6f + lookAt.InverseTransformDirection(cam.forward * 5), Time.deltaTime * 2);
-            }  else {
-                lookAt.localPosition = Vector3.Lerp(lookAt.localPosition, Vector3.up * 1.6f + lookAt.InverseTransformDirection(transform.forward * 5), Time.deltaTime * 2);                
+            if (lookAt != null) {
+                if (angle < 170) {
+                    lookAt.localPosition = Vector3.Lerp(lookAt.localPosition, Vector3.up * 1.6f + lookAt.InverseTransformDirection(cam.forward * 5), Time.deltaTime * 2);
+                }  else {
+                    lookAt.localPosition = Vector3.Lerp(lookAt.localPosition, Vector3.up * 1.6f + lookAt.InverseTransformDirection(transform.forward * 5), Time.deltaTime * 2);                
+                }
+
+                Debug.DrawLine(transform.position + Vector3.up * 1.6f, lookAt.position, Color.red);
             }
-            Debug.DrawLine(transform.position + Vector3.up * 1.6f, lookAt.position, Color.red);
 
             if (canMove)
             {
