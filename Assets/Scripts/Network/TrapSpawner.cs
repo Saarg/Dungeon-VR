@@ -22,6 +22,15 @@ public class TrapSpawner : NetworkBehaviour {
 	
 	public bool spawnForClients;
 	
+	void Awake()
+	{
+		if (NetworkManager.singleton is CustomNetworkManager) {
+			(NetworkManager.singleton as CustomNetworkManager).playerConnectDelegate += AddClient;
+		} else if (NetworkManager.singleton is LobbyManager) {
+			(NetworkManager.singleton as LobbyManager).playerConnectDelegate += AddClient;
+		}
+	}
+
 	public override void OnStartClient() {
 		if (!isServer) {
 			foreach (GameObject s in spawnedTraps) {
@@ -74,7 +83,7 @@ public class TrapSpawner : NetworkBehaviour {
 		}
 	}
 
-	void Respawn(NetworkConnection conn) {
+	void RespawnForClient(NetworkConnection conn) {
 		if (!spawnForClients)
 			return;
 
@@ -109,24 +118,6 @@ public class TrapSpawner : NetworkBehaviour {
 			return;
 
 		Spawn(trap);
-	}
-
-	[TargetRpc]
-	void TargetRespawnForClient(NetworkConnection conn) {
-		if (!spawnForClients || conn == null)
-			return;
-
-		TargetClearTrapsForClient(conn);
-
-		foreach(GameObject s in spawnedTraps) {
-			TrapSpawn t = new TrapSpawn();
-
-			t.path = s.name.Substring(0, s.name.Length - 7);
-			t.position = s.transform.position;
-			t.rotation = s.transform.rotation;
-
-			TargetSpawnForClient(conn, t);
-		}
 	}
 
 	[TargetRpc]
@@ -209,7 +200,7 @@ public class TrapSpawner : NetworkBehaviour {
 	public void AddClient(NetworkConnection conn) {
 		StartCoroutine(WaitForConnectionIsReady(conn, () => {
 			if (spawnForClients)
-				TargetRespawnForClient(conn);
+				RespawnForClient(conn);
 			else
 				TargetClearTrapsForClient(conn);
 		}));
