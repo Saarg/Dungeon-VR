@@ -14,6 +14,7 @@ public class PlayerController : Living
     public Animator _animator;
     public NetworkAnimator _netAnimator;
     private Rigidbody rigidBody;
+    private CapsuleCollider collider;
 
     public Transform cam;
     public InventoryController inventory;
@@ -83,6 +84,7 @@ public class PlayerController : Living
         }
 
         rigidBody = GetComponent<Rigidbody>();
+        collider = GetComponent<CapsuleCollider>();
     }
 
     public override void OnStartLocalPlayer() {
@@ -223,8 +225,13 @@ public class PlayerController : Living
                     Vector3 lookDir = cam.forward;
                     lookDir.y = 0;
                     lookDir.Normalize();
-       
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);
+
+                    if (isGrounded)
+                        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);
+                    else if (a < 120)
+                        transform.rotation = Quaternion.LookRotation(dir);
+                    else 
+                        transform.rotation = Quaternion.LookRotation(-dir);                        
                     
                     float s = speed * (1 - a/360);
                     // _amplifier.bodies[0].horizontalWeight = 1;
