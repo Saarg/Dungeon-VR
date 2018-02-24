@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrapOnTable : MonoBehaviour {
+public class TrapOnTable : ItemVR {
 
     public GameObject trapInHandPrefab;
     public DungeonTrap associatedTrap;
+
+
 
     // Use this for initialization
     void Start() {
@@ -20,10 +22,13 @@ public class TrapOnTable : MonoBehaviour {
 
     }
 
-    public void AttachToHand(object o, VRTK.InteractableObjectEventArgs e)
+    public void OnTriggerPress(object o, VRTK.InteractableObjectEventArgs e)
     {
-        e.interactingObject.GetComponent<TrapControllerManager>().AttachToHand(trapInHandPrefab, associatedTrap);
-
+        if (HasEnoughMoney())
+        {
+            e.interactingObject.GetComponent<TrapControllerManager>().AttachToHand(trapInHandPrefab, associatedTrap);
+        }
+        //return true;
     }
 }
 

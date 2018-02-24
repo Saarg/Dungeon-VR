@@ -45,6 +45,14 @@ public class TrapDropZone : MonoBehaviour {
         }
     }
 
+    public void RotatePreview(float angle)
+    {
+        if(preview != null)
+        {
+            preview.transform.Rotate(new Vector3(0, angle, 0));
+        }
+    }
+
     /// <summary>
     /// OnAttach trap from player player controller -> Check transform + ask server to add it.
     /// </summary>
@@ -64,6 +72,7 @@ public class TrapDropZone : MonoBehaviour {
 
             DestroyPreview();
             placedTrap = TrapSpawner.singleton.AddTrap(s);
+            //VRPlayerManager.instance.Buy(placedTrap.);
             placedTrap.trap.TrapRemoved += OnTrapRemoved;
             trapControllerManager = null;
         }
