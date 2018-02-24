@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 
 public class GameUI : MonoBehaviour {
+    [SerializeField] Canvas mainCanvas;
+
     [Header("Player")]
     [SerializeField]
     Canvas playerUI;
@@ -97,6 +99,26 @@ public class GameUI : MonoBehaviour {
     [SerializeField]
     GameObject teamPlayerPrefab;
 
+    [Header("VR")]
+    [SerializeField] Canvas vrUI;
+    [SerializeField] Vector3 pos;
+    [SerializeField] Vector3 rot;   
+    [SerializeField] Vector3 scale;
+    [SerializeField] bool _isVr;
+    public bool isVr {
+        get { return _isVr; }
+        set {
+            vrUI.gameObject.SetActive(value);
+
+            mainCanvas.renderMode = value ? RenderMode.WorldSpace : RenderMode.ScreenSpaceOverlay;
+            mainCanvas.transform.position = pos;
+            mainCanvas.transform.rotation = Quaternion.Euler(rot);
+            mainCanvas.transform.localScale = scale;
+
+            _isVr = value;
+        }
+    }
+
     Vector3 SelectedWeaponScale = new Vector3(1.25f, 1.25f, 1.25f);
     Vector3 UnselectedWeaponScale = Vector3.one;
 
@@ -114,7 +136,7 @@ public class GameUI : MonoBehaviour {
     {
         player = playerController;
 
-        playerUI.gameObject.SetActive(player != null);
+        playerUI.gameObject.SetActive(player != null && !isVr);
     }
 
     public void SetWeaponImages(Dictionary<Weapon.WeaponTypeEnum, GameObject> weapons)

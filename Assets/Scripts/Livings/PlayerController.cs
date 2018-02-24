@@ -270,11 +270,6 @@ public class PlayerController : Living
         }
     }
 
-    void OnDestroy()
-    {
-        gameUI.SetPlayerController(null);
-    }
-
     public bool HasTarget()
     {
         return target != null;

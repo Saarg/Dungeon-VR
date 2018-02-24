@@ -37,17 +37,21 @@ namespace Lobby {
                 pc.playerId = PlayerUI.localPlayer.curPlayer;
                 pc.CmdUpdatePlayerClass(PlayerUI.localPlayer.curClass);
 
-                transform.position = new Vector3(-23, 40, -9 + 3 * PlayerUI.localPlayer.curPlayer);
+                GameObject StartPos = GameObject.FindGameObjectsWithTag("StartPos")[pc.playerId-1];
+                transform.position = StartPos.transform.position;
 
                 gameObject.name = names[Random.Range(0, names.Length)];
-                pc.CmdSetName(gameObject.name);              
+                pc.CmdSetName(gameObject.name);           
+
+                GameObject.Find("GameUI").GetComponent<GameUI>().isVr = false;   
 
                 Destroy(this);
             } else {
                 SceneManager.LoadSceneAsync("VRNetworkTest", LoadSceneMode.Additive);
 
                 Instantiate(VR_SDK);
-                // Instantiate(VR_Scripts);
+
+                GameObject.Find("GameUI").GetComponent<GameUI>().isVr = true;
 
                 NetworkServer.Destroy(gameObject);
             }
