@@ -5,9 +5,9 @@ using UnityEngine;
 public class VRPlayerManager : MonoBehaviour {
 
     public static VRPlayerManager instance;
-    public int totalGold = 100;
+    public int totalGold = 10;
 
-	void Awake()
+	public VRPlayerManager()
     {
         if(instance== null)
         {

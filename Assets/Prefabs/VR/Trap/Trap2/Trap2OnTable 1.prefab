@@ -82,7 +82,7 @@ GameObject:
   - component: {fileID: 114275329654457694}
   - component: {fileID: 114433474214142094}
   m_Layer: 8
-  m_Name: PriceLabel (1)
+  m_Name: PriceValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -465,7 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e283db8dce764646bfb4636bd47e26b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 5
+  price: 1
   image: {fileID: 114863431825361460}
   trapInHandPrefab: {fileID: 1681440277988584, guid: 2d361134904d6834f9a42ed206868ea6,
     type: 2}
@@ -605,6 +605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 673b12ad1be868d4f8c2460bd1b538f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  priceText: {fileID: 114275329654457694}
 --- !u!114 &114390244550801642
 MonoBehaviour:
   m_ObjectHideFlags: 1

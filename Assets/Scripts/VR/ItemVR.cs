@@ -9,6 +9,8 @@ public class ItemVR : MonoBehaviour {
 
     public Image image;
 
+    private Color baseColor;
+
     // Use this for initialization
     void Start () {
 		
@@ -21,7 +23,6 @@ public class ItemVR : MonoBehaviour {
 
     protected bool HasEnoughMoney()
     {
-        StopCoroutine("CanvasFeedback_LowMoney");
         if (VRPlayerManager.instance.totalGold >= price)
         {
             StartCoroutine("CanvasFeedback_LowMoney", new Color(0, 155, 0, 0.5f)); // Green
@@ -36,7 +37,10 @@ public class ItemVR : MonoBehaviour {
 
     public IEnumerator CanvasFeedback_LowMoney(Color color)
     {
-        Color baseColor = image.color;
+        if(baseColor == null)
+        {
+            baseColor = image.color;
+        }
         image.color = color;
         yield return new WaitForSeconds(1);
         image.color = baseColor;

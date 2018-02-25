@@ -7,8 +7,6 @@ public class TrapOnTable : ItemVR {
     public GameObject trapInHandPrefab;
     public DungeonTrap associatedTrap;
 
-
-
     // Use this for initialization
     void Start() {
         if (trapInHandPrefab == null)
@@ -26,6 +24,7 @@ public class TrapOnTable : ItemVR {
     {
         if (HasEnoughMoney())
         {
+            associatedTrap.price = price;
             e.interactingObject.GetComponent<TrapControllerManager>().AttachToHand(trapInHandPrefab, associatedTrap);
         }
         //return true;

@@ -18,6 +18,7 @@ public class VR_UI : MonoBehaviour {
             {
                 this.GetComponent<Canvas>().enabled = true;
                 headsetToTrack = GameObject.Find("Camera (eye)");
+                priceText.text = GetComponentInParent<ItemVR>().price.ToString();
             }
             else
             {
@@ -28,6 +29,7 @@ public class VR_UI : MonoBehaviour {
     }
 
     private GameObject headsetToTrack;
+    public Text priceText;
 
 	// Use this for initialization
 	void Start () {
