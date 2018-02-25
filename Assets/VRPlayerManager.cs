@@ -5,6 +5,10 @@ using UnityEngine;
 public class VRPlayerManager : MonoBehaviour {
 
     public static VRPlayerManager instance;
+
+    GameUI gameUI;
+
+    public int maxGold;
     public int totalGold = 10;
 
 	public VRPlayerManager()
@@ -30,5 +34,15 @@ public class VRPlayerManager : MonoBehaviour {
         {
             return false;
         }
+    }
+
+    void Start()
+    {
+        gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
+    }
+
+    void Update()
+    {
+        gameUI.UpdateVRUI(this);
     }
 }

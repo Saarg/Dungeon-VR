@@ -119,17 +119,26 @@ public class GameUI : MonoBehaviour {
         }
     }
 
+    [SerializeField]
+    Text goldText;
+    [SerializeField]
+    Slider goldBar;
+
     Vector3 SelectedWeaponScale = new Vector3(1.25f, 1.25f, 1.25f);
     Vector3 UnselectedWeaponScale = Vector3.one;
 
-	// Update is called once per frame
+    void Start()
+    {
+        gameObject.name = "GameUI";
+    }
+
 	void Update () {
-        healthBar.fillAmount = (float)player.curLife / (float)player.maxLife;
-        manaBar.fillAmount = (float)player.CurrentMana / (float)player.MaxMana;
+        healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, (float)player.curLife / (float)player.maxLife, Time.deltaTime * 2f);
+        manaBar.fillAmount = Mathf.Lerp(manaBar.fillAmount, (float)player.CurrentMana / (float)player.MaxMana, Time.deltaTime * 2f);
 
         targetBar.gameObject.SetActive(player.HasTarget());
         if(player.HasTarget())
-            targetBar.fillAmount = (float)player.TargetCurLife() / (float)player.TargetMaxLife();
+            targetBar.fillAmount = Mathf.Lerp(targetBar.fillAmount, (float)player.TargetCurLife() / (float)player.TargetMaxLife(), Time.deltaTime * 2f);
 	}
 
     public void SetPlayerController(PlayerController playerController)
@@ -290,6 +299,16 @@ public class GameUI : MonoBehaviour {
         sb.Append(((int)(time % 60)).ToString());
 
         timer.text = sb.ToString();
+
+        if (time < 5) {
+            timer.color = Color.red;
+
+            timer.transform.localScale = Vector3.one * (1f + time%1 * (5 - (int)(time)) / 10);
+        } else {
+            timer.color = Color.black;
+
+            timer.transform.localScale = Vector3.one * (1f + time%1  / 10);         
+        }
     }
 
     public void AddTeamMate(PlayerController mate) {
@@ -308,4 +327,18 @@ public class GameUI : MonoBehaviour {
             team.Remove(mate);
         }
     }
+
+    public void UpdateVRUI(VRPlayerManager pm) {
+        goldBar.maxValue = pm.maxGold;
+        goldBar.value = pm.totalGold;
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(pm.totalGold.ToString());        
+        sb.Append("/");        
+        sb.Append(pm.maxGold.ToString());        
+
+        goldText.text = sb.ToString();
+    }
+    
 }
