@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -21,6 +22,15 @@ namespace Lobby {
 		[SerializeField, HideInInspector]
 		private Sprite mageClass;
 
+		[SerializeField, HideInInspector]
+		private Texture tankCam;
+		[SerializeField, HideInInspector]
+		private Texture healerCam;
+		[SerializeField, HideInInspector]
+		private Texture assasinCam;
+		[SerializeField, HideInInspector]
+		private Texture mageCam;
+
 		public int curPlayer;
 		public int curClass = 5;
 
@@ -35,10 +45,17 @@ namespace Lobby {
 
 		public Text pName;
 		public Image classLogo;
+		public RawImage playerFace;
 
-		/// <summary>
-		/// Start is used to setup parent, name, classLogo and position
-		/// </summary>
+		void Awake()
+		{
+			if (NetworkManager.singleton is CustomNetworkManager) {
+				(NetworkManager.singleton as CustomNetworkManager).playerConnectDelegate += AddClient;
+			} else if (NetworkManager.singleton is LobbyManager) {
+				(NetworkManager.singleton as LobbyManager).playerConnectDelegate += AddClient;
+			}
+		}
+		
 		void Start () {
 			transform.SetParent(GameObject.Find("UI").transform);
 
@@ -65,38 +82,15 @@ namespace Lobby {
 			} else {
 				curClass = curPlayer - 1;				
 
-				pName.transform.parent.localPosition = new Vector3(110 * (curPlayer-1), 50, 0);
+				pName.transform.parent.localPosition = new Vector3(130 * (curPlayer-1), 50, 0);
 				pName.text = "Player " + curPlayer;
 				gameObject.name = "Player " + curPlayer;
 
 				PlayerPrefs.SetInt("isGameMaster", 0);				
 			}	
 
-			StartCoroutine(UpdateData());
-		}
-
-		/// <summary>
-		/// This function is called when the MonoBehaviour will be destroyed.
-		/// </summary>
-		void OnDestroy()
-		{
-			StopAllCoroutines();
-		}
-
-		/// <summary>
-		/// Update is called every frame, if the MonoBehaviour is enabled.
-		/// </summary>
-		IEnumerator UpdateData()
-		{
-			while(isLocalPlayer) {
+			if (isLocalPlayer)
 				CmdSelectClass(curClass);
-
-				// Hardcoded 5 since minPlayers not accesible from here
-				if (NetworkLobbyManager.singleton.numPlayers >= minPlayers) {
-					readyButtons.SetActive(true);
-				}
-				yield return new WaitForSeconds(0.5f);
-			}
 		}
 
 		/// <summary>
@@ -115,12 +109,17 @@ namespace Lobby {
 			RpcUpdateSprite(c);
 		}
 
-		/// <summary>
-		/// Rpc updating the player's class
-		/// </summary>
-		/// <param name="c">class integer tank, healer, assasin, mage, gm or -1 for self update</param>  
+		[TargetRpc]
+		void TargetUpdateSprite(NetworkConnection target, int c) {
+			UpdateSprite(c);	
+		}
+
 		[ClientRpc]
 		void RpcUpdateSprite(int c) {
+			UpdateSprite(c);		
+		}
+
+		void UpdateSprite(int c) {
 			if (c < 0) {
 				c = curClass;
 			}
@@ -128,15 +127,19 @@ namespace Lobby {
 			switch (c) {
 				case 0:
 					classLogo.sprite = tankClass;
+					playerFace.texture = tankCam;
 					break;
 				case 1:
 					classLogo.sprite = healerClass;
+					playerFace.texture = healerCam;
 					break;
 				case 2:
 					classLogo.sprite = assasinClass;
+					playerFace.texture = assasinCam;
 					break;
 				case 3:
 					classLogo.sprite = mageClass;
+					playerFace.texture = mageCam;
 					break;
 				case 4:
 					classLogo.sprite = GMClass;
@@ -152,6 +155,19 @@ namespace Lobby {
 				classButtons.transform.GetChild(c).GetComponent<Button>().interactable = false;
 			
 			curClass = c;		
+		}
+
+		public void AddClient(NetworkConnection conn) {
+			StartCoroutine(WaitForConnectionIsReady(conn, () => {
+				TargetUpdateSprite(conn, curClass);
+			}));
+		}
+
+		IEnumerator WaitForConnectionIsReady(NetworkConnection conn, Action cb) {
+			while(!conn.isReady) {
+				yield return new WaitForEndOfFrame();
+			}
+			cb();
 		}
 	}
 }
