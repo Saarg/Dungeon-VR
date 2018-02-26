@@ -133,13 +133,15 @@ public class GameUI : MonoBehaviour {
     }
 
 	void Update () {
-        healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, (float)player.curLife / (float)player.maxLife, Time.deltaTime * 2f);
-        manaBar.fillAmount = Mathf.Lerp(manaBar.fillAmount, (float)player.CurrentMana / (float)player.MaxMana, Time.deltaTime * 2f);
+        if (player != null) {
+            healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, (float)player.curLife / (float)player.maxLife, Time.deltaTime * 2f);
+            manaBar.fillAmount = Mathf.Lerp(manaBar.fillAmount, (float)player.CurrentMana / (float)player.MaxMana, Time.deltaTime * 2f);
 
-        targetBar.gameObject.SetActive(player.HasTarget());
-        if(player.HasTarget())
-            targetBar.fillAmount = Mathf.Lerp(targetBar.fillAmount, (float)player.TargetCurLife() / (float)player.TargetMaxLife(), Time.deltaTime * 2f);
-	}
+            targetBar.gameObject.SetActive(player.HasTarget());
+            if(player.HasTarget())
+                targetBar.fillAmount = Mathf.Lerp(targetBar.fillAmount, (float)player.TargetCurLife() / (float)player.TargetMaxLife(), Time.deltaTime * 2f);
+        }
+    }
 
     public void SetPlayerController(PlayerController playerController)
     {

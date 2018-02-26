@@ -61,7 +61,7 @@ namespace Lobby {
 
 			curPlayer = playerCount++;
 
-			readyButtons.SetActive(false);				
+			readyButtons.SetActive(true);				
 
 			if (!isLocalPlayer) {
 				classButtons.SetActive(false);
