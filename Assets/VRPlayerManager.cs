@@ -38,11 +38,18 @@ public class VRPlayerManager : MonoBehaviour {
 
     void Start()
     {
-        gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
+        GameObject gameUI_GO = GameObject.Find("GameUI");
+        if (gameUI_GO != null)
+        {
+            gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
+        }
     }
 
     void Update()
     {
-        gameUI.UpdateVRUI(this);
+        if (gameUI != null)
+        {
+            gameUI.UpdateVRUI(this);
+        }
     }
 }
