@@ -56,10 +56,16 @@ namespace Lobby {
                 Transform rightTarget = sdkManager.scriptAliasRightController.transform;
 
                 GameObject leftHand = Instantiate(VR_Hand);
+                leftHand.name = "LeftHandNetworked";
                 GameObject rightHand = Instantiate(VR_Hand);
+                rightHand.name = "RightHandNetworked";                
                 
                 NetworkServer.SpawnWithClientAuthority(leftHand, gameObject);
                 NetworkServer.SpawnWithClientAuthority(rightHand, gameObject);
+
+                // Destroy the renderer for the vr player (he already has is hands ^^)
+                Destroy(leftHand.GetComponentInChildren<Renderer>().gameObject);
+                Destroy(rightHand.GetComponentInChildren<Renderer>().gameObject);
 
                 leftHand.GetComponent<Follow>().target = leftTarget;
                 rightHand.GetComponent<Follow>().target = rightTarget;
