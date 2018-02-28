@@ -61,7 +61,7 @@ namespace Lobby {
 
 			curPlayer = playerCount++;
 
-			readyButtons.SetActive(true);				
+			readyButtons.SetActive(false);				
 
 			if (!isLocalPlayer) {
 				classButtons.SetActive(false);
@@ -89,8 +89,11 @@ namespace Lobby {
 				PlayerPrefs.SetInt("isGameMaster", 0);				
 			}	
 
-			if (isLocalPlayer)
+			if (isLocalPlayer) {
+				if (minPlayers <= playerCount)
+					readyButtons.SetActive(true);
 				CmdSelectClass(curClass);
+			}
 		}
 
 		/// <summary>
@@ -98,6 +101,12 @@ namespace Lobby {
 		/// </summary>
 		public override void OnStartLocalPlayer() {
 			localPlayer = this;
+		}
+
+		void Update()
+		{
+			if (isLocalPlayer && minPlayers <= playerCount)
+				readyButtons.SetActive(true);
 		}
 
 		/// <summary>

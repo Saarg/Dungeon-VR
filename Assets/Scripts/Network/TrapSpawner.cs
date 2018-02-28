@@ -20,7 +20,7 @@ public class TrapSpawner : NetworkBehaviour {
 	[SerializeField]
 	List<GameObject> spawnedTraps = new List<GameObject>();
 	
-	public bool spawnForClients;
+	[SyncVar] public bool spawnForClients;
 	
 	void Awake()
 	{
@@ -43,9 +43,6 @@ public class TrapSpawner : NetworkBehaviour {
 
 	public override void OnStartServer()
 	{
-		if (LobbyManager.instance != null)
-			LobbyManager.instance.playerConnectDelegate += AddClient;
-
 		if (GameManager.instance != null)
 			GameManager.instance.onStartGame += StartSpawningForClients;
 
@@ -150,7 +147,7 @@ public class TrapSpawner : NetworkBehaviour {
 		go.transform.position = t.position;
 		go.transform.rotation = t.rotation;
 
-		go.GetComponent<DungeonTrap>().isActive = true;
+		go.GetComponent<DungeonTrap>().isActive = spawnForClients;
 
 		spawnedTraps.Add(go);
 
@@ -208,6 +205,12 @@ public class TrapSpawner : NetworkBehaviour {
 
 	public void StartSpawningForClients() {
 		spawnForClients = true;
+
+		// ACTIVATE ALL TRAPS
+		foreach (GameObject trap in spawnedTraps) {
+			trap.GetComponent<DungeonTrap>().isActive = spawnForClients;
+		}
+
 		Respawn();
 	}
 
