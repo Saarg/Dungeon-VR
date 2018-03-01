@@ -404,8 +404,9 @@ public class PlayerController : Living
         gameUI.SetPlayerController(null);
         gameUI.SetDeathUI(true);
         rigidBody = null;
-        collider = null;
+        collider.center = new Vector3 (0,1,0);
         _netAnimator.SetTrigger("Death");
+        collider = null;
         Debug.Log("AHAH ! You're dead");
     }
 }
