@@ -130,7 +130,7 @@ public class PlayerController : Living
     public override void Update()
     {
 		base.Update();
-        if (isLocalPlayer)
+        if (isLocalPlayer && !dead)
         {
             if (Input.GetButtonDown("Fire2"))
             {
@@ -147,7 +147,7 @@ public class PlayerController : Living
     /// </summary>
     void UpdateJump()
     {
-        if (isLocalPlayer)
+        if (isLocalPlayer && !dead)
         {
             if (Input.GetButtonDown("Jump") && isGrounded && canJump)
             {
@@ -174,7 +174,7 @@ public class PlayerController : Living
 
     void UpdateTarget()
     {
-        if (isLocalPlayer)
+        if (isLocalPlayer && !dead)
         {
             var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, RAY_LENGTH);
             foreach (var hit in hits)
@@ -215,7 +215,7 @@ public class PlayerController : Living
                 Debug.DrawLine(transform.position + Vector3.up * 1.6f, lookAt.position, Color.red);
             }
 
-            if (canMove)
+            if (canMove && !dead)
             {
                 if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0))
                 {
@@ -397,5 +397,13 @@ public class PlayerController : Living
     [ClientRpc]
     void RpcSetName(String n) {
         gameObject.name = n;
+    }
+
+    public override void Death()
+    {
+        gameUI.SetPlayerController(null);
+        gameUI.SetDeathUI(true);
+        _netAnimator.SetTrigger("Death");
+        Debug.Log("AHAH ! You dead");
     }
 }

@@ -69,7 +69,7 @@ public class Living : NetworkBehaviour {
 	public float physical = 1f;
 
     Collider _collider;
-
+    public bool dead = false;
 	// Events
 	public delegate void DeathEvent();
     public event DeathEvent OnDeath;
@@ -101,7 +101,8 @@ public class Living : NetworkBehaviour {
 		if (curLife == 0f) {
             if(OnDeath != null)
 			    OnDeath();
-            Destroy(gameObject);
+            dead = true;
+            Death();
 		}
 	}
 
@@ -223,5 +224,11 @@ public class Living : NetworkBehaviour {
     public float GetMaxLife()
     {
         return maxLife;
+    }
+
+    public virtual void Death()
+    {
+        //Play death animation and whatever is needed in child
+        Destroy(gameObject);
     }
 }
