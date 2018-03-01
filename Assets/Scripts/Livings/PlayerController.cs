@@ -202,7 +202,7 @@ public class PlayerController : Living
     /// </summary>
     void FixedUpdate()
     {
-        if (isLocalPlayer) {
+        if (isLocalPlayer && !dead) {
             float angle = Vector3.Angle(cam.forward, transform.forward);
 
             if (lookAt != null) {
@@ -215,7 +215,7 @@ public class PlayerController : Living
                 Debug.DrawLine(transform.position + Vector3.up * 1.6f, lookAt.position, Color.red);
             }
 
-            if (canMove && !dead)
+            if (canMove)
             {
                 if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0))
                 {
@@ -403,7 +403,9 @@ public class PlayerController : Living
     {
         gameUI.SetPlayerController(null);
         gameUI.SetDeathUI(true);
+        rigidBody = null;
+        collider = null;
         _netAnimator.SetTrigger("Death");
-        Debug.Log("AHAH ! You dead");
+        Debug.Log("AHAH ! You're dead");
     }
 }
