@@ -141,17 +141,22 @@ public class TrapSpawner : NetworkBehaviour {
 		Debug.Log(t.path);
 		GameObject go = Resources.Load(t.path) as GameObject;
 
-        go = Instantiate(go, transform);
+		if (go != null) {
+			go = Instantiate(go, transform);
 
-        Debug.Log(go.name);
-		go.transform.position = t.position;
-		go.transform.rotation = t.rotation;
+			Debug.Log(go.name);
+			go.transform.position = t.position;
+			go.transform.rotation = t.rotation;
 
-		go.GetComponent<DungeonTrap>().isActive = spawnForClients;
+			go.GetComponent<DungeonTrap>().isActive = spawnForClients;
 
-		spawnedTraps.Add(go);
+			spawnedTraps.Add(go);
 
-        return go.GetComponent<DungeonTrap>();
+			return go.GetComponent<DungeonTrap>();
+		} else {
+			Debug.LogWarning(t.path + " not found");
+			return null;
+		}
 	}
 
 	public DungeonTrap AddTrap(TrapSpawn trap) {

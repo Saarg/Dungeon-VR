@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b243a3a1452c4844684197d5ece85210, type: 3}
+  m_Name: FlameStrong
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 1516226059751338, guid: 20f31bfeac44eac49a2744f8a8bb9bbb,
+    type: 2}
+  velocity: 0
+  damage: 2
+  lifeTime: 10
+  persistentBullet: 1
+  destroyOnHit: 0
+  explodeOnHit: 0
+  useGravity: 0
+  continuousDamage: 1
+  damageTickInterval: 1
+  followSpellOrigin: 1
+  spawnOnImpact: {fileID: 0}
+  damageType: 0
+  model: {fileID: 1686284480147724, guid: 35d12a5d2c1549f4c9038ddf899398c1, type: 2}

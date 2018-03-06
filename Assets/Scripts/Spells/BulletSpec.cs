@@ -7,6 +7,10 @@ using UnityEngine;
 public class BulletSpec : ScriptableObject {
 
     [SerializeField]
+    GameObject bulletPrefab;
+    public GameObject BulletPrefab { get { return bulletPrefab; } } 
+
+    [SerializeField]
     float velocity;
     public float Velocity { get { return velocity; } }
 
@@ -31,6 +35,10 @@ public class BulletSpec : ScriptableObject {
     public bool ExplodeOnHit { get { return explodeOnHit; } }   
 
     [SerializeField]
+    bool useGravity;
+    public bool UseGravity { get { return useGravity; } }   
+
+    [SerializeField]
     bool continuousDamage;
     public bool ContinuousDamage { get { return continuousDamage; } }          
 
@@ -39,10 +47,18 @@ public class BulletSpec : ScriptableObject {
     public float DamageTickInterval { get { return damageTickInterval; } }    
 
     [SerializeField]
+    bool followSpellOrigin;
+    public bool FollowSpellOrigin { get { return followSpellOrigin; } }
+
+    [SerializeField]
     GameObject spawnOnImpact;
     public GameObject SpawnOnImpact { get { return spawnOnImpact; } }
 
     [SerializeField]
     Bullet.DamageTypeEnum damageType;
     public Bullet.DamageTypeEnum DamageType { get { return damageType; } }
+
+    [SerializeField]
+    GameObject model;
+    public GameObject Model { get { return model; } }
 }

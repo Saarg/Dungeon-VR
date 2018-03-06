@@ -27,8 +27,8 @@ public class WeaponSpec : ScriptableObject {
 	public List<PlayerController.PlayerClassEnum> AllowedClass { get { return allowedClass; } }
 
     [SerializeField]
-    GameObject bullet;
-    public GameObject Bullet { get { return bullet; } }
+    BulletSpec bullet;
+    public BulletSpec Bullet { get { return bullet; } }
 
     [SerializeField]
     GameObject model;

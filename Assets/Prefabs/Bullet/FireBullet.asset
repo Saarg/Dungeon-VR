@@ -11,4 +11,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b243a3a1452c4844684197d5ece85210, type: 3}
   m_Name: FireBullet
   m_EditorClassIdentifier: 
-  velocity: 0
+  bulletPrefab: {fileID: 1516226059751338, guid: 20f31bfeac44eac49a2744f8a8bb9bbb,
+    type: 2}
+  velocity: 15
+  damage: 5
+  lifeTime: 10
+  persistentBullet: 0
+  destroyOnHit: 1
+  explodeOnHit: 0
+  useGravity: 0
+  continuousDamage: 0
+  damageTickInterval: 0
+  followSpellOrigin: 0
+  spawnOnImpact: {fileID: 0}
+  damageType: 0
+  model: {fileID: 1033219775464686, guid: cae7602e4c716664f82d3a103f644cf6, type: 2}

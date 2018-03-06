@@ -19,7 +19,7 @@ public class Weapon : MonoBehaviour {
     [SerializeField]
     List<PlayerController.PlayerClassEnum> AllowedClass { get { return spec.AllowedClass; } }
 
-    public GameObject Bullet { get { return spec.Bullet; } }
+    public BulletSpec Bullet { get { return spec.Bullet; } }
     
     [SerializeField]
     GameObject model;
@@ -67,5 +67,13 @@ public class Weapon : MonoBehaviour {
     {
         if(clip != null)
             AudioSource.PlayClipAtPoint(clip, transform.position);
+    }
+
+    void OnDrawGizmos()
+    {
+        if (model == null) {
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(transform.position, 0.3f);
+        }
     }
 }

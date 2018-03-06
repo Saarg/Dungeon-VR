@@ -214,7 +214,7 @@ public class GameUI : MonoBehaviour {
                     break;
             }
 
-            Bullet bullet = weapon.Bullet.GetComponent<Bullet>();
+            BulletSpec bullet = weapon.Bullet;
 
             damage.text = bullet.Damage.ToString();
             fireRate.text = weapon.FiringInterval.ToString() + " Sec";
@@ -226,15 +226,15 @@ public class GameUI : MonoBehaviour {
             fireRateModifier.text = string.Empty;
             manaCostModifier.text = string.Empty;
 
-            if (inventoryWeapon != null && inventoryWeapon.Bullet.GetComponent<Bullet>().Damage > bullet.Damage)
+            if (inventoryWeapon != null && inventoryWeapon.Bullet.Damage > bullet.Damage)
                 damageModifier.color = Color.red;
-            else if (inventoryWeapon != null && inventoryWeapon.Bullet.GetComponent<Bullet>().Damage == bullet.Damage)
+            else if (inventoryWeapon != null && inventoryWeapon.Bullet.Damage == bullet.Damage)
                 damageModifier.color = Color.black;
             else
                 damageModifier.color = Color.green;
 
             if (inventoryWeapon != null) {
-                int damageDifference = inventoryWeapon.Bullet.GetComponent<Bullet>().Damage - bullet.Damage;
+                int damageDifference = inventoryWeapon.Bullet.Damage - bullet.Damage;
                 if (damageDifference > 0)
                     damageModifier.text = string.Format("(-{0})", damageDifference);
                 else
