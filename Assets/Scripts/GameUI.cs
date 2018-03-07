@@ -93,6 +93,8 @@ public class GameUI : MonoBehaviour {
 
     [Header("Team")]
     [SerializeField]
+    RectTransform[] teammatesUIPosition;
+    [SerializeField]
     Canvas teamUI;
     [SerializeField]
     List<PlayerController> team = new List<PlayerController>();
@@ -315,11 +317,10 @@ public class GameUI : MonoBehaviour {
 
     public void AddTeamMate(PlayerController mate) {
         if (mate != null) {
+            GameObject tm = Instantiate(teamPlayerPrefab, teammatesUIPosition[team.Count]);
+            
             team.Add(mate);
 
-            GameObject tm = Instantiate(teamPlayerPrefab, teamUI.transform);
-
-            tm.transform.Translate(0, -25f + (team.Count - 1) * -50f, 0);
             tm.GetComponent<UITeamPlayer>().SetPlayercontroller(mate);
         }
     }
