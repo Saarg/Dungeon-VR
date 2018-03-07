@@ -24,7 +24,7 @@ public class VR_Spell : MonoBehaviour {
     private void VR_Spell_InteractableObjectGrabbed(object sender, VRTK.InteractableObjectEventArgs e)
     {
         this.SpellSpawner.CurrentSpell = null;
-        this.GetComponent<SphereCollider>().radius = .1f; //  for a more accurate collision
+        this.GetComponent<SphereCollider>().radius = 2f; //  for a more accurate collision
     }
 
     private void VR_Spell_InteractableObjectUngrabbed(object sender, VRTK.InteractableObjectEventArgs e)
@@ -45,7 +45,7 @@ public class VR_Spell : MonoBehaviour {
     {
         // do all the effects
         // do effect on player 
-        Instantiate(AreaSpellPrefab, transform.position, transform.rotation);
+        Instantiate(AreaSpellPrefab, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
 }
