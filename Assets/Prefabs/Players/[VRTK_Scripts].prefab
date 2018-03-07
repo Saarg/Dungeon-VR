@@ -40,7 +40,6 @@ GameObject:
   - component: {fileID: 33164664429817360}
   - component: {fileID: 23824460007492220}
   - component: {fileID: 114283748304361198}
-  - component: {fileID: 114279495610672356}
   m_Layer: 2
   m_Name: Model
   m_TagString: Untagged
@@ -58,9 +57,7 @@ GameObject:
   - component: {fileID: 4917336035921506}
   - component: {fileID: 33058545257157152}
   - component: {fileID: 23636878064458950}
-  - component: {fileID: 114248251858223530}
   - component: {fileID: 114042653478891018}
-  - component: {fileID: 114293021386466804}
   m_Layer: 0
   m_Name: VRController
   m_TagString: Untagged
@@ -96,7 +93,7 @@ GameObject:
   - component: {fileID: 114129050964667500}
   - component: {fileID: 114084444579102502}
   - component: {fileID: 114443323515821562}
-  m_Layer: 2
+  m_Layer: 14
   m_Name: CustomControllerCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,8 +112,7 @@ GameObject:
   - component: {fileID: 114795685684194618}
   - component: {fileID: 114778623876385600}
   - component: {fileID: 114636293353149938}
-  - component: {fileID: 114897249723447206}
-  m_Layer: 2
+  m_Layer: 14
   m_Name: CustomControllerCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +129,6 @@ GameObject:
   - component: {fileID: 4631760810673852}
   - component: {fileID: 114994046684928280}
   - component: {fileID: 54865211574539540}
-  - component: {fileID: 114900039488895678}
   m_Layer: 2
   m_Name: CustomControllerAttach
   m_TagString: Untagged
@@ -699,7 +694,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: 1323241558
+  _guid: 24879c4e-40b0-48a9-979c-1512f4b1a504
 --- !u!114 &114061339232085804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -926,26 +921,6 @@ MonoBehaviour:
   teleporter: {fileID: 0}
   customBodyColliderContainer: {fileID: 0}
   customFootColliderContainer: {fileID: 0}
---- !u!114 &114248251858223530
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1285092019203560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isConnected: 1
-  _guid: 89ef6da3-acf7-4ba7-a9a6-3ced419b8307
-  _referenceCollection:
-    _collection:
-    - {fileID: 1285092019203560}
-    - {fileID: 1266406792350884}
-    - {fileID: 1570153997341568}
-    - {fileID: 1580390369818608}
-  _assetGuid: 58f3becb576260340a873c519038aaa4
 --- !u!114 &114249419341785266
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -972,6 +947,9 @@ MonoBehaviour:
     - {fileID: 1713290390542462}
     - {fileID: 1486405073351840}
     - {fileID: 1897303727617782}
+    - {fileID: 1266406792350884}
+    - {fileID: 1570153997341568}
+    - {fileID: 1580390369818608}
   _assetGuid: 6174668a4b630074e9686d7b57950b7c
 --- !u!114 &114266408632412492
 MonoBehaviour:
@@ -1000,17 +978,6 @@ MonoBehaviour:
   controller: {fileID: 0}
   interactUse: {fileID: 0}
   customOrigin: {fileID: 0}
---- !u!114 &114279495610672356
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1266406792350884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1265402980, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114283748304361198
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1022,18 +989,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: 1146c8f3-28b8-4f10-8239-eb5752e368e0
---- !u!114 &114293021386466804
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1285092019203560}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1491221649, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _guid: 21b037b7-0df2-4960-8cf0-c3dc9def18f2
 --- !u!114 &114379431168441596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1171,7 +1127,7 @@ MonoBehaviour:
   customRaycast: {fileID: 0}
   layersToIgnore:
     serializedVersion: 2
-    m_Bits: 772
+    m_Bits: 4294959103
   pointerOriginSmoothingSettings:
     smoothsPosition: 0
     maxAllowedPerFrameDistanceDifference: 0.003
@@ -1209,7 +1165,7 @@ MonoBehaviour:
   customRaycast: {fileID: 0}
   layersToIgnore:
     serializedVersion: 2
-    m_Bits: 772
+    m_Bits: 4294959103
   pointerOriginSmoothingSettings:
     smoothsPosition: 0
     maxAllowedPerFrameDistanceDifference: 0.003
@@ -1647,7 +1603,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: 7f884074-88ff-4b1c-945c-89bda0944908
+  _guid: bf1d8e46-0bd6-4176-8589-be0f264ae6c0
 --- !u!114 &114823438271209960
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1951,28 +1907,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: VRTK.UnityEventHelper.VRTK_ControllerEvents_UnityEvents+ControllerInteractionEvent,
       Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
---- !u!114 &114897249723447206
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1570153997341568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1265402980, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114900039488895678
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1580390369818608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1265402980, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114943964337516192
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2008,7 +1942,7 @@ MonoBehaviour:
   m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _guid: ec74b2fe-2dda-4311-b7e9-0d7c2d13282e
+  _guid: a69f33e5-c729-42fd-8b9d-a28c44f59ddf
 --- !u!135 &135403228530723100
 SphereCollider:
   m_ObjectHideFlags: 1
