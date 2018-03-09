@@ -102,6 +102,14 @@ public class ShootingController : NetworkBehaviour {
         }
     }
 
+    public void AiFire(Vector3 targetPosition)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        Quaternion rot = Quaternion.LookRotation(direction, Vector3.up);
+        CmdFire(direction, rot, offset);
+        weapon.PlaySound();
+    }
+
     /// <summary>  
     /// Client side compute fire data
     /// </summary>
