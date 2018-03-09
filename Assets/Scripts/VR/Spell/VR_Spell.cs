@@ -29,7 +29,7 @@ public class VR_Spell : MonoBehaviour {
 
     private void VR_Spell_InteractableObjectUngrabbed(object sender, VRTK.InteractableObjectEventArgs e)
     {
-        this.GetComponent<Rigidbody>().useGravity = true;
+        VRSpellManager.ThrowSpell(gameObject);
     }
 
     public void OnTriggerEnter(Collider other)
