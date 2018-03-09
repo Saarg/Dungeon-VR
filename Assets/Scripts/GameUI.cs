@@ -97,6 +97,10 @@ public class GameUI : MonoBehaviour {
     [SerializeField]
     GameObject teamPlayerPrefab;
 
+    [Header("Death")]
+    [SerializeField]
+    Canvas deathUI;
+
     Vector3 SelectedWeaponScale = new Vector3(1.25f, 1.25f, 1.25f);
     Vector3 UnselectedWeaponScale = Vector3.one;
 
@@ -115,6 +119,11 @@ public class GameUI : MonoBehaviour {
         player = playerController;
 
         playerUI.gameObject.SetActive(player != null);
+    }
+
+    public void SetDeathUI(bool val)
+    {
+        deathUI.gameObject.SetActive(val);
     }
 
     public void SetWeaponImages(Dictionary<Weapon.WeaponTypeEnum, GameObject> weapons)
