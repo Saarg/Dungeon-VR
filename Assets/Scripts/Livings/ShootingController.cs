@@ -166,8 +166,9 @@ public class ShootingController : NetworkBehaviour {
     [Command]
     void CmdFire(Vector3 direction, Quaternion rot, Vector3 shootingOffset)
     {
-        GameObject bulletObj = Instantiate(weapon.Bullet, weapon.SpellOrigin.position, rot);
+        GameObject bulletObj = Instantiate(weapon.Bullet.BulletPrefab, weapon.SpellOrigin.position, rot);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
+        bullet.spec = weapon.Bullet;
 
         Physics.IgnoreCollision(bulletObj.GetComponent<Collider>(), GetComponentInParent<Collider>(), true);
         bullet.OwnerTag = gameObject.tag;
@@ -195,6 +196,7 @@ public class ShootingController : NetworkBehaviour {
         GameObject weaponObj = ClientScene.FindLocalObject(weaponId);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         bullet.OwnerTag = gameObject.tag;
+        bullet.spec = weapon.Bullet;
         if (weaponObj.GetComponent<Weapon>().DrainMana)
             persistentBullet = bullet;
         bullet.SpellOrigin = weaponObj.GetComponent<Weapon>();

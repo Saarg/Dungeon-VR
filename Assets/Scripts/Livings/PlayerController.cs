@@ -108,6 +108,12 @@ public class PlayerController : Living
             {
                 inventory.InitializeWeaponInformation(new NetworkInstanceId((uint)defaultWeaponId), cd);
                 inventory.CmdPickupWeapon(new NetworkInstanceId((uint)defaultWeaponId), netId);
+            } else {
+                inventory.InitializedOtherClient();
+
+                Weapon w =  inventory.GetWeapon(inventory.CurrentWeapon);
+                if (w.spec == null)
+                    w.spec = cd.defaultWeapon;
             }
 
             spell = cd.GetComponent<Spell>();
@@ -115,11 +121,6 @@ public class PlayerController : Living
             spell.castingBar = castingBar;
 
             lookAt = cd.transform.Find("LookAt");
-        }
-
-        if (!isLocalPlayer)
-        {
-            inventory.InitializedOtherClient();
         }
     }
 
@@ -270,11 +271,6 @@ public class PlayerController : Living
         }
     }
 
-    void OnDestroy()
-    {
-        gameUI.SetPlayerController(null);
-    }
-
     public bool HasTarget()
     {
         return target != null;
@@ -351,8 +347,9 @@ public class PlayerController : Living
         NetworkServer.SpawnWithClientAuthority(go, gameObject);
         currentClassObject = go;
 
-        GameObject w = Instantiate(cd.defaultWeapon, cd.weaponGrip);
+        GameObject w = Instantiate(cd.defaultWeapon.WeaponPrefab, cd.weaponGrip);
         Destroy(w.GetComponent<DroppedWeapon>());
+        w.GetComponent<Weapon>().spec = cd.defaultWeapon;
         defaultWeaponId = (int)w.GetComponent<NetworkIdentity>().netId.Value;
 
         NetworkServer.SpawnWithClientAuthority(w, gameObject);
@@ -365,6 +362,7 @@ public class PlayerController : Living
     private void RpcClassUpdated(NetworkInstanceId classModelId, NetworkInstanceId weaponNetId){
         PlayerClassDesignation cd = ClientScene.FindLocalObject(classModelId).GetComponent<PlayerClassDesignation>();
         GameObject weaponObj = ClientScene.FindLocalObject(weaponNetId);
+        weaponObj.GetComponent<Weapon>().spec = cd.defaultWeapon;        
         defaultWeaponId = (int)weaponObj.GetComponent<NetworkIdentity>().netId.Value;
         cd.transform.SetParent(transform);
         cd.transform.localPosition = Vector3.zero;

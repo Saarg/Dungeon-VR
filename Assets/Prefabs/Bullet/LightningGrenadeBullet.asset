@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b243a3a1452c4844684197d5ece85210, type: 3}
+  m_Name: LightningGrenadeBullet
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 1516226059751338, guid: 20f31bfeac44eac49a2744f8a8bb9bbb,
+    type: 2}
+  velocity: 10
+  damage: 20
+  lifeTime: 10
+  persistentBullet: 0
+  destroyOnHit: 1
+  explodeOnHit: 1
+  useGravity: 1
+  continuousDamage: 0
+  damageTickInterval: 0
+  followSpellOrigin: 0
+  spawnOnImpact: {fileID: 1969948131867986, guid: 00d9a857fd8aca249adcbca75f1ec4b9,
+    type: 2}
+  damageType: 1
+  model: {fileID: 1478608823604600, guid: 2319d0ad614440540bef2c6fca3da81a, type: 2}
