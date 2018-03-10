@@ -85,6 +85,8 @@ public class PlayerController : Living
 
         rigidBody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
+
+        OnDeath += Death;
     }
 
     public override void OnStartLocalPlayer() {
@@ -266,9 +268,9 @@ public class PlayerController : Living
             }
 
             rigidBody.AddForce(-Vector3.Scale(rigidBody.velocity, drag), ForceMode.VelocityChange);
-
-            rigidBody.angularVelocity = Vector3.zero;
         }
+
+        rigidBody.angularVelocity = Vector3.zero;
     }
 
     public bool HasTarget()
@@ -368,10 +370,9 @@ public class PlayerController : Living
         cd.transform.localPosition = Vector3.zero;
         cd.transform.localRotation = Quaternion.identity;
 
-        CapsuleCollider c = GetComponent<CapsuleCollider>();
-        c.center = cd.center;
-        c.radius = cd.radius;
-        c.height = cd.height;
+        collider.center = cd.center;
+        collider.radius = cd.radius;
+        collider.height = cd.height;
 
         _animator = cd.GetComponent<Animator>();
         _netAnimator = cd.GetComponent<NetworkAnimator>();
@@ -399,12 +400,14 @@ public class PlayerController : Living
 
     public override void Death()
     {
-        gameUI.SetPlayerController(null);
-        gameUI.SetDeathUI(true);
-        rigidBody = null;
+        if (isLocalPlayer) {
+            gameUI.SetDeathUI(true);
+            Debug.Log("AHAH ! You're dead");
+        }       
+        
         collider.center = new Vector3 (0,1,0);
         _netAnimator.SetTrigger("Death");
-        collider = null;
-        Debug.Log("AHAH ! You're dead");
+
+        OnDeath -= Death;
     }
 }

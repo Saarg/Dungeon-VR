@@ -139,13 +139,15 @@ public class GameUI : MonoBehaviour {
     }
 
 	void Update () {
-        if (player != null) {
+        if (player != null && !player.dead) {
             healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, (float)player.curLife / (float)player.maxLife, Time.deltaTime * 2f);
             manaBar.fillAmount = Mathf.Lerp(manaBar.fillAmount, (float)player.CurrentMana / (float)player.MaxMana, Time.deltaTime * 2f);
 
             targetBar.gameObject.SetActive(player.HasTarget());
             if(player.HasTarget())
                 targetBar.fillAmount = Mathf.Lerp(targetBar.fillAmount, (float)player.TargetCurLife() / (float)player.TargetMaxLife(), Time.deltaTime * 2f);
+        } else if (playerUI.gameObject.activeSelf) {
+            playerUI.gameObject.SetActive(false);
         }
     }
 
@@ -337,6 +339,18 @@ public class GameUI : MonoBehaviour {
     public void RemoveTeamMate(PlayerController mate) {
         if (mate != null) {
             team.Remove(mate);
+        }
+    }
+
+    public void FocusAliveMate() {
+        PlayerController alive = team.Find((mate) => { return !mate.dead; });
+        if (player.isLocalPlayer && alive != null) {
+            player.cam.GetComponent<CameraControl>().character = alive.transform;
+            deathUI.gameObject.SetActive(false);
+
+            alive.OnDeath += () => {
+                SetDeathUI(true);
+            };
         }
     }
 

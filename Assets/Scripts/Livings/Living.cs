@@ -100,9 +100,9 @@ public class Living : NetworkBehaviour {
 
 		if (curLife == 0f) {
             if(OnDeath != null)
-			    OnDeath();
+			    OnDeath.Invoke();
+            
             dead = true;
-            Death();
 		}
 	}
 
