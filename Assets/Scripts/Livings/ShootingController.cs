@@ -35,38 +35,41 @@ public class ShootingController : NetworkBehaviour {
 
     void UpdateFire()
     {
-        if (!firing)
+        if (!owner.dead)
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (!firing)
             {
-                if (weapon != null && Time.time - lastShotTime > weapon.FiringInterval)
+                if (Input.GetButtonDown("Fire1"))
                 {
-                    Fire();
-                    if (weapon.DrainMana)
-                        firing = true;
+                    if (weapon != null && Time.time - lastShotTime > weapon.FiringInterval)
+                    {
+                        Fire();
+                        if (weapon.DrainMana)
+                            firing = true;
+                    }
                 }
             }
-        }
-        if (Input.GetButtonUp("Fire1"))
-        {
-            CmdStopContinousFire();
-        }
-
-        if (firing)
-        {
-            if (Time.time - lastManaDrain > weapon.FiringInterval)
+            if (Input.GetButtonUp("Fire1"))
             {
-                if (owner.curMana - weapon.ManaCost > 0)
+                CmdStopContinousFire();
+            }
+
+            if (firing)
+            {
+                if (Time.time - lastManaDrain > weapon.FiringInterval)
                 {
-                    owner.UpdateMana(owner.curMana - weapon.ManaCost);
-                    CmdUpdatePersistentBullet();
+                    if (owner.curMana - weapon.ManaCost > 0)
+                    {
+                        owner.UpdateMana(owner.curMana - weapon.ManaCost);
+                        CmdUpdatePersistentBullet();
+                    }
+                    else
+                    {
+                        owner.UpdateMana(0);
+                        CmdStopContinousFire();
+                    }
+                    lastManaDrain = Time.time;
                 }
-                else
-                {
-                    owner.UpdateMana(0);
-                    CmdStopContinousFire();
-                }
-                lastManaDrain = Time.time;
             }
         }
     }

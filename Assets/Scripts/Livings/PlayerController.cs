@@ -85,6 +85,8 @@ public class PlayerController : Living
 
         rigidBody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
+
+        OnDeath += Death;
     }
 
     public override void OnStartLocalPlayer() {
@@ -131,7 +133,7 @@ public class PlayerController : Living
     public override void Update()
     {
 		base.Update();
-        if (isLocalPlayer)
+        if (isLocalPlayer && !dead)
         {
             if (Input.GetButtonDown("Fire2"))
             {
@@ -148,7 +150,7 @@ public class PlayerController : Living
     /// </summary>
     void UpdateJump()
     {
-        if (isLocalPlayer)
+        if (isLocalPlayer && !dead)
         {
             if (Input.GetButtonDown("Jump") && isGrounded && canJump)
             {
@@ -175,7 +177,7 @@ public class PlayerController : Living
 
     void UpdateTarget()
     {
-        if (isLocalPlayer)
+        if (isLocalPlayer && !dead)
         {
             var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, RAY_LENGTH);
             foreach (var hit in hits)
@@ -203,7 +205,7 @@ public class PlayerController : Living
     /// </summary>
     void FixedUpdate()
     {
-        if (isLocalPlayer) {
+        if (isLocalPlayer && !dead) {
             float angle = Vector3.Angle(cam.forward, transform.forward);
 
             if (lookAt != null) {
@@ -266,9 +268,9 @@ public class PlayerController : Living
             }
 
             rigidBody.AddForce(-Vector3.Scale(rigidBody.velocity, drag), ForceMode.VelocityChange);
-
-            rigidBody.angularVelocity = Vector3.zero;
         }
+
+        rigidBody.angularVelocity = Vector3.zero;
     }
 
     public bool HasTarget()
@@ -368,10 +370,9 @@ public class PlayerController : Living
         cd.transform.localPosition = Vector3.zero;
         cd.transform.localRotation = Quaternion.identity;
 
-        CapsuleCollider c = GetComponent<CapsuleCollider>();
-        c.center = cd.center;
-        c.radius = cd.radius;
-        c.height = cd.height;
+        collider.center = cd.center;
+        collider.radius = cd.radius;
+        collider.height = cd.height;
 
         _animator = cd.GetComponent<Animator>();
         _netAnimator = cd.GetComponent<NetworkAnimator>();
@@ -395,5 +396,18 @@ public class PlayerController : Living
     [ClientRpc]
     void RpcSetName(String n) {
         gameObject.name = n;
+    }
+
+    public override void Death()
+    {
+        if (isLocalPlayer) {
+            gameUI.SetDeathUI(true);
+            Debug.Log("AHAH ! You're dead");
+        }       
+        
+        collider.center = new Vector3 (0,1,0);
+        _netAnimator.SetTrigger("Death");
+
+        OnDeath -= Death;
     }
 }
