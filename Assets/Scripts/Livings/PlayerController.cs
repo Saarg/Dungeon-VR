@@ -85,6 +85,8 @@ public class PlayerController : Living
 
         rigidBody = GetComponent<Rigidbody>();
         collider = GetComponent<CapsuleCollider>();
+
+        OnDeath += Death;
     }
 
     public override void OnStartLocalPlayer() {
@@ -108,6 +110,12 @@ public class PlayerController : Living
             {
                 inventory.InitializeWeaponInformation(new NetworkInstanceId((uint)defaultWeaponId), cd);
                 inventory.CmdPickupWeapon(new NetworkInstanceId((uint)defaultWeaponId), netId);
+            } else {
+                inventory.InitializedOtherClient();
+
+                Weapon w =  inventory.GetWeapon(inventory.CurrentWeapon);
+                if (w.spec == null)
+                    w.spec = cd.defaultWeapon;
             }
 
             spell = cd.GetComponent<Spell>();
@@ -115,11 +123,6 @@ public class PlayerController : Living
             spell.castingBar = castingBar;
 
             lookAt = cd.transform.Find("LookAt");
-        }
-
-        if (!isLocalPlayer)
-        {
-            inventory.InitializedOtherClient();
         }
     }
 
@@ -130,7 +133,7 @@ public class PlayerController : Living
     public override void Update()
     {
 		base.Update();
-        if (isLocalPlayer)
+        if (isLocalPlayer && !dead)
         {
             if (Input.GetButtonDown("Fire2"))
             {
@@ -147,7 +150,7 @@ public class PlayerController : Living
     /// </summary>
     void UpdateJump()
     {
-        if (isLocalPlayer)
+        if (isLocalPlayer && !dead)
         {
             if (Input.GetButtonDown("Jump") && isGrounded && canJump)
             {
@@ -174,7 +177,7 @@ public class PlayerController : Living
 
     void UpdateTarget()
     {
-        if (isLocalPlayer)
+        if (isLocalPlayer && !dead)
         {
             var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, RAY_LENGTH);
             foreach (var hit in hits)
@@ -202,7 +205,7 @@ public class PlayerController : Living
     /// </summary>
     void FixedUpdate()
     {
-        if (isLocalPlayer) {
+        if (isLocalPlayer && !dead) {
             float angle = Vector3.Angle(cam.forward, transform.forward);
 
             if (lookAt != null) {
@@ -265,14 +268,9 @@ public class PlayerController : Living
             }
 
             rigidBody.AddForce(-Vector3.Scale(rigidBody.velocity, drag), ForceMode.VelocityChange);
-
-            rigidBody.angularVelocity = Vector3.zero;
         }
-    }
 
-    void OnDestroy()
-    {
-        gameUI.SetPlayerController(null);
+        rigidBody.angularVelocity = Vector3.zero;
     }
 
     public bool HasTarget()
@@ -351,8 +349,9 @@ public class PlayerController : Living
         NetworkServer.SpawnWithClientAuthority(go, gameObject);
         currentClassObject = go;
 
-        GameObject w = Instantiate(cd.defaultWeapon, cd.weaponGrip);
+        GameObject w = Instantiate(cd.defaultWeapon.WeaponPrefab, cd.weaponGrip);
         Destroy(w.GetComponent<DroppedWeapon>());
+        w.GetComponent<Weapon>().spec = cd.defaultWeapon;
         defaultWeaponId = (int)w.GetComponent<NetworkIdentity>().netId.Value;
 
         NetworkServer.SpawnWithClientAuthority(w, gameObject);
@@ -365,15 +364,15 @@ public class PlayerController : Living
     private void RpcClassUpdated(NetworkInstanceId classModelId, NetworkInstanceId weaponNetId){
         PlayerClassDesignation cd = ClientScene.FindLocalObject(classModelId).GetComponent<PlayerClassDesignation>();
         GameObject weaponObj = ClientScene.FindLocalObject(weaponNetId);
+        weaponObj.GetComponent<Weapon>().spec = cd.defaultWeapon;        
         defaultWeaponId = (int)weaponObj.GetComponent<NetworkIdentity>().netId.Value;
         cd.transform.SetParent(transform);
         cd.transform.localPosition = Vector3.zero;
         cd.transform.localRotation = Quaternion.identity;
 
-        CapsuleCollider c = GetComponent<CapsuleCollider>();
-        c.center = cd.center;
-        c.radius = cd.radius;
-        c.height = cd.height;
+        collider.center = cd.center;
+        collider.radius = cd.radius;
+        collider.height = cd.height;
 
         _animator = cd.GetComponent<Animator>();
         _netAnimator = cd.GetComponent<NetworkAnimator>();
@@ -397,5 +396,18 @@ public class PlayerController : Living
     [ClientRpc]
     void RpcSetName(String n) {
         gameObject.name = n;
+    }
+
+    public override void Death()
+    {
+        if (isLocalPlayer) {
+            gameUI.SetDeathUI(true);
+            Debug.Log("AHAH ! You're dead");
+        }       
+        
+        collider.center = new Vector3 (0,1,0);
+        _netAnimator.SetTrigger("Death");
+
+        OnDeath -= Death;
     }
 }

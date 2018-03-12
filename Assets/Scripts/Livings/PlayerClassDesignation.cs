@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class PlayerClassDesignation : NetworkBehaviour {
 
     public Transform weaponGrip;
-    public GameObject defaultWeapon;
+    public WeaponSpec defaultWeapon;
 
     [Header("Life")]
     public float maxLife = 100;

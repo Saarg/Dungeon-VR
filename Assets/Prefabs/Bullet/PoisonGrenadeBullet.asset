@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b243a3a1452c4844684197d5ece85210, type: 3}
+  m_Name: PoisonGrenadeBullet
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 1516226059751338, guid: 20f31bfeac44eac49a2744f8a8bb9bbb,
+    type: 2}
+  velocity: 10
+  damage: 20
+  lifeTime: 10
+  persistentBullet: 0
+  destroyOnHit: 1
+  explodeOnHit: 1
+  useGravity: 1
+  continuousDamage: 0
+  damageTickInterval: 0
+  followSpellOrigin: 0
+  spawnOnImpact: {fileID: 1043001635789812, guid: 9764be6f5cbbe124fac6a51c1c3dfb60,
+    type: 2}
+  damageType: 3
+  model: {fileID: 1899085123213482, guid: dc6684821f3aa0548a06bd77feb7d9b6, type: 2}

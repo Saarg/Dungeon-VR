@@ -494,8 +494,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4757b49771e31a4f923665c7a5a64dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VR_Scripts: {fileID: 1734429009420524, guid: 6174668a4b630074e9686d7b57950b7c, type: 2}
   VR_SDK: {fileID: 1180526799799916, guid: 7fa7bee53edf5a046bd751ea96570beb, type: 2}
+  VR_Hand: {fileID: 1789217556192032, guid: b2bf151f8daa6fb45a5cc41550cfb387, type: 2}
 --- !u!114 &114621865126034964
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -512,6 +512,8 @@ MonoBehaviour:
   maxMana: 100
   curMana: 80
   speed: 6
+  walkSpeed: 6
+  sprintSpeed: 8
   turnSpeed: 0.2
   runFactor: 2
   jumpHeight: 6

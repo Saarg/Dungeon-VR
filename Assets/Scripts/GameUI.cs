@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 
 public class GameUI : MonoBehaviour {
+    [SerializeField] Canvas mainCanvas;
+
     [Header("Player")]
     [SerializeField]
     Canvas playerUI;
@@ -91,30 +93,74 @@ public class GameUI : MonoBehaviour {
 
     [Header("Team")]
     [SerializeField]
+    RectTransform[] teammatesUIPosition;
+    [SerializeField]
     Canvas teamUI;
     [SerializeField]
     List<PlayerController> team = new List<PlayerController>();
     [SerializeField]
     GameObject teamPlayerPrefab;
 
+    [Header("Death")]
+    [SerializeField]
+    Canvas deathUI;
+
+    [Header("VR")]
+    [SerializeField] Canvas vrUI;
+    [SerializeField] Vector3 pos;
+    [SerializeField] Vector3 rot;   
+    [SerializeField] Vector3 scale;
+    [SerializeField] bool _isVr;
+    public bool isVr {
+        get { return _isVr; }
+        set {
+            vrUI.gameObject.SetActive(value);
+
+            mainCanvas.renderMode = value ? RenderMode.WorldSpace : RenderMode.ScreenSpaceOverlay;
+            mainCanvas.transform.position = pos;
+            mainCanvas.transform.rotation = Quaternion.Euler(rot);
+            mainCanvas.transform.localScale = scale;
+
+            _isVr = value;
+        }
+    }
+
+    [SerializeField]
+    Text goldText;
+    [SerializeField]
+    Slider goldBar;
+
     Vector3 SelectedWeaponScale = new Vector3(1.25f, 1.25f, 1.25f);
     Vector3 UnselectedWeaponScale = Vector3.one;
 
-	// Update is called once per frame
-	void Update () {
-        healthBar.fillAmount = (float)player.curLife / (float)player.maxLife;
-        manaBar.fillAmount = (float)player.CurrentMana / (float)player.MaxMana;
+    void Start()
+    {
+        gameObject.name = "GameUI";
+    }
 
-        targetBar.gameObject.SetActive(player.HasTarget());
-        if(player.HasTarget())
-            targetBar.fillAmount = (float)player.TargetCurLife() / (float)player.TargetMaxLife();
-	}
+	void Update () {
+        if (player != null && !player.dead) {
+            healthBar.fillAmount = Mathf.Lerp(healthBar.fillAmount, (float)player.curLife / (float)player.maxLife, Time.deltaTime * 2f);
+            manaBar.fillAmount = Mathf.Lerp(manaBar.fillAmount, (float)player.CurrentMana / (float)player.MaxMana, Time.deltaTime * 2f);
+
+            targetBar.gameObject.SetActive(player.HasTarget());
+            if(player.HasTarget())
+                targetBar.fillAmount = Mathf.Lerp(targetBar.fillAmount, (float)player.TargetCurLife() / (float)player.TargetMaxLife(), Time.deltaTime * 2f);
+        } else if (playerUI.gameObject.activeSelf) {
+            playerUI.gameObject.SetActive(false);
+        }
+    }
 
     public void SetPlayerController(PlayerController playerController)
     {
         player = playerController;
 
-        playerUI.gameObject.SetActive(player != null);
+        playerUI.gameObject.SetActive(player != null && !isVr);
+    }
+
+    public void SetDeathUI(bool val)
+    {
+        deathUI.gameObject.SetActive(val);
     }
 
     public void SetWeaponImages(Dictionary<Weapon.WeaponTypeEnum, GameObject> weapons)
@@ -181,7 +227,7 @@ public class GameUI : MonoBehaviour {
                     break;
             }
 
-            Bullet bullet = weapon.Bullet.GetComponent<Bullet>();
+            BulletSpec bullet = weapon.Bullet;
 
             damage.text = bullet.Damage.ToString();
             fireRate.text = weapon.FiringInterval.ToString() + " Sec";
@@ -193,15 +239,15 @@ public class GameUI : MonoBehaviour {
             fireRateModifier.text = string.Empty;
             manaCostModifier.text = string.Empty;
 
-            if (inventoryWeapon != null && inventoryWeapon.Bullet.GetComponent<Bullet>().Damage > bullet.Damage)
+            if (inventoryWeapon != null && inventoryWeapon.Bullet.Damage > bullet.Damage)
                 damageModifier.color = Color.red;
-            else if (inventoryWeapon != null && inventoryWeapon.Bullet.GetComponent<Bullet>().Damage == bullet.Damage)
+            else if (inventoryWeapon != null && inventoryWeapon.Bullet.Damage == bullet.Damage)
                 damageModifier.color = Color.black;
             else
                 damageModifier.color = Color.green;
 
             if (inventoryWeapon != null) {
-                int damageDifference = inventoryWeapon.Bullet.GetComponent<Bullet>().Damage - bullet.Damage;
+                int damageDifference = inventoryWeapon.Bullet.Damage - bullet.Damage;
                 if (damageDifference > 0)
                     damageModifier.text = string.Format("(-{0})", damageDifference);
                 else
@@ -268,15 +314,24 @@ public class GameUI : MonoBehaviour {
         sb.Append(((int)(time % 60)).ToString());
 
         timer.text = sb.ToString();
+
+        if (time < 5) {
+            timer.color = Color.red;
+
+            timer.transform.localScale = Vector3.one * (1f + time%1 * (5 - (int)(time)) / 10);
+        } else {
+            timer.color = Color.black;
+
+            timer.transform.localScale = Vector3.one * (1f + time%1  / 10);         
+        }
     }
 
     public void AddTeamMate(PlayerController mate) {
         if (mate != null) {
+            GameObject tm = Instantiate(teamPlayerPrefab, teammatesUIPosition[team.Count]);
+            
             team.Add(mate);
 
-            GameObject tm = Instantiate(teamPlayerPrefab, teamUI.transform);
-
-            tm.transform.Translate(0, -25f + (team.Count - 1) * -50f, 0);
             tm.GetComponent<UITeamPlayer>().SetPlayercontroller(mate);
         }
     }
@@ -286,4 +341,30 @@ public class GameUI : MonoBehaviour {
             team.Remove(mate);
         }
     }
+
+    public void FocusAliveMate() {
+        PlayerController alive = team.Find((mate) => { return !mate.dead; });
+        if (player.isLocalPlayer && alive != null) {
+            player.cam.GetComponent<CameraControl>().character = alive.transform;
+            deathUI.gameObject.SetActive(false);
+
+            alive.OnDeath += () => {
+                SetDeathUI(true);
+            };
+        }
+    }
+
+    public void UpdateVRUI(VRPlayerManager pm) {
+        goldBar.maxValue = pm.maxGold;
+        goldBar.value = pm.totalGold;
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append(pm.totalGold.ToString());        
+        sb.Append("/");        
+        sb.Append(pm.maxGold.ToString());        
+
+        goldText.text = sb.ToString();
+    }
+    
 }
