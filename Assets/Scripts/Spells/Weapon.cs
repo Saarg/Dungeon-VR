@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class Weapon : MonoBehaviour {
 
@@ -49,10 +48,6 @@ public class Weapon : MonoBehaviour {
 
     [SerializeField]
     AudioClip clip { get { return spec.Clip; } }
-    [SerializeField]
-    AudioMixer mixer;
-    [SerializeField]
-    string volumeParam = "VolumeWeapons";
 
     void Start()
     {
@@ -70,11 +65,8 @@ public class Weapon : MonoBehaviour {
 
     public void PlaySound()
     {
-        float volume;
-        mixer.GetFloat(volumeParam, out volume);
-
         if(clip != null)
-            AudioSource.PlayClipAtPoint(clip, transform.position, (volume + 80f) / 80f);
+            AudioSource.PlayClipAtPoint(clip, transform.position);
     }
 
     void OnDrawGizmos()

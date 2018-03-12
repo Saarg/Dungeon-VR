@@ -18,7 +18,7 @@ namespace Lobby {
         private GameObject VR_Hand;
 
         public override void OnStartLocalPlayer() {
-            if (SceneManager.GetActiveScene().name != "_Dungeon01") {
+            if (SceneManager.GetActiveScene().name != "NetworkTest") {
                 PlayerController pc = GetComponent<PlayerController>();
 
                 pc.playerId = Random.Range(0, 4);

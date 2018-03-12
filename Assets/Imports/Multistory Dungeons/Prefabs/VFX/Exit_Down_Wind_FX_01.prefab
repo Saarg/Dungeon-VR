@@ -36,13 +36,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &125706
+--- !u!1 &125704
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
+<<<<<<< HEAD
 <<<<<<< HEAD
   - component: {fileID: 425704}
   - component: {fileID: 19825702}
@@ -51,20 +52,26 @@ GameObject:
 =======
   - 4: {fileID: 425706}
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+=======
+  - 4: {fileID: 425704}
+  - 198: {fileID: 19825702}
+  - 199: {fileID: 19925702}
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
   m_Layer: 0
-  m_Name: Exit_Down_Wind_FX_01
+  m_Name: Fog_Exit_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &145618
+--- !u!1 &125706
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
+<<<<<<< HEAD
 <<<<<<< HEAD
   - component: {fileID: 425706}
   - component: {fileID: 114761318365194468}
@@ -74,8 +81,11 @@ GameObject:
   - 198: {fileID: 19824704}
   - 199: {fileID: 19982856}
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+=======
+  - 4: {fileID: 425706}
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
   m_Layer: 0
-  m_Name: Fog_Exit_01
+  m_Name: Exit_Down_Wind_FX_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,7 +117,10 @@ Transform:
   m_Father: {fileID: 425706}
   m_RootOrder: 0
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
 --- !u!4 &425704
 Transform:
   m_ObjectHideFlags: 1
@@ -120,9 +133,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 425706}
   m_RootOrder: 2
+<<<<<<< HEAD
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 =======
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+=======
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
 --- !u!4 &425706
 Transform:
   m_ObjectHideFlags: 1
@@ -130,14 +146,15 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 125706}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -80.24, y: -28.69, z: -45.45}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 425702}
   - {fileID: 425700}
-  - {fileID: 492946}
+  - {fileID: 425704}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+<<<<<<< HEAD
 <<<<<<< HEAD
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 =======
@@ -154,6 +171,8 @@ Transform:
   m_Father: {fileID: 425706}
   m_RootOrder: 2
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+=======
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
 --- !u!95 &9525700
 Animator:
   serializedVersion: 3
@@ -181,7 +200,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 0.13851647, g: 0.45762736, b: 0.89705884, a: 1}
-  m_Intensity: 2.7
+  m_Intensity: 9.1
   m_Range: 10.48
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -211,17 +230,25 @@ Light:
 --- !u!198 &19825700
 =======
   m_AreaSize: {x: 1, y: 1}
+<<<<<<< HEAD
 --- !u!198 &19824704
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+=======
+--- !u!198 &19825700
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
 ParticleSystem:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_GameObject: {fileID: 125702}
   serializedVersion: 5
 =======
   m_GameObject: {fileID: 145618}
+=======
+  m_GameObject: {fileID: 125702}
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
   serializedVersion: 2
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
   lengthInSec: 2
@@ -283,6 +310,7 @@ ParticleSystem:
     enabled: 1
     startLifetime:
 <<<<<<< HEAD
+<<<<<<< HEAD
       serializedVersion: 2
       minMaxState: 0
       scalar: 3
@@ -290,6 +318,9 @@ ParticleSystem:
 =======
       scalar: 5
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+=======
+      scalar: 3
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -432,6 +463,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     startSize:
 <<<<<<< HEAD
+<<<<<<< HEAD
       serializedVersion: 2
       minMaxState: 0
       scalar: 0.27
@@ -439,6 +471,9 @@ ParticleSystem:
 =======
       scalar: 4.05
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+=======
+      scalar: 0.27
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -634,8 +669,12 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
+<<<<<<< HEAD
       scalar: 20
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+=======
+      scalar: 5
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -950,13 +989,13 @@ ParticleSystem:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 16770507
+          rgba: 16768768
         key1:
           serializedVersion: 2
-          rgba: 1385320704
+          rgba: 4294934528
         key2:
           serializedVersion: 2
-          rgba: 16770510
+          rgba: 16777215
         key3:
           serializedVersion: 2
           rgba: 16777215
@@ -973,7 +1012,7 @@ ParticleSystem:
           serializedVersion: 2
           rgba: 0
         ctime0: 0
-        ctime1: 33346
+        ctime1: 33539
         ctime2: 65535
         ctime3: 65535
         ctime4: 0
@@ -1286,8 +1325,12 @@ ParticleSystem:
   ForceModule:
     enabled: 1
     x:
+<<<<<<< HEAD
       scalar: 0.06
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+=======
+      scalar: 0.02
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1390,8 +1433,12 @@ ParticleSystem:
 =======
       minMaxState: 3
     y:
+<<<<<<< HEAD
       scalar: 0.3
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+=======
+      scalar: 2
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1412,8 +1459,12 @@ ParticleSystem:
           time: 0
 =======
         - time: 0
+<<<<<<< HEAD
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
           value: 0
+=======
+          value: -0.5
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
           inSlope: 0
           outSlope: 1
           tangentMode: 0
@@ -1446,13 +1497,17 @@ ParticleSystem:
 =======
       minMaxState: 3
     z:
-      scalar: 0.35
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - time: 0
+<<<<<<< HEAD
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
           value: 0
+=======
+          value: 0.5
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -5170,12 +5225,12 @@ ParticleSystem:
     subEmitterCollision1: {fileID: 0}
     subEmitterDeath: {fileID: 0}
     subEmitterDeath1: {fileID: 0}
---- !u!198 &19825700
+--- !u!198 &19825702
 ParticleSystem:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 125702}
+  m_GameObject: {fileID: 125704}
   serializedVersion: 2
   lengthInSec: 2
   startDelay:
@@ -5224,8 +5279,12 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     startLifetime:
+<<<<<<< HEAD
       scalar: 3
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+=======
+      scalar: 5
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5357,8 +5416,12 @@ ParticleSystem:
       minScalar: 0
 =======
     startSize:
+<<<<<<< HEAD
       scalar: 0.27
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+=======
+      scalar: 4.05
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5563,8 +5626,12 @@ ParticleSystem:
     serializedVersion: 2
     m_Type: 0
     rate:
+<<<<<<< HEAD
       scalar: 5
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+=======
+      scalar: 20
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5866,10 +5933,10 @@ ParticleSystem:
       maxGradient:
         key0:
           serializedVersion: 2
-          rgba: 16768768
+          rgba: 16777215
         key1:
           serializedVersion: 2
-          rgba: 4294934528
+          rgba: 3066992985
         key2:
           serializedVersion: 2
           rgba: 16777215
@@ -5889,7 +5956,7 @@ ParticleSystem:
           serializedVersion: 2
           rgba: 0
         ctime0: 0
-        ctime1: 33539
+        ctime1: 33346
         ctime2: 65535
         ctime3: 65535
         ctime4: 0
@@ -6382,8 +6449,15 @@ ParticleSystem:
     m_EnergyLossOnCollision:
       serializedVersion: 2
       minMaxState: 0
+<<<<<<< HEAD
       scalar: 0
       minScalar: 0
+=======
+  ForceModule:
+    enabled: 1
+    x:
+      scalar: 0.06
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -6398,8 +6472,13 @@ ParticleSystem:
           value: 1
 =======
       minMaxState: 3
+<<<<<<< HEAD
     z:
       scalar: 2
+=======
+    y:
+      scalar: 0.3
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -6415,6 +6494,7 @@ ParticleSystem:
       minCurve:
         serializedVersion: 2
         m_Curve:
+<<<<<<< HEAD
         - serializedVersion: 2
           time: 0
           value: 0
@@ -6423,6 +6503,9 @@ ParticleSystem:
           tangentMode: 0
         - serializedVersion: 2
           time: 1
+=======
+        - time: 0
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
           value: 0
           inSlope: 0
           outSlope: 0
@@ -6430,6 +6513,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
+<<<<<<< HEAD
     minKillSpeed: 0
     maxKillSpeed: 10000
     radiusScale: 1
@@ -6488,6 +6572,16 @@ ParticleSystem:
         - serializedVersion: 2
           time: 1
           value: 1
+=======
+      minMaxState: 3
+    z:
+      scalar: 0.35
+      maxCurve:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -7300,17 +7394,21 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_MaskInteraction: 0
 --- !u!199 &19925702
 =======
 --- !u!199 &19982856
 >>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+=======
+--- !u!199 &19925702
+>>>>>>> parent of afbe57f2... reimport multidongeons for linear color space + post processing + some sounds
 ParticleSystemRenderer:
   serializedVersion: 4
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 145618}
+  m_GameObject: {fileID: 125704}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
