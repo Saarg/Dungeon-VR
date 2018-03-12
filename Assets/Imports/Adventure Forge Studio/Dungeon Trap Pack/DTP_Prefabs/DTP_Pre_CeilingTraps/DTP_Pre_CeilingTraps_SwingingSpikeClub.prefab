@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4907200809840832}
   - component: {fileID: 95548070784485444}
+  - component: {fileID: 114482810795817358}
+  - component: {fileID: 114166206830569104}
   m_Layer: 0
   m_Name: DTP_Pre_CeilingTraps_SwingingSpikeClub
   m_TagString: Untagged
@@ -38,6 +40,7 @@ GameObject:
   - component: {fileID: 33642426705933840}
   - component: {fileID: 23273506523133942}
   - component: {fileID: 64231332679623376}
+  - component: {fileID: 114627867993436028}
   m_Layer: 0
   m_Name: DTP_CeilingTraps_SwingingSpikeClub_Club_Mesh
   m_TagString: Untagged
@@ -56,6 +59,7 @@ GameObject:
   - component: {fileID: 33938312147328422}
   - component: {fileID: 23112142270034486}
   - component: {fileID: 64021787835844436}
+  - component: {fileID: 114734705913640532}
   m_Layer: 0
   m_Name: DTP_CeilingTraps_SwingingSpikeClub_CeilingBracket_Mesh
   m_TagString: Untagged
@@ -231,3 +235,58 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114166206830569104
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1107468315477188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 2eb95bd8-d513-47a7-9773-5c2790f61a3f
+--- !u!114 &114482810795817358
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1107468315477188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isConnected: 1
+  _guid: 
+  _referenceCollection:
+    _collection:
+    - {fileID: 1107468315477188}
+    - {fileID: 1652686650805872}
+    - {fileID: 1612656046048444}
+  _assetGuid: 17f216a82651b5645b7dd570cfe9c4b1
+--- !u!114 &114627867993436028
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1612656046048444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 9152ebe1-ceb7-4092-becb-cbf1675f6a1e
+--- !u!114 &114734705913640532
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1652686650805872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: a879e64f-d934-40ab-9fd5-038ce91d90f0

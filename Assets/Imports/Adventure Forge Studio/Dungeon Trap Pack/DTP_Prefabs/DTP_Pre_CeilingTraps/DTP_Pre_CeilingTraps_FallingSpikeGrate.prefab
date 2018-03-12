@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4875119378035882}
   - component: {fileID: 95938236873073362}
+  - component: {fileID: 114888876503375904}
+  - component: {fileID: 114218028570741122}
   m_Layer: 0
   m_Name: DTP_Pre_CeilingTraps_FallingSpikeGrate
   m_TagString: Untagged
@@ -38,6 +40,7 @@ GameObject:
   - component: {fileID: 33868774986438814}
   - component: {fileID: 23605171661982552}
   - component: {fileID: 64655240713035802}
+  - component: {fileID: 114466570255661874}
   m_Layer: 0
   m_Name: DTP_CeilingTraps_FallingSpikeGrate_Grate_Mesh
   m_TagString: Untagged
@@ -53,6 +56,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4621957846188044}
+  - component: {fileID: 114138668289773156}
   m_Layer: 0
   m_Name: DTP_CeilingTraps_FallingSpikeGrate_GrateAndChainGrp
   m_TagString: Untagged
@@ -71,6 +75,7 @@ GameObject:
   - component: {fileID: 33970872030286892}
   - component: {fileID: 23248421698265636}
   - component: {fileID: 64461665052442104}
+  - component: {fileID: 114796795949326814}
   m_Layer: 0
   m_Name: DTP_CeilingTraps_FallingSpikeGrate_Chains_Mesh
   m_TagString: Untagged
@@ -89,6 +94,7 @@ GameObject:
   - component: {fileID: 33102470511692516}
   - component: {fileID: 23371048193101132}
   - component: {fileID: 64789087595148734}
+  - component: {fileID: 114516372614634930}
   m_Layer: 0
   m_Name: DTP_CeilingTraps_FallingSpikeGrate_ChainHoles_Mesh
   m_TagString: Untagged
@@ -347,3 +353,84 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114138668289773156
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1408966815266062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: ce0cf8aa-1794-4feb-9d71-d207b9f7ce0d
+--- !u!114 &114218028570741122
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1316792213604884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 78a6b209-3970-4afe-8cd4-89ffe5885021
+--- !u!114 &114466570255661874
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1408777562835698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: a110b309-a757-4cfc-a613-b368092e6a26
+--- !u!114 &114516372614634930
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1667080962583306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 84d8eec9-49df-4af7-8204-83b8fa85c1d5
+--- !u!114 &114796795949326814
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1419889369592050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: d28c3df3-66a9-4b55-8715-397e868cb39e
+--- !u!114 &114888876503375904
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1316792213604884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isConnected: 1
+  _guid: 
+  _referenceCollection:
+    _collection:
+    - {fileID: 1316792213604884}
+    - {fileID: 1667080962583306}
+    - {fileID: 1408966815266062}
+    - {fileID: 1419889369592050}
+    - {fileID: 1408777562835698}
+  _assetGuid: 28b6aaf8d85ef25408920fa87a123a2e

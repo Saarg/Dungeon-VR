@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33550992111908868}
   - component: {fileID: 23932799301923624}
   - component: {fileID: 64618770416918820}
+  - component: {fileID: 114559549529274438}
   m_Layer: 0
   m_Name: DTP_FloorTraps_SawbladeSlit_Sawblade_Mesh
   m_TagString: Untagged
@@ -40,6 +41,7 @@ GameObject:
   - component: {fileID: 33472507177419882}
   - component: {fileID: 23910105714032062}
   - component: {fileID: 64813546569660442}
+  - component: {fileID: 114625244149979194}
   m_Layer: 0
   m_Name: DTP_FloorTraps_SawbladeSlit_Slit_Mesh
   m_TagString: Untagged
@@ -58,6 +60,8 @@ GameObject:
   - component: {fileID: 95901864159386324}
   - component: {fileID: 111826829712246014}
   - component: {fileID: 114406948132860702}
+  - component: {fileID: 114672896103399384}
+  - component: {fileID: 114373288975851620}
   m_Layer: 0
   m_Name: DTP_Pre_FloorTraps_SawbladeSlit
   m_TagString: Untagged
@@ -249,6 +253,18 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &114373288975851620
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1928321005176532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 89f394b6-3c49-47a1-b200-4232b246e940
 --- !u!114 &114406948132860702
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -263,3 +279,46 @@ MonoBehaviour:
   SparkParticle: {fileID: 1962790560917026, guid: 3ffae35dd235e684ab132379be823153,
     type: 2}
   Sawblade: {fileID: 4727611358650096}
+--- !u!114 &114559549529274438
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1626707504896090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 94a33040-6c8f-41c4-9f2b-0efafcde3a82
+--- !u!114 &114625244149979194
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1630464069657280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 463b10b9-8c1a-4300-a52c-e8add56f51c1
+--- !u!114 &114672896103399384
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1928321005176532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isConnected: 1
+  _guid: 
+  _referenceCollection:
+    _collection:
+    - {fileID: 1928321005176532}
+    - {fileID: 1626707504896090}
+    - {fileID: 1630464069657280}
+  _assetGuid: c2a6dd9e852419c48bb0257089611980

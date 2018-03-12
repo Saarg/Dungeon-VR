@@ -20,6 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4843548882743936}
   - component: {fileID: 95336263224894956}
+  - component: {fileID: 114509675992627578}
+  - component: {fileID: 114697394710578852}
   m_Layer: 0
   m_Name: DTP_Pre_FloorTraps_SpearSlit
   m_TagString: Untagged
@@ -38,6 +40,7 @@ GameObject:
   - component: {fileID: 33099116578601452}
   - component: {fileID: 23028427074383050}
   - component: {fileID: 64925565725697698}
+  - component: {fileID: 114551350902795662}
   m_Layer: 0
   m_Name: DTP_FloorTraps_SpearSlit_Slit_Mesh
   m_TagString: Untagged
@@ -56,6 +59,7 @@ GameObject:
   - component: {fileID: 33595027737687686}
   - component: {fileID: 23243027464504260}
   - component: {fileID: 64964797294933208}
+  - component: {fileID: 114966960850319040}
   m_Layer: 0
   m_Name: DTP_FloorTraps_SpearSlit_Spear_Mesh
   m_TagString: Untagged
@@ -231,3 +235,58 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114509675992627578
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1017954854600128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isConnected: 1
+  _guid: 
+  _referenceCollection:
+    _collection:
+    - {fileID: 1017954854600128}
+    - {fileID: 1398450786853016}
+    - {fileID: 1898938593937902}
+  _assetGuid: 1bad93e0b1d9c2140857373a524692e8
+--- !u!114 &114551350902795662
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1398450786853016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: a5f1451f-9c16-484b-90e8-4f3057a9522e
+--- !u!114 &114697394710578852
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1017954854600128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 0c964acb-7c3c-4fb5-91a3-e228792d6091
+--- !u!114 &114966960850319040
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1898938593937902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: e551e999-4185-431e-866b-9ac96b69e3b7

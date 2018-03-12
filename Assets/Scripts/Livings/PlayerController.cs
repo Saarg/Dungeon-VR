@@ -108,15 +108,15 @@ public class PlayerController : Living
             inventory.InitializeWeaponInformation(new NetworkInstanceId((uint)defaultWeaponId), cd);
             inventory.CmdPickupWeapon(new NetworkInstanceId((uint)defaultWeaponId), netId);
 
-            weaponGrip = cd.weaponGrip;
             spell = cd.GetComponent<Spell>();
-            spell.caster = this;
             spell.castingBar = castingBar;
 
-            WeaponObject.transform.SetParent(weaponGrip);
-            WeaponObject.transform.localPosition = Vector3.zero;
-            WeaponObject.transform.localRotation = Quaternion.identity;
-            weapon = WeaponObject.GetComponent<Weapon>();
+			//TODO
+//			weaponGrip = cd.weaponGrip;
+//            WeaponObject.transform.SetParent(weaponGrip);
+//            WeaponObject.transform.localPosition = Vector3.zero;
+//            WeaponObject.transform.localRotation = Quaternion.identity;
+//            weapon = WeaponObject.GetComponent<Weapon>();
         }
     }
 
@@ -248,9 +248,8 @@ public class PlayerController : Living
                 }
             }
 
-            rigidBody.AddForce(-Vector3.Scale(rigidBody.velocity, drag), ForceMode.VelocityChange);
-
-            rigidBody.angularVelocity = Vector3.zero;
+//            rigidBody.AddForce(-Vector3.Scale(rigidBody.velocity, drag), ForceMode.VelocityChange); TODO
+//            rigidBody.angularVelocity = Vector3.zero;
         }
     }
 
@@ -330,9 +329,8 @@ public class PlayerController : Living
         poison = cd.poison;
         physical = cd.physical;
 
-        weaponGrip = cd.weaponGrip;
+//        weaponGrip = cd.weaponGrip;
         spell = cd.GetComponent<Spell>();
-        spell.caster = this;
         spell.castingBar = castingBar;
 
         NetworkServer.SpawnWithClientAuthority(go, gameObject);
