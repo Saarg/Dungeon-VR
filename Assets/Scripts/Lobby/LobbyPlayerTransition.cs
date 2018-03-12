@@ -42,14 +42,15 @@ namespace Lobby {
                 GameObject StartPos = GameObject.FindGameObjectsWithTag("StartPos")[pc.playerId-1];
                 transform.position = StartPos.transform.position;
 
-                gameObject.name = names[Random.Range(0, names.Length)];
+                gameObject.name = PlayerUI.localPlayer.pName.text;
                 pc.CmdSetName(gameObject.name);           
 
-                GameObject.Find("GameUI").GetComponent<GameUI>().isVr = false;   
+                GameObject.Find("GameUI").GetComponent<GameUI>().isVr = false; 
 
                 Destroy(this);
             } else {
                 SceneManager.LoadSceneAsync("VRNetworkTest", LoadSceneMode.Additive);
+                SceneManager.sceneLoaded += SetVRNetworkTestActive;                
 
                 VRTK_SDKManager sdkManager = Instantiate(VR_SDK).GetComponent<VRTK_SDKManager>();
                 Transform leftTarget = sdkManager.scriptAliasLeftController.transform;
@@ -75,6 +76,14 @@ namespace Lobby {
                 GameObject.Find("GameUI").GetComponent<GameUI>().isVr = true;
 
                 NetworkServer.Destroy(gameObject);
+            }
+        }
+
+        void SetVRNetworkTestActive(Scene scene, LoadSceneMode lodMode) {
+            if (scene.name.Equals("VRNetworkTest")) {
+                SceneManager.SetActiveScene(scene);
+
+                SceneManager.sceneLoaded -= SetVRNetworkTestActive;
             }
         }
     }

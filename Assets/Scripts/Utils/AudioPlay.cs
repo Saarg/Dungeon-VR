@@ -13,6 +13,7 @@ public class AudioPlay : MonoBehaviour {
 
 	void OnEnable()
 	{
-		source.Play();
+		if (source != null)
+			source.Play();
 	}
 }

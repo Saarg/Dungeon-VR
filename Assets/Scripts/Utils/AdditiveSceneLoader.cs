@@ -17,7 +17,7 @@ public class AdditiveSceneLoader : MonoBehaviour {
 		foreach (string s in scenes)
 		{
 			if (SceneManager.GetSceneByName(s).isLoaded == false)
-				SceneManager.LoadScene(s, LoadSceneMode.Additive);
+				SceneManager.LoadSceneAsync(s, LoadSceneMode.Additive);
 			else
 				Debug.Log("Scene " + s + " already loaded");
 		}
