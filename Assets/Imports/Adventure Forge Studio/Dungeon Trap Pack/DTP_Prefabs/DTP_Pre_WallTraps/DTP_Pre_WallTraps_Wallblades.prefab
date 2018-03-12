@@ -20,8 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4289405816034018}
   - component: {fileID: 95190607116618914}
-  - component: {fileID: 114535766940769026}
-  - component: {fileID: 114561767686238746}
   m_Layer: 0
   m_Name: DTP_Pre_WallTraps_Wallblades
   m_TagString: Untagged
@@ -40,7 +38,6 @@ GameObject:
   - component: {fileID: 33981890977182632}
   - component: {fileID: 23444590260172178}
   - component: {fileID: 64379630324495292}
-  - component: {fileID: 114261048035106252}
   m_Layer: 0
   m_Name: DTP_WallTraps_WallBlades_Blades_Mesh
   m_TagString: Untagged
@@ -56,7 +53,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4260212764996332}
-  - component: {fileID: 114310873636477162}
   m_Layer: 0
   m_Name: DTP_Geo_WallTraps_WallBlades_AnimNode
   m_TagString: Untagged
@@ -75,7 +71,6 @@ GameObject:
   - component: {fileID: 33147788997667192}
   - component: {fileID: 23361499304717710}
   - component: {fileID: 64352869877974606}
-  - component: {fileID: 114664548484343038}
   m_Layer: 0
   m_Name: DTP_WallTraps_WallBlades_Slit_Mesh
   m_TagString: Untagged
@@ -94,7 +89,6 @@ GameObject:
   - component: {fileID: 33142975891051962}
   - component: {fileID: 23488658874624406}
   - component: {fileID: 64971386646622104}
-  - component: {fileID: 114156595975276866}
   m_Layer: 0
   m_Name: DTP_WallTraps_WallBlades_Rods_Mesh
   m_TagString: Untagged
@@ -353,84 +347,3 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114156595975276866
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1939685600900280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: 04e4e159-0968-4c80-96de-59d2b58f34bc
---- !u!114 &114261048035106252
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1819086531228066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: 4006fae0-d8b1-4b9a-9960-0cb9c0b85dbc
---- !u!114 &114310873636477162
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1831070989520580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: 66c34da9-6dbb-4ad6-acc5-4b1997c726cd
---- !u!114 &114535766940769026
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1347196616382270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isConnected: 1
-  _guid: 
-  _referenceCollection:
-    _collection:
-    - {fileID: 1347196616382270}
-    - {fileID: 1831070989520580}
-    - {fileID: 1819086531228066}
-    - {fileID: 1939685600900280}
-    - {fileID: 1863119160642608}
-  _assetGuid: 8997d44b85f201d4583c6ebb4a3c022d
---- !u!114 &114561767686238746
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1347196616382270}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: f3b2b86e-d2b6-48c5-a62e-5c4f943d2c96
---- !u!114 &114664548484343038
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1863119160642608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: d1c3d179-808e-41fb-8b2d-a88d43105998

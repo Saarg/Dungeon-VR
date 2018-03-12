@@ -119,18 +119,10 @@ public class PlayerController : Living
             }
 
             spell = cd.GetComponent<Spell>();
+            spell.caster = this;
             spell.castingBar = castingBar;
 
-<<<<<<< HEAD
-			//TODO
-//			weaponGrip = cd.weaponGrip;
-//            WeaponObject.transform.SetParent(weaponGrip);
-//            WeaponObject.transform.localPosition = Vector3.zero;
-//            WeaponObject.transform.localRotation = Quaternion.identity;
-//            weapon = WeaponObject.GetComponent<Weapon>();
-=======
             lookAt = cd.transform.Find("LookAt");
->>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
         }
     }
 
@@ -266,10 +258,6 @@ public class PlayerController : Living
                 }
             }
 
-<<<<<<< HEAD
-//            rigidBody.AddForce(-Vector3.Scale(rigidBody.velocity, drag), ForceMode.VelocityChange); TODO
-//            rigidBody.angularVelocity = Vector3.zero;
-=======
             Vector3 locVel = transform.InverseTransformDirection(rigidBody.velocity);
 
             if (_animator != null) {
@@ -280,7 +268,6 @@ public class PlayerController : Living
             }
 
             rigidBody.AddForce(-Vector3.Scale(rigidBody.velocity, drag), ForceMode.VelocityChange);
->>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
         }
 
         rigidBody.angularVelocity = Vector3.zero;
@@ -359,13 +346,6 @@ public class PlayerController : Living
         poison = cd.poison;
         physical = cd.physical;
 
-<<<<<<< HEAD
-//        weaponGrip = cd.weaponGrip;
-        spell = cd.GetComponent<Spell>();
-        spell.castingBar = castingBar;
-
-=======
->>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
         NetworkServer.SpawnWithClientAuthority(go, gameObject);
         currentClassObject = go;
 
@@ -399,9 +379,6 @@ public class PlayerController : Living
 
         inventory.weaponGrip = cd.weaponGrip;
         inventory.InitializeWeaponInformation(weaponNetId, cd);
-<<<<<<< HEAD
-  }
-=======
 
         spell = cd.GetComponent<Spell>();
         spell.caster = this;
@@ -433,5 +410,4 @@ public class PlayerController : Living
 
         OnDeath -= Death;
     }
->>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
 }

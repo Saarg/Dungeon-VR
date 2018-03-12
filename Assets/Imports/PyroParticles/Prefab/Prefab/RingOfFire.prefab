@@ -10,7 +10,6 @@ GameObject:
   - component: {fileID: 437064}
   - component: {fileID: 19927412}
   - component: {fileID: 19883674}
-  - component: {fileID: 114725380649463812}
   m_Layer: 8
   m_Name: RingOfFireSparks
   m_TagString: Untagged
@@ -28,7 +27,6 @@ GameObject:
   - component: {fileID: 407480}
   - component: {fileID: 19978708}
   - component: {fileID: 19821370}
-  - component: {fileID: 114705047345342170}
   m_Layer: 8
   m_Name: RingOfFireSecondaryFlame
   m_TagString: Untagged
@@ -45,7 +43,6 @@ GameObject:
   m_Component:
   - component: {fileID: 451452}
   - component: {fileID: 8281866}
-  - component: {fileID: 114939301587856294}
   m_Layer: 8
   m_Name: RingOfFireSound
   m_TagString: Untagged
@@ -62,7 +59,6 @@ GameObject:
   m_Component:
   - component: {fileID: 499470}
   - component: {fileID: 10847730}
-  - component: {fileID: 114995618683978308}
   m_Layer: 8
   m_Name: RingOfFireLight
   m_TagString: Untagged
@@ -80,8 +76,6 @@ GameObject:
   - component: {fileID: 486202}
   - component: {fileID: 11471502}
   - component: {fileID: 11469812}
-  - component: {fileID: 114523330728109372}
-  - component: {fileID: 114844238264585910}
   m_Layer: 8
   m_Name: RingOfFire
   m_TagString: Untagged
@@ -99,7 +93,6 @@ GameObject:
   - component: {fileID: 439712}
   - component: {fileID: 19921580}
   - component: {fileID: 19869400}
-  - component: {fileID: 114054222842889802}
   m_Layer: 8
   m_Name: RingOfFireSmoke
   m_TagString: Untagged
@@ -117,7 +110,6 @@ GameObject:
   - component: {fileID: 462742}
   - component: {fileID: 19912930}
   - component: {fileID: 19886008}
-  - component: {fileID: 114842618342905932}
   m_Layer: 8
   m_Name: RingOfFireFlame
   m_TagString: Untagged
@@ -13912,110 +13904,3 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 168262}
   m_IsPrefabParent: 1
---- !u!114 &114054222842889802
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 195822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: 5d4919c8-3414-47d9-bc3b-e96915e96e0c
---- !u!114 &114523330728109372
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 168262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isConnected: 1
-  _guid: 
-  _referenceCollection:
-    _collection:
-    - {fileID: 168262}
-    - {fileID: 197666}
-    - {fileID: 136326}
-    - {fileID: 141130}
-    - {fileID: 146530}
-    - {fileID: 134360}
-    - {fileID: 195822}
-  _assetGuid: 062893e7007e39441aea009115b6cefa
---- !u!114 &114705047345342170
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 136326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: e37713ef-3cad-4c1b-8e4e-099631e55bbc
---- !u!114 &114725380649463812
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: 53e2b596-c955-4b4a-8dc2-f77245fcc4c8
---- !u!114 &114842618342905932
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 197666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: ebea6d6d-0c5d-4f8d-b338-4eab9af4f7f3
---- !u!114 &114844238264585910
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 168262}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: 2b4fa080-0335-45ae-90cc-1b59ba77ef06
---- !u!114 &114939301587856294
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 141130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: 3e4e5565-7cb9-4c5b-8487-05cfde4640c1
---- !u!114 &114995618683978308
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 146530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: ed82601a-b110-46b4-b884-83c542fc8231

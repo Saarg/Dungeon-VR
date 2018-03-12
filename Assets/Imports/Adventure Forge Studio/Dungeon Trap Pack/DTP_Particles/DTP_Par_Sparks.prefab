@@ -21,8 +21,6 @@ GameObject:
   - component: {fileID: 4740986124068970}
   - component: {fileID: 198369116006447844}
   - component: {fileID: 199035389400140148}
-  - component: {fileID: 114166185947899578}
-  - component: {fileID: 114179209891073532}
   m_Layer: 0
   m_Name: DTP_Par_Sparks
   m_TagString: Untagged
@@ -43,35 +41,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114166185947899578
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1412217886480864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isConnected: 1
-  _guid: 
-  _referenceCollection:
-    _collection:
-    - {fileID: 1412217886480864}
-  _assetGuid: 10c93a59e79c9bc42a04b547d87a4a69
---- !u!114 &114179209891073532
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1412217886480864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: ca7b47f7-b75e-45d3-a4d3-f5349ede14b0
 --- !u!198 &198369116006447844
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 33826190412304230}
   - component: {fileID: 23950179587174054}
   - component: {fileID: 64764455633304442}
-  - component: {fileID: 114853208880298110}
   m_Layer: 0
   m_Name: DTP_WallTraps_SpikeGrate_Grate_Mesh
   m_TagString: Untagged
@@ -39,8 +38,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4674262897010874}
   - component: {fileID: 95334127288495874}
-  - component: {fileID: 114523183754957166}
-  - component: {fileID: 114653513780237790}
   m_Layer: 0
   m_Name: DTP_Pre_WallTraps_SpikeGrate
   m_TagString: Untagged
@@ -59,7 +56,6 @@ GameObject:
   - component: {fileID: 33929687068595418}
   - component: {fileID: 23673332916397522}
   - component: {fileID: 64034281373901694}
-  - component: {fileID: 114897050418234042}
   m_Layer: 0
   m_Name: DTP_WallTraps_SpikeGrate_Frame_Mesh
   m_TagString: Untagged
@@ -235,58 +231,3 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114523183754957166
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1469056173641864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isConnected: 1
-  _guid: 
-  _referenceCollection:
-    _collection:
-    - {fileID: 1469056173641864}
-    - {fileID: 1967257122365188}
-    - {fileID: 1118102819295772}
-  _assetGuid: cc743af431e441244a6394ab80a1f6af
---- !u!114 &114653513780237790
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1469056173641864}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: 5f7660ac-c273-4c6c-8043-b640c2600003
---- !u!114 &114853208880298110
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1118102819295772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: 0024bacc-5fa9-40d6-bcfe-0472afa5cc4d
---- !u!114 &114897050418234042
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1967257122365188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _guid: c3ac6764-4d2e-47ac-8aaf-b9c9a534de24

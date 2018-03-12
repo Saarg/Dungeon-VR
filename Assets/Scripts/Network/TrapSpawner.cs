@@ -196,11 +196,7 @@ public class TrapSpawner : NetworkBehaviour {
 	public void RpcDamageTrap(int i, float damage) {
 		GameObject go = spawnedTraps[i];
 
-<<<<<<< HEAD
-		go.GetComponent<DungeonTrap> ().TakeDamage (damage);
-=======
 		go.GetComponent<DungeonTrap>().TakeDamage(damage);
->>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
 	}
 
 	public void AddClient(NetworkConnection conn) {
