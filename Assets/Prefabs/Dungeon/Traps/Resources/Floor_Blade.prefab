@@ -655,8 +655,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1919605199681660}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -54.067833, y: 12.86415, z: -115.38777}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 7.43, y: -8.139486e-18, z: 16.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4586979406948382}
@@ -715,7 +715,7 @@ Transform:
   m_GameObject: {fileID: 1880925720552208}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 2}
-  m_LocalScale: {x: 2.0000033, y: 2, z: 2.0000033}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4718521098672374}
   - {fileID: 4016601404498006}
@@ -743,7 +743,7 @@ Transform:
   m_GameObject: {fileID: 1361852123178504}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -0, y: 0, z: -1}
-  m_LocalScale: {x: 2.0000033, y: 2, z: 2.0000033}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4171105520985958}
   - {fileID: 4545603395911244}
@@ -758,7 +758,7 @@ Transform:
   m_GameObject: {fileID: 1130095906369520}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4180171500590580}
   - {fileID: 4015402246886610}
@@ -786,7 +786,7 @@ Transform:
   m_GameObject: {fileID: 1046390004101616}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -0, y: 0, z: -2}
-  m_LocalScale: {x: 2.0000033, y: 2, z: 2.0000033}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4036099229417912}
   - {fileID: 4817383662963366}
@@ -814,7 +814,7 @@ Transform:
   m_GameObject: {fileID: 1090855201966642}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 2.0000033, y: 2, z: 2.0000033}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4431721534750204}
   - {fileID: 4995702221786660}
@@ -1394,8 +1394,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.5, y: 0.1, z: 0.42173237}
-  m_Center: {x: -0.000000038353473, y: 0.05, z: -0.16086614}
+  m_Size: {x: 1.25, y: 0.05, z: 0.42173237}
+  m_Center: {x: -0.000000038353473, y: 0, z: -0.16086614}
 --- !u!65 &65609090453455058
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1870,6 +1870,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onEnter:
     m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  onStay:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114517275211420204}
         m_MethodName: StartTrap
@@ -1882,11 +1887,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  onStay:
-    m_PersistentCalls:
-      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   onExit:
@@ -2643,6 +2643,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad54a7e1148ec7640b82a895aa2d3e7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trap: {fileID: 114517275211420204}
   isBuilt: 0
   isActive: 1
   isDestroyable: 0

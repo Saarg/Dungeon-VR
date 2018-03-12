@@ -8,7 +8,10 @@ using UnityEngine.UI;
 /// </summary>
 public abstract class DungeonTrap : MonoBehaviour {
 
+    [HideInInspector]
     public Trap trap;
+    [HideInInspector]
+    public int price;
 
 	[Header("Description")]
 	public bool isBuilt = false;		//if true the trap is set
@@ -140,7 +143,7 @@ public abstract class DungeonTrap : MonoBehaviour {
 			if (TrapSpawner.singleton != null) {
 				TrapSpawner.singleton.DamageTrap(gameObject, damage);
 			} else {
-        this.TakeDamage (_col.gameObject.GetComponent<Bullet> ().Damage);
+        		this.TakeDamage (_col.gameObject.GetComponent<Bullet> ().Damage);
 			}
 
 		}

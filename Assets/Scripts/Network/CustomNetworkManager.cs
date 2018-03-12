@@ -5,15 +5,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking;
 
-[Serializable]
-public class ConnectionEvent : UnityEvent<NetworkConnection> {}
-
 public class CustomNetworkManager: NetworkManager {
-
-    public ConnectionEvent OnPlayerConnect;
+    public delegate void OnPlayerConnect(NetworkConnection conn);
+    public OnPlayerConnect playerConnectDelegate;
 
     public override void OnServerConnect(NetworkConnection conn)
     {
-        OnPlayerConnect.Invoke(conn);
+        if (playerConnectDelegate != null)
+				playerConnectDelegate(conn);
     }
 }

@@ -45,6 +45,14 @@ public class TrapDropZone : MonoBehaviour {
         }
     }
 
+    public void RotatePreview(float angle)
+    {
+        if(preview != null)
+        {
+            preview.transform.Rotate(new Vector3(0, angle, 0));
+        }
+    }
+
     /// <summary>
     /// OnAttach trap from player player controller -> Check transform + ask server to add it.
     /// </summary>
@@ -52,20 +60,26 @@ public class TrapDropZone : MonoBehaviour {
     /// <param name="e"></param>
     private void OnTriggerPressed(object sender, VRTK.ControllerInteractionEventArgs e)
     {
-        //Debug.Log("TrapDropZone attach request");
-
-        if (preview != null)
+        if (VRPlayerManager.instance.Buy(trapControllerManager.selectedTrap.price))
         {
-            TrapSpawn s = new TrapSpawn();
+            if (preview != null)
+            {
+                TrapSpawn s = new TrapSpawn();
 
-            s.path = previewName;
-            s.position = preview.transform.position;
-            s.rotation = preview.transform.rotation;
+                s.path = previewName;
+                s.position = preview.transform.position;
+                s.rotation = preview.transform.rotation;
 
-            DestroyPreview();
-            placedTrap = TrapSpawner.singleton.AddTrap(s);
-            placedTrap.trap.TrapRemoved += OnTrapRemoved;
-            trapControllerManager = null;
+                DestroyPreview();
+
+                placedTrap = TrapSpawner.singleton.AddTrap(s);  
+                placedTrap.trap.TrapRemoved += OnTrapRemoved;
+                trapControllerManager = null;
+            }
+        }
+        else
+        {
+            // feedback not enough money
         }
     }
 

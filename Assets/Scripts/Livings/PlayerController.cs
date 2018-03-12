@@ -14,6 +14,7 @@ public class PlayerController : Living
     public Animator _animator;
     public NetworkAnimator _netAnimator;
     private Rigidbody rigidBody;
+    private CapsuleCollider collider;
 
     public Transform cam;
     public InventoryController inventory;
@@ -53,6 +54,8 @@ public class PlayerController : Living
     [SyncVar] GameObject currentClassObject;
     [SyncVar] int defaultWeaponId;
 
+    Transform lookAt;
+
     /// <summary>
     /// 	Fetch animator
     ///		Destroy camera if not localplayer
@@ -68,15 +71,22 @@ public class PlayerController : Living
                 gameUI.SetPlayerController(this);
                 gameUI.enabled = true;
             }
-        }
+        } else {
+            Destroy(cam.gameObject);
 
+            GameObject ui = GameObject.Find("GameUI");
+            if (ui != null)
+            {
+                gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
+                gameUI.AddTeamMate(this);
+                gameUI.enabled = true;
+            }
+        }
 
         rigidBody = GetComponent<Rigidbody>();
+        collider = GetComponent<CapsuleCollider>();
 
-        if (!isLocalPlayer)
-        {
-            Destroy(cam.gameObject);
-        }
+        OnDeath += Death;
     }
 
     public override void OnStartLocalPlayer() {
@@ -95,28 +105,32 @@ public class PlayerController : Living
             cd.transform.localPosition = Vector3.zero;
             cd.transform.localRotation = Quaternion.identity;
             inventory.weaponGrip = cd.weaponGrip;
-        }
 
-        if (!isLocalPlayer)
-        {
-            inventory.InitializedOtherClient();
-        }
+            if (isLocalPlayer)
+            {
+                inventory.InitializeWeaponInformation(new NetworkInstanceId((uint)defaultWeaponId), cd);
+                inventory.CmdPickupWeapon(new NetworkInstanceId((uint)defaultWeaponId), netId);
+            } else {
+                inventory.InitializedOtherClient();
 
-        if (isLocalPlayer)
-        {
-            PlayerClassDesignation cd = currentClassObject.GetComponent<PlayerClassDesignation>();
-            inventory.InitializeWeaponInformation(new NetworkInstanceId((uint)defaultWeaponId), cd);
-            inventory.CmdPickupWeapon(new NetworkInstanceId((uint)defaultWeaponId), netId);
+                Weapon w =  inventory.GetWeapon(inventory.CurrentWeapon);
+                if (w.spec == null)
+                    w.spec = cd.defaultWeapon;
+            }
 
             spell = cd.GetComponent<Spell>();
             spell.castingBar = castingBar;
 
+<<<<<<< HEAD
 			//TODO
 //			weaponGrip = cd.weaponGrip;
 //            WeaponObject.transform.SetParent(weaponGrip);
 //            WeaponObject.transform.localPosition = Vector3.zero;
 //            WeaponObject.transform.localRotation = Quaternion.identity;
 //            weapon = WeaponObject.GetComponent<Weapon>();
+=======
+            lookAt = cd.transform.Find("LookAt");
+>>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
         }
     }
 
@@ -127,27 +141,15 @@ public class PlayerController : Living
     public override void Update()
     {
 		base.Update();
-        if (isLocalPlayer)
+        if (isLocalPlayer && !dead)
         {
             if (Input.GetButtonDown("Fire2"))
             {
-                if (spell.IsReady())
-                {
-                    _netAnimator.SetTrigger("Cast");
-                    _animator.SetInteger("anim", (int)playerClassID);
-                }
-                spell.CmdCast();
+                spell.Cast();
             }
             UpdateJump();
             FillMana();
             UpdateTarget();
-
-            Vector3 locVel = transform.InverseTransformDirection(rigidBody.velocity);
-
-            if (_animator != null) {
-                _animator.SetFloat("SpeedZ", locVel.z);
-                _animator.SetFloat("SpeedX", locVel.x);
-            }
         }
     }
 
@@ -156,7 +158,7 @@ public class PlayerController : Living
     /// </summary>
     void UpdateJump()
     {
-        if (isLocalPlayer)
+        if (isLocalPlayer && !dead)
         {
             if (Input.GetButtonDown("Jump") && isGrounded && canJump)
             {
@@ -183,7 +185,7 @@ public class PlayerController : Living
 
     void UpdateTarget()
     {
-        if (isLocalPlayer)
+        if (isLocalPlayer && !dead)
         {
             var hits = Physics.RaycastAll(cam.gameObject.transform.position, cam.gameObject.transform.forward, RAY_LENGTH);
             foreach (var hit in hits)
@@ -211,32 +213,48 @@ public class PlayerController : Living
     /// </summary>
     void FixedUpdate()
     {
-        if (isLocalPlayer) {
-            Vector3 dir = (cam.right * Input.GetAxis("Horizontal") * Time.deltaTime) + (cam.forward * Input.GetAxis("Vertical") * Time.deltaTime);
-            dir.y = 0;
-            dir.Normalize();
+        if (isLocalPlayer && !dead) {
+            float angle = Vector3.Angle(cam.forward, transform.forward);
 
-            float angle = Vector3.Angle(cam.forward, dir);
-            Vector3 lookDir = dir;
-            lookDir.y = 0;
+            if (lookAt != null) {
+                if (angle < 170) {
+                    lookAt.localPosition = Vector3.Lerp(lookAt.localPosition, Vector3.up * 1.6f + lookAt.InverseTransformDirection(cam.forward * 5), Time.deltaTime * 2);
+                }  else {
+                    lookAt.localPosition = Vector3.Lerp(lookAt.localPosition, Vector3.up * 1.6f + lookAt.InverseTransformDirection(transform.forward * 5), Time.deltaTime * 2);                
+                }
 
-            if(lookDir.sqrMagnitude > 0.1f) {
-                if (angle > 90)
-                    lookDir = -lookDir;
-
-            } else {
-               lookDir = cam.forward;
-               lookDir.y = 0;
+                Debug.DrawLine(transform.position + Vector3.up * 1.6f, lookAt.position, Color.red);
             }
-
-            lookDir.Normalize();
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);
 
             if (canMove)
             {
-                if (dir.sqrMagnitude > 0.1f)
+                if ((Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0))
                 {
-                    float s = speed * (1 - angle/360);
+                    Vector3 dir = (cam.right * Input.GetAxis("Horizontal") * Time.deltaTime) + (cam.forward * Input.GetAxis("Vertical") * Time.deltaTime);
+                    dir.y = 0;
+                    dir.Normalize();
+
+                    float a = Vector3.Angle(dir, transform.forward);
+
+                    Vector3 lookDir = cam.forward;
+                    lookDir.y = 0;
+                    lookDir.Normalize();
+
+                    if (isGrounded)
+                        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);
+                    else if (a < 120)
+                        transform.rotation = Quaternion.LookRotation(dir);
+                    else 
+                        transform.rotation = Quaternion.LookRotation(-dir);                        
+                    
+                    float s = speed * (1 - a/360);
+                    // _amplifier.bodies[0].horizontalWeight = 1;
+                    if (Input.GetButton("Walk") || !canRun)
+                        s = walkSpeed * (1 - a/360);
+                    else if (Input.GetButton("Sprint"))
+                        s = sprintSpeed * (1 - a/360);
+                    // _amplifier.bodies[0].horizontalWeight = 5;
+
                     if (canRun && rigidBody.velocity.magnitude < s)
                     {
                         rigidBody.AddForce(dir, ForceMode.VelocityChange);
@@ -248,14 +266,24 @@ public class PlayerController : Living
                 }
             }
 
+<<<<<<< HEAD
 //            rigidBody.AddForce(-Vector3.Scale(rigidBody.velocity, drag), ForceMode.VelocityChange); TODO
 //            rigidBody.angularVelocity = Vector3.zero;
-        }
-    }
+=======
+            Vector3 locVel = transform.InverseTransformDirection(rigidBody.velocity);
 
-    void OnDestroy()
-    {
-        gameUI.SetPlayerController(null);
+            if (_animator != null) {
+                _animator.SetFloat("SpeedZ", locVel.z);
+                _animator.SetFloat("SpeedX", locVel.x);
+
+                _animator.SetFloat("Speed", locVel.sqrMagnitude);
+            }
+
+            rigidBody.AddForce(-Vector3.Scale(rigidBody.velocity, drag), ForceMode.VelocityChange);
+>>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
+        }
+
+        rigidBody.angularVelocity = Vector3.zero;
     }
 
     public bool HasTarget()
@@ -283,7 +311,7 @@ public class PlayerController : Living
     {
         if (Time.time - lastManaFill > manaFillRate)
         {
-            UpdateMana(CurrentMana + 1);
+            CmdUpdateMana(CurrentMana + 1);
             lastManaFill = Time.time;
         }
     }
@@ -321,6 +349,8 @@ public class PlayerController : Living
         maxMana = cd.maxMana;
 
         speed = cd.speed;
+        walkSpeed = cd.walkSpeed;
+        sprintSpeed = cd.sprintSpeed;
         jumpHeight = cd.jumpHeight;
 
         fire = cd.fire;
@@ -329,34 +359,79 @@ public class PlayerController : Living
         poison = cd.poison;
         physical = cd.physical;
 
+<<<<<<< HEAD
 //        weaponGrip = cd.weaponGrip;
         spell = cd.GetComponent<Spell>();
         spell.castingBar = castingBar;
 
+=======
+>>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
         NetworkServer.SpawnWithClientAuthority(go, gameObject);
         currentClassObject = go;
 
-        GameObject w = Instantiate(cd.defaultWeapon, cd.weaponGrip);
+        GameObject w = Instantiate(cd.defaultWeapon.WeaponPrefab, cd.weaponGrip);
         Destroy(w.GetComponent<DroppedWeapon>());
+        w.GetComponent<Weapon>().spec = cd.defaultWeapon;
         defaultWeaponId = (int)w.GetComponent<NetworkIdentity>().netId.Value;
 
         NetworkServer.SpawnWithClientAuthority(w, gameObject);
         RpcClassUpdated(cd.netId, w.GetComponent<NetworkIdentity>().netId);
+
+        playerClassID = (PlayerClassEnum)id;
     }
 
     [ClientRpc]
     private void RpcClassUpdated(NetworkInstanceId classModelId, NetworkInstanceId weaponNetId){
         PlayerClassDesignation cd = ClientScene.FindLocalObject(classModelId).GetComponent<PlayerClassDesignation>();
         GameObject weaponObj = ClientScene.FindLocalObject(weaponNetId);
+        weaponObj.GetComponent<Weapon>().spec = cd.defaultWeapon;        
         defaultWeaponId = (int)weaponObj.GetComponent<NetworkIdentity>().netId.Value;
         cd.transform.SetParent(transform);
         cd.transform.localPosition = Vector3.zero;
         cd.transform.localRotation = Quaternion.identity;
+
+        collider.center = cd.center;
+        collider.radius = cd.radius;
+        collider.height = cd.height;
 
         _animator = cd.GetComponent<Animator>();
         _netAnimator = cd.GetComponent<NetworkAnimator>();
 
         inventory.weaponGrip = cd.weaponGrip;
         inventory.InitializeWeaponInformation(weaponNetId, cd);
+<<<<<<< HEAD
   }
+=======
+
+        spell = cd.GetComponent<Spell>();
+        spell.caster = this;
+        spell.castingBar = castingBar;
+
+        lookAt = cd.transform.Find("LookAt");
+    }
+
+    [Command]
+    public void CmdSetName(String n) {
+        gameObject.name = n;
+        RpcSetName(n);
+    }
+
+    [ClientRpc]
+    void RpcSetName(String n) {
+        gameObject.name = n;
+    }
+
+    public override void Death()
+    {
+        if (isLocalPlayer) {
+            gameUI.SetDeathUI(true);
+            Debug.Log("AHAH ! You're dead");
+        }       
+        
+        collider.center = new Vector3 (0,1,0);
+        _netAnimator.SetTrigger("Death");
+
+        OnDeath -= Death;
+    }
+>>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
 }

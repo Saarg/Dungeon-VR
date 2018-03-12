@@ -84,6 +84,7 @@ public class InventoryController : NetworkBehaviour {
         GameObject weaponObj = ClientScene.FindLocalObject(weaponNetId);
         GameObject playerObj = ClientScene.FindLocalObject(playerNetId);
         GameObject playerClassObj = ClientScene.FindLocalObject(playerClassNetId);
+
         playerObj.GetComponent<PlayerController>().inventory.InitializeWeapon(weaponObj, playerClassObj.GetComponent<PlayerClassDesignation>());
     }
 
@@ -110,9 +111,10 @@ public class InventoryController : NetworkBehaviour {
         weaponObj.transform.localRotation = Quaternion.identity;
 
         weapon = weaponObj.GetComponent<Weapon>();
+        weapon.spec = cd.defaultWeapon;
         currentWeapon = weapon.WeaponType;
         uint id = weaponObj.GetComponent<NetworkIdentity>().netId.Value;
-        currentWeapon = playerClass.defaultWeapon.GetComponent<Weapon>().WeaponType;
+        currentWeapon = playerClass.defaultWeapon.WeaponType;
         weaponTypeIndex = (int)currentWeapon;
         shootingController.weapon = weaponDictionary[currentWeapon].GetComponent<Weapon>();
         SetId(id, weapon.WeaponType);
@@ -213,6 +215,7 @@ public class InventoryController : NetworkBehaviour {
         {
             GameObject dropWeapon = weaponDictionary[weaponType];
             dropWeapon.transform.SetParent(null);
+            dropWeapon.transform.localScale = Vector3.one;
             dropWeapon.transform.localPosition = new Vector3(dropWeapon.transform.localPosition.x, 0, dropWeapon.transform.localPosition.z);
             dropWeapon.transform.rotation = Quaternion.identity;
             dropWeapon.SetActive(true);

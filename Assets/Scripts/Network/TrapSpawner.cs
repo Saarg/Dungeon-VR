@@ -20,15 +20,18 @@ public class TrapSpawner : NetworkBehaviour {
 	[SerializeField]
 	List<GameObject> spawnedTraps = new List<GameObject>();
 	
-	public bool spawnForClients;
-
-	[Header("InEditorHelp")]
-	public GameObject GM_UI;
+	[SyncVar] public bool spawnForClients;
 	
-	public override void OnStartClient() {
-		if (GM_UI != null)
-			GM_UI.SetActive(isServer);
+	void Awake()
+	{
+		if (NetworkManager.singleton is CustomNetworkManager) {
+			(NetworkManager.singleton as CustomNetworkManager).playerConnectDelegate += AddClient;
+		} else if (NetworkManager.singleton is LobbyManager) {
+			(NetworkManager.singleton as LobbyManager).playerConnectDelegate += AddClient;
+		}
+	}
 
+	public override void OnStartClient() {
 		if (!isServer) {
 			foreach (GameObject s in spawnedTraps) {
 				Destroy(s);
@@ -40,9 +43,6 @@ public class TrapSpawner : NetworkBehaviour {
 
 	public override void OnStartServer()
 	{
-		if (LobbyManager.instance != null)
-			LobbyManager.instance.playerConnectDelegate += AddClient;
-
 		if (GameManager.instance != null)
 			GameManager.instance.onStartGame += StartSpawningForClients;
 
@@ -80,7 +80,7 @@ public class TrapSpawner : NetworkBehaviour {
 		}
 	}
 
-	void Respawn(NetworkConnection conn) {
+	void RespawnForClient(NetworkConnection conn) {
 		if (!spawnForClients)
 			return;
 
@@ -118,24 +118,6 @@ public class TrapSpawner : NetworkBehaviour {
 	}
 
 	[TargetRpc]
-	void TargetRespawnForClient(NetworkConnection conn) {
-		if (!spawnForClients)
-			return;
-
-		TargetClearTrapsForClient(conn);
-
-		foreach(GameObject s in spawnedTraps) {
-			TrapSpawn t = new TrapSpawn();
-
-			t.path = s.name.Substring(0, s.name.Length - 7);
-			t.position = s.transform.position;
-			t.rotation = s.transform.rotation;
-
-			TargetSpawnForClient(conn, t);
-		}
-	}
-
-	[TargetRpc]
 	void TargetClearTrapsForClient(NetworkConnection conn) {
 		if (isServer)
 			return;
@@ -159,17 +141,22 @@ public class TrapSpawner : NetworkBehaviour {
 		Debug.Log(t.path);
 		GameObject go = Resources.Load(t.path) as GameObject;
 
-        go = Instantiate(go, transform);
+		if (go != null) {
+			go = Instantiate(go, transform);
 
-        Debug.Log(go.name);
-		go.transform.position = t.position;
-		go.transform.rotation = t.rotation;
+			Debug.Log(go.name);
+			go.transform.position = t.position;
+			go.transform.rotation = t.rotation;
 
-		go.GetComponent<DungeonTrap>().isActive = true;
+			go.GetComponent<DungeonTrap>().isActive = spawnForClients;
 
-		spawnedTraps.Add(go);
+			spawnedTraps.Add(go);
 
-        return go.GetComponent<DungeonTrap>();
+			return go.GetComponent<DungeonTrap>();
+		} else {
+			Debug.LogWarning(t.path + " not found");
+			return null;
+		}
 	}
 
 	public DungeonTrap AddTrap(TrapSpawn trap) {
@@ -183,6 +170,9 @@ public class TrapSpawner : NetworkBehaviour {
 	}
 
 	public void DestroyTrap(GameObject t) {
+		if (!isServer)
+			return;
+
 		RpcDestroyTrap(spawnedTraps.FindIndex(x => x == t));
 	}
 
@@ -196,6 +186,9 @@ public class TrapSpawner : NetworkBehaviour {
 	}
 
 	public void DamageTrap(GameObject t, float damage) {
+		if (!isServer)
+			return;
+		
 		RpcDamageTrap(spawnedTraps.FindIndex(x => x == t), damage);
 	}
 
@@ -203,13 +196,17 @@ public class TrapSpawner : NetworkBehaviour {
 	public void RpcDamageTrap(int i, float damage) {
 		GameObject go = spawnedTraps[i];
 
+<<<<<<< HEAD
 		go.GetComponent<DungeonTrap> ().TakeDamage (damage);
+=======
+		go.GetComponent<DungeonTrap>().TakeDamage(damage);
+>>>>>>> afbe57f2591eda7b9095e8e9ea74cc4c76fd692f
 	}
 
 	public void AddClient(NetworkConnection conn) {
 		StartCoroutine(WaitForConnectionIsReady(conn, () => {
 			if (spawnForClients)
-				TargetRespawnForClient(conn);
+				RespawnForClient(conn);
 			else
 				TargetClearTrapsForClient(conn);
 		}));
@@ -217,6 +214,12 @@ public class TrapSpawner : NetworkBehaviour {
 
 	public void StartSpawningForClients() {
 		spawnForClients = true;
+
+		// ACTIVATE ALL TRAPS
+		foreach (GameObject trap in spawnedTraps) {
+			trap.GetComponent<DungeonTrap>().isActive = spawnForClients;
+		}
+
 		Respawn();
 	}
 

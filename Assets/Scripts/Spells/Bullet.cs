@@ -16,8 +16,13 @@ public class Bullet : NetworkBehaviour {
 		physical
     };
 
+    public BulletSpec spec;
+
+    GameObject model;
+    public GameObject Model { get { return model; } }
+
     [SerializeField]
-    [SyncVar] float velocity;
+    float velocity { get { return spec.Velocity; } }
 
     [SyncVar] Vector3 direction;
     public Vector3 Direction
@@ -26,36 +31,26 @@ public class Bullet : NetworkBehaviour {
         set { direction = value; }
     }
 
-    [SerializeField]
-    [SyncVar] int damage;
-    public int Damage { get { return damage; } }
+    public int Damage { get { return spec.Damage; } }
 
-    [SerializeField]
-    [SyncVar] float lifeTime;
+    float lifeTime { get { return spec.Damage; } }
 
-    [SerializeField]
-    [SyncVar] bool persistentBullet;
+    bool persistentBullet { get { return spec.PersistentBullet; } }
 
-    [SerializeField]
-    bool destroyOnHit;
+    bool destroyOnHit { get { return spec.DestroyOnHit; } }
 
-    [SerializeField]
-    bool explodeOnHit;
+    bool explodeOnHit { get { return spec.ExplodeOnHit; } }
 
-    [SerializeField]
-    bool continuousDamage;
+    bool continuousDamage { get { return spec.ContinuousDamage; } }
 
-    [SerializeField]
-    float damageTickInterval;
+    float damageTickInterval { get { return spec.DamageTickInterval; } }
 
     [SerializeField]
     BoxCollider boxCollider;
 
-    [SerializeField]
-    bool followSpellOrigin;
+    bool followSpellOrigin { get { return spec.FollowSpellOrigin; } }
 
-    [SerializeField]
-    GameObject spawnOnImpact;
+    GameObject spawnOnImpact { get { return spec.SpawnOnImpact; } }
 
     Weapon spellOrigin;
     public Weapon SpellOrigin { get { return spellOrigin; } set { spellOrigin = value; } }
@@ -64,11 +59,10 @@ public class Bullet : NetworkBehaviour {
     
     [SyncVar] public NetworkInstanceId spawnedBy;
 
-    [SerializeField]
-    DamageTypeEnum damageType;
-    public DamageTypeEnum DamageType { get { return damageType; } }
+    public DamageTypeEnum DamageType { get { return spec.DamageType; } }
 
     float lastDamageTick;
+    bool loadSpecsNeeded = true;
     bool destroying = false;
 
     void Start() {
@@ -77,14 +71,29 @@ public class Bullet : NetworkBehaviour {
 
     public override void OnStartClient() {
         Physics.IgnoreCollision(GetComponent<Collider>(), ClientScene.FindLocalObject(spawnedBy).GetComponent<Collider>());
-        GetComponent<Rigidbody>().velocity = Direction * velocity;
-
-        if (!persistentBullet)
-		    Destroy(gameObject, lifeTime);
     }
 
     void Update()
     {
+        if (loadSpecsNeeded && spec != null) {
+            Rigidbody rigidbody = GetComponent<Rigidbody>();
+            if (rigidbody != null) {
+                rigidbody.velocity = Direction * velocity;
+                rigidbody.useGravity = spec.UseGravity;
+            } else {
+                Debug.LogWarning("Bullet " + spec.name + " has no rigidbody on prefab " + spec.BulletPrefab.name);
+            }
+
+            model = Instantiate(spec.Model, transform);
+            model.transform.localPosition = Vector3.zero;
+            model.transform.localRotation = Quaternion.identity;
+
+            if (!persistentBullet)
+		        Destroy(gameObject, lifeTime);
+
+            loadSpecsNeeded = false;
+        }
+
         if (destroying)
             return;
         
@@ -107,6 +116,9 @@ public class Bullet : NetworkBehaviour {
         if (col.gameObject.tag == OwnerTag)
             return;
 
+        if (col.isTrigger)
+            return;
+
         if (continuousDamage)
             return;
 
@@ -123,19 +135,10 @@ public class Bullet : NetworkBehaviour {
         }
     }
 
-    [Command]
-    void CmdSpawnEffect()
-    {
-        GameObject obj = Instantiate(spawnOnImpact, gameObject.transform.position, Quaternion.identity);
-        Debug.Log(obj);
-        NetworkServer.Spawn(obj);
-       
-    }
-
     private void Explode()
     {
         if (spawnOnImpact != null)
-            CmdSpawnEffect();
+            Instantiate(spawnOnImpact, gameObject.transform.position, Quaternion.identity);
 
         var hits = Physics.OverlapSphere(transform.position, 3f);
         foreach (var hit in hits)

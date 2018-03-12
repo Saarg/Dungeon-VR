@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class PlayerClassDesignation : NetworkBehaviour {
 
     public Transform weaponGrip;
-    public GameObject defaultWeapon;
+    public WeaponSpec defaultWeapon;
 
     [Header("Life")]
     public float maxLife = 100;
@@ -16,6 +16,8 @@ public class PlayerClassDesignation : NetworkBehaviour {
 
     [Header("Movement")]
     public float speed = 6f;
+	public float walkSpeed = 3f;
+	public float sprintSpeed = 8f;
     public float jumpHeight = 6f;
 
     [SerializeField]
@@ -34,4 +36,9 @@ public class PlayerClassDesignation : NetworkBehaviour {
     public float poison = 1f;
     [Range(0f, 2f)]
     public float physical = 1f;
+
+    [Header("Collider")]
+    public Vector3 center;
+    public float radius = 1f;
+    public float height = 2f;
 }

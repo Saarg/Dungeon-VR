@@ -12,15 +12,13 @@ public class InvisibilitySpell : Spell
 
     protected override void Start()
     {
-        lastActivation = cooldown;
+        base.Start();
 
-        _renderers = caster.GetComponentsInChildren<Renderer>();
+        _renderers = transform.parent.GetComponentsInChildren<Renderer>();
 
-        if (_renderers.Length > 0) {
-            colstart = Color.white;
-            colstart.a = 0.1f;
-            colend = Color.white;
-        }
+        colstart = Color.white;
+        colstart.a = 0.1f;
+        colend = Color.white;
     }
 
     protected override void Effects()
@@ -41,7 +39,7 @@ public class InvisibilitySpell : Spell
             }
         }
 
-        GetComponentInParent<Living> ().CmdApplyMoveStatus (MoveStatus.Free);
+        caster.CmdApplyMoveStatus (effectMovement);
 
         StartCoroutine("InvisibilityPeriode");
     }
@@ -63,6 +61,10 @@ public class InvisibilitySpell : Spell
                 mat.color = colend;
             }
         }
+
+        if (hasAuthority) {
+			caster.CmdApplyMoveStatus (MoveStatus.Free);
+		}
     }
 
     IEnumerator InvisibilityPeriode()

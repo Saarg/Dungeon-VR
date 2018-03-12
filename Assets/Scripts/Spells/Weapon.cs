@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class Weapon : MonoBehaviour {
 
@@ -10,62 +11,57 @@ public class Weapon : MonoBehaviour {
         ShortRange,
     };
 
-    [SerializeField]
-    Sprite uiSprite;
-    public Sprite UISprite { get { return uiSprite; } }
+    public WeaponSpec spec;
+
+    public Sprite UISprite { get { return spec.UISprite; } }
+    public string WeaponName { get { return spec.WeaponName; } }
+    public WeaponTypeEnum WeaponType { get { return spec.WeaponType; } }
 
     [SerializeField]
-    string weaponName;
-    public string WeaponName { get { return weaponName; } }
+    List<PlayerController.PlayerClassEnum> AllowedClass { get { return spec.AllowedClass; } }
+
+    public BulletSpec Bullet { get { return spec.Bullet; } }
+    
+    [SerializeField]
+    GameObject model;
 
     [SerializeField]
-    WeaponTypeEnum weaponType;
-    public WeaponTypeEnum WeaponType { get { return weaponType; } }
+    public bool shootingOffset { get { return spec.shootingOffset; } }
 
-    [SerializeField]
-    List<PlayerController.PlayerClassEnum> AllowedClass;
 
-    [SerializeField]
-    GameObject bullet;
-    public GameObject Bullet { get { return bullet; } }
+    public bool SpreadBullet { get { return spec.SpreadBullet; } }
 
-    [SerializeField]
-    public bool shootingOffset;
+    public float SpreadAngle { get { return spec.SpreadAngle; } }
 
-    [SerializeField]
-    bool spreadBullet;
-    public bool SpreadBullet { get { return spreadBullet; } }
+    public int NumberOfBullet { get { return spec.NumberOfBullet; } }
 
-    [SerializeField]
-    float spreadAngle;
-    public float SpreadAngle { get { return spreadAngle; } }
+    public float FiringInterval { get { return spec.FiringInterval; } }
 
-    [SerializeField]
-    int numberOfBullet;
-    public int NumberOfBullet { get { return numberOfBullet; } }
+    public int ManaCost { get { return spec.ManaCost; } }
 
-    [SerializeField]
-    float firingInterval;
-    public float FiringInterval { get { return firingInterval; } }
+    public bool UseMana { get { return spec.UseMana; } }
 
-    [SerializeField]
-    int manaCost;
-    public int ManaCost { get { return manaCost; } }
-
-    [SerializeField]
-    bool useMana;
-    public bool UseMana { get { return useMana; } }
-
-    [SerializeField]
-    bool drainMana;
-    public bool DrainMana { get { return drainMana; } }
+    public bool DrainMana { get { return spec.DrainMana; } }
 
     [SerializeField]
     Transform spellOrigin;
     public Transform SpellOrigin { get { return spellOrigin; } }
 
     [SerializeField]
-    AudioClip clip;
+    AudioClip clip { get { return spec.Clip; } }
+    [SerializeField]
+    AudioMixer mixer;
+    [SerializeField]
+    string volumeParam = "VolumeWeapons";
+
+    void Start()
+    {
+        if (spec.Model != null) {
+            model = Instantiate(spec.Model, transform);
+            model.transform.localPosition = Vector3.zero;
+            model.transform.localRotation = Quaternion.identity;
+        }
+    }
 
     public bool CanEquip(PlayerController.PlayerClassEnum playerClass)
     {
@@ -74,7 +70,18 @@ public class Weapon : MonoBehaviour {
 
     public void PlaySound()
     {
+        float volume;
+        mixer.GetFloat(volumeParam, out volume);
+
         if(clip != null)
-            AudioSource.PlayClipAtPoint(clip, transform.position);
+            AudioSource.PlayClipAtPoint(clip, transform.position, (volume + 80f) / 80f);
+    }
+
+    void OnDrawGizmos()
+    {
+        if (model == null) {
+            Gizmos.color = Color.green;
+            Gizmos.DrawSphere(transform.position, 0.3f);
+        }
     }
 }

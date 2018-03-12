@@ -10,6 +10,8 @@ public class TrapControllerManager : MonoBehaviour {
     private GameObject trapInHand;
     public DungeonTrap selectedTrap;
 
+    private TrapDropZone trapDropZone;
+
     public void AttachToHand(GameObject trapInHandToInstantiate, DungeonTrap trap)
     {
         if(trapInHand != null)
@@ -32,15 +34,22 @@ public class TrapControllerManager : MonoBehaviour {
 
     public void OnTrapDropZoneEnter(object o, TriggerUtility.TriggerEventArgs e)
     {
-        TrapDropZone trapDropZone = e.triggeredObject.GetComponent<TrapDropZone>();
+        trapDropZone = e.triggeredObject.GetComponent<TrapDropZone>();
         trapDropZone.ShowPreview(this);
+        GetComponent<VRTK.VRTK_ControllerEvents>().TouchpadTouchStart += OnTouchpadTouchStart;
 
+    }
+
+    private void OnTouchpadTouchStart(object sender, VRTK.ControllerInteractionEventArgs e)
+    {
+        trapDropZone.RotatePreview(45);
     }
 
     public void OnTrapDropZoneExit(object o, TriggerUtility.TriggerEventArgs e)
     {
-        TrapDropZone trapDropZone = e.triggeredObject.GetComponent<TrapDropZone>();
+        trapDropZone = e.triggeredObject.GetComponent<TrapDropZone>();
         trapDropZone.DestroyPreview();
+        GetComponent<VRTK.VRTK_ControllerEvents>().TouchpadTouchStart -= OnTouchpadTouchStart;
     }
 
 }

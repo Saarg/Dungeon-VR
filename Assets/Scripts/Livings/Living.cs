@@ -26,7 +26,9 @@ public class Living : NetworkBehaviour {
     public float curMana = 100f;
 
     [Header("Movement")]	
-	[SyncVar] public float speed = 1f;
+	[SyncVar] public float speed = 3f;
+	[SyncVar] public float walkSpeed = 6f;
+	[SyncVar] public float sprintSpeed = 8f;
     [Header("Movement")]
     [SerializeField]
     [SyncVar] protected float turnSpeed = 50;     
@@ -67,7 +69,7 @@ public class Living : NetworkBehaviour {
 	public float physical = 1f;
 
     Collider _collider;
-
+    public bool dead = false;
 	// Events
 	public delegate void DeathEvent();
     public event DeathEvent OnDeath;
@@ -98,8 +100,9 @@ public class Living : NetworkBehaviour {
 
 		if (curLife == 0f) {
             if(OnDeath != null)
-			    OnDeath();
-            Destroy(gameObject);
+			    OnDeath.Invoke();
+            
+            dead = true;
 		}
 	}
 
@@ -112,16 +115,20 @@ public class Living : NetworkBehaviour {
         }
 
         if (_collider is CapsuleCollider) {
-            isGrounded = Physics.Raycast(transform.position + (_collider as CapsuleCollider).center, -transform.up, (_collider as CapsuleCollider).height/1.9f);
+            isGrounded = Physics.Raycast(transform.position + (_collider as CapsuleCollider).center, -transform.up, (_collider as CapsuleCollider).height/1.8f);
         }
         else if (_collider is BoxCollider)
-            isGrounded = Physics.Raycast(transform.position + (_collider as BoxCollider).center, -transform.up, (_collider as BoxCollider).size.y/1.9f);
+            isGrounded = Physics.Raycast(transform.position + (_collider as BoxCollider).center, -transform.up, (_collider as BoxCollider).size.y/1.8f);
         else if (_collider is SphereCollider)
-            isGrounded = Physics.Raycast(transform.position + (_collider as SphereCollider).center, -transform.up, (_collider as SphereCollider).radius/1.9f);
+            isGrounded = Physics.Raycast(transform.position + (_collider as SphereCollider).center, -transform.up, (_collider as SphereCollider).radius/1.8f);
 
         return isGrounded;
     }
 
+    [Command]
+    public void CmdUpdateMana(float mana) {
+        UpdateMana(mana);
+    }
     /// <summary>  
 	/// 	curMana hook, clamps the mana between 0 and maxMana
 	/// </summary>
@@ -217,5 +224,11 @@ public class Living : NetworkBehaviour {
     public float GetMaxLife()
     {
         return maxLife;
+    }
+
+    public virtual void Death()
+    {
+        //Play death animation and whatever is needed in child
+        Destroy(gameObject);
     }
 }
