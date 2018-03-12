@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Text;
+using System.Collections;
 
 public class GameUI : MonoBehaviour {
     [SerializeField] Canvas mainCanvas;
@@ -98,12 +99,18 @@ public class GameUI : MonoBehaviour {
     Canvas teamUI;
     [SerializeField]
     List<PlayerController> team = new List<PlayerController>();
+    int currentPos = 0;
+    int maxPos;
     [SerializeField]
     GameObject teamPlayerPrefab;
 
     [Header("Death")]
     [SerializeField]
     Canvas deathUI;
+
+    [Header("Obs")]
+    [SerializeField]
+    Canvas observerUI;
 
     [Header("VR")]
     [SerializeField] Canvas vrUI;
@@ -167,6 +174,11 @@ public class GameUI : MonoBehaviour {
     public void SetDeathUI(bool val)
     {
         deathUI.gameObject.SetActive(val);
+    }
+
+    public void SetObserverUI(bool val)
+    {
+        observerUI.gameObject.SetActive(val);
     }
 
     public void SetWeaponImages(Dictionary<Weapon.WeaponTypeEnum, GameObject> weapons)
@@ -348,16 +360,53 @@ public class GameUI : MonoBehaviour {
         }
     }
 
+    public void InitilisePos()
+    {
+        maxPos = team.Count -1;
+    }
+
     public void FocusAliveMate() {
+        InitilisePos();
         PlayerController alive = team.Find((mate) => { return !mate.dead; });
         if (player.isLocalPlayer && alive != null) {
             player.cam.GetComponent<CameraControl>().character = alive.transform;
             deathUI.gameObject.SetActive(false);
+            observerUI.gameObject.SetActive(true);
 
             alive.OnDeath += () => {
                 SetDeathUI(true);
+                SetObserverUI(false);
             };
         }
+    }
+
+    public void NextMate()
+    {
+        if(currentPos != maxPos)
+        {
+            player.cam.GetComponent<CameraControl>().character = team[currentPos + 1].transform;
+            currentPos += 1;
+        }
+        else
+        {
+            player.cam.GetComponent<CameraControl>().character = team[0].transform;
+            currentPos = 0;
+        }
+    }
+
+    public void PreviousMate()
+    {
+        if(currentPos != 0)
+        {
+            player.cam.GetComponent<CameraControl>().character = team[currentPos - 1].transform;
+            currentPos -= 1;
+        }
+        else
+        {
+            player.cam.GetComponent<CameraControl>().character = team[maxPos].transform;
+            currentPos = maxPos;
+        }
+        
     }
 
     public void UpdateVRUI(VRPlayerManager pm) {
@@ -371,6 +420,5 @@ public class GameUI : MonoBehaviour {
         sb.Append(pm.maxGold.ToString());        
 
         goldText.text = sb.ToString();
-    }
-    
+    } 
 }
