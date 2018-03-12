@@ -1,20 +1,19 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class BaseAI : MonoBehaviour {
+public class BaseAI : NetworkBehaviour {
 
-    [SerializeField]
     NavMeshAgent agent;
-
     [SerializeField]
     Weapon weapon;
-
     [SerializeField]
     ShootingController shootingController;
-
     [SerializeField]
     bool isShooter = false;
+    [SerializeField]
+    GameObject weaponObj;
 
     const string PATH_NODE_TAG = "PathNode";
     const string PLAYER_TAG = "Player";
@@ -49,12 +48,17 @@ public class BaseAI : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        weaponObj.SetActive(isShooter);
+        agent = gameObject.GetComponent<NavMeshAgent>();
         lastDetectTarget = Time.time;
         gameObject.GetComponent<Living>().OnDeath += OnDeath;
     }
 
     // Update is called once per frame
     void Update() {
+
+        if (!isServer)
+            return;
 
         if (interrupt)
             return;
@@ -305,12 +309,25 @@ public class BaseAI : MonoBehaviour {
 
     void OnDeath()
     {
-        EndCoroutine(attackingCoroutine);
-        EndCoroutine(shootingCoroutine);
-        EndCoroutine(interruptCoroutine);
+        CmdOnDeath(netId);       
+    }
 
-        gameObject.GetComponent<Living>().OnDeath -= OnDeath;
-        //to do Add death animation than destroy gameobject
+    [Command]
+    void CmdOnDeath(NetworkInstanceId id)
+    {
+        RpcOnDeath(id);
+    }
+
+    [ClientRpc]
+    void RpcOnDeath(NetworkInstanceId id)
+    {
+        GameObject obj = ClientScene.FindLocalObject(id);
+        BaseAI ai = obj.GetComponent<BaseAI>();
+        ai.EndCoroutine(ai.attackingCoroutine);
+        ai.EndCoroutine(ai.shootingCoroutine);
+        ai.EndCoroutine(ai.interruptCoroutine);
+        obj.GetComponent<Living>().OnDeath -= OnDeath;
+        Destroy(obj);
     }
 
     void EndCoroutine(Coroutine coroutine)

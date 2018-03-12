@@ -61,9 +61,41 @@ public class TrapSpawner : NetworkBehaviour {
 
 			traps.Clear();
 		}
+        
+        //To do Move to an EnemiesSpawner
+        UpdateMonster();
 	}
 
-	void Respawn() {
+    ////////////////////////////////////////
+    //To do Move to an EnemiesSpawner
+    float delay = 10f;
+    float lastUpdate = 0f;
+    [SerializeField]
+    GameObject enemyToSpawn;
+    [SerializeField]
+    Vector3 spawnPoint;
+    void UpdateMonster()
+    {
+        if (isServer)
+        { 
+            if (Time.time - lastUpdate > delay)
+            {
+                CmdSpawnMonster();
+                lastUpdate = Time.time;
+            }
+        }
+    }
+
+    [Command]
+    void CmdSpawnMonster()
+    {
+        GameObject enemy = Instantiate(enemyToSpawn, spawnPoint, Quaternion.identity);
+        BaseAI ai = enemy.GetComponent<BaseAI>();
+        NetworkServer.Spawn(enemy);
+    }
+    /////////////////////////////////////
+
+    void Respawn() {
 		if (!spawnForClients)
 			return;
 
