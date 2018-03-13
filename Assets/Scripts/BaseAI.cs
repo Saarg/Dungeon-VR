@@ -16,6 +16,7 @@ public class BaseAI : NetworkBehaviour {
     GameObject weaponObj;
 
 	[SerializeField] protected Animator animator;
+	[SerializeField] protected float DEATH_ANIM_DELAY = 6f;
 
     const string PATH_NODE_TAG = "PathNode";
     const string PLAYER_TAG = "Player";
@@ -26,8 +27,8 @@ public class BaseAI : NetworkBehaviour {
     Vector3 targetDestination = Vector3.positiveInfinity;
 
     float interruptDelay = 2f;
-    float attackDelay = 1f;
-    float shootingDelay = 3f;
+	[SerializeField] float attackDelay = 1f;
+	[SerializeField] float shootingDelay = 3f;
     float lastAttack = 0f;
 
     float detectTargetDelay = 0.5f;
@@ -281,6 +282,7 @@ public class BaseAI : NetworkBehaviour {
     IEnumerator ShootingDelay(Vector3 position)
     {
 		animator.SetBool ("moving", false);
+		animator.SetTrigger ("attack");
 
         yield return new WaitForSecondsRealtime(shootingDelay);
         if (target != null)
@@ -323,7 +325,7 @@ public class BaseAI : NetworkBehaviour {
 
 	IEnumerator Death(){
 		animator.SetBool ("IsDead", true);
-		yield return new WaitForSecondsRealtime (6f); //time of the death animation
+		yield return new WaitForSecondsRealtime (DEATH_ANIM_DELAY); //time of the death animation
 		CmdOnDeath(netId);
 	}
 
