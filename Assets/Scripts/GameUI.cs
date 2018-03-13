@@ -111,6 +111,8 @@ public class GameUI : MonoBehaviour {
     [SerializeField] Vector3 rot;   
     [SerializeField] Vector3 scale;
     [SerializeField] bool _isVr;
+
+    [SerializeField] GameObject[] hideInVR;
     public bool isVr {
         get { return _isVr; }
         set {
@@ -120,6 +122,10 @@ public class GameUI : MonoBehaviour {
             mainCanvas.transform.position = pos;
             mainCanvas.transform.rotation = Quaternion.Euler(rot);
             mainCanvas.transform.localScale = scale;
+
+            foreach(GameObject go in hideInVR) {
+                go.SetActive(!value);
+            }
 
             _isVr = value;
         }

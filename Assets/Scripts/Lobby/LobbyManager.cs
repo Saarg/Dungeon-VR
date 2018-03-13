@@ -32,7 +32,7 @@ namespace Lobby
 			// Give access to PlayerUI to minPlayers
 			PlayerUI.minPlayers = minPlayers;
 
-			if (SceneManager.GetActiveScene().name == "NetworkTest") {
+			if (SceneManager.GetActiveScene().name == "_Dungeon01") {
 				GameObject player = GameObject.Instantiate(gamePlayerPrefab);
 
 				NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
