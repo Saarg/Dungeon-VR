@@ -15,6 +15,8 @@ public class BaseAI : NetworkBehaviour {
     [SerializeField]
     GameObject weaponObj;
 
+	[SerializeField] protected Animator animator;
+
     const string PATH_NODE_TAG = "PathNode";
     const string PLAYER_TAG = "Player";
 
@@ -240,6 +242,7 @@ public class BaseAI : NetworkBehaviour {
         {
             attacking = true;
             agent.isStopped = true;
+			animator.SetTrigger ("attack");
             attackingCoroutine = StartCoroutine(AttackTimer());
         }
     }
@@ -294,6 +297,7 @@ public class BaseAI : NetworkBehaviour {
         
         EndCoroutine(attackingCoroutine);
         EndCoroutine(shootingCoroutine);
+		animator.SetBool ("moving", false);
         
         interruptCoroutine = StartCoroutine(InterruptTimer());
     }
@@ -309,8 +313,14 @@ public class BaseAI : NetworkBehaviour {
 
     void OnDeath()
     {
-        CmdOnDeath(netId);       
+		StartCoroutine ("Death");
     }
+
+	IEnumerator Death(){
+		animator.SetBool ("IsDead", true);
+		yield return new WaitForSecondsRealtime (6f); //time of the death animation
+		CmdOnDeath(netId);
+	}
 
     [Command]
     void CmdOnDeath(NetworkInstanceId id)

@@ -277,6 +277,7 @@ MonoBehaviour:
   shootingController: {fileID: 114770705523332284}
   isShooter: 1
   weaponObj: {fileID: 1602274692069972}
+  animator: {fileID: 0}
 --- !u!114 &114500784610392722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -315,6 +316,8 @@ MonoBehaviour:
   spec: {fileID: 11400000, guid: c4f2e077baa948244b4b605f68b43a7c, type: 2}
   model: {fileID: 100000, guid: 189b8534dea79ba469eb1e38dab8167c, type: 2}
   spellOrigin: {fileID: 4754012874117648}
+  mixer: {fileID: 0}
+  volumeParam: VolumeWeapons
 --- !u!114 &114641163498509668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -337,6 +340,7 @@ MonoBehaviour:
   runFactor: 2
   jumpHeight: 1
   jumpFactor: 2
+  animator: {fileID: 0}
   drag: {x: 0, y: 0, z: 0}
   isGrounded: 0
   moveStatus: 0
