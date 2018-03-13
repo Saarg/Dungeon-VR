@@ -192,6 +192,9 @@ public class Living : NetworkBehaviour {
 
     public void TakeDamage(int damage, Bullet.DamageTypeEnum damageType)
     {
+        BaseAI ai = gameObject.GetComponent<BaseAI>();
+        if (ai != null)
+            ai.InterruptAction();
         CmdUpdateLife(curLife - CalculateResistance(damage, damageType));
 
         if (OnDamage != null)
