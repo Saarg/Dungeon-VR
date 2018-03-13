@@ -54,6 +54,27 @@ public class BaseAI : NetworkBehaviour {
         gameObject.GetComponent<Living>().OnDeath += OnDeath;
     }
 
+    public void SetShooter(bool val)
+    {
+        CmdSetShooter(val);
+    }
+
+    [Command]
+    void CmdSetShooter(bool value)
+    {
+        if (isServer)
+            RpcSetShooter(value, netId);
+    }
+
+    [ClientRpc]
+    void RpcSetShooter(bool value, NetworkInstanceId id)
+    {
+        GameObject obj = ClientScene.FindLocalObject(id);
+        BaseAI ai = obj.GetComponent<BaseAI>();
+        ai.weaponObj.SetActive(value);
+        isShooter = value;
+    }
+
     // Update is called once per frame
     void Update() {
 
@@ -170,6 +191,10 @@ public class BaseAI : NetworkBehaviour {
             currentDestination = currentNodeDestination.GetOffsetPosition();
             agent.SetDestination(currentDestination);
         }
+        else
+        {
+            OnDeath();
+        }
     }
 
     void PickDestinationOffset()
@@ -281,8 +306,10 @@ public class BaseAI : NetworkBehaviour {
             Vector3 offset = target.GetComponent<Rigidbody>().velocity.normalized * distance * shootingOffsetMultiplier;
             shootingController.AiFire(target.transform.position + offset); 
         }
+        
         attacking = false;
         shootingCoroutine = null;
+        agent.isStopped = false;
     }
 
     public void InterruptAction()

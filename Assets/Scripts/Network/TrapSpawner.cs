@@ -68,19 +68,28 @@ public class TrapSpawner : NetworkBehaviour {
 
     ////////////////////////////////////////
     //To do Move to an EnemiesSpawner
+    [SerializeField]
+    bool spawnEnemies;
+    [SerializeField]
     float delay = 10f;
+    [SerializeField]
+    int enemiesPerWave;
     float lastUpdate = 0f;
     [SerializeField]
     GameObject enemyToSpawn;
     [SerializeField]
-    Vector3 spawnPoint;
+    Transform spawnPoint;
     void UpdateMonster()
     {
+        if (!spawnEnemies)
+            return;
+
         if (isServer)
         { 
             if (Time.time - lastUpdate > delay)
             {
-                CmdSpawnMonster();
+                for(int i = 0; i < enemiesPerWave;i++)
+                    CmdSpawnMonster();
                 lastUpdate = Time.time;
             }
         }
@@ -89,9 +98,10 @@ public class TrapSpawner : NetworkBehaviour {
     [Command]
     void CmdSpawnMonster()
     {
-        GameObject enemy = Instantiate(enemyToSpawn, spawnPoint, Quaternion.identity);
+        GameObject enemy = Instantiate(enemyToSpawn, spawnPoint.position, Quaternion.identity);
         BaseAI ai = enemy.GetComponent<BaseAI>();
         NetworkServer.Spawn(enemy);
+        ai.SetShooter(UnityEngine.Random.Range(0, 2) == 0);
     }
     /////////////////////////////////////
 
