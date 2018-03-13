@@ -218,6 +218,7 @@ public class BaseAI : NetworkBehaviour {
             Vector3 destination = target.transform.position + (transform.position - target.transform.position).normalized * farPositionMultiplier;
             agent.SetDestination(destination);
             targetDestination = destination;
+			animator.SetBool ("moving", true);
         }
     }
 
@@ -230,6 +231,7 @@ public class BaseAI : NetworkBehaviour {
             Vector3 destination = target.transform.position + (transform.position - target.transform.position).normalized * nearPositionMultiplier;
             agent.SetDestination(destination);
             targetDestination = destination;
+			animator.SetBool ("moving", true);
         }
     }
 
@@ -243,6 +245,7 @@ public class BaseAI : NetworkBehaviour {
             attacking = true;
             agent.isStopped = true;
 			animator.SetTrigger ("attack");
+			animator.SetBool ("moving", false);
             attackingCoroutine = StartCoroutine(AttackTimer());
         }
     }
@@ -277,6 +280,8 @@ public class BaseAI : NetworkBehaviour {
 
     IEnumerator ShootingDelay(Vector3 position)
     {
+		animator.SetBool ("moving", false);
+
         yield return new WaitForSecondsRealtime(shootingDelay);
         if (target != null)
         {

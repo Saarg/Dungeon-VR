@@ -40,8 +40,6 @@ public class Living : NetworkBehaviour {
     [SyncVar] public float jumpHeight = 1.0f;
     [SyncVar] public float jumpFactor = 2.0f;
 
-	[SerializeField] protected Animator animator;
-
     public Vector3 drag;
     
     float lastGroundedCheck;
@@ -189,13 +187,11 @@ public class Living : NetworkBehaviour {
         }
     }
 
-    public void TakeDamage(int damage, Bullet.DamageTypeEnum damageType)
+    public virtual void TakeDamage(int damage, Bullet.DamageTypeEnum damageType)
     {
         BaseAI ai = gameObject.GetComponent<BaseAI>();
         if (ai != null)
             ai.InterruptAction();	
-		if (animator != null)
-			animator.SetTrigger ("hit");
         CmdUpdateLife(curLife - CalculateResistance(damage, damageType));
     }
 

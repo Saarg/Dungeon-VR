@@ -1024,9 +1024,9 @@ GameObject:
   - component: {fileID: 114354692375244944}
   - component: {fileID: 114490321288022450}
   - component: {fileID: 114058009765666486}
-  - component: {fileID: 114521879989458262}
   - component: {fileID: 114847617802710498}
   - component: {fileID: 136071616745370860}
+  - component: {fileID: 114528635372685660}
   m_Layer: 0
   m_Name: Zoomer
   m_TagString: Untagged
@@ -2720,7 +2720,7 @@ MonoBehaviour:
     - {fileID: 1125920972761200}
     - {fileID: 1267240803165024}
   _assetGuid: a0d49d0bfb554094a934a3e1868066fc
---- !u!114 &114521879989458262
+--- !u!114 &114528635372685660
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2728,7 +2728,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1875396115993318}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a63688e51fd74d5194502a95685b7c2, type: 3}
+  m_Script: {fileID: 11500000, guid: 919412bd132cba6469febb2ff41799d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxLife: 100
@@ -2742,7 +2742,6 @@ MonoBehaviour:
   runFactor: 2
   jumpHeight: 1
   jumpFactor: 2
-  animator: {fileID: 95752914300555576}
   drag: {x: 0, y: 0, z: 0}
   isGrounded: 0
   moveStatus: 0
@@ -2758,6 +2757,7 @@ MonoBehaviour:
   poison: 1
   physical: 1
   dead: 0
+  animator: {fileID: 95752914300555576}
 --- !u!114 &114532916993377186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3078,7 +3078,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
-  owner: {fileID: 114521879989458262}
+  owner: {fileID: 0}
   weapon: {fileID: 114443304593345552}
 --- !u!114 &114876211735411704
 MonoBehaviour:
