@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Networking;
 
 public abstract class Spell : NetworkBehaviour {
@@ -11,6 +12,9 @@ public abstract class Spell : NetworkBehaviour {
 	[SerializeField] protected float range;		//if range is 0, spell will be apply to caster
 	[SerializeField] protected Living _caster;
 	public Living caster { get { return _caster; } set{ 
+		if (_caster != null)
+			_caster.OnDamage -= Cancel;
+		value.OnDamage += Cancel;
 		_caster = value;
 
 		if (targetingSystem != null)
@@ -32,7 +36,9 @@ public abstract class Spell : NetworkBehaviour {
 	private Animator _animator;
     private NetworkAnimator _netAnimator;
 
-	public ProgressBar castingBar { protected get; set;}
+	public Image castingBar { protected get; set;}
+
+	private Coroutine castingCoroutine;
 
 	protected virtual void Start(){
 		lastActivation = cooldown;
@@ -96,19 +102,18 @@ public abstract class Spell : NetworkBehaviour {
 
 	[ClientRpc]
 	void RpcStartCasting(Vector3 t, Quaternion r) {	
-		StartCoroutine (Casting (t, r));		
+		castingCoroutine = StartCoroutine (Casting (t, r));		
 	}
 
 	protected IEnumerator Casting(Vector3 t, Quaternion r){
+		float castingProgress = 0;
 		if (targetingSystem == null || !targetingSystem.Canceled ()) {
-			castingBar.MinValue = 0;
-			castingBar.MaxValue = castingTime;
-			castingBar.StartValue = 0;
-			castingBar.CurrentValue = 0;
-			castingBar.Complete = false;
+			if (castingBar != null) {
+				castingBar.fillAmount = castingProgress;
+				castingBar.gameObject.SetActive (true);				
+			}
 
 			caster.isCasting = true;
-			castingBar.gameObject.SetActive (true);
 
 			_netAnimator.SetTrigger("Cast");
 			if (caster is PlayerController)
@@ -116,8 +121,6 @@ public abstract class Spell : NetworkBehaviour {
 
 			caster.isCasting = true;
 			caster.CmdApplyMoveStatus (castingMovement);
-
-			castingBar.gameObject.SetActive (true);
 
 			//TODO add animation
 			//TODO add sound
@@ -128,14 +131,19 @@ public abstract class Spell : NetworkBehaviour {
 				placeholder = targetingSystem.getPlaceholder();
 			}
 
-			while(!castingBar.Complete){
-				castingBar.Progress (Time.deltaTime);
+			while(castingProgress < 1f){
+				castingProgress += Time.deltaTime / castingTime;
+
+				if (castingBar != null)
+					castingBar.fillAmount = castingProgress;
+				
 				yield return 0;
 			}
 
 			ApplyEffect ();
 
-			castingBar.gameObject.SetActive (false);
+			if (castingBar != null)
+				castingBar.gameObject.SetActive (false);
 			caster.isCasting = false;
 		}
 	}
@@ -152,5 +160,37 @@ public abstract class Spell : NetworkBehaviour {
 		if (hasAuthority) {
 			caster.CmdApplyMoveStatus (MoveStatus.Free);
 		}
+	}
+
+	protected virtual void EndEffects() {
+	}
+
+	public void Cancel(int damage = 0, Bullet.DamageTypeEnum damageType = Bullet.DamageTypeEnum.physical) {
+		if (isLocalPlayer || isServer)
+			CmdCancel();
+	}
+
+	[Command]
+	void CmdCancel() {
+		RpcCancel();
+	}
+
+	[ClientRpc]
+	void RpcCancel() {
+		if (targetingSystem != null)
+			targetingSystem.Cancel();
+
+		EndEffects();
+
+		if (castingCoroutine != null) {
+			StopCoroutine(castingCoroutine);
+
+			if (castingBar != null)
+				castingBar.gameObject.SetActive (false);
+			caster.isCasting = false;
+		}
+
+		_netAnimator.SetTrigger("Cancelled");
+		caster.CmdApplyMoveStatus (MoveStatus.Free);
 	}
 }

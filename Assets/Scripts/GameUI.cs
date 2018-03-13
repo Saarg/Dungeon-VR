@@ -17,6 +17,9 @@ public class GameUI : MonoBehaviour {
 
     [SerializeField]
     Image targetBar;
+    [SerializeField]
+    Image castingBar;
+    public Image CastingBar { get { return castingBar; } }
 
     [SerializeField]
     PlayerController player;

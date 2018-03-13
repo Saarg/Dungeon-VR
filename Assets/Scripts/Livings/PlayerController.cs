@@ -36,9 +36,6 @@ public class PlayerController : Living
     float manaFillRate = 0.2f;
     float lastManaFill = 0;
 
-    [SerializeField]
-    ProgressBar castingBar;
-
     public int MaxMana { get { return (int)maxMana; } }
     public int CurrentMana { get { return (int)curMana; } }
 
@@ -120,7 +117,8 @@ public class PlayerController : Living
 
             spell = cd.GetComponent<Spell>();
             spell.caster = this;
-            spell.castingBar = castingBar;
+            if (isLocalPlayer)            
+                spell.castingBar = gameUI.CastingBar;   
 
             lookAt = cd.transform.Find("LookAt");
         }
@@ -139,6 +137,7 @@ public class PlayerController : Living
             {
                 spell.Cast();
             }
+
             UpdateJump();
             FillMana();
             UpdateTarget();
@@ -382,7 +381,8 @@ public class PlayerController : Living
 
         spell = cd.GetComponent<Spell>();
         spell.caster = this;
-        spell.castingBar = castingBar;
+        if (isLocalPlayer)        
+            spell.castingBar = gameUI.CastingBar;
 
         lookAt = cd.transform.Find("LookAt");
     }

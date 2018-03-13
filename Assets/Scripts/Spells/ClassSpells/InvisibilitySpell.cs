@@ -44,7 +44,7 @@ public class InvisibilitySpell : Spell
         StartCoroutine("InvisibilityPeriode");
     }
 
-    protected void EndEffects()
+    protected override void EndEffects()
     {
         foreach (Renderer r in _renderers) {
             foreach (Material mat in r.materials) {

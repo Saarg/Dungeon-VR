@@ -73,6 +73,9 @@ public class Living : NetworkBehaviour {
 	// Events
 	public delegate void DeathEvent();
     public event DeathEvent OnDeath;
+    public delegate void DamageEvent(int damage, Bullet.DamageTypeEnum damageType);
+    public event DamageEvent OnDamage;
+    
 
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
@@ -190,6 +193,9 @@ public class Living : NetworkBehaviour {
     public void TakeDamage(int damage, Bullet.DamageTypeEnum damageType)
     {
         CmdUpdateLife(curLife - CalculateResistance(damage, damageType));
+
+        if (OnDamage != null)
+            OnDamage.Invoke(damage, damageType);
     }
 
     public void Heal(int heal)
