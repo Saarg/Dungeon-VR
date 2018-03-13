@@ -353,4 +353,8 @@ public class BaseAI : NetworkBehaviour {
             coroutine = null;
         }
     }
+
+	public Animator getAnimator(){
+		return animator;
+	}
 }
