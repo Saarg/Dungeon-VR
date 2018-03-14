@@ -18,8 +18,18 @@ public class FreezeSpellArea : AreaSpell {
 
     }
 
+    protected override void StartAffect(Living living)
+    {
+        living.ApplyMoveStatus(MoveStatus.Ralenti);
+    }
+
     protected override void Affect()
     {
-        //for each player : mode slow
+
+    }
+
+    protected override void StopAffect(Living living)
+    {
+        living.ApplyMoveStatus(MoveStatus.Free);
     }
 }

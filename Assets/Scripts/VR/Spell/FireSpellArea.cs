@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class FireSpellArea : AreaSpell {
 
+    [Range(0, 50)]
+    public int DamagePerSecond = 5;
+
     // Use this for initialization
     protected override void Start () {
         base.Start();
@@ -16,8 +19,22 @@ public class FireSpellArea : AreaSpell {
 
 	}
 
+    protected override void StartAffect(Living living)
+    {
+
+    }
+
     protected override void Affect()
     {
         //for each player : lose 10 health
+        foreach(Living living in insideAreaLivings)
+        {
+            living.TakeDamage(DamagePerSecond, Bullet.DamageTypeEnum.fire);
+        }
+    }
+
+    protected override void StopAffect(Living living)
+    {
+
     }
 }

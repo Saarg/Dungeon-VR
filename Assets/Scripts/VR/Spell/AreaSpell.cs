@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class AreaSpell : MonoBehaviour {
 
+    protected List<Living> insideAreaLivings;
+
     [Range(0,10)]
     public float LifeTime = 5f;
     private float remainingLifetime;
@@ -12,6 +14,7 @@ public abstract class AreaSpell : MonoBehaviour {
 
 	// Use this for initialization
 	protected virtual void Start () {
+        insideAreaLivings = new List<Living>();
         remainingLifetime = LifeTime;
         StartCoroutine("AffectCoroutine");
     }
@@ -22,7 +25,31 @@ public abstract class AreaSpell : MonoBehaviour {
         if(remainingLifetime <= 0)
         {
             StopCoroutine("AffectCoroutine");
+            foreach(Living liv in insideAreaLivings)
+            {
+                StopAffect(liv);
+            }
             Destroy(this.gameObject);
+        }
+    }
+
+    public void OnTriggerEnter(Collider collider)
+    {
+        Living living = collider.GetComponent<Living>();
+        if (living != null)
+        {
+            insideAreaLivings.Add(living);
+            StartAffect(living);
+        }
+    }
+
+    public void OnTriggerExit(Collider collider)
+    {
+        Living living = collider.GetComponent<Living>();
+        if (living != null)
+        {
+            insideAreaLivings.Remove(living);
+            StopAffect(living);
         }
     }
 
@@ -36,6 +63,8 @@ public abstract class AreaSpell : MonoBehaviour {
         }
     }
 
+    protected abstract void StartAffect(Living living);
     protected abstract void Affect();
+    protected abstract void StopAffect(Living living);
 
 }
