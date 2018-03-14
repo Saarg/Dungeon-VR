@@ -61,4 +61,11 @@ public class BulletSpec : ScriptableObject {
     [SerializeField]
     GameObject model;
     public GameObject Model { get { return model; } }
+
+    [SerializeField]
+    Vector3 colliderCenter = Vector3.zero;
+    public Vector3 ColliderCenter { get { return colliderCenter; } }
+    [SerializeField]
+    Vector3 colliderSize = Vector3.one;
+    public Vector3 ColliderSize { get { return colliderSize; } }
 }

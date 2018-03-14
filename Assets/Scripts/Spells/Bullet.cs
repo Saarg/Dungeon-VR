@@ -67,6 +67,10 @@ public class Bullet : NetworkBehaviour {
 
     void Start() {
         lastDamageTick = Time.time;
+
+        BoxCollider bc = GetComponent<BoxCollider>();
+        bc.center = spec.ColliderCenter;
+        bc.size = spec.ColliderSize;
 	}
 
     public override void OnStartClient() {
