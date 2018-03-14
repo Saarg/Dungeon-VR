@@ -11,6 +11,8 @@ namespace Lobby {
 	/// </summary>
 	public class PlayerUI : NetworkLobbyPlayer {
 
+		string[] names = {"Ulrich", "Demagorgon", "Marvin", "Gertrude", "Astriel", "Simone"};
+
 		[SerializeField, HideInInspector]
 		private Sprite GMClass;
 		[SerializeField, HideInInspector]
@@ -44,6 +46,7 @@ namespace Lobby {
 		public GameObject readyButtons;
 
 		public Text pName;
+		public InputField nameInput;
 		public Image classLogo;
 		public RawImage playerFace;
 
@@ -57,7 +60,8 @@ namespace Lobby {
 		}
 		
 		void Start () {
-			transform.SetParent(GameObject.Find("UI").transform);
+			GameObject ui = GameObject.Find("UI");
+			transform.SetParent(ui.transform);
 
 			curPlayer = playerCount++;
 
@@ -65,6 +69,7 @@ namespace Lobby {
 
 			if (!isLocalPlayer) {
 				classButtons.SetActive(false);
+				nameInput.gameObject.SetActive(false);
 			}
 
 			if (curPlayer == 0) {
@@ -84,6 +89,7 @@ namespace Lobby {
 
 				pName.transform.parent.localPosition = new Vector3(130 * (curPlayer-1), 50, 0);
 				pName.text = "Player " + curPlayer;
+				nameInput.text = pName.text;											
 				gameObject.name = "Player " + curPlayer;
 
 				PlayerPrefs.SetInt("isGameMaster", 0);				
@@ -105,8 +111,12 @@ namespace Lobby {
 
 		void Update()
 		{
-			if (isLocalPlayer && minPlayers <= playerCount)
-				readyButtons.SetActive(true);
+			if (isLocalPlayer) {
+				pName.text = nameInput.text;				
+
+				if (minPlayers <= playerCount)
+					readyButtons.SetActive(true);
+			}
 		}
 
 		/// <summary>
