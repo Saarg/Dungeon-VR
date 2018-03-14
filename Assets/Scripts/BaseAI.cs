@@ -73,6 +73,9 @@ public class BaseAI : NetworkBehaviour {
         else
             UpdateShoot();
 
+		if (target != null)
+			transform.LookAt (target.transform);
+
         if (Time.time - lastDetectTarget > detectTargetDelay)
         {
             DetectPlayer();
