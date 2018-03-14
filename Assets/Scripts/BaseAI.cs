@@ -20,6 +20,7 @@ public class BaseAI : NetworkBehaviour {
     WeaponSpec weaponSpec;
 
 	[SerializeField] protected Animator animator;
+	[SerializeField] protected NetworkAnimator netAnimator;
 	[SerializeField] protected float DEATH_ANIM_DELAY = 6f;
 
     const string PATH_NODE_TAG = "PathNode";
@@ -293,7 +294,7 @@ public class BaseAI : NetworkBehaviour {
         {
             attacking = true;
             agent.isStopped = true;
-			animator.SetTrigger ("attack");
+			netAnimator.SetTrigger ("attack");
 			animator.SetBool ("moving", false);
             attackingCoroutine = StartCoroutine(AttackTimer());
         }
@@ -330,7 +331,7 @@ public class BaseAI : NetworkBehaviour {
     IEnumerator ShootingDelay(Vector3 position)
     {
 		animator.SetBool ("moving", false);
-		animator.SetTrigger ("attack");
+		netAnimator.SetTrigger ("attack");
 
         yield return new WaitForSecondsRealtime(shootingDelay);
         if (target != null)
