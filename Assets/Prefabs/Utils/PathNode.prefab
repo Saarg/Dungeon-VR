@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 65934367685029382}
   m_Layer: 0
   m_Name: PathNode
-  m_TagString: Untagged
+  m_TagString: PathNode
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextNodes: []
+  zone: {x: 0, y: 0}
 --- !u!114 &114492585832207960
 MonoBehaviour:
   m_ObjectHideFlags: 11
