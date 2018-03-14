@@ -143,6 +143,12 @@ public class Living : NetworkBehaviour {
         curMana = Mathf.Clamp(mana, 0, maxMana);     
     }
 
+    public void ApplyMoveStatus(MoveStatus status)
+    {
+        if (isServer || isLocalPlayer)
+		    CmdApplyMoveStatus(status);
+	}
+
 	/// <summary>  
     /// 	Command to update move status
     /// </summary>
@@ -194,7 +200,7 @@ public class Living : NetworkBehaviour {
     {
         BaseAI ai = gameObject.GetComponent<BaseAI>();
         if (ai != null)
-            ai.InterruptAction();	
+            ai.InterruptAction();
         CmdUpdateLife(curLife - CalculateResistance(damage, damageType));
 
         if (OnDamage != null)
