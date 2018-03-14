@@ -60,6 +60,8 @@ public class Weapon : MonoBehaviour {
             model = Instantiate(spec.Model, transform);
             model.transform.localPosition = Vector3.zero;
             model.transform.localRotation = Quaternion.identity;
+        } else {
+            spellOrigin.localPosition = Vector3.zero;
         }
     }
 

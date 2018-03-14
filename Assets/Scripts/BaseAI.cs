@@ -13,7 +13,11 @@ public class BaseAI : NetworkBehaviour {
     [SerializeField]
     bool isShooter = false;
     [SerializeField]
+    Transform weaponPosition;
+    [SerializeField]
     GameObject weaponObj;
+    [SerializeField]
+    WeaponSpec weaponSpec;
 
 	[SerializeField] protected Animator animator;
 	[SerializeField] protected float DEATH_ANIM_DELAY = 6f;
@@ -39,7 +43,9 @@ public class BaseAI : NetworkBehaviour {
     float nodeDetectionRange = 100f;
     float pickNextNodeRange = 1f;
     float meleeAttackRange = .1f;
-    float nearPositionMultiplier = 3f;
+    [SerializeField]
+    float nearPositionMultiplier = 2f;
+    [SerializeField]    
     float farPositionMultiplier = 10f;
 
     bool attacking = false;
@@ -51,7 +57,17 @@ public class BaseAI : NetworkBehaviour {
 
     // Use this for initialization
     void Start() {
-        weaponObj.SetActive(isShooter);
+        if (weaponObj == null) {
+            weaponObj = Instantiate(weaponSpec.WeaponPrefab, weaponPosition);
+            weaponObj.transform.localPosition = Vector3.zero;
+            weaponObj.transform.localRotation = Quaternion.identity;
+            weaponObj.transform.localScale = Vector3.one;
+
+            weapon = weaponObj.GetComponent<Weapon>();
+            weapon.spec = weaponSpec;
+            shootingController.weapon = weapon;
+        }
+
         agent = gameObject.GetComponent<NavMeshAgent>();
         lastDetectTarget = Time.time;
         gameObject.GetComponent<Living>().OnDeath += OnDeath;
@@ -87,6 +103,10 @@ public class BaseAI : NetworkBehaviour {
         if (interrupt)
             return;
 
+        if (target != null && target.GetComponent<Living>().dead) {
+            target = null;
+        }
+
         if (target == null)
             UpdateMovement();
         else if (!isShooter)
@@ -102,6 +122,8 @@ public class BaseAI : NetworkBehaviour {
             DetectPlayer();
             lastDetectTarget = Time.time;
         }
+
+		animator.SetBool ("moving", !agent.isStopped);        
     }
 
     void UpdateMovement()
@@ -247,7 +269,6 @@ public class BaseAI : NetworkBehaviour {
             Vector3 destination = target.transform.position + (transform.position - target.transform.position).normalized * farPositionMultiplier;
             agent.SetDestination(destination);
             targetDestination = destination;
-			animator.SetBool ("moving", true);
         }
     }
 
@@ -260,7 +281,6 @@ public class BaseAI : NetworkBehaviour {
             Vector3 destination = target.transform.position + (transform.position - target.transform.position).normalized * nearPositionMultiplier;
             agent.SetDestination(destination);
             targetDestination = destination;
-			animator.SetBool ("moving", true);
         }
     }
 
