@@ -75,8 +75,9 @@ namespace Lobby {
 			if (curPlayer == 0) {
 				curClass = 4;
 
-				pName.transform.parent.localPosition = new Vector3(-300, 50, 0);
+				(pName.transform.parent as RectTransform).anchoredPosition = new Vector3(-300, 50, 0);
 				pName.text = "GameMaster";
+				nameInput.text = pName.text;
 				gameObject.name = "GameMaster";
 
 				PlayerPrefs.SetInt("isGameMaster", 1);
@@ -87,7 +88,7 @@ namespace Lobby {
 			} else {
 				curClass = curPlayer - 1;				
 
-				pName.transform.parent.localPosition = new Vector3(130 * (curPlayer-1), 50, 0);
+				(pName.transform.parent as RectTransform).anchoredPosition = new Vector3(130 * (curPlayer-1), 50, 0);
 				pName.text = "Player " + curPlayer;
 				nameInput.text = pName.text;											
 				gameObject.name = "Player " + curPlayer;

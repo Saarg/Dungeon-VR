@@ -26,6 +26,8 @@ public class WaveSpawner : NetworkBehaviour {
     float lastUpdate = 0f;
     [SerializeField]
     Wave[] waves;
+    public Wave GetWave(int i) { return waves[i]; }
+    public int GetWaveLenth() { return waves.Length; }
     [SerializeField]
     Transform spawnPoint;
 

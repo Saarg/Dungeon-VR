@@ -120,6 +120,8 @@ public class GameUI : MonoBehaviour {
     [SerializeField] Vector3 pos;
     [SerializeField] Vector3 rot;   
     [SerializeField] Vector3 scale;
+    [SerializeField] GameObject waveUIPrefab;
+    [SerializeField] WaveSpawner waveSpawner;
     [SerializeField] bool _isVr;
 
     [SerializeField] GameObject[] hideInVR;
@@ -132,6 +134,14 @@ public class GameUI : MonoBehaviour {
             mainCanvas.transform.position = pos;
             mainCanvas.transform.rotation = Quaternion.Euler(rot);
             mainCanvas.transform.localScale = scale;
+
+            if (value && waveSpawner != null) {
+                for (int i = 0; i < waveSpawner.GetWaveLenth(); i++) {
+                    WaveUI waveUI = Instantiate(waveUIPrefab, vrUI.transform).GetComponent<WaveUI>();
+                    waveUI.wave = waveSpawner.GetWave(i);
+                    waveUI.setPos(i);
+                }
+            }
 
             foreach(GameObject go in hideInVR) {
                 go.SetActive(!value);
@@ -152,6 +162,10 @@ public class GameUI : MonoBehaviour {
     void Start()
     {
         gameObject.name = "GameUI";
+
+        if (waveSpawner == null) {
+            waveSpawner = FindObjectOfType<WaveSpawner>();
+        }
     }
 
 	void Update () {
