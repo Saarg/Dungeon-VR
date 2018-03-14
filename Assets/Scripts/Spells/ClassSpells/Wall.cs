@@ -67,7 +67,7 @@ public class Wall : MonoBehaviour {
 		}
 
 		isBuilt = true;
-		this.GetComponent<Rigidbody> ().isKinematic = false;
+		this.GetComponent<Rigidbody> ().isKinematic = true;
 	}
 
 	protected IEnumerator Destroying(){
