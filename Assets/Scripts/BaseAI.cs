@@ -13,7 +13,14 @@ public class BaseAI : NetworkBehaviour {
     [SerializeField]
     bool isShooter = false;
     [SerializeField]
+    Transform weaponPosition;
+    [SerializeField]
     GameObject weaponObj;
+    [SerializeField]
+    WeaponSpec weaponSpec;
+
+	[SerializeField] protected Animator animator;
+	[SerializeField] protected float DEATH_ANIM_DELAY = 6f;
 
     const string PATH_NODE_TAG = "PathNode";
     const string PLAYER_TAG = "Player";
@@ -24,8 +31,8 @@ public class BaseAI : NetworkBehaviour {
     Vector3 targetDestination = Vector3.positiveInfinity;
 
     float interruptDelay = 2f;
-    float attackDelay = 1f;
-    float shootingDelay = 3f;
+	[SerializeField] float attackDelay = 1f;
+	[SerializeField] float shootingDelay = 3f;
     float lastAttack = 0f;
 
     float detectTargetDelay = 0.5f;
@@ -36,7 +43,9 @@ public class BaseAI : NetworkBehaviour {
     float nodeDetectionRange = 100f;
     float pickNextNodeRange = 1f;
     float meleeAttackRange = .1f;
-    float nearPositionMultiplier = 3f;
+    [SerializeField]
+    float nearPositionMultiplier = 2f;
+    [SerializeField]    
     float farPositionMultiplier = 10f;
 
     bool attacking = false;
@@ -48,7 +57,17 @@ public class BaseAI : NetworkBehaviour {
 
     // Use this for initialization
     void Start() {
-        weaponObj.SetActive(isShooter);
+        if (weaponObj == null) {
+            weaponObj = Instantiate(weaponSpec.WeaponPrefab, weaponPosition);
+            weaponObj.transform.localPosition = Vector3.zero;
+            weaponObj.transform.localRotation = Quaternion.identity;
+            weaponObj.transform.localScale = Vector3.one;
+
+            weapon = weaponObj.GetComponent<Weapon>();
+            weapon.spec = weaponSpec;
+            shootingController.weapon = weapon;
+        }
+
         agent = gameObject.GetComponent<NavMeshAgent>();
         lastDetectTarget = Time.time;
         gameObject.GetComponent<Living>().OnDeath += OnDeath;
@@ -84,6 +103,10 @@ public class BaseAI : NetworkBehaviour {
         if (interrupt)
             return;
 
+        if (target != null && target.GetComponent<Living>().dead) {
+            target = null;
+        }
+
         if (target == null)
             UpdateMovement();
         else if (!isShooter)
@@ -91,11 +114,16 @@ public class BaseAI : NetworkBehaviour {
         else
             UpdateShoot();
 
+		if (target != null)
+			transform.LookAt (target.transform);
+
         if (Time.time - lastDetectTarget > detectTargetDelay)
         {
             DetectPlayer();
             lastDetectTarget = Time.time;
         }
+
+		animator.SetBool ("moving", !agent.isStopped);        
     }
 
     void UpdateMovement()
@@ -265,6 +293,8 @@ public class BaseAI : NetworkBehaviour {
         {
             attacking = true;
             agent.isStopped = true;
+			animator.SetTrigger ("attack");
+			animator.SetBool ("moving", false);
             attackingCoroutine = StartCoroutine(AttackTimer());
         }
     }
@@ -299,6 +329,9 @@ public class BaseAI : NetworkBehaviour {
 
     IEnumerator ShootingDelay(Vector3 position)
     {
+		animator.SetBool ("moving", false);
+		animator.SetTrigger ("attack");
+
         yield return new WaitForSecondsRealtime(shootingDelay);
         if (target != null)
         {
@@ -321,6 +354,7 @@ public class BaseAI : NetworkBehaviour {
         
         EndCoroutine(attackingCoroutine);
         EndCoroutine(shootingCoroutine);
+		animator.SetBool ("moving", false);
         
         interruptCoroutine = StartCoroutine(InterruptTimer());
     }
@@ -336,8 +370,14 @@ public class BaseAI : NetworkBehaviour {
 
     void OnDeath()
     {
-        CmdOnDeath(netId);       
+		StartCoroutine ("Death");
     }
+
+	IEnumerator Death(){
+		animator.SetBool ("IsDead", true);
+		yield return new WaitForSecondsRealtime (DEATH_ANIM_DELAY); //time of the death animation
+		CmdOnDeath(netId);
+	}
 
     [Command]
     void CmdOnDeath(NetworkInstanceId id)
@@ -365,4 +405,8 @@ public class BaseAI : NetworkBehaviour {
             coroutine = null;
         }
     }
+
+	public Animator getAnimator(){
+		return animator;
+	}
 }
