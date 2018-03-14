@@ -51,6 +51,8 @@ public class PlayerController : Living
     [SyncVar] GameObject currentClassObject;
     [SyncVar] int defaultWeaponId;
 
+    [SyncVar] string playerName;
+
     Transform lookAt;
 
     /// <summary>
@@ -84,6 +86,8 @@ public class PlayerController : Living
         collider = GetComponent<CapsuleCollider>();
 
         OnDeath += Death;
+
+        name = playerName;
     }
 
     public override void OnStartLocalPlayer() {
@@ -389,6 +393,7 @@ public class PlayerController : Living
 
     [Command]
     public void CmdSetName(String n) {
+        playerName = n;
         gameObject.name = n;
         RpcSetName(n);
     }

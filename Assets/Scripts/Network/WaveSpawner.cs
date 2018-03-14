@@ -8,12 +8,13 @@ using UnityEngine.Networking;
 public class Wave {
 	public GameObject[] enemy;
 
-	public void SpawnWave(Vector3 spawnPoint) {
+	public IEnumerator SpawnWave(Vector3 spawnPoint) {
 		foreach (GameObject e in enemy) {
 			GameObject enemy = GameObject.Instantiate(e, spawnPoint, Quaternion.identity);
 			BaseAI ai = enemy.GetComponent<BaseAI>();
 
 			NetworkServer.Spawn(enemy);
+            yield return new WaitForSeconds(0.1f);
 		}
 	}
 }
@@ -32,6 +33,12 @@ public class WaveSpawner : NetworkBehaviour {
     Transform spawnPoint;
 
 	int curWave = 0;
+
+    public override void OnStartServer()
+	{
+		if (GameManager.instance != null)
+			GameManager.instance.onStartGame += StartSpawningForClients;
+    }
 
 	void Update () {
 		UpdateMonster();
@@ -57,6 +64,10 @@ public class WaveSpawner : NetworkBehaviour {
 		if (curWave >= waves.Length)
 			return;
 
-		waves[curWave++].SpawnWave(spawnPoint.position);
+		StartCoroutine(waves[curWave++].SpawnWave(spawnPoint.position));
+    }
+
+    public void StartSpawningForClients() {
+        spawnEnemies = true;
     }
 }

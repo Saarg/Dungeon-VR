@@ -11,6 +11,7 @@ public class GameManager : NetworkBehaviour {
 	[SyncVar(hook="SetStartTime")] float startTime;
 	[SerializeField]
 	[SyncVar] float buildTime = 300;
+	[SyncVar] float timeLeft;
 	[SerializeField]
 	[SyncVar] float gameTime = 600;
 
@@ -32,6 +33,8 @@ public class GameManager : NetworkBehaviour {
 	{
 		instance = this;
 		gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
+
+		timeLeft = buildTime;
 	}
 
 	public override void OnStartServer() {
@@ -63,9 +66,15 @@ public class GameManager : NetworkBehaviour {
 		}
 
 		if (gamePhase) {
-			gameUI.UpdateGamemodeUI("Game mode", gameTime - (Time.realtimeSinceStartup - startTime));
+			if (isServer)
+				timeLeft = gameTime - (Time.realtimeSinceStartup - startTime);
+
+			gameUI.UpdateGamemodeUI("Game mode", timeLeft);
 		} else if (buildPhase) {
-			gameUI.UpdateGamemodeUI("Build mode", buildTime - (Time.realtimeSinceStartup - startTime));
+			if (isServer)
+				timeLeft = buildTime - (Time.realtimeSinceStartup - startTime);
+			
+			gameUI.UpdateGamemodeUI("Build mode", timeLeft);
 		}
 	}
 
