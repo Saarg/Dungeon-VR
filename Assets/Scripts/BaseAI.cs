@@ -101,6 +101,9 @@ public class BaseAI : NetworkBehaviour {
         if (!isServer)
             return;
 
+        if (gameObject.GetComponent<Living>().dead)
+            return;
+
         if (interrupt)
             return;
 
@@ -234,6 +237,9 @@ public class BaseAI : NetworkBehaviour {
 
     void DetectPlayer()
     {
+        if (target != null && target.GetComponent<Living>().dead)
+            target = null;
+
         var hits = Physics.OverlapSphere(transform.position, playerDetectionRange);
         GameObject targetFound = null;
         bool sameTarget = false;
@@ -241,6 +247,9 @@ public class BaseAI : NetworkBehaviour {
         {
             if (hit.gameObject.tag == PLAYER_TAG)
             {
+                if (hit.gameObject.GetComponent<Living>().dead)
+                    continue;
+
                 if (hit.gameObject == target)
                     sameTarget = true;
 
@@ -267,9 +276,20 @@ public class BaseAI : NetworkBehaviour {
     {
         if (target != null)
         {
-            Vector3 destination = target.transform.position + (transform.position - target.transform.position).normalized * farPositionMultiplier;
-            agent.SetDestination(destination);
-            targetDestination = destination;
+            if (LineOfSightToTarget(target))
+            {
+                Vector3 destination = target.transform.position + (transform.position - target.transform.position).normalized * farPositionMultiplier;
+                agent.SetDestination(destination);
+                targetDestination = destination;
+            }
+            else
+            {
+                Vector3 lineToTarget = (transform.position - target.transform.position).normalized;
+                Vector3 offsetPosition = Vector3.Cross(lineToTarget, Vector3.up);
+                Vector3 destination = target.transform.position + offsetPosition * farPositionMultiplier;
+                agent.SetDestination(destination);
+                targetDestination = destination;
+            }
         }
     }
 
@@ -313,19 +333,27 @@ public class BaseAI : NetworkBehaviour {
         if (attacking)
             return;
 
-        RaycastHit[] hits = Physics.RaycastAll(transform.position, target.transform.position - transform.position, (transform.position - target.transform.position).magnitude);
-
-        foreach (var hit in hits)
-        {
-            if (hit.collider.gameObject.tag == "Dungeon")
-                return;
-        }
-
+        if (!LineOfSightToTarget(target))
+            return;
+       
         if (weapon != null && shootingController != null)
         {
             attacking = true;
             shootingCoroutine = StartCoroutine(ShootingDelay(target.transform.position));
         }
+    }
+
+    bool LineOfSightToTarget(GameObject target)
+    {
+        RaycastHit[] hits = Physics.RaycastAll(transform.position, target.transform.position - transform.position, (transform.position - target.transform.position).magnitude);
+
+        foreach (var hit in hits)
+        {
+            if (hit.collider.gameObject.tag == "Dungeon")
+                return false;
+        }
+
+        return true;
     }
 
     IEnumerator ShootingDelay(Vector3 position)
