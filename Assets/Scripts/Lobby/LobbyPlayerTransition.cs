@@ -50,8 +50,12 @@ namespace Lobby {
                 Destroy(this);
             } else {
                 SceneManager.LoadSceneAsync("VRNetworkTest", LoadSceneMode.Additive);
-                SceneManager.sceneLoaded += SetVRNetworkTestActive;                
+                SceneManager.sceneLoaded += SetVRNetworkTestActive;
+            }
+        }
 
+        void SetVRNetworkTestActive(Scene scene, LoadSceneMode lodMode) {
+            if (scene.name.Equals("VRNetworkTest")) {
                 VRTK_SDKManager sdkManager = Instantiate(VR_SDK).GetComponent<VRTK_SDKManager>();
                 Transform leftTarget = sdkManager.scriptAliasLeftController.transform;
                 Transform rightTarget = sdkManager.scriptAliasRightController.transform;
@@ -76,11 +80,7 @@ namespace Lobby {
                 GameObject.Find("GameUI").GetComponent<GameUI>().isVr = true;
 
                 NetworkServer.Destroy(gameObject);
-            }
-        }
 
-        void SetVRNetworkTestActive(Scene scene, LoadSceneMode lodMode) {
-            if (scene.name.Equals("VRNetworkTest")) {
                 SceneManager.SetActiveScene(scene);
 
                 SceneManager.sceneLoaded -= SetVRNetworkTestActive;
