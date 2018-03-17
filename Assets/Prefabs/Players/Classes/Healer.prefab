@@ -2864,6 +2864,7 @@ MonoBehaviour:
   effectMovement: 1
   healingPrefab: {fileID: 1268060325693632, guid: a9d06ba19533af649afe0be1ad01f34f,
     type: 2}
+  healingGameObject: {fileID: 0}
   spawningPoint: {fileID: 0}
 --- !u!114 &114553995228527770
 MonoBehaviour:
@@ -3082,7 +3083,7 @@ MonoBehaviour:
   _guid: 219bcbb5-23f0-4891-a9c1-a5324469439d
 --- !u!114 &114777393346212124
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1545199772545022}
@@ -3106,7 +3107,7 @@ MonoBehaviour:
   _guid: df0279d9-4a50-48fd-bc05-1f129e7acbd5
 --- !u!114 &114785016884015072
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1545199772545022}
@@ -3908,7 +3909,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 95567485881877632}
-  m_ParameterSendBits: 7
+  m_ParameterSendBits: 255
   param0: 
   param1: 
   param2: 

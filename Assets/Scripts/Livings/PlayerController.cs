@@ -413,6 +413,7 @@ public class PlayerController : Living
         
         collider.center = new Vector3 (0,1,0);
         _netAnimator.SetTrigger("Death");
+        _animator.SetBool("Dead", true);        
 
         OnDeath -= Death;
     }
