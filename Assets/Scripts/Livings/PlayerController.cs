@@ -54,6 +54,7 @@ public class PlayerController : Living
     [SyncVar] string playerName;
 
     Transform lookAt;
+    public Transform LookAt { get { return lookAt; } }
 
     /// <summary>
     /// 	Fetch animator

@@ -156,6 +156,12 @@ public class GameUI : MonoBehaviour {
     [SerializeField]
     Slider goldBar;
 
+    [Header("MenuUI")]
+    [SerializeField] Canvas menuUI; 
+
+    public delegate void QuitEvent();
+    public event QuitEvent OnQuit;
+
     Vector3 SelectedWeaponScale = new Vector3(1.25f, 1.25f, 1.25f);
     Vector3 UnselectedWeaponScale = Vector3.one;
 
@@ -166,6 +172,8 @@ public class GameUI : MonoBehaviour {
         if (waveSpawner == null) {
             waveSpawner = FindObjectOfType<WaveSpawner>();
         }
+
+        ToggleMenu(false);
     }
 
 	void Update () {
@@ -179,13 +187,19 @@ public class GameUI : MonoBehaviour {
         } else if (playerUI.gameObject.activeSelf) {
             playerUI.gameObject.SetActive(false);
         }
+
+        if (Input.GetButtonDown("Menu"))
+			ToggleMenu(true);
     }
 
+    // Player UI
     public void SetPlayerController(PlayerController playerController)
     {
         player = playerController;
 
         playerUI.gameObject.SetActive(player != null && !isVr);
+
+        ToggleMenu(false);        
     }
 
     public void SetDeathUI(bool val)
@@ -335,6 +349,7 @@ public class GameUI : MonoBehaviour {
         }
     }
 
+    // Gamemode UI
     public void UpdateGamemodeUI(string mode, float time) {
         gamemodeUI.gameObject.SetActive(true);
 
@@ -361,6 +376,7 @@ public class GameUI : MonoBehaviour {
         }
     }
 
+    // Team UI
     public void AddTeamMate(PlayerController mate) {
         if (mate != null) {
             GameObject tm = Instantiate(teamPlayerPrefab, teammatesUIPosition[team.Count]);
@@ -383,6 +399,8 @@ public class GameUI : MonoBehaviour {
     }
 
     public void FocusAliveMate() {
+        Cursor.lockState = CursorLockMode.None;
+
         InitilisePos();
         PlayerController alive = team.Find((mate) => { return !mate.dead; });
         if (player.isLocalPlayer && alive != null) {
@@ -426,6 +444,7 @@ public class GameUI : MonoBehaviour {
         
     }
 
+    // VR UI
     public void UpdateVRUI(VRPlayerManager pm) {
         goldBar.maxValue = pm.maxGold;
         goldBar.value = pm.totalGold;
@@ -438,4 +457,22 @@ public class GameUI : MonoBehaviour {
 
         goldText.text = sb.ToString();
     } 
+
+    // Menu UI
+    public void ToggleMenu(bool display) {
+        menuUI.gameObject.SetActive(display);
+
+        if (player != null && !player.dead)
+            Cursor.lockState = display ? CursorLockMode.None : CursorLockMode.Locked;
+        else
+            Cursor.lockState = CursorLockMode.None;            
+    }
+
+    public void Quit() {
+        if (OnQuit != null) {
+            OnQuit.Invoke();
+        }
+
+        Application.Quit();
+    }
 }
