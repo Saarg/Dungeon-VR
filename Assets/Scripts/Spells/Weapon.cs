@@ -24,6 +24,7 @@ public class Weapon : MonoBehaviour {
     
     [SerializeField]
     GameObject model;
+    public GameObject Model { get { return model; } }
 
     [SerializeField]
     public bool shootingOffset { get { return spec.shootingOffset; } }

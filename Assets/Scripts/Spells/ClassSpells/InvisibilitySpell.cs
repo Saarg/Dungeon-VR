@@ -4,21 +4,36 @@ using UnityEngine;
 
 public class InvisibilitySpell : Spell
 {
+    PlayerController playerController;
+
     [SerializeField] Color colstart;
     [SerializeField] Color colend;
     [SerializeField] float duration;
 
-    Renderer[] _renderers;
+    List<Renderer> _renderers = new List<Renderer>();
 
     protected override void Start()
     {
         base.Start();
-
-        _renderers = transform.parent.GetComponentsInChildren<Renderer>();
+        
+        _renderers.AddRange(transform.parent.GetComponentsInChildren<Renderer>());
 
         colstart = Color.white;
         colstart.a = 0.1f;
         colend = Color.white;
+
+        playerController = GetComponentInParent<PlayerController>();
+        if (playerController != null) {
+            playerController.inventory.onPickWeapon += (Weapon w) => {
+                _renderers.Add(w.Model.GetComponent<Renderer>());
+            };
+
+            playerController.inventory.onDropWeapon += (Weapon w) => {
+                _renderers.Remove(w.Model.GetComponent<Renderer>());
+            };
+        } else {
+            Debug.LogWarning("Invisibility spell could not find assigned playercontroller");
+        }
     }
 
     protected override void Effects()

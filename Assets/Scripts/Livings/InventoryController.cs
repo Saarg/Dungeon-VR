@@ -34,6 +34,12 @@ public class InventoryController : NetworkBehaviour {
     [SyncVar]
     int weaponTypeIndex;
 
+    public delegate void OnPickWeapon(Weapon w);
+    public OnPickWeapon onPickWeapon;
+
+    public delegate void OnDropWeapon(Weapon w);
+    public OnDropWeapon onDropWeapon;
+
     public void InitializedOtherClient()
     {
         if(baseId != 0)
@@ -108,6 +114,7 @@ public class InventoryController : NetworkBehaviour {
 
         weaponObj.transform.SetParent(weaponGrip);
         weaponObj.transform.localPosition = Vector3.zero;
+        weaponObj.transform.localScale = Vector3.one;
         weaponObj.transform.localRotation = Quaternion.identity;
 
         weapon = weaponObj.GetComponent<Weapon>();
@@ -120,6 +127,10 @@ public class InventoryController : NetworkBehaviour {
         SetId(id, weapon.WeaponType);
         if (player.isLocalPlayer)
             gameUI.SetWeaponImages(weaponDictionary);
+
+        if (onPickWeapon != null) {
+            onPickWeapon.Invoke(weapon);
+        }
     }
 
 
@@ -221,6 +232,9 @@ public class InventoryController : NetworkBehaviour {
             dropWeapon.SetActive(true);
             dropWeapon.AddComponent<DroppedWeapon>();
             weaponDictionary[weaponType] = null;
+
+            if (onDropWeapon != null)
+                onDropWeapon.Invoke(dropWeapon.GetComponent<Weapon>());
         } 
     }
 
@@ -267,6 +281,7 @@ public class InventoryController : NetworkBehaviour {
         GameObject WeaponObject = weaponObj;
         WeaponObject.transform.SetParent(weaponGrip);
         WeaponObject.transform.localPosition = Vector3.zero;
+        WeaponObject.transform.localScale = Vector3.one;
         WeaponObject.transform.localRotation = Quaternion.identity;
         weapon = WeaponObject.GetComponent<Weapon>();
         weaponDictionary[weapon.WeaponType] = WeaponObject;
@@ -274,6 +289,10 @@ public class InventoryController : NetworkBehaviour {
         if(player.isLocalPlayer)
             SwitchEquippedWeapon(weapon.WeaponType);
         SetId(id, weapon.WeaponType);
+
+        if (onPickWeapon != null) {
+            onPickWeapon.Invoke(weapon);
+        }
     }
 
     /// <summary>
