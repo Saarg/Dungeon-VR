@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using RootMotion.FinalIK;
 
 /// <summary>  
 /// 	Basic bullet script destroying the gameobject on collision or 10s
@@ -65,12 +66,18 @@ public class Bullet : NetworkBehaviour {
     bool loadSpecsNeeded = true;
     bool destroying = false;
 
+    Rigidbody rigidbody;
+
+    Living lastLiving;
+
     void Start() {
         lastDamageTick = Time.time;
 
         BoxCollider bc = GetComponent<BoxCollider>();
         bc.center = spec.ColliderCenter;
         bc.size = spec.ColliderSize;
+
+        rigidbody = GetComponent<Rigidbody>();
 	}
 
     public override void OnStartClient() {
@@ -80,7 +87,6 @@ public class Bullet : NetworkBehaviour {
     void Update()
     {
         if (loadSpecsNeeded && spec != null) {
-            Rigidbody rigidbody = GetComponent<Rigidbody>();
             if (rigidbody != null) {
                 rigidbody.velocity = Direction * velocity;
                 rigidbody.useGravity = spec.UseGravity;
@@ -117,6 +123,13 @@ public class Bullet : NetworkBehaviour {
     /// </summary>
     private void OnTriggerEnter(Collider col)
     {
+        Debug.Log(col.name);
+        if (lastLiving != null) {
+            Vector3 dir = transform.position - col.transform.position;
+            dir.Normalize();
+            lastLiving.HitReaction(col, dir , col.ClosestPoint(transform.position));
+        }	
+
         if (col.gameObject.tag == OwnerTag)
             return;
 
@@ -130,12 +143,15 @@ public class Bullet : NetworkBehaviour {
             Explode();
         else
         {
-            var comp = col.gameObject.GetComponent<Living>();
-            if (comp != null)
+            Living comp = col.gameObject.GetComponent<Living>();
+            if (comp != null) {
                 comp.TakeDamage(Damage, DamageType);
 
+                lastLiving = comp;
+            }
+
             if (destroyOnHit)
-                Destroy(gameObject);
+                Destroy(gameObject, 0.02f);
         }
     }
 

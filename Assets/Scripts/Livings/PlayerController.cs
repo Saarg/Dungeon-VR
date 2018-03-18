@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using RootMotion.FinalIK;
 
 /// <summary>
 /// 	Player controller
@@ -380,6 +381,7 @@ public class PlayerController : Living
 
         _animator = cd.GetComponent<Animator>();
         _netAnimator = cd.GetComponent<NetworkAnimator>();
+        _hitReaction = cd.GetComponentInChildren<HitReaction>();
 
         inventory.weaponGrip = cd.weaponGrip;
         inventory.InitializeWeaponInformation(weaponNetId, cd);

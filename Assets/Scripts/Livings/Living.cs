@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using RootMotion.FinalIK;
 
 /// <summary>  
 /// 	Enum used to know the movement capacity of the entity
@@ -68,6 +69,12 @@ public class Living : NetworkBehaviour {
 	[Range(0f, 2f)]	
 	public float physical = 1f;
 
+    [SerializeField]
+    protected HitReaction _hitReaction;
+    public void HitReaction(Collider collider, Vector3 force, Vector3 point) { 
+        if(_hitReaction == null) { return; }
+        _hitReaction.Hit(collider, force, point);
+    }
     Collider _collider;
     public bool dead = false;
 	// Events
