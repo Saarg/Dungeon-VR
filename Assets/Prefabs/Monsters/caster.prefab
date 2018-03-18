@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4930715057875976}
   - component: {fileID: 114157195063796238}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36,7 +36,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4843828098642856}
   - component: {fileID: 114067162936162620}
-  m_Layer: 0
+  - component: {fileID: 136064807717665170}
+  - component: {fileID: 54137982040572258}
+  m_Layer: 17
   m_Name: RightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4781630721443322}
   - component: {fileID: 114055684115827258}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandThumb4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +70,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4792200357927522}
   - component: {fileID: 114334621454108584}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +86,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4605264255627314}
   - component: {fileID: 114710864522473430}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4998520721002744}
   - component: {fileID: 114794150339758484}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -116,7 +118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4830342559741448}
   - component: {fileID: 114360987721293946}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +134,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4716136292436900}
   - component: {fileID: 114677507092475658}
-  m_Layer: 0
+  - component: {fileID: 136624463430950196}
+  - component: {fileID: 54709623006133078}
+  m_Layer: 17
   m_Name: RightLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4453844716066348}
   - component: {fileID: 114270810293636432}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandThumb2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +168,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4130464667510572}
   - component: {fileID: 114592774932353988}
-  m_Layer: 0
+  - component: {fileID: 65619918442050724}
+  - component: {fileID: 54422641005666734}
+  m_Layer: 17
   m_Name: Spine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +186,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4616319591418706}
   - component: {fileID: 114281966047848212}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandThumb1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +202,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4252162253640180}
   - component: {fileID: 114861298961795966}
-  m_Layer: 0
+  - component: {fileID: 136452364228038672}
+  - component: {fileID: 54152893550620336}
+  m_Layer: 17
   m_Name: LeftUpLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,8 +220,25 @@ GameObject:
   m_Component:
   - component: {fileID: 4071049727326202}
   - component: {fileID: 114304580827398850}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandPinky2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1212043814181044
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4753086714495738}
+  - component: {fileID: 114231165420594996}
+  - component: {fileID: 114219410394744566}
+  m_Layer: 0
+  m_Name: HitReactor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -228,7 +253,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4239551119928514}
   - component: {fileID: 114579932667917166}
-  m_Layer: 0
+  - component: {fileID: 135436796535484472}
+  - component: {fileID: 54435157761478636}
+  m_Layer: 17
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4286680972962038}
   - component: {fileID: 114994363738565566}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +287,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4983586416993780}
   - component: {fileID: 114178186408729592}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: WeaponPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +303,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4088898273778378}
   - component: {fileID: 114154588323700032}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: HeadTop_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,7 +319,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4165245032508338}
   - component: {fileID: 114433592842604250}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandRing4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -308,7 +335,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4194484426464542}
   - component: {fileID: 114185216428075844}
-  m_Layer: 0
+  - component: {fileID: 136374151307405764}
+  - component: {fileID: 54508315372848580}
+  m_Layer: 17
   m_Name: RightUpLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,7 +353,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4196855986605348}
   - component: {fileID: 114755707818277556}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandMiddle3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,7 +369,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4300730726336112}
   - component: {fileID: 114546266820330728}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandRing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -356,7 +385,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4128668565026430}
   - component: {fileID: 114221718791286286}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandPinky3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -372,7 +401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4832213062850908}
   - component: {fileID: 114292093232639642}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -404,7 +433,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4310831037665396}
   - component: {fileID: 114657087479998612}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,7 +449,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4761718266507242}
   - component: {fileID: 114373178539010862}
-  m_Layer: 0
+  - component: {fileID: 136162878326762710}
+  - component: {fileID: 54306472235356220}
+  m_Layer: 17
   m_Name: LeftLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,7 +467,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4421290169613540}
   - component: {fileID: 114793009418077850}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandPinky4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -452,7 +483,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4780032538202994}
   - component: {fileID: 114691644101231556}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandPinky2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -468,7 +499,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4800716241200746}
   - component: {fileID: 114668402006991572}
-  m_Layer: 0
+  - component: {fileID: 136207635592890578}
+  - component: {fileID: 54544985235183618}
+  m_Layer: 17
   m_Name: LeftForeArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -484,7 +517,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4081494166060174}
   - component: {fileID: 114878088208030210}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -510,6 +543,7 @@ GameObject:
   - component: {fileID: 114599447170516222}
   - component: {fileID: 95346290758575310}
   - component: {fileID: 114241217593129944}
+  - component: {fileID: 114095889603730998}
   m_Layer: 0
   m_Name: caster
   m_TagString: Untagged
@@ -526,7 +560,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4913833463250646}
   - component: {fileID: 114544149460152260}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -542,7 +576,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4121017564639302}
   - component: {fileID: 114741195450863232}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -558,7 +592,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4173271320071460}
   - component: {fileID: 114329294246238402}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandMiddle2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -574,7 +608,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4267164133070938}
   - component: {fileID: 114515153173850572}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandMiddle1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -590,7 +624,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4265766304120474}
   - component: {fileID: 114209367002761598}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandRing4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -606,7 +640,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4871722837341548}
   - component: {fileID: 114689462200579592}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -622,7 +656,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4730153814897200}
   - component: {fileID: 114805298428655826}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandThumb4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -638,7 +672,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4323580732764254}
   - component: {fileID: 114628836639914912}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandMiddle1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -654,7 +688,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4079917763651776}
   - component: {fileID: 114163100263135478}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandIndex4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -670,7 +704,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4340461151588360}
   - component: {fileID: 114726815157529764}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftToe_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -686,7 +720,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4154482950520086}
   - component: {fileID: 114227876958529774}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandMiddle4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -702,7 +736,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4957166671707910}
   - component: {fileID: 114908394068785786}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Hips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -718,7 +752,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4627561790888664}
   - component: {fileID: 114245726679698776}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -734,7 +768,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4415786462878408}
   - component: {fileID: 114791076280312098}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandThumb3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -750,7 +784,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4438727282385892}
   - component: {fileID: 114564827847417786}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandThumb1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -783,7 +817,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4262953587050322}
   - component: {fileID: 114926220327635726}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandPinky1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -799,7 +833,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4741571395867604}
   - component: {fileID: 114961841931244810}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandRing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -815,7 +849,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4618809929915064}
   - component: {fileID: 114357052489855538}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -831,7 +865,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4456664500317840}
   - component: {fileID: 114382581800802640}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandRing1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -847,7 +881,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4773275642556004}
   - component: {fileID: 114283996369239596}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandMiddle2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -863,7 +897,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4028508682051942}
   - component: {fileID: 114910267864882958}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandMiddle4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -879,7 +913,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4796835861029148}
   - component: {fileID: 114977441062859408}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandThumb2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -895,7 +929,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4747880198599996}
   - component: {fileID: 114293602326368010}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandPinky3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -911,7 +945,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4996479277773864}
   - component: {fileID: 114427805709667976}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandPinky1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -927,7 +961,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4779913024062876}
   - component: {fileID: 114394890035238204}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightToe_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -943,7 +977,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4804175603031978}
   - component: {fileID: 114373631941061394}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandIndex4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -959,7 +993,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4704202766709898}
   - component: {fileID: 114335727163364852}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -975,7 +1009,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4440106246472726}
   - component: {fileID: 114572769601765070}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandPinky4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -991,7 +1025,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4605989986228182}
   - component: {fileID: 114008918968028510}
-  m_Layer: 0
+  - component: {fileID: 65717672061294446}
+  - component: {fileID: 54619570276936600}
+  m_Layer: 17
   m_Name: Spine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1007,7 +1043,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4414358285548232}
   - component: {fileID: 114642893501055678}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandMiddle3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1023,7 +1059,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4221328976685154}
   - component: {fileID: 114724926779528776}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandRing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1039,7 +1075,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4762770792142408}
   - component: {fileID: 114183802673824622}
-  m_Layer: 0
+  - component: {fileID: 136225474908069062}
+  - component: {fileID: 54182524810801788}
+  m_Layer: 17
   m_Name: RightForeArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1055,7 +1093,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4680101868263276}
   - component: {fileID: 114674501745764038}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandThumb3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1071,7 +1109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4943990760606694}
   - component: {fileID: 114448567092121854}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: RightHandRing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1087,7 +1125,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4642672468947048}
   - component: {fileID: 114410027883106492}
-  m_Layer: 0
+  - component: {fileID: 136265494444943762}
+  - component: {fileID: 54907685105626588}
+  m_Layer: 17
   m_Name: LeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1103,7 +1143,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4527092794804794}
   - component: {fileID: 114571614847148222}
-  m_Layer: 0
+  - component: {fileID: 65839238014686232}
+  - component: {fileID: 54002030078765908}
+  m_Layer: 17
   m_Name: Spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1119,7 +1161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4575169320161060}
   - component: {fileID: 114110812508842776}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: LeftHandRing1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1724,6 +1766,7 @@ Transform:
   m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_Children:
   - {fileID: 4624938107109070}
+  - {fileID: 4753086714495738}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1781,6 +1824,19 @@ Transform:
   - {fileID: 4421290169613540}
   m_Father: {fileID: 4780032538202994}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4753086714495738
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1212043814181044}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.8923078, y: 0.046153847, z: 4.6769233}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4712739002999116}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4761718266507242
 Transform:
@@ -2091,6 +2147,222 @@ Transform:
   m_Father: {fileID: 4081494166060174}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &54002030078765908
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1964283368271538}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54137982040572258
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1012048026160518}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54152893550620336
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1193563361731474}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54182524810801788
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1907589323458176}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54306472235356220
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1383783692423090}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54422641005666734
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1158764894268234}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54435157761478636
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1228407856843088}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54508315372848580
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1286920043798600}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54544985235183618
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1398653339646736}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54619570276936600
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1860419096299234}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54709623006133078
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1122541038882534}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!54 &54907685105626588
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1948881883000436}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65619918442050724
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1158764894268234}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.35, y: 0.2, z: 0.2}
+  m_Center: {x: 0, y: 0.1, z: 0}
+--- !u!65 &65717672061294446
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1860419096299234}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4, y: 0.2, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65839238014686232
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1964283368271538}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.3, y: 0.2, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95346290758575310
 Animator:
   serializedVersion: 3
@@ -2144,6 +2416,465 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guid: 3664400a-c6ce-4e29-b440-49fe2b0ec472
+--- !u!114 &114095889603730998
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1424803863130096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a70e525c82ce9413fa4d940ad7fcf1db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fixTransforms: 1
+  references:
+    root: {fileID: 4712739002999116}
+    pelvis: {fileID: 4957166671707910}
+    leftThigh: {fileID: 4252162253640180}
+    leftCalf: {fileID: 4761718266507242}
+    leftFoot: {fileID: 4627561790888664}
+    rightThigh: {fileID: 4194484426464542}
+    rightCalf: {fileID: 4716136292436900}
+    rightFoot: {fileID: 4792200357927522}
+    leftUpperArm: {fileID: 4642672468947048}
+    leftForearm: {fileID: 4800716241200746}
+    leftHand: {fileID: 4830342559741448}
+    rightUpperArm: {fileID: 4843828098642856}
+    rightForearm: {fileID: 4762770792142408}
+    rightHand: {fileID: 4081494166060174}
+    head: {fileID: 4239551119928514}
+    spine:
+    - {fileID: 4527092794804794}
+    - {fileID: 4130464667510572}
+    - {fileID: 4605989986228182}
+    eyes: []
+  solver:
+    IKPosition: {x: 0, y: 0, z: 0}
+    IKPositionWeight: 1
+    root: {fileID: 4712739002999116}
+    iterations: 4
+    chain:
+    - pin: 0
+      pull: 1
+      push: 0
+      pushParent: 0
+      reach: 0.1
+      reachSmoothing: 1
+      pushSmoothing: 1
+      nodes:
+      - transform: {fileID: 4130464667510572}
+        weight: 1
+        solverPosition: {x: 0, y: 0, z: 0}
+        solverRotation: {x: 0, y: 0, z: 0, w: 1}
+        defaultLocalPosition: {x: 0, y: 0, z: 0}
+        defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+        length: 0
+        effectorPositionWeight: 0
+        effectorRotationWeight: 0
+        offset: {x: 0, y: 0, z: 0}
+      children: 01000000020000000300000004000000
+      childConstraints:
+      - pushElasticity: 0
+        pullElasticity: 1
+        bone1: {fileID: 4642672468947048}
+        bone2: {fileID: 4194484426464542}
+      - pushElasticity: 0
+        pullElasticity: 1
+        bone1: {fileID: 4843828098642856}
+        bone2: {fileID: 4252162253640180}
+      - pushElasticity: 0
+        pullElasticity: 0
+        bone1: {fileID: 4642672468947048}
+        bone2: {fileID: 4843828098642856}
+      - pushElasticity: 0
+        pullElasticity: 0
+        bone1: {fileID: 4252162253640180}
+        bone2: {fileID: 4194484426464542}
+      bendConstraint:
+        bone1: {fileID: 0}
+        bone2: {fileID: 0}
+        bone3: {fileID: 0}
+        bendGoal: {fileID: 0}
+        direction: {x: 1, y: 0, z: 0}
+        rotationOffset: {x: 0, y: 0, z: 0, w: 0}
+        weight: 0
+        defaultLocalDirection: {x: 0, y: 0, z: 0}
+        defaultChildDirection: {x: 0, y: 0, z: 0}
+    - pin: 0
+      pull: 1
+      push: 0
+      pushParent: 0
+      reach: 0.1
+      reachSmoothing: 1
+      pushSmoothing: 1
+      nodes:
+      - transform: {fileID: 4642672468947048}
+        weight: 1
+        solverPosition: {x: 0, y: 0, z: 0}
+        solverRotation: {x: 0, y: 0, z: 0, w: 1}
+        defaultLocalPosition: {x: 0, y: 0, z: 0}
+        defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+        length: 0
+        effectorPositionWeight: 0
+        effectorRotationWeight: 0
+        offset: {x: 0, y: 0, z: 0}
+      - transform: {fileID: 4800716241200746}
+        weight: 1
+        solverPosition: {x: 0, y: 0, z: 0}
+        solverRotation: {x: 0, y: 0, z: 0, w: 1}
+        defaultLocalPosition: {x: 0, y: 0, z: 0}
+        defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+        length: 0
+        effectorPositionWeight: 0
+        effectorRotationWeight: 0
+        offset: {x: 0, y: 0, z: 0}
+      - transform: {fileID: 4830342559741448}
+        weight: 1
+        solverPosition: {x: 0, y: 0, z: 0}
+        solverRotation: {x: 0, y: 0, z: 0, w: 1}
+        defaultLocalPosition: {x: 0, y: 0, z: 0}
+        defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+        length: 0
+        effectorPositionWeight: 0
+        effectorRotationWeight: 0
+        offset: {x: 0, y: 0, z: 0}
+      children: 
+      childConstraints: []
+      bendConstraint:
+        bone1: {fileID: 0}
+        bone2: {fileID: 0}
+        bone3: {fileID: 0}
+        bendGoal: {fileID: 0}
+        direction: {x: 1, y: 0, z: 0}
+        rotationOffset: {x: 0, y: 0, z: 0, w: 0}
+        weight: 0
+        defaultLocalDirection: {x: 0, y: 0, z: 0}
+        defaultChildDirection: {x: 0, y: 0, z: 0}
+    - pin: 0
+      pull: 1
+      push: 0
+      pushParent: 0
+      reach: 0.1
+      reachSmoothing: 1
+      pushSmoothing: 1
+      nodes:
+      - transform: {fileID: 4843828098642856}
+        weight: 1
+        solverPosition: {x: 0, y: 0, z: 0}
+        solverRotation: {x: 0, y: 0, z: 0, w: 1}
+        defaultLocalPosition: {x: 0, y: 0, z: 0}
+        defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+        length: 0
+        effectorPositionWeight: 0
+        effectorRotationWeight: 0
+        offset: {x: 0, y: 0, z: 0}
+      - transform: {fileID: 4762770792142408}
+        weight: 1
+        solverPosition: {x: 0, y: 0, z: 0}
+        solverRotation: {x: 0, y: 0, z: 0, w: 1}
+        defaultLocalPosition: {x: 0, y: 0, z: 0}
+        defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+        length: 0
+        effectorPositionWeight: 0
+        effectorRotationWeight: 0
+        offset: {x: 0, y: 0, z: 0}
+      - transform: {fileID: 4081494166060174}
+        weight: 1
+        solverPosition: {x: 0, y: 0, z: 0}
+        solverRotation: {x: 0, y: 0, z: 0, w: 1}
+        defaultLocalPosition: {x: 0, y: 0, z: 0}
+        defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+        length: 0
+        effectorPositionWeight: 0
+        effectorRotationWeight: 0
+        offset: {x: 0, y: 0, z: 0}
+      children: 
+      childConstraints: []
+      bendConstraint:
+        bone1: {fileID: 0}
+        bone2: {fileID: 0}
+        bone3: {fileID: 0}
+        bendGoal: {fileID: 0}
+        direction: {x: 1, y: 0, z: 0}
+        rotationOffset: {x: 0, y: 0, z: 0, w: 0}
+        weight: 0
+        defaultLocalDirection: {x: 0, y: 0, z: 0}
+        defaultChildDirection: {x: 0, y: 0, z: 0}
+    - pin: 0
+      pull: 1
+      push: 0
+      pushParent: 0
+      reach: 0.1
+      reachSmoothing: 1
+      pushSmoothing: 1
+      nodes:
+      - transform: {fileID: 4252162253640180}
+        weight: 1
+        solverPosition: {x: 0, y: 0, z: 0}
+        solverRotation: {x: 0, y: 0, z: 0, w: 1}
+        defaultLocalPosition: {x: 0, y: 0, z: 0}
+        defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+        length: 0
+        effectorPositionWeight: 0
+        effectorRotationWeight: 0
+        offset: {x: 0, y: 0, z: 0}
+      - transform: {fileID: 4761718266507242}
+        weight: 1
+        solverPosition: {x: 0, y: 0, z: 0}
+        solverRotation: {x: 0, y: 0, z: 0, w: 1}
+        defaultLocalPosition: {x: 0, y: 0, z: 0}
+        defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+        length: 0
+        effectorPositionWeight: 0
+        effectorRotationWeight: 0
+        offset: {x: 0, y: 0, z: 0}
+      - transform: {fileID: 4627561790888664}
+        weight: 1
+        solverPosition: {x: 0, y: 0, z: 0}
+        solverRotation: {x: 0, y: 0, z: 0, w: 1}
+        defaultLocalPosition: {x: 0, y: 0, z: 0}
+        defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+        length: 0
+        effectorPositionWeight: 0
+        effectorRotationWeight: 0
+        offset: {x: 0, y: 0, z: 0}
+      children: 
+      childConstraints: []
+      bendConstraint:
+        bone1: {fileID: 0}
+        bone2: {fileID: 0}
+        bone3: {fileID: 0}
+        bendGoal: {fileID: 0}
+        direction: {x: 1, y: 0, z: 0}
+        rotationOffset: {x: 0, y: 0, z: 0, w: 0}
+        weight: 0
+        defaultLocalDirection: {x: 0, y: 0, z: 0}
+        defaultChildDirection: {x: 0, y: 0, z: 0}
+    - pin: 0
+      pull: 1
+      push: 0
+      pushParent: 0
+      reach: 0.1
+      reachSmoothing: 1
+      pushSmoothing: 1
+      nodes:
+      - transform: {fileID: 4194484426464542}
+        weight: 1
+        solverPosition: {x: 0, y: 0, z: 0}
+        solverRotation: {x: 0, y: 0, z: 0, w: 1}
+        defaultLocalPosition: {x: 0, y: 0, z: 0}
+        defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+        length: 0
+        effectorPositionWeight: 0
+        effectorRotationWeight: 0
+        offset: {x: 0, y: 0, z: 0}
+      - transform: {fileID: 4716136292436900}
+        weight: 1
+        solverPosition: {x: 0, y: 0, z: 0}
+        solverRotation: {x: 0, y: 0, z: 0, w: 1}
+        defaultLocalPosition: {x: 0, y: 0, z: 0}
+        defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+        length: 0
+        effectorPositionWeight: 0
+        effectorRotationWeight: 0
+        offset: {x: 0, y: 0, z: 0}
+      - transform: {fileID: 4792200357927522}
+        weight: 1
+        solverPosition: {x: 0, y: 0, z: 0}
+        solverRotation: {x: 0, y: 0, z: 0, w: 1}
+        defaultLocalPosition: {x: 0, y: 0, z: 0}
+        defaultLocalRotation: {x: 0, y: 0, z: 0, w: 0}
+        length: 0
+        effectorPositionWeight: 0
+        effectorRotationWeight: 0
+        offset: {x: 0, y: 0, z: 0}
+      children: 
+      childConstraints: []
+      bendConstraint:
+        bone1: {fileID: 0}
+        bone2: {fileID: 0}
+        bone3: {fileID: 0}
+        bendGoal: {fileID: 0}
+        direction: {x: 1, y: 0, z: 0}
+        rotationOffset: {x: 0, y: 0, z: 0, w: 0}
+        weight: 0
+        defaultLocalDirection: {x: 0, y: 0, z: 0}
+        defaultChildDirection: {x: 0, y: 0, z: 0}
+    effectors:
+    - bone: {fileID: 4130464667510572}
+      target: {fileID: 0}
+      positionWeight: 0
+      rotationWeight: 0
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      positionOffset: {x: 0, y: 0, z: 0}
+      effectChildNodes: 1
+      maintainRelativePositionWeight: 0
+      childBones:
+      - {fileID: 4252162253640180}
+      - {fileID: 4194484426464542}
+      planeBone1: {fileID: 0}
+      planeBone2: {fileID: 0}
+      planeBone3: {fileID: 0}
+      planeRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+    - bone: {fileID: 4642672468947048}
+      target: {fileID: 0}
+      positionWeight: 0
+      rotationWeight: 0
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      positionOffset: {x: 0, y: 0, z: 0}
+      effectChildNodes: 1
+      maintainRelativePositionWeight: 0
+      childBones: []
+      planeBone1: {fileID: 0}
+      planeBone2: {fileID: 0}
+      planeBone3: {fileID: 0}
+      planeRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+    - bone: {fileID: 4843828098642856}
+      target: {fileID: 0}
+      positionWeight: 0
+      rotationWeight: 0
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      positionOffset: {x: 0, y: 0, z: 0}
+      effectChildNodes: 1
+      maintainRelativePositionWeight: 0
+      childBones: []
+      planeBone1: {fileID: 0}
+      planeBone2: {fileID: 0}
+      planeBone3: {fileID: 0}
+      planeRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+    - bone: {fileID: 4252162253640180}
+      target: {fileID: 0}
+      positionWeight: 0
+      rotationWeight: 0
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      positionOffset: {x: 0, y: 0, z: 0}
+      effectChildNodes: 1
+      maintainRelativePositionWeight: 0
+      childBones: []
+      planeBone1: {fileID: 0}
+      planeBone2: {fileID: 0}
+      planeBone3: {fileID: 0}
+      planeRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+    - bone: {fileID: 4194484426464542}
+      target: {fileID: 0}
+      positionWeight: 0
+      rotationWeight: 0
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      positionOffset: {x: 0, y: 0, z: 0}
+      effectChildNodes: 1
+      maintainRelativePositionWeight: 0
+      childBones: []
+      planeBone1: {fileID: 0}
+      planeBone2: {fileID: 0}
+      planeBone3: {fileID: 0}
+      planeRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+    - bone: {fileID: 4830342559741448}
+      target: {fileID: 0}
+      positionWeight: 0
+      rotationWeight: 0
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      positionOffset: {x: 0, y: 0, z: 0}
+      effectChildNodes: 1
+      maintainRelativePositionWeight: 0
+      childBones: []
+      planeBone1: {fileID: 4642672468947048}
+      planeBone2: {fileID: 4843828098642856}
+      planeBone3: {fileID: 4130464667510572}
+      planeRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+    - bone: {fileID: 4081494166060174}
+      target: {fileID: 0}
+      positionWeight: 0
+      rotationWeight: 0
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      positionOffset: {x: 0, y: 0, z: 0}
+      effectChildNodes: 1
+      maintainRelativePositionWeight: 0
+      childBones: []
+      planeBone1: {fileID: 4843828098642856}
+      planeBone2: {fileID: 4642672468947048}
+      planeBone3: {fileID: 4130464667510572}
+      planeRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+    - bone: {fileID: 4627561790888664}
+      target: {fileID: 0}
+      positionWeight: 0
+      rotationWeight: 0
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      positionOffset: {x: 0, y: 0, z: 0}
+      effectChildNodes: 1
+      maintainRelativePositionWeight: 0
+      childBones: []
+      planeBone1: {fileID: 4252162253640180}
+      planeBone2: {fileID: 4194484426464542}
+      planeBone3: {fileID: 4130464667510572}
+      planeRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+    - bone: {fileID: 4792200357927522}
+      target: {fileID: 0}
+      positionWeight: 0
+      rotationWeight: 0
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      positionOffset: {x: 0, y: 0, z: 0}
+      effectChildNodes: 1
+      maintainRelativePositionWeight: 0
+      childBones: []
+      planeBone1: {fileID: 4194484426464542}
+      planeBone2: {fileID: 4252162253640180}
+      planeBone3: {fileID: 4130464667510572}
+      planeRotationOffset: {x: 0, y: 0, z: 0, w: 1}
+    spineMapping:
+      spineBones:
+      - {fileID: 4957166671707910}
+      - {fileID: 4527092794804794}
+      - {fileID: 4130464667510572}
+      - {fileID: 4605989986228182}
+      leftUpperArmBone: {fileID: 4642672468947048}
+      rightUpperArmBone: {fileID: 4843828098642856}
+      leftThighBone: {fileID: 4252162253640180}
+      rightThighBone: {fileID: 4194484426464542}
+      iterations: 3
+      twistWeight: 1
+    boneMappings:
+    - bone: {fileID: 4239551119928514}
+      maintainRotationWeight: 0
+    limbMappings:
+    - parentBone: {fileID: 4605264255627314}
+      bone1: {fileID: 4642672468947048}
+      bone2: {fileID: 4800716241200746}
+      bone3: {fileID: 4830342559741448}
+      maintainRotationWeight: 0
+      weight: 1
+    - parentBone: {fileID: 4832213062850908}
+      bone1: {fileID: 4843828098642856}
+      bone2: {fileID: 4762770792142408}
+      bone3: {fileID: 4081494166060174}
+      maintainRotationWeight: 0
+      weight: 1
+    - parentBone: {fileID: 0}
+      bone1: {fileID: 4252162253640180}
+      bone2: {fileID: 4761718266507242}
+      bone3: {fileID: 4627561790888664}
+      maintainRotationWeight: 1
+      weight: 1
+    - parentBone: {fileID: 0}
+      bone1: {fileID: 4194484426464542}
+      bone2: {fileID: 4716136292436900}
+      bone3: {fileID: 4792200357927522}
+      maintainRotationWeight: 1
+      weight: 1
+    FABRIKPass: 1
+    rootNode: {fileID: 4130464667510572}
+    spineStiffness: 0.5
+    pullBodyVertical: 0.5
+    pullBodyHorizontal: 0
 --- !u!114 &114110812508842776
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2272,6 +3003,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guid: 47c001e5-e6cf-4594-a4f2-dea604f99615
+--- !u!114 &114219410394744566
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1212043814181044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 7ff4a6ea-44fb-416e-8cfb-a4f4f2db16d2
 --- !u!114 &114221718791286286
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2296,6 +3039,675 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guid: dcbd753c-07fe-488e-85e9-322b912a3f29
+--- !u!114 &114231165420594996
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1212043814181044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6acf54e73e0704cd79c7669317e0cd14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weight: 1
+  ik: {fileID: 114095889603730998}
+  effectorHitPoints:
+  - name: L Forearm
+    collider: {fileID: 136207635592890578}
+    crossFadeTime: 0.05
+    offsetInForceDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: 2.6478002
+        outSlope: 2.6478002
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.09987091
+        value: 0.19838351
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.44487676
+        value: 0.015563011
+        inSlope: -0.37561208
+        outSlope: -0.37561208
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7800453
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    offsetInUpDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: -2.1341147
+        outSlope: -2.1341147
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.09104324
+        value: -0.08723991
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7800453
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    effectorLinks:
+    - effector: 5
+      weight: 0.7
+    - effector: 1
+      weight: 0.5
+    - effector: 6
+      weight: 0.25
+  - name: Head
+    collider: {fileID: 135436796535484472}
+    crossFadeTime: 0.05
+    offsetInForceDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: 2.6478002
+        outSlope: 2.6478002
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.09987091
+        value: 0.15187408
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.44487676
+        value: 0.015563011
+        inSlope: -0.37561208
+        outSlope: -0.37561208
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7800453
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    offsetInUpDirection:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    effectorLinks:
+    - effector: 1
+      weight: 1
+    - effector: 2
+      weight: 1
+    - effector: 5
+      weight: 0.5
+    - effector: 6
+      weight: 0.5
+  - name: Hips
+    collider: {fileID: 65839238014686232}
+    crossFadeTime: 0.05
+    offsetInForceDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: 2.6478002
+        outSlope: 2.6478002
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.09987091
+        value: 0.19838351
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.44487676
+        value: 0.015563011
+        inSlope: -0.37561208
+        outSlope: -0.37561208
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7800453
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    offsetInUpDirection:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    effectorLinks:
+    - effector: 0
+      weight: 1
+    - effector: 5
+      weight: 0.5
+    - effector: 6
+      weight: 0.5
+  - name: 'Hips: Hands Down'
+    collider: {fileID: 65619918442050724}
+    crossFadeTime: 0.05
+    offsetInForceDirection:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    offsetInUpDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: -0.2316701
+        outSlope: -0.2316701
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.08783317
+        value: -0.060293317
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7800453
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    effectorLinks:
+    - effector: 5
+      weight: 0.5
+    - effector: 6
+      weight: 1
+  - name: Chest
+    collider: {fileID: 65717672061294446}
+    crossFadeTime: 0.05
+    offsetInForceDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: 2.6478002
+        outSlope: 2.6478002
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.09987091
+        value: 0.14020184
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.34693667
+        value: 0.015563011
+        inSlope: -0.37561208
+        outSlope: -0.37561208
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.6821052
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    offsetInUpDirection:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    effectorLinks:
+    - effector: 1
+      weight: 1
+    - effector: 2
+      weight: 1
+    - effector: 5
+      weight: 0.75
+    - effector: 6
+      weight: 0.75
+  - name: L Upper Arm
+    collider: {fileID: 136265494444943762}
+    crossFadeTime: 0.05
+    offsetInForceDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: 2.6478002
+        outSlope: 2.6478002
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.08372483
+        value: 0.11912777
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.3383126
+        value: 0.014038863
+        inSlope: -0.37561208
+        outSlope: -0.37561208
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7800453
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    offsetInUpDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: -0.2316701
+        outSlope: -0.2316701
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.08783317
+        value: -0.036297604
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.38119498
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    effectorLinks:
+    - effector: 1
+      weight: 1
+    - effector: 5
+      weight: 1
+    - effector: 2
+      weight: 1
+    - effector: 6
+      weight: 1
+  - name: R Upper Arm
+    collider: {fileID: 136064807717665170}
+    crossFadeTime: 0.05
+    offsetInForceDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: 2.6478002
+        outSlope: 2.6478002
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.09987091
+        value: 0.11536464
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.44760376
+        value: 0.031651936
+        inSlope: -0.37561208
+        outSlope: -0.37561208
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7800453
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    offsetInUpDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: -0.2316701
+        outSlope: -0.2316701
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.08783317
+        value: -0.036297604
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.38119498
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    effectorLinks:
+    - effector: 2
+      weight: 1
+    - effector: 6
+      weight: 0.5
+    - effector: 1
+      weight: 0.5
+    - effector: 5
+      weight: 0.5
+  - name: R Forearm
+    collider: {fileID: 136225474908069062}
+    crossFadeTime: 0.05
+    offsetInForceDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: 2.6478002
+        outSlope: 2.6478002
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.09987091
+        value: 0.12791051
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.44487676
+        value: 0.015563011
+        inSlope: -0.37561208
+        outSlope: -0.37561208
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7800453
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    offsetInUpDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: -0.2316701
+        outSlope: -0.2316701
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.08783317
+        value: -0.036297604
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.38119498
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    effectorLinks:
+    - effector: 6
+      weight: 0.5
+    - effector: 2
+      weight: 0.5
+    - effector: 5
+      weight: 0.5
+    - effector: 1
+      weight: 0.7
+  - name: R Thigh
+    collider: {fileID: 136374151307405764}
+    crossFadeTime: 0.05
+    offsetInForceDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: 2.6478002
+        outSlope: 2.6478002
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.09987091
+        value: 0.19838351
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.44487676
+        value: 0.015563011
+        inSlope: -0.37561208
+        outSlope: -0.37561208
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7800453
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    offsetInUpDirection:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    effectorLinks:
+    - effector: 4
+      weight: 0.75
+    - effector: 0
+      weight: -0.5
+  - name: L Thigh
+    collider: {fileID: 136452364228038672}
+    crossFadeTime: 0.05
+    offsetInForceDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: 2.6478002
+        outSlope: 2.6478002
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.097124256
+        value: 0.1504075
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.44487676
+        value: 0.015563011
+        inSlope: -0.37561208
+        outSlope: -0.37561208
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7800453
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    offsetInUpDirection:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    effectorLinks:
+    - effector: 3
+      weight: 0.75
+    - effector: 0
+      weight: -0.1
+  - name: L Calf
+    collider: {fileID: 136162878326762710}
+    crossFadeTime: 0.05
+    offsetInForceDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: 2.6478002
+        outSlope: 2.6478002
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.09987091
+        value: 0.11998563
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.26160845
+        value: 0.015563011
+        inSlope: -0.37561208
+        outSlope: -0.37561208
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.59677696
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    offsetInUpDirection:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    effectorLinks:
+    - effector: 3
+      weight: -0.5
+    - effector: 7
+      weight: 1
+  - name: R Calf
+    collider: {fileID: 136624463430950196}
+    crossFadeTime: 0.05
+    offsetInForceDirection:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: 2.6478002
+        outSlope: 2.6478002
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.09987091
+        value: 0.12403571
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.28932974
+        value: 0.015563011
+        inSlope: -0.37561208
+        outSlope: -0.37561208
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.62449825
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    offsetInUpDirection:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    effectorLinks:
+    - effector: 4
+      weight: -0.5
+    - effector: 8
+      weight: 1
+  boneHitPoints:
+  - name: Head
+    collider: {fileID: 135436796535484472}
+    crossFadeTime: 0.05
+    aroundCenterOfMass:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 2
+        time: 0
+        value: 0.00006222725
+        inSlope: -429.08566
+        outSlope: -429.08566
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.051980287
+        value: -34.870148
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.46337196
+        value: 1.6514235
+        inSlope: -3.1983852
+        outSlope: -3.1983852
+        tangentMode: 0
+      - serializedVersion: 2
+        time: 0.7377096
+        value: 0.00006222725
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    boneLinks:
+    - bone: {fileID: 4239551119928514}
+      weight: 1
 --- !u!114 &114241217593129944
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2962,6 +4374,7 @@ MonoBehaviour:
     - {fileID: 1049578105993706}
     - {fileID: 1655620486398006}
     - {fileID: 1256994039670680}
+    - {fileID: 1212043814181044}
   _assetGuid: a301bab045c9f2642b81c4a0c8ceeee6
 --- !u!114 &114791076280312098
 MonoBehaviour:
@@ -3035,6 +4448,7 @@ MonoBehaviour:
   lightning: 1
   poison: 1
   physical: 1
+  _hitReaction: {fileID: 114231165420594996}
   dead: 0
   animator: {fileID: 0}
 --- !u!114 &114805298428655826
@@ -3169,6 +4583,83 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _guid: bc228669-5b18-41df-8a5a-04f9833a6d0f
+--- !u!135 &135436796535484472
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1228407856843088}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.15
+  m_Center: {x: 0, y: 0.05, z: 0}
+--- !u!136 &136064807717665170
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1012048026160518}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 0.5
+  m_Direction: 0
+  m_Center: {x: 0.15, y: 0, z: 0}
+--- !u!136 &136162878326762710
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1383783692423090}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 0.6
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.3, z: -0.12}
+--- !u!136 &136207635592890578
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1398653339646736}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 0.5
+  m_Direction: 0
+  m_Center: {x: -0.24, y: 0, z: 0}
+--- !u!136 &136225474908069062
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1907589323458176}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 0.5
+  m_Direction: 0
+  m_Center: {x: 0.26, y: 0, z: 0}
+--- !u!136 &136265494444943762
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1948881883000436}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 0.5
+  m_Direction: 0
+  m_Center: {x: -0.15, y: 0, z: 0}
 --- !u!136 &136266520447181870
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -3182,6 +4673,45 @@ CapsuleCollider:
   m_Height: 2.0051618
   m_Direction: 1
   m_Center: {x: 0, y: 0.7743007, z: 0}
+--- !u!136 &136374151307405764
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1286920043798600}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 0.5
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.2, z: 0}
+--- !u!136 &136452364228038672
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1193563361731474}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 0.5
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.2, z: 0}
+--- !u!136 &136624463430950196
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1122541038882534}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 0.6
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.3, z: -0.12}
 --- !u!137 &137896034226891118
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

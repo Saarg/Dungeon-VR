@@ -127,7 +127,7 @@ public class Bullet : NetworkBehaviour {
         if (lastLiving != null) {
             Vector3 dir = transform.position - col.transform.position;
             dir.Normalize();
-            lastLiving.HitReaction(col, dir , col.ClosestPoint(transform.position));
+            lastLiving.HitReaction(col, dir * rigidbody.mass, col.ClosestPoint(transform.position));
         }	
 
         if (col.gameObject.tag == OwnerTag)
