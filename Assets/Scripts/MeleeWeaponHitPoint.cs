@@ -10,6 +10,9 @@ public class MeleeWeaponHitPoint : MonoBehaviour {
 	[SerializeField]
 	int damage = 5;
 	[SerializeField]
+	float cooldown = 0.2f;	
+	float lastTrigger = 0;
+	[SerializeField]
 	Bullet.DamageTypeEnum damageType = Bullet.DamageTypeEnum.physical;
 
 	Living lastLiving;
@@ -20,10 +23,11 @@ public class MeleeWeaponHitPoint : MonoBehaviour {
             return;
 
 		Living comp = col.gameObject.GetComponent<Living>();
-		if (comp != null && comp.tag.Equals("Player")) {
+		if (comp != null && comp.tag.Equals("Player") && Time.realtimeSinceStartup - lastTrigger > cooldown) {
 			comp.TakeDamage(damage, damageType);
 
 			lastLiving = comp;
+			lastTrigger = Time.realtimeSinceStartup;
 		}
 		
 		if (lastLiving != null && lastLiving.tag.Equals("Player")) {
