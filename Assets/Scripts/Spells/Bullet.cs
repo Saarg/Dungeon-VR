@@ -123,7 +123,6 @@ public class Bullet : NetworkBehaviour {
     /// </summary>
     private void OnTriggerEnter(Collider col)
     {
-        Debug.Log(col.name);
         if (lastLiving != null) {
             Vector3 dir = transform.position - col.transform.position;
             dir.Normalize();

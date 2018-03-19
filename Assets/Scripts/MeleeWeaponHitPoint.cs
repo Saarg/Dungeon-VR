@@ -31,8 +31,6 @@ public class MeleeWeaponHitPoint : MonoBehaviour {
 		}
 		
 		if (lastLiving != null && lastLiving.tag.Equals("Player")) {
-			Debug.Log(col.name);			
-
 			Vector3 dir = transform.position - col.transform.position;
 			dir.Normalize();
 			lastLiving.HitReaction(col, dir , col.ClosestPoint(transform.position));

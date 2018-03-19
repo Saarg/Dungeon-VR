@@ -2400,7 +2400,7 @@ MonoBehaviour:
   _guid: dda5460f-f9a6-4c40-8927-872e7567c551
 --- !u!114 &114058009765666486
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1875396115993318}
@@ -2868,7 +2868,7 @@ MonoBehaviour:
   _guid: 13c44770-3e9d-4c34-8e15-ca2ab4a0891d
 --- !u!114 &114490321288022450
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1875396115993318}
@@ -2989,6 +2989,7 @@ MonoBehaviour:
   poison: 1
   physical: 1
   _hitReaction: {fileID: 114561487528165766}
+  _bloodPrefab: {fileID: 0}
   dead: 0
   animator: {fileID: 0}
 --- !u!114 &114532916993377186
@@ -3937,6 +3938,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   damage: 5
+  cooldown: 0.2
   damageType: 4
 --- !u!114 &114847617802710498
 MonoBehaviour:

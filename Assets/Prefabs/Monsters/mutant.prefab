@@ -1564,7 +1564,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114027895956250906
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1472075138058696}
@@ -2356,6 +2356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 114958696687542796}
   damage: 10
+  cooldown: 0.2
   damageType: 4
 --- !u!114 &114463861424588166
 MonoBehaviour:
@@ -2407,7 +2408,7 @@ MonoBehaviour:
   _guid: 752f2f27-a9fb-4502-a566-b184781875d0
 --- !u!114 &114512362482547492
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1472075138058696}
@@ -3357,6 +3358,7 @@ MonoBehaviour:
   poison: 1
   physical: 1
   _hitReaction: {fileID: 114594373648699612}
+  _bloodPrefab: {fileID: 0}
   dead: 0
   animator: {fileID: 0}
 --- !u!114 &114960644629237764

@@ -71,9 +71,15 @@ public class Living : NetworkBehaviour {
 
     [SerializeField]
     protected HitReaction _hitReaction;
+    [SerializeField]    
+    protected ParticleSystem _bloodPrefab;
     public void HitReaction(Collider collider, Vector3 force, Vector3 point) { 
-        if(_hitReaction == null) { return; }
-        _hitReaction.Hit(collider, force, point);
+        if(_hitReaction != null) { 
+            _hitReaction.Hit(collider, force, point);
+        }
+        if (_bloodPrefab != null) {
+            Destroy(Instantiate(_bloodPrefab.gameObject, point, Quaternion.LookRotation(force)), _bloodPrefab.main.duration);
+        }
     }
     Collider _collider;
     public bool dead = false;
