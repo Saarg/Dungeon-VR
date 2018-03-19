@@ -238,19 +238,14 @@ public class PlayerController : Living
                     lookDir.Normalize();
 
                     if (isGrounded)
-                        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);
-                    else if (a < 120)
-                        transform.rotation = Quaternion.LookRotation(dir);
-                    else 
-                        transform.rotation = Quaternion.LookRotation(-dir);                        
+                        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(lookDir), turnSpeed);                   
                     
                     float s = speed * (1 - a/360);
-                    // _amplifier.bodies[0].horizontalWeight = 1;
+                    
                     if (Input.GetButton("Walk") || !canRun)
                         s = walkSpeed * (1 - a/360);
                     else if (Input.GetButton("Sprint"))
                         s = sprintSpeed * (1 - a/360);
-                    // _amplifier.bodies[0].horizontalWeight = 5;
 
                     if (canRun && rigidBody.velocity.magnitude < s)
                     {
