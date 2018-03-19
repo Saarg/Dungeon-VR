@@ -127,6 +127,8 @@ public class Bullet : NetworkBehaviour {
             Vector3 dir = transform.position - col.transform.position;
             dir.Normalize();
             lastLiving.HitReaction(col, dir * rigidbody.mass, col.ClosestPoint(transform.position));
+
+            Destroy(gameObject);
         }	
 
         if (col.gameObject.tag == OwnerTag)
