@@ -22,12 +22,12 @@ namespace Lobby {
                 PlayerController pc = GetComponent<PlayerController>();
 
                 pc.playerId = Random.Range(0, 4);
-                pc.CmdUpdatePlayerClass(pc.playerId);
+                pc.UpdatePlayerClass(pc.playerId);
 
                 transform.position = new Vector3(0, 0, 0);
 
                 gameObject.name = names[Random.Range(0, names.Length)];
-                pc.CmdSetName(gameObject.name);
+                pc.SetName(gameObject.name);
 
                 Destroy(this);
                 return;
@@ -37,13 +37,13 @@ namespace Lobby {
                 PlayerController pc = GetComponent<PlayerController>();
 
                 pc.playerId = PlayerUI.localPlayer.curPlayer;
-                pc.CmdUpdatePlayerClass(PlayerUI.localPlayer.curClass);
+                pc.UpdatePlayerClass(PlayerUI.localPlayer.curClass);
 
                 GameObject StartPos = GameObject.FindGameObjectsWithTag("StartPos")[pc.playerId-1];
                 transform.position = StartPos.transform.position;
 
                 gameObject.name = PlayerUI.localPlayer.pName.text;
-                pc.CmdSetName(gameObject.name);           
+                pc.SetName(gameObject.name);           
 
                 GameObject.Find("GameUI").GetComponent<GameUI>().isVr = false; 
 

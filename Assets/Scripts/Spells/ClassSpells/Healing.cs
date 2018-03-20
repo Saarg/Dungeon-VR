@@ -16,7 +16,7 @@ public class Healing : MonoBehaviour {
 
     void OnDestroy()
     {
-        GetComponentInParent<Living> ().CmdApplyMoveStatus (MoveStatus.Free);
+        GetComponentInParent<Living> ().ApplyMoveStatus (MoveStatus.Free);
     }
 
     void Heal()

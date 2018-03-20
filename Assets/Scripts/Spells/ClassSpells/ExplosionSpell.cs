@@ -12,8 +12,6 @@ public class ExplosionSpell : Spell {
 		
 		Instantiate(explosionPrefab, target, targetRotation);
 
-		if (hasAuthority) {
-			caster.CmdApplyMoveStatus (MoveStatus.Free);
-		}
+		caster.ApplyMoveStatus (MoveStatus.Free);
 	}
 }

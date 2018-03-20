@@ -13,8 +13,6 @@ public class WallSpell : Spell {
 		
 		Instantiate(wallPrefab, target, targetRotation);
 
-		if (hasAuthority) {
-			caster.CmdApplyMoveStatus (MoveStatus.Free);
-		}
+		caster.ApplyMoveStatus (MoveStatus.Free);
 	}
 }
