@@ -57,6 +57,9 @@ public class Weapon : MonoBehaviour {
 
     void Start()
     {
+        if (spec == null)
+            return;
+
         if (spec.Model != null) {
             model = Instantiate(spec.Model, transform);
             model.transform.localPosition = Vector3.zero;
@@ -64,6 +67,14 @@ public class Weapon : MonoBehaviour {
         } else {
             spellOrigin.localPosition = Vector3.zero;
         }
+    }
+
+    public void SetSpec(WeaponSpec weaponSpec)
+    {
+        spec = weaponSpec;
+        model = Instantiate(spec.Model, transform);
+        model.transform.localPosition = Vector3.zero;
+        model.transform.localRotation = Quaternion.identity;
     }
 
     public bool CanEquip(PlayerController.PlayerClassEnum playerClass)
