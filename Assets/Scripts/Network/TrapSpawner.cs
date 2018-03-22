@@ -21,8 +21,18 @@ public class TrapSpawner : NetworkBehaviour {
 	List<GameObject> spawnedTraps = new List<GameObject>();
 	
 	[SyncVar] public bool spawnForClients;
-	
-	void Awake()
+
+    [SerializeField]
+    GameObject weaponPrefab;
+
+    [SerializeField]
+    List<WeaponSpec> weaponSpecs = new List<WeaponSpec>();
+
+    [SerializeField]
+    [Range(0.0f,1.0f)]
+    float dropChance;
+
+    void Awake()
 	{
 		if (NetworkManager.singleton is CustomNetworkManager) {
 			(NetworkManager.singleton as CustomNetworkManager).playerConnectDelegate += AddClient;
@@ -61,7 +71,7 @@ public class TrapSpawner : NetworkBehaviour {
 
 			traps.Clear();
 		}
-	}
+    }
 
     void Respawn() {
 		if (!spawnForClients)
@@ -225,4 +235,32 @@ public class TrapSpawner : NetworkBehaviour {
 		}
 		cb();
 	}
+
+    public void SpawnWeapon(Vector3 position)
+    {
+        if (isServer)
+            if (UnityEngine.Random.Range(0f, 1f) < dropChance)
+                CmdSpawnWeapon(position);
+
+    }
+
+    [Command]
+    void CmdSpawnWeapon(Vector3 position)
+    {
+        int specId = UnityEngine.Random.Range(0, weaponSpecs.Count);
+        WeaponSpec spec = weaponSpecs[specId];
+        GameObject weaponObj = Instantiate(weaponPrefab, position, Quaternion.identity);
+        Weapon weapon = weaponObj.GetComponent<Weapon>();
+        weapon.SetSpec(spec);
+        NetworkServer.Spawn(weaponObj);
+        RpcSpawnWeapon(weaponObj.GetComponent<NetworkIdentity>().netId,specId);
+    }
+
+    [ClientRpc]
+    void RpcSpawnWeapon(NetworkInstanceId id, int specId)
+    {
+        GameObject obj = ClientScene.FindLocalObject(id);
+        Weapon weapon = obj.GetComponent<Weapon>();
+        weapon.SetSpec(weaponSpecs[specId]);
+    }
 }

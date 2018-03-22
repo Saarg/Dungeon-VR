@@ -399,6 +399,10 @@ public class BaseAI : NetworkBehaviour {
 
     void OnDeath()
     {
+        gameObject.GetComponent<Living>().OnDeath -= OnDeath;
+        if (isServer)            
+            TrapSpawner.singleton.SpawnWeapon(transform.position);
+
 		StartCoroutine ("Death");
     }
 
@@ -422,7 +426,6 @@ public class BaseAI : NetworkBehaviour {
         ai.EndCoroutine(ai.attackingCoroutine);
         ai.EndCoroutine(ai.shootingCoroutine);
         ai.EndCoroutine(ai.interruptCoroutine);
-        obj.GetComponent<Living>().OnDeath -= OnDeath;
         Destroy(obj);
     }
 
