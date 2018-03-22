@@ -115,10 +115,10 @@ public class Living : NetworkBehaviour {
 		curLife = Mathf.Clamp(life, 0, maxLife);
 
 		if (curLife == 0f) {
-            if(OnDeath != null)
-			    OnDeath.Invoke();
-            
             dead = true;
+
+            if (OnDeath != null)
+			    OnDeath.Invoke();
 		}
 	}
 
