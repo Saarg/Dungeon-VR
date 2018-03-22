@@ -57,6 +57,8 @@ public class PlayerController : Living
     Transform lookAt;
     public Transform LookAt { get { return lookAt; } }
 
+    public Vector3 spawnPos;
+
     /// <summary>
     /// 	Fetch animator
     ///		Destroy camera if not localplayer
@@ -72,6 +74,7 @@ public class PlayerController : Living
                 gameUI.SetPlayerController(this);
                 gameUI.enabled = true;
             }
+            spawnPos = transform.position;
         } else {
             Destroy(cam.gameObject);
 
@@ -94,6 +97,14 @@ public class PlayerController : Living
 
     public override void OnStartLocalPlayer() {
         ApplyMoveStatus(MoveStatus.Free);
+
+        GameManager gm = FindObjectOfType<GameManager>();
+        if (gm != null) {
+            gm.onStartGame += () => {
+                Debug.Log("Player is back to spawn position");
+                transform.position = spawnPos;
+            };
+        }
     }
 
     public override void OnStartClient() {

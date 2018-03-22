@@ -144,7 +144,8 @@ public class GameUI : MonoBehaviour {
             }
 
             foreach(GameObject go in hideInVR) {
-                go.SetActive(!value);
+                if (go != null)
+                    go.SetActive(!value);
             }
 
             _isVr = value;
@@ -188,7 +189,7 @@ public class GameUI : MonoBehaviour {
             playerUI.gameObject.SetActive(false);
         }
 
-        if (Input.GetButtonDown("Menu"))
+        if (Input.GetButtonDown("Menu") && !_isVr)
 			ToggleMenu(true);
     }
 

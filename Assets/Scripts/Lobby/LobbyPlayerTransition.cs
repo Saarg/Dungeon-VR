@@ -25,6 +25,7 @@ namespace Lobby {
                 pc.UpdatePlayerClass(pc.playerId);
 
                 transform.position = new Vector3(0, 0, 0);
+                pc.spawnPos = transform.position;                
 
                 gameObject.name = names[Random.Range(0, names.Length)];
                 pc.SetName(gameObject.name);
@@ -41,6 +42,7 @@ namespace Lobby {
 
                 GameObject StartPos = GameObject.FindGameObjectsWithTag("StartPos")[pc.playerId-1];
                 transform.position = StartPos.transform.position;
+                pc.spawnPos = StartPos.transform.position;
 
                 gameObject.name = PlayerUI.localPlayer.pName.text;
                 pc.SetName(gameObject.name);           
