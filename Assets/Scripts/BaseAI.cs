@@ -399,6 +399,7 @@ public class BaseAI : NetworkBehaviour {
 
     void OnDeath()
     {
+        agent.isStopped = true;
         gameObject.GetComponent<Living>().OnDeath -= OnDeath;
         if (isServer)            
             TrapSpawner.singleton.SpawnWeapon(transform.position);
