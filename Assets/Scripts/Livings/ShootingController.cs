@@ -178,6 +178,9 @@ public class ShootingController : NetworkBehaviour {
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         bullet.spec = weapon.Bullet;
 
+        for (int i = 0; i < owner.collidersList.Count; i++)
+            Physics.IgnoreCollision(bulletObj.GetComponent<Collider>(), owner.collidersList[i], true);
+
         Physics.IgnoreCollision(bulletObj.GetComponent<Collider>(), GetComponentInParent<Collider>(), true);
         bullet.OwnerTag = gameObject.tag;
         bullet.spawnedBy = netId;

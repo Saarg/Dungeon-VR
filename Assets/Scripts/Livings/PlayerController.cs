@@ -327,6 +327,9 @@ public class PlayerController : Living
 
         GameObject go = Instantiate(classPrefab[(int)id], transform);
 
+        Collider[] colliders = go.GetComponentsInChildren<Collider>();
+        collidersList.AddRange(colliders);
+
         _animator = go.GetComponent<Animator>();
         _netAnimator = go.GetComponent<NetworkAnimator>();
 
@@ -363,6 +366,8 @@ public class PlayerController : Living
     [ClientRpc]
     private void RpcClassUpdated(NetworkInstanceId classModelId, NetworkInstanceId weaponNetId){
         PlayerClassDesignation cd = ClientScene.FindLocalObject(classModelId).GetComponent<PlayerClassDesignation>();
+        Collider[] colliders = cd.gameObject.GetComponentsInChildren<Collider>();
+        collidersList.AddRange(colliders);
         GameObject weaponObj = ClientScene.FindLocalObject(weaponNetId);
         weaponObj.GetComponent<Weapon>().spec = cd.defaultWeapon;        
         defaultWeaponId = (int)weaponObj.GetComponent<NetworkIdentity>().netId.Value;
