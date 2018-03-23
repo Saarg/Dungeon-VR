@@ -55,9 +55,28 @@ public class GameManager : NetworkBehaviour {
 			_gamePhase = true;
 		}
 
-		if (gamePhase && Time.realtimeSinceStartup - startTime > gameTime) {
+		bool allDead = true;
+		foreach (PlayerController pc in gameUI.GetPlayerList())
+		{
+			if (!pc.dead) {
+				allDead = false;
+				break;
+			}
+		}
+
+		if (allDead && gameUI.GetPlayerList().Count != 0) {
+			if (gameUI.isVr)
+				gameUI.Win();
+			else
+				gameUI.Lose();
+		} else if (gamePhase && Time.realtimeSinceStartup - startTime > gameTime && gameUI.GetPlayerList().Count != 0) {
 			_buildPhase = false;
 			_gamePhase = false;
+
+			if (gameUI.isVr)
+				gameUI.Lose();
+			else			
+				gameUI.Win();
 		}
 
 		if (gamePhase) {
