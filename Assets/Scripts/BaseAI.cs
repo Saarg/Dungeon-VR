@@ -225,7 +225,9 @@ public class BaseAI : NetworkBehaviour {
         }
         else
         {
-            OnDeath();
+            Living living = gameObject.GetComponent<Living>();
+            if (living != null)
+                living.TakeDamage(int.MaxValue, Bullet.DamageTypeEnum.physical);
         }
     }
 
