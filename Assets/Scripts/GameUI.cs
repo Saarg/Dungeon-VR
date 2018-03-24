@@ -159,6 +159,7 @@ public class GameUI : MonoBehaviour {
 
     [Header("MenuUI")]
     [SerializeField] Canvas menuUI; 
+	[SerializeField] Canvas graphicsMenu;
 
     public delegate void QuitEvent();
     public event QuitEvent OnQuit;
@@ -175,6 +176,7 @@ public class GameUI : MonoBehaviour {
         }
 
         ToggleMenu(false);
+		graphicsMenu.gameObject.SetActive (false);
     }
 
 	void Update () {
@@ -469,6 +471,34 @@ public class GameUI : MonoBehaviour {
             Cursor.lockState = CursorLockMode.None;            
     }
 
+	//GraphicsMenu
+	public void DisplayGraphicsMenu(){
+		menuUI.gameObject.SetActive (false);
+		graphicsMenu.gameObject.SetActive (true);
+	}
+
+	public void ModifyQuality(int choice){
+		Debug.Log (choice);
+	}
+
+	public void ToggleAntialiasing(bool choice){
+		Debug.Log (choice);
+	}
+
+	public void ToggleMotionBlur(bool choice){
+		Debug.Log (choice);
+	}
+
+	public void ToggleAmbientOcclusion(bool choice){
+		Debug.Log (choice);
+	}
+
+	public void BackFromGraphicsToMain(){
+		graphicsMenu.gameObject.SetActive (false);
+		menuUI.gameObject.SetActive (true);
+	}
+
+	// --------------------
     public void Quit() {
         if (OnQuit != null) {
             OnQuit.Invoke();
