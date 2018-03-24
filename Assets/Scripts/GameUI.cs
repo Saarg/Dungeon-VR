@@ -489,8 +489,6 @@ public class GameUI : MonoBehaviour {
     }
 
     public void Win() {
-        Debug.Log("Win");
-
         winUI.gameObject.SetActive(true);
         lossUI.gameObject.SetActive(false);
         teamUI.gameObject.SetActive(false);
@@ -511,8 +509,6 @@ public class GameUI : MonoBehaviour {
     }
 
     public void Lose() {
-        Debug.Log("Lose");
-        
         winUI.gameObject.SetActive(false);
         lossUI.gameObject.SetActive(true);
         teamUI.gameObject.SetActive(false);

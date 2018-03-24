@@ -29,6 +29,8 @@ public class GameManager : NetworkBehaviour {
 
 	GameUI gameUI;
 
+	PlayerController[] players;
+
 	void Awake()
 	{
 		instance = this;
@@ -47,47 +49,49 @@ public class GameManager : NetworkBehaviour {
 
 	void Update()
 	{
-		if (buildPhase && Time.realtimeSinceStartup - startTime > buildTime) {
-			startTime = Time.realtimeSinceStartup;
-
-			RpcStartGame();
-			_buildPhase = false;
-			_gamePhase = true;
-		}
-
-		bool allDead = true;
-		foreach (PlayerController pc in gameUI.GetPlayerList())
-		{
-			if (!pc.dead) {
-				allDead = false;
-				break;
-			}
-		}
-
-		if (allDead && gameUI.GetPlayerList().Count != 0) {
-			if (gameUI.isVr)
-				gameUI.Win();
-			else
-				gameUI.Lose();
-		} else if (gamePhase && Time.realtimeSinceStartup - startTime > gameTime && gameUI.GetPlayerList().Count != 0) {
-			_buildPhase = false;
-			_gamePhase = false;
-
-			if (gameUI.isVr)
-				gameUI.Lose();
-			else			
-				gameUI.Win();
-		}
-
-		if (gamePhase) {
-			if (isServer)
+		if (_gamePhase) {
+			if (isServer) {	
 				timeLeft = gameTime - (Time.realtimeSinceStartup - startTime);
+			}
+
+			bool allDead = true;
+			foreach (PlayerController pc in players)
+			{
+				if (!pc.dead) {
+					allDead = false;
+					break;
+				}
+			}
+
+			if (allDead) {
+				if (gameUI.isVr)
+					gameUI.Win();
+				else
+					gameUI.Lose();
+
+				gameObject.SetActive(false);
+			} else if (timeLeft <= 0) {
+				if (gameUI.isVr)
+					gameUI.Lose();
+				else
+					gameUI.Win();
+
+				gameObject.SetActive(false);
+			}
 
 			gameUI.UpdateGamemodeUI("Game mode", timeLeft);
 		} else if (buildPhase) {
-			if (isServer)
+			if (isServer) {
 				timeLeft = buildTime - (Time.realtimeSinceStartup - startTime);
-			
+
+				if (timeLeft < 0) {
+					_buildPhase = false;
+					_gamePhase = true;
+
+					startTime = Time.realtimeSinceStartup;
+					RpcStartGame();
+				}
+			}
 			gameUI.UpdateGamemodeUI("Build mode", timeLeft);
 		}
 	}
@@ -105,6 +109,8 @@ public class GameManager : NetworkBehaviour {
 
 	[ClientRpc]
 	void RpcStartGame() {
+		players = FindObjectsOfType<PlayerController>();
+
 		if (onStartGame != null)
 			onStartGame.Invoke();
 		StartGame.Invoke();

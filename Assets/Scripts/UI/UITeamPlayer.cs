@@ -53,6 +53,9 @@ public class UITeamPlayer : MonoBehaviour {
 		life.fillAmount = Mathf.Lerp(life.fillAmount, (float)player.curLife / (float)player.maxLife, Time.deltaTime * 2f);
         mana.fillAmount = Mathf.Lerp(mana.fillAmount, (float)player.CurrentMana / (float)player.MaxMana, Time.deltaTime * 2f);
 
+		if (player == null)
+			Destroy(gameObject);
+
 		if (!playerName.text.Equals(player.gameObject.name) )
 			playerName.text = player.gameObject.name;
 
