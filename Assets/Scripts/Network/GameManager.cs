@@ -42,9 +42,7 @@ public class GameManager : NetworkBehaviour {
 
 		_buildPhase = true;
 
-		if (onStartBuild != null)
-			onStartBuild.Invoke();
-		StartBuild.Invoke();
+		RpcStartBuild();
 	}
 
 	void Update()
@@ -52,10 +50,7 @@ public class GameManager : NetworkBehaviour {
 		if (buildPhase && Time.realtimeSinceStartup - startTime > buildTime) {
 			startTime = Time.realtimeSinceStartup;
 
-			if (onStartGame != null)
-				onStartGame.Invoke();
-			StartGame.Invoke();
-
+			RpcStartGame();
 			_buildPhase = false;
 			_gamePhase = true;
 		}
@@ -80,5 +75,19 @@ public class GameManager : NetworkBehaviour {
 
 	void SetStartTime(float t) {
 		startTime = Time.realtimeSinceStartup;
+	}
+
+	[ClientRpc]
+	void RpcStartBuild() {
+		if (onStartBuild != null)
+			onStartBuild.Invoke();
+		StartBuild.Invoke();
+	}
+
+	[ClientRpc]
+	void RpcStartGame() {
+		if (onStartGame != null)
+			onStartGame.Invoke();
+		StartGame.Invoke();
 	}
 }

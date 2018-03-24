@@ -57,6 +57,8 @@ public class PlayerController : Living
     Transform lookAt;
     public Transform LookAt { get { return lookAt; } }
 
+    public Vector3 spawnPos;
+
     /// <summary>
     /// 	Fetch animator
     ///		Destroy camera if not localplayer
@@ -72,6 +74,7 @@ public class PlayerController : Living
                 gameUI.SetPlayerController(this);
                 gameUI.enabled = true;
             }
+            spawnPos = transform.position;
         } else {
             Destroy(cam.gameObject);
 
@@ -93,7 +96,15 @@ public class PlayerController : Living
     }
 
     public override void OnStartLocalPlayer() {
-        CmdApplyMoveStatus(MoveStatus.Free);
+        ApplyMoveStatus(MoveStatus.Free);
+
+        GameManager gm = FindObjectOfType<GameManager>();
+        if (gm != null) {
+            gm.onStartGame += () => {
+                Debug.Log("Player is back to spawn position");
+                transform.position = spawnPos;
+            };
+        }
     }
 
     public override void OnStartClient() {
@@ -308,19 +319,33 @@ public class PlayerController : Living
         return inventory.GetWeapon(weaponType);
     }
 
+    public void UpdatePlayerId(int id) {
+        if (isLocalPlayer || hasAuthority) {
+            CmdUpdatePlayerId (id);
+        } else if (isServer) {
+            RpcUpdatePlayerId (id);
+        }
+    }
+
     // Commands and RPC //
     [Command]
-    public void CmdUpdatePlayerId(int id) {
+    void CmdUpdatePlayerId(int id) {
         RpcUpdatePlayerId(id);
     }
 
     [ClientRpc]
-    public void RpcUpdatePlayerId(int id) {
+    void RpcUpdatePlayerId(int id) {
         playerId = id;
     }
 
+    public void UpdatePlayerClass(int id) {
+        if (isLocalPlayer || hasAuthority) {
+            CmdUpdatePlayerClass (id);
+        }
+    }
+
     [Command]
-    public void CmdUpdatePlayerClass(int id) {
+    void CmdUpdatePlayerClass(int id) {
         if (currentClassObject != null) {
             NetworkServer.Destroy(currentClassObject);
         }
@@ -364,7 +389,7 @@ public class PlayerController : Living
     }
 
     [ClientRpc]
-    private void RpcClassUpdated(NetworkInstanceId classModelId, NetworkInstanceId weaponNetId){
+    void RpcClassUpdated(NetworkInstanceId classModelId, NetworkInstanceId weaponNetId){
         PlayerClassDesignation cd = ClientScene.FindLocalObject(classModelId).GetComponent<PlayerClassDesignation>();
         Collider[] colliders = cd.gameObject.GetComponentsInChildren<Collider>();
         collidersList.AddRange(colliders);
@@ -394,8 +419,16 @@ public class PlayerController : Living
         lookAt = cd.transform.Find("LookAt");
     }
 
+    public void SetName(String n) {
+        if (isLocalPlayer || hasAuthority) {
+            CmdSetName (n);
+        } else if (isServer) {
+            RpcSetName (n);
+        }
+    }
+
     [Command]
-    public void CmdSetName(String n) {
+    void CmdSetName(String n) {
         playerName = n;
         gameObject.name = n;
         RpcSetName(n);

@@ -15,9 +15,7 @@ public class HealingSpell : Spell
         healingGameObject = Instantiate(healingPrefab, spawningPoint.position, spawningPoint.rotation);
         healingGameObject.transform.parent = caster.transform;
 
-        if (hasAuthority) {
-			caster.CmdApplyMoveStatus (MoveStatus.Free);
-		}
+		caster.ApplyMoveStatus (MoveStatus.Free);
     }
 
     protected override void EndEffects() {

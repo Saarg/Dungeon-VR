@@ -77,18 +77,14 @@ public abstract class Spell : NetworkBehaviour {
 			return;
 		}
 
-		if (hasAuthority) {
-			caster.CmdApplyMoveStatus (targetingMovement);
-		}
+		caster.ApplyMoveStatus (targetingMovement);
 
 		if (range > 0) {
 			caster.isTargeting = true;
 			StartCoroutine (targetingSystem.AcquireTarget (range, () => {
 				CmdCast(targetingSystem.getTarget (), targetingSystem.getTargetRotation ());
 			}, () => {
-				if (hasAuthority) {
-					caster.CmdApplyMoveStatus (MoveStatus.Free);
-				}
+				caster.ApplyMoveStatus (MoveStatus.Free);
 			}));
 		} else {
 			CmdCast(Vector3.zero, Quaternion.identity);
@@ -120,7 +116,7 @@ public abstract class Spell : NetworkBehaviour {
 				_animator.SetInteger("anim", (int)((caster as PlayerController).playerClassID) );
 
 			caster.isCasting = true;
-			caster.CmdApplyMoveStatus (castingMovement);
+			caster.ApplyMoveStatus (castingMovement);
 
 			//TODO add animation
 			//TODO add sound
@@ -158,7 +154,7 @@ public abstract class Spell : NetworkBehaviour {
 
 	protected virtual void Effects() {
 		if (hasAuthority) {
-			caster.CmdApplyMoveStatus (MoveStatus.Free);
+			caster.ApplyMoveStatus (MoveStatus.Free);
 		}
 	}
 
@@ -166,8 +162,10 @@ public abstract class Spell : NetworkBehaviour {
 	}
 
 	public void Cancel(int damage = 0, Bullet.DamageTypeEnum damageType = Bullet.DamageTypeEnum.physical) {
-		if (isLocalPlayer || isServer)
+		if (isLocalPlayer || hasAuthority)
 			CmdCancel();
+		else
+			RpcCancel();
 	}
 
 	[Command]
@@ -191,6 +189,6 @@ public abstract class Spell : NetworkBehaviour {
 		}
 
 		_netAnimator.SetTrigger("Cancelled");
-		caster.CmdApplyMoveStatus (MoveStatus.Free);
+		caster.ApplyMoveStatus (MoveStatus.Free);
 	}
 }

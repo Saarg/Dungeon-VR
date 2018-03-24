@@ -105,7 +105,7 @@ public class Living : NetworkBehaviour {
     }
 
     [Command]
-    void CmdUpdateLife(float life) {
+    public void CmdUpdateLife(float life) {
         UpdateLife(life);
     }
 
@@ -162,15 +162,18 @@ public class Living : NetworkBehaviour {
 
     public void ApplyMoveStatus(MoveStatus status)
     {
-        if (isServer || isLocalPlayer)
+        if (hasAuthority || isLocalPlayer) {
 		    CmdApplyMoveStatus(status);
+        } else if (isServer) {
+            RpcApplyMoveStatus(status);
+        }
 	}
 
 	/// <summary>  
     /// 	Command to update move status
     /// </summary>
 	[Command]
-    public void CmdApplyMoveStatus(MoveStatus status)
+    void CmdApplyMoveStatus(MoveStatus status)
     {
 		RpcApplyMoveStatus(status);
 	}
@@ -179,7 +182,7 @@ public class Living : NetworkBehaviour {
     /// 	Rpc in charge of updating move status
     /// </summary>
 	[ClientRpc]
-	private void RpcApplyMoveStatus(MoveStatus status)
+	void RpcApplyMoveStatus(MoveStatus status)
     {
         moveStatus = status;
         switch (moveStatus)
@@ -215,7 +218,7 @@ public class Living : NetworkBehaviour {
 
     public virtual void TakeDamage(int damage, Bullet.DamageTypeEnum damageType)
     {
-        CmdUpdateLife(curLife - CalculateResistance(damage, damageType));
+        UpdateLife(curLife - CalculateResistance(damage, damageType));
 
         if (OnDamage != null)
             OnDamage.Invoke(damage, damageType);

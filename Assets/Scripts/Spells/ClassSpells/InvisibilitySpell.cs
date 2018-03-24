@@ -54,7 +54,7 @@ public class InvisibilitySpell : Spell
             }
         }
 
-        caster.CmdApplyMoveStatus (effectMovement);
+        caster.ApplyMoveStatus (effectMovement);
 
         StartCoroutine("InvisibilityPeriode");
     }
@@ -77,9 +77,7 @@ public class InvisibilitySpell : Spell
             }
         }
 
-        if (hasAuthority) {
-			caster.CmdApplyMoveStatus (MoveStatus.Free);
-		}
+		caster.ApplyMoveStatus (MoveStatus.Free);
     }
 
     IEnumerator InvisibilityPeriode()
