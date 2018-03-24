@@ -82,6 +82,10 @@ public class Living : NetworkBehaviour {
         }
     }
     Collider _collider;
+
+    [SerializeField]
+    public List<Collider> collidersList = new List<Collider>();
+
     public bool dead = false;
 	// Events
 	public delegate void DeathEvent();
@@ -116,7 +120,7 @@ public class Living : NetworkBehaviour {
 
 		if (curLife == 0f) {
             dead = true;
-
+            gameObject.layer = 18;
             if (OnDeath != null)
 			    OnDeath.Invoke();
 		}

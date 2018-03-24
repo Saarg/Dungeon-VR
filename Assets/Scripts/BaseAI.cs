@@ -38,6 +38,7 @@ public class BaseAI : NetworkBehaviour {
 
     float detectTargetDelay = 0.5f;
     float lastDetectTarget = 0f;
+    [SerializeField]
     float shootingOffsetMultiplier = .2f;
 
     float playerDetectionRange = 20f;
@@ -225,7 +226,9 @@ public class BaseAI : NetworkBehaviour {
         }
         else
         {
-            OnDeath();
+            Living living = gameObject.GetComponent<Living>();
+            if (living != null)
+                living.TakeDamage(int.MaxValue, Bullet.DamageTypeEnum.physical);
         }
     }
 
@@ -247,7 +250,11 @@ public class BaseAI : NetworkBehaviour {
         {
             if (hit.gameObject.tag == PLAYER_TAG)
             {
-                if (hit.gameObject.GetComponent<Living>().dead)
+                Living living = hit.gameObject.GetComponent<Living>();
+                if (living == null)
+                    continue;
+
+                if (living.dead)
                     continue;
 
                 if (hit.gameObject == target)
@@ -295,6 +302,7 @@ public class BaseAI : NetworkBehaviour {
 
     void MoveNearPlayer()
     {
+        
         //FindClosestEdge
         //SamplePathPosition
         if (target != null)
@@ -365,7 +373,9 @@ public class BaseAI : NetworkBehaviour {
         if (target != null)
         {
             float distance = (target.transform.position - transform.position).magnitude;
-            Vector3 offset = target.GetComponent<Rigidbody>().velocity.normalized * distance * shootingOffsetMultiplier;
+            Vector3 offset = Vector3.zero;
+            if (target.GetComponent<Rigidbody>().velocity.magnitude > 1)
+                offset = target.GetComponent<Rigidbody>().velocity * distance * shootingOffsetMultiplier;
             shootingController.AiFire(target.transform.position + offset); 
         }
         
@@ -399,6 +409,7 @@ public class BaseAI : NetworkBehaviour {
 
     void OnDeath()
     {
+        agent.isStopped = true;
         gameObject.GetComponent<Living>().OnDeath -= OnDeath;
         if (isServer)            
             TrapSpawner.singleton.SpawnWeapon(transform.position);

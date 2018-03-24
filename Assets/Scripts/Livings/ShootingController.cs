@@ -178,6 +178,9 @@ public class ShootingController : NetworkBehaviour {
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         bullet.spec = weapon.Bullet;
 
+        for (int i = 0; i < owner.collidersList.Count; i++)
+            Physics.IgnoreCollision(bulletObj.GetComponent<Collider>(), owner.collidersList[i], true);
+
         Physics.IgnoreCollision(bulletObj.GetComponent<Collider>(), GetComponentInParent<Collider>(), true);
         bullet.OwnerTag = gameObject.tag;
         bullet.spawnedBy = netId;
@@ -202,7 +205,10 @@ public class ShootingController : NetworkBehaviour {
     {
         GameObject bulletObj = ClientScene.FindLocalObject(bulletId);
         GameObject weaponObj = ClientScene.FindLocalObject(weaponId);
-        
+
+        for (int i = 0; i < owner.collidersList.Count; i++)
+            Physics.IgnoreCollision(bulletObj.GetComponent<Collider>(), owner.collidersList[i], true);
+
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         bullet.OwnerTag = gameObject.tag;
         bullet.spec = weapon.Bullet;
