@@ -120,7 +120,7 @@ public class Living : NetworkBehaviour {
 
 		if (curLife == 0f) {
             dead = true;
-
+            gameObject.layer = 18;
             if (OnDeath != null)
 			    OnDeath.Invoke();
 		}

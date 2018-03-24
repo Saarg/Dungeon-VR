@@ -2826,7 +2826,7 @@ MonoBehaviour:
   _guid: cf79633b-a5be-4829-9797-43de519b544d
 --- !u!114 &114018787029677460
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1501085806012814}
@@ -3108,7 +3108,7 @@ MonoBehaviour:
   _guid: 8ee29471-c189-4464-8872-015f44e4f10c
 --- !u!114 &114314007360087782
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1501085806012814}
@@ -3380,7 +3380,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
-  owner: {fileID: 0}
+  owner: {fileID: 114668012487698022}
   weapon: {fileID: 0}
 --- !u!114 &114585753729335208
 MonoBehaviour:
@@ -3500,6 +3500,7 @@ MonoBehaviour:
   physical: 1
   _hitReaction: {fileID: 114007497159397736}
   _bloodPrefab: {fileID: 0}
+  collidersList: []
   dead: 0
   animator: {fileID: 0}
 --- !u!114 &114705389032269200

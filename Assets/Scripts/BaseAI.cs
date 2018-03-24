@@ -250,7 +250,11 @@ public class BaseAI : NetworkBehaviour {
         {
             if (hit.gameObject.tag == PLAYER_TAG)
             {
-                if (hit.gameObject.GetComponent<Living>().dead)
+                Living living = hit.gameObject.GetComponent<Living>();
+                if (living == null)
+                    continue;
+
+                if (living.dead)
                     continue;
 
                 if (hit.gameObject == target)
@@ -298,6 +302,7 @@ public class BaseAI : NetworkBehaviour {
 
     void MoveNearPlayer()
     {
+        
         //FindClosestEdge
         //SamplePathPosition
         if (target != null)

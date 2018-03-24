@@ -19,6 +19,12 @@ public class MeleeWeaponHitPoint : MonoBehaviour {
 
 	private void OnTriggerEnter(Collider col)
     {
+        if (owner == null)
+            return;
+
+        if (owner.dead)
+            return;
+
         if (col.isTrigger)
             return;
 

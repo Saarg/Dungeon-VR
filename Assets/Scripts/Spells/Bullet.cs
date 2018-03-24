@@ -123,28 +123,33 @@ public class Bullet : NetworkBehaviour {
     /// </summary>
     private void OnTriggerEnter(Collider col)
     {
-        if (lastLiving != null) {
+        if (col.gameObject.tag == OwnerTag)
+            return;
+
+        if (continuousDamage)
+            return;
+      
+        if (col.gameObject.layer == 18)
+            return;
+
+        Living living = col.gameObject.GetComponentInParent<Living>();
+        if (living != null && living.dead)
+            return;
+
+        if (lastLiving != null)
+        {
             Vector3 dir = transform.position - col.transform.position;
             dir.Normalize();
             lastLiving.HitReaction(col, dir * rigidbody.mass, col.ClosestPoint(transform.position));
 
             Destroy(gameObject);
-        }	
-
-        if (col.gameObject.tag == OwnerTag)
-            return;
-
-        if (col.isTrigger)
-            return;
-
-        if (continuousDamage)
-            return;
+        }
 
         if (explodeOnHit)
             Explode();
         else
         {
-            Living comp = col.gameObject.GetComponent<Living>();
+            Living comp = col.gameObject.GetComponentInParent<Living>();
             if (comp != null) {
                 comp.TakeDamage(Damage, DamageType);
 
@@ -152,7 +157,8 @@ public class Bullet : NetworkBehaviour {
             }
 
             if (destroyOnHit)
-                Destroy(gameObject, 0.02f);
+                if (comp == null || !comp.dead)
+                    Destroy(gameObject, 0.02f);
         }
     }
 

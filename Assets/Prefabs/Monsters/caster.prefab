@@ -3976,7 +3976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
-  owner: {fileID: 0}
+  owner: {fileID: 114797700088756246}
   weapon: {fileID: 0}
 --- !u!114 &114427805709667976
 MonoBehaviour:
@@ -4450,6 +4450,7 @@ MonoBehaviour:
   physical: 1
   _hitReaction: {fileID: 114231165420594996}
   _bloodPrefab: {fileID: 0}
+  collidersList: []
   dead: 0
   animator: {fileID: 0}
 --- !u!114 &114805298428655826
@@ -4510,6 +4511,7 @@ MonoBehaviour:
   DEATH_ANIM_DELAY: 6
   attackDelay: 1
   shootingDelay: 0.8
+  shootingOffsetMultiplier: 0.07
   nearPositionMultiplier: 3
   farPositionMultiplier: 10
 --- !u!114 &114908394068785786
