@@ -58,9 +58,16 @@ namespace Lobby {
 
         void SetVRNetworkTestActive(Scene scene, LoadSceneMode lodMode) {
             if (scene.name.Equals("VRNetworkTest")) {
-                VRTK_SDKManager sdkManager = Instantiate(VR_SDK).GetComponent<VRTK_SDKManager>();
-                Transform leftTarget = sdkManager.scriptAliasLeftController.transform;
-                Transform rightTarget = sdkManager.scriptAliasRightController.transform;
+                Debug.Log(scene.name);
+                
+                GameObject.Find("GameUI").GetComponent<GameUI>().isVr = true;
+
+                SceneManager.SetActiveScene(scene);
+
+                SceneManager.sceneLoaded -= SetVRNetworkTestActive;
+
+                Transform leftTarget = VRTK_SDKManager.instance.scriptAliasLeftController.transform;
+                Transform rightTarget = VRTK_SDKManager.instance.scriptAliasRightController.transform;
 
                 GameObject leftHand = Instantiate(VR_Hand);
                 leftHand.name = "LeftHandNetworked";
@@ -70,22 +77,16 @@ namespace Lobby {
                 NetworkServer.SpawnWithClientAuthority(leftHand, gameObject);
                 NetworkServer.SpawnWithClientAuthority(rightHand, gameObject);
 
-                // Destroy the renderer for the vr player (he already has is hands ^^)
+                // Destroy the renderer for the vr player (he already has his hands ^^)
                 Destroy(leftHand.GetComponentInChildren<Renderer>().gameObject);
                 Destroy(rightHand.GetComponentInChildren<Renderer>().gameObject);
 
                 leftHand.GetComponent<Follow>().target = leftTarget;
                 rightHand.GetComponent<Follow>().target = rightTarget;
 
-                sdkManager.enabled = true;
+                VRTK_SDKManager.instance.enabled = true;
 
-                GameObject.Find("GameUI").GetComponent<GameUI>().isVr = true;
-
-                NetworkServer.Destroy(gameObject);
-
-                SceneManager.SetActiveScene(scene);
-
-                SceneManager.sceneLoaded -= SetVRNetworkTestActive;
+                NetworkServer.Destroy(gameObject);                
             }
         }
     }
