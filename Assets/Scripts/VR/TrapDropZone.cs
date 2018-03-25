@@ -22,7 +22,6 @@ public class TrapDropZone : MonoBehaviour {
         {
             trapControllerManager = _trapControllerManager;
 
-            Debug.Log(placedTrap);
             if (placedTrap == null && trapControllerManager.selectedTrap != null)
             {
                 preview = Instantiate(trapControllerManager.selectedTrap);
