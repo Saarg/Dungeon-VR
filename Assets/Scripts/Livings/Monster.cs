@@ -6,13 +6,20 @@ public class Monster : Living {
 
 	[SerializeField] protected Animator animator;
 
+    BaseAI ai;
+
 	void Start(){
-		animator = gameObject.GetComponent<BaseAI> ().getAnimator ();
+        ai = gameObject.GetComponent<BaseAI>();
+        animator = ai.getAnimator();
+
 	}
 
 	override public void TakeDamage(int damage, Bullet.DamageTypeEnum damageType){
+
 		if (animator != null)
 			animator.SetTrigger ("hit");
+
+        ai.InterruptAction();
 
 		base.TakeDamage (damage, damageType);
 	}
