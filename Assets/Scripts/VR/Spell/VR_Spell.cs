@@ -8,17 +8,23 @@ public class VR_Spell : MonoBehaviour {
     public SpellSpawner SpellSpawner { get; set; }
     public AreaSpell AreaSpellPrefab;
 
+    private VRTK.VRTK_InteractableObject interactableObject;
+
+    public void Awake()
+    {
+        interactableObject = GetComponent<VRTK.VRTK_InteractableObject>();
+    }
 
     public void OnEnable()
     {
-        GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectGrabbed += VR_Spell_InteractableObjectGrabbed;
-        GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectUngrabbed += VR_Spell_InteractableObjectUngrabbed;
+        interactableObject.InteractableObjectGrabbed += VR_Spell_InteractableObjectGrabbed;
+        interactableObject.InteractableObjectUngrabbed += VR_Spell_InteractableObjectUngrabbed;
     }
 
     public void OnDisable()
     {
-        GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectGrabbed -= VR_Spell_InteractableObjectGrabbed;
-        GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectUngrabbed -= VR_Spell_InteractableObjectUngrabbed;
+        interactableObject.InteractableObjectGrabbed -= VR_Spell_InteractableObjectGrabbed;
+        interactableObject.InteractableObjectUngrabbed -= VR_Spell_InteractableObjectUngrabbed;
     }
 
     private void VR_Spell_InteractableObjectGrabbed(object sender, VRTK.InteractableObjectEventArgs e)
@@ -29,6 +35,7 @@ public class VR_Spell : MonoBehaviour {
 
     private void VR_Spell_InteractableObjectUngrabbed(object sender, VRTK.InteractableObjectEventArgs e)
     {
+        interactableObject.isGrabbable = false;
         VRSpellManager.ThrowSpell(gameObject);
     }
 

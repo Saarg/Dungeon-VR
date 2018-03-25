@@ -25558,7 +25558,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4603062167302166, guid: b381009d94e25c24d8db5e9208ad06ae, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 33.52
+      value: 33.56
       objectReference: {fileID: 0}
     - target: {fileID: 4603062167302166, guid: b381009d94e25c24d8db5e9208ad06ae, type: 2}
       propertyPath: m_LocalPosition.z
@@ -25590,11 +25590,11 @@ Prefab:
       value: 
       objectReference: {fileID: 114282362118044546, guid: b8fc63633bd9eb34f8ad53ea96a94487,
         type: 2}
-    - target: {fileID: 114904071123216200, guid: b381009d94e25c24d8db5e9208ad06ae,
+    - target: {fileID: 23653725679384296, guid: b381009d94e25c24d8db5e9208ad06ae,
         type: 2}
-      propertyPath: RespawnTime
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: da2df9ca5302df349a3b3447a2dbbd67, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b381009d94e25c24d8db5e9208ad06ae, type: 2}
   m_IsPrefabParent: 0
@@ -31879,6 +31879,28 @@ MonoBehaviour:
   useOverrideButton: 0
   allowedUseControllers: 0
   usingState: 0
+--- !u!1 &869450200 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1624233620601270, guid: af1f9ebb7d69ff94d99df2b531def0c8,
+    type: 2}
+  m_PrefabInternal: {fileID: 946724654}
+--- !u!114 &869450206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 869450200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c08517e04830d6d44a13c5ea5f574181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  unhighlightOnDisable: 1
+  thickness: 5
+  customOutlineModels: []
+  customOutlineModelPaths: []
+  enableSubmeshHighlight: 1
 --- !u!1 &876884568
 GameObject:
   m_ObjectHideFlags: 0
@@ -33073,6 +33095,21 @@ Prefab:
     - target: {fileID: 1285805272614758, guid: af1f9ebb7d69ff94d99df2b531def0c8, type: 2}
       propertyPath: m_Layer
       value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 114558128511812454, guid: af1f9ebb7d69ff94d99df2b531def0c8,
+        type: 2}
+      propertyPath: touchHighlightColor.r
+      value: 0.61764705
+      objectReference: {fileID: 0}
+    - target: {fileID: 114558128511812454, guid: af1f9ebb7d69ff94d99df2b531def0c8,
+        type: 2}
+      propertyPath: touchHighlightColor.g
+      value: 0.9525355
+      objectReference: {fileID: 0}
+    - target: {fileID: 114558128511812454, guid: af1f9ebb7d69ff94d99df2b531def0c8,
+        type: 2}
+      propertyPath: touchHighlightColor.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: af1f9ebb7d69ff94d99df2b531def0c8, type: 2}
@@ -41801,6 +41838,21 @@ Prefab:
     - target: {fileID: 1007405553124872, guid: 650e2e4526a81a246bac893ddd233df4, type: 2}
       propertyPath: m_Layer
       value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 114925739042437924, guid: 650e2e4526a81a246bac893ddd233df4,
+        type: 2}
+      propertyPath: touchHighlightColor.r
+      value: 0.61764705
+      objectReference: {fileID: 0}
+    - target: {fileID: 114925739042437924, guid: 650e2e4526a81a246bac893ddd233df4,
+        type: 2}
+      propertyPath: touchHighlightColor.g
+      value: 0.9525355
+      objectReference: {fileID: 0}
+    - target: {fileID: 114925739042437924, guid: 650e2e4526a81a246bac893ddd233df4,
+        type: 2}
+      propertyPath: touchHighlightColor.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 650e2e4526a81a246bac893ddd233df4, type: 2}
@@ -54818,6 +54870,28 @@ MonoBehaviour:
   useOverrideButton: 0
   allowedUseControllers: 0
   usingState: 0
+--- !u!1 &1551232304 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1128505136115692, guid: 650e2e4526a81a246bac893ddd233df4,
+    type: 2}
+  m_PrefabInternal: {fileID: 1202843157}
+--- !u!114 &1551232310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1551232304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c08517e04830d6d44a13c5ea5f574181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  unhighlightOnDisable: 1
+  thickness: 5
+  customOutlineModels: []
+  customOutlineModelPaths: []
+  enableSubmeshHighlight: 1
 --- !u!1 &1566071183
 GameObject:
   m_ObjectHideFlags: 0
@@ -58788,6 +58862,21 @@ Prefab:
     - target: {fileID: 1573447641823768, guid: 9b171f9042b9c5f4da98454554be5b95, type: 2}
       propertyPath: m_Layer
       value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 114951869029586766, guid: 9b171f9042b9c5f4da98454554be5b95,
+        type: 2}
+      propertyPath: touchHighlightColor.r
+      value: 0.61764705
+      objectReference: {fileID: 0}
+    - target: {fileID: 114951869029586766, guid: 9b171f9042b9c5f4da98454554be5b95,
+        type: 2}
+      propertyPath: touchHighlightColor.g
+      value: 0.9525355
+      objectReference: {fileID: 0}
+    - target: {fileID: 114951869029586766, guid: 9b171f9042b9c5f4da98454554be5b95,
+        type: 2}
+      propertyPath: touchHighlightColor.b
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9b171f9042b9c5f4da98454554be5b95, type: 2}
@@ -69803,6 +69892,21 @@ Prefab:
       propertyPath: m_Layer
       value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 114370163827906488, guid: 9ff03b3001e29eb4f94bd2fea1dd1c85,
+        type: 2}
+      propertyPath: touchHighlightColor.r
+      value: 0.61764705
+      objectReference: {fileID: 0}
+    - target: {fileID: 114370163827906488, guid: 9ff03b3001e29eb4f94bd2fea1dd1c85,
+        type: 2}
+      propertyPath: touchHighlightColor.g
+      value: 0.9525355
+      objectReference: {fileID: 0}
+    - target: {fileID: 114370163827906488, guid: 9ff03b3001e29eb4f94bd2fea1dd1c85,
+        type: 2}
+      propertyPath: touchHighlightColor.b
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9ff03b3001e29eb4f94bd2fea1dd1c85, type: 2}
   m_IsPrefabParent: 0
@@ -70164,6 +70268,28 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2b6241ccc497bb04a9310072b5facc29, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1825218455 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1296088862131816, guid: 9b171f9042b9c5f4da98454554be5b95,
+    type: 2}
+  m_PrefabInternal: {fileID: 1662010223}
+--- !u!114 &1825218461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1825218455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c08517e04830d6d44a13c5ea5f574181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  unhighlightOnDisable: 1
+  thickness: 5
+  customOutlineModels: []
+  customOutlineModelPaths: []
+  enableSubmeshHighlight: 1
 --- !u!1 &1827808656
 GameObject:
   m_ObjectHideFlags: 0
@@ -70958,7 +71084,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4603062167302166, guid: b381009d94e25c24d8db5e9208ad06ae, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 33.586975
+      value: 33.56
       objectReference: {fileID: 0}
     - target: {fileID: 4603062167302166, guid: b381009d94e25c24d8db5e9208ad06ae, type: 2}
       propertyPath: m_LocalPosition.z
@@ -70984,21 +71110,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1279761087717448, guid: b381009d94e25c24d8db5e9208ad06ae, type: 2}
-      propertyPath: m_Name
-      value: SpellSpawner
-      objectReference: {fileID: 0}
-    - target: {fileID: 114904071123216200, guid: b381009d94e25c24d8db5e9208ad06ae,
+    - target: {fileID: 23653725679384296, guid: b381009d94e25c24d8db5e9208ad06ae,
         type: 2}
-      propertyPath: spellPrefab
+      propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 114378137103703770, guid: 5b20e1b4a3c842a41acd2c981a3ccb57,
-        type: 2}
-    - target: {fileID: 114904071123216200, guid: b381009d94e25c24d8db5e9208ad06ae,
-        type: 2}
-      propertyPath: RespawnTime
-      value: 1
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: da2df9ca5302df349a3b3447a2dbbd67, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b381009d94e25c24d8db5e9208ad06ae, type: 2}
   m_IsPrefabParent: 0
@@ -75499,6 +75615,28 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2004045656}
   m_Mesh: {fileID: 4300000, guid: 496143d5a91d16349b20ecef341c1177, type: 3}
+--- !u!1 &2008785221 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1597154323024094, guid: 9ff03b3001e29eb4f94bd2fea1dd1c85,
+    type: 2}
+  m_PrefabInternal: {fileID: 1740201182}
+--- !u!114 &2008785227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2008785221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c08517e04830d6d44a13c5ea5f574181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  unhighlightOnDisable: 1
+  thickness: 5
+  customOutlineModels: []
+  customOutlineModelPaths: []
+  enableSubmeshHighlight: 1
 --- !u!1001 &2015806363
 Prefab:
   m_ObjectHideFlags: 0
@@ -76501,7 +76639,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1180526799799916, guid: 7fa7bee53edf5a046bd751ea96570beb, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7fa7bee53edf5a046bd751ea96570beb, type: 2}
