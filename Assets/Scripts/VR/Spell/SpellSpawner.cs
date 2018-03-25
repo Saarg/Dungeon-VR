@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SpellSpawner : MonoBehaviour {
 
@@ -8,9 +9,11 @@ public class SpellSpawner : MonoBehaviour {
     public VR_Spell CurrentSpell { get; set; }
 
     [Range(0,60)]
-    public float RespawnTime = 10f;
+    public float respawnTime = 10f;
     private float currentTimeBeforeRespawn = 0;
     private Transform spawnPoint;
+
+    public Image progressBar;
 
 
     // Use this for initialization
@@ -25,11 +28,19 @@ public class SpellSpawner : MonoBehaviour {
             if(currentTimeBeforeRespawn <= 0)
             {
                 SpawnSpell();
-                currentTimeBeforeRespawn = RespawnTime;
+                currentTimeBeforeRespawn = respawnTime;                
             }
             else
             {
                 currentTimeBeforeRespawn -= Time.deltaTime;
+                if (currentTimeBeforeRespawn <= 0)
+                {
+                    progressBar.fillAmount = 1;
+                }
+                else
+                {
+                    progressBar.fillAmount = 1 - this.currentTimeBeforeRespawn / this.respawnTime;
+                }
             }
         }
 	}

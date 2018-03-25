@@ -73,6 +73,7 @@ public class BaseAI : NetworkBehaviour {
         agent = gameObject.GetComponent<NavMeshAgent>();
         lastDetectTarget = Time.time;
         gameObject.GetComponent<Living>().OnDeath += OnDeath;
+        netAnimator.animator.SetBool("moving", true);
     }
 
     public void SetShooter(bool val)
@@ -127,8 +128,6 @@ public class BaseAI : NetworkBehaviour {
             DetectPlayer();
             lastDetectTarget = Time.time;
         }
-
-        netAnimator.animator.SetBool("moving", !agent.isStopped);
     }
 
     void UpdateMovement()
@@ -138,7 +137,10 @@ public class BaseAI : NetworkBehaviour {
         else if ((transform.position - currentDestination).magnitude < pickNextNodeRange)
             PickNextNode();
         else
-            agent.SetDestination(currentDestination);
+            if (agent.enabled)
+            {
+                agent.SetDestination(currentDestination);
+            }
     }
 
     void UpdateAttack()
@@ -211,7 +213,10 @@ public class BaseAI : NetworkBehaviour {
         if (currentNodeDestination != null)
         {
             currentDestination = currentNodeDestination.GetOffsetPosition();
-            agent.SetDestination(currentDestination);
+            if (agent.enabled)
+            {
+                agent.SetDestination(currentDestination);
+            }
         }
     }
 
@@ -222,7 +227,10 @@ public class BaseAI : NetworkBehaviour {
         {
             currentNodeDestination = currentNodeDestination.GetNextPathNodes();
             currentDestination = currentNodeDestination.GetOffsetPosition();
-            agent.SetDestination(currentDestination);
+            if (agent.enabled)
+            {
+                agent.SetDestination(currentDestination);
+            }
         }
         else
         {
@@ -235,7 +243,10 @@ public class BaseAI : NetworkBehaviour {
     void PickDestinationOffset()
     {
         currentDestination = currentNodeDestination.GetOffsetPosition();
-        agent.SetDestination(currentDestination);
+        if (agent.enabled)
+        {
+            agent.SetDestination(currentDestination);
+        }
     }
 
     void DetectPlayer()
@@ -294,7 +305,10 @@ public class BaseAI : NetworkBehaviour {
                 Vector3 lineToTarget = (transform.position - target.transform.position).normalized;
                 Vector3 offsetPosition = Vector3.Cross(lineToTarget, Vector3.up);
                 Vector3 destination = target.transform.position + offsetPosition * farPositionMultiplier;
-                agent.SetDestination(destination);
+                if (agent.enabled)
+                {
+                    agent.SetDestination(destination);
+                }
                 targetDestination = destination;
             }
         }
@@ -308,7 +322,10 @@ public class BaseAI : NetworkBehaviour {
         if (target != null)
         {
             Vector3 destination = target.transform.position + (transform.position - target.transform.position).normalized * nearPositionMultiplier;
-            agent.SetDestination(destination);
+            if (agent.enabled)
+            {
+                agent.SetDestination(destination);
+            }
             targetDestination = destination;
         }
     }
@@ -321,7 +338,10 @@ public class BaseAI : NetworkBehaviour {
         if ((transform.position - targetDestination).sqrMagnitude < meleeAttackRange)
         {
             attacking = true;
-            agent.isStopped = true;
+            if (agent.enabled)
+            {
+                agent.isStopped = true;
+            }
             netAnimator.SetTrigger("attack");
             netAnimator.animator.SetBool("moving", false);
         }
@@ -332,7 +352,10 @@ public class BaseAI : NetworkBehaviour {
         yield return new WaitForSecondsRealtime(attackDelay);
         attacking = false;
         attackingCoroutine = null;
-        agent.isStopped = false;
+        if (agent.enabled)
+        {
+            agent.isStopped = false;
+        }
     }
 
     void ShootPlayer()
@@ -346,7 +369,10 @@ public class BaseAI : NetworkBehaviour {
         if (weapon != null && shootingController != null)
         {
             attacking = true;
-            agent.isStopped = true;
+            if (agent.enabled)
+            {
+                agent.isStopped = true;
+            }
             netAnimator.animator.SetBool("moving", false);
             netAnimator.SetTrigger("attack");
         }
@@ -382,14 +408,19 @@ public class BaseAI : NetworkBehaviour {
 
         attacking = false;
         shootingCoroutine = null;
-        agent.isStopped = false;
+        if (agent.enabled)
+        {
+            agent.isStopped = false;
+        }
     }
 
     public void InterruptAction()
     {
         EndCoroutine(interruptCoroutine);
-
-        agent.isStopped = true;
+        if (agent.enabled)
+        {
+            agent.isStopped = true;
+        }
         interrupt = true;
 
         EndCoroutine(attackingCoroutine);
@@ -413,7 +444,10 @@ public class BaseAI : NetworkBehaviour {
     void OnDeath()
     {
         EndCoroutine(interruptCoroutine);
-        agent.isStopped = true;
+        if (agent.enabled)
+        {
+            agent.isStopped = true;
+        }
         netAnimator.animator.SetBool("moving", false);
         gameObject.GetComponent<Living>().OnDeath -= OnDeath;
         if (isServer)
@@ -462,7 +496,10 @@ public class BaseAI : NetworkBehaviour {
     {
         attacking = false;
         attackingCoroutine = null;
-        agent.isStopped = false;
+        if (agent.enabled)
+        {
+            agent.isStopped = false;
+        }
         netAnimator.animator.SetBool("moving", true);
         netAnimator.animator.ResetTrigger("attack");
     }
@@ -483,7 +520,10 @@ public class BaseAI : NetworkBehaviour {
     {
         attacking = false;
         shootingCoroutine = null;
-        agent.isStopped = false;
+        if (agent.enabled)
+        {
+            agent.isStopped = false;
+        }
         netAnimator.animator.SetBool("moving", true);
         netAnimator.animator.ResetTrigger("attack");
     }
