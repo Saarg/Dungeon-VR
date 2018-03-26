@@ -73,7 +73,7 @@ public class BaseAI : NetworkBehaviour {
         agent = gameObject.GetComponent<NavMeshAgent>();
         lastDetectTarget = Time.time;
         gameObject.GetComponent<Living>().OnDeath += OnDeath;
-        netAnimator.animator.SetBool("moving", true);
+        CmdSetBool("moving", true);
     }
 
     public void SetShooter(bool val)
@@ -342,8 +342,9 @@ public class BaseAI : NetworkBehaviour {
             {
                 agent.isStopped = true;
             }
-            netAnimator.SetTrigger("attack");
-            netAnimator.animator.SetBool("moving", false);
+
+            CmdSetTrigger("attack", true);
+            CmdSetBool("moving", false);
         }
     }
 
@@ -373,8 +374,8 @@ public class BaseAI : NetworkBehaviour {
             {
                 agent.isStopped = true;
             }
-            netAnimator.animator.SetBool("moving", false);
-            netAnimator.SetTrigger("attack");
+            CmdSetBool("moving", false);
+            CmdSetTrigger("attack", true);
         }
     }
 
@@ -393,8 +394,8 @@ public class BaseAI : NetworkBehaviour {
 
     IEnumerator ShootingDelay(Vector3 position)
     {
-        netAnimator.animator.SetBool("moving", false);
-        netAnimator.SetTrigger("attack");
+        CmdSetBool("moving", false);
+        CmdSetTrigger("attack", true);
 
         yield return new WaitForSecondsRealtime(shootingDelay);
         if (target != null)
@@ -425,8 +426,8 @@ public class BaseAI : NetworkBehaviour {
 
         EndCoroutine(attackingCoroutine);
         EndCoroutine(shootingCoroutine);
-        netAnimator.animator.SetBool("moving", false);
-        
+        CmdSetBool("moving", false);
+        CmdSetTrigger("attack", false);       
         interruptCoroutine = StartCoroutine(InterruptTimer());
     }
 
@@ -437,8 +438,8 @@ public class BaseAI : NetworkBehaviour {
         interrupt = false;
         interruptCoroutine = null;
         agent.isStopped = false;
-        netAnimator.animator.ResetTrigger("hit");
-        netAnimator.animator.SetBool("moving", true);
+        CmdSetTrigger("hit", false);
+        CmdSetBool("moving", true);
     }
 
     void OnDeath()
@@ -448,7 +449,7 @@ public class BaseAI : NetworkBehaviour {
         {
             agent.isStopped = true;
         }
-        netAnimator.animator.SetBool("moving", false);
+        CmdSetBool("moving", false);
         gameObject.GetComponent<Living>().OnDeath -= OnDeath;
         if (isServer)
             TrapSpawner.singleton.SpawnWeapon(transform.position);
@@ -457,7 +458,7 @@ public class BaseAI : NetworkBehaviour {
     }
 
     IEnumerator Death() {
-        netAnimator.animator.SetBool("IsDead", true);
+        CmdSetBool("IsDead", true);
         yield return new WaitForSecondsRealtime(DEATH_ANIM_DELAY); //time of the death animation
         CmdOnDeath(netId);
     }
@@ -500,8 +501,8 @@ public class BaseAI : NetworkBehaviour {
         {
             agent.isStopped = false;
         }
-        netAnimator.animator.SetBool("moving", true);
-        netAnimator.animator.ResetTrigger("attack");
+        CmdSetBool("moving", true);
+        CmdSetTrigger("attack", false);
     }
 
     public void Shoot()
@@ -524,7 +525,44 @@ public class BaseAI : NetworkBehaviour {
         {
             agent.isStopped = false;
         }
-        netAnimator.animator.SetBool("moving", true);
-        netAnimator.animator.ResetTrigger("attack");
+        CmdSetBool("moving", true);
+        CmdSetTrigger("attack", false);
+    }
+
+    [Command]
+    void CmdSetTrigger(string name, bool value)
+    {
+        if (value)
+            netAnimator.SetTrigger(name);
+        else
+            netAnimator.animator.ResetTrigger(name);
+
+        RpcSetTrigger(name, value, netId);
+    }
+
+    [ClientRpc]
+    void RpcSetTrigger(string name, bool value, NetworkInstanceId id)
+    {
+        GameObject obj = ClientScene.FindLocalObject(id);
+        BaseAI ai = obj.GetComponent<BaseAI>();
+        if (value)
+            ai.netAnimator.SetTrigger(name);
+        else
+            ai.netAnimator.animator.ResetTrigger(name);
+    }
+
+    [Command]
+    void CmdSetBool(string name, bool value)
+    {
+        netAnimator.animator.SetBool(name, value);
+        RpcSetBool(name, value, netId);
+    }
+
+    [ClientRpc]
+    void RpcSetBool(string name, bool value, NetworkInstanceId id)
+    {
+        GameObject obj = ClientScene.FindLocalObject(id);
+        BaseAI ai = obj.GetComponent<BaseAI>();
+        ai.netAnimator.animator.SetBool(name, value);
     }
 }
