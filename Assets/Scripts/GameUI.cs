@@ -160,6 +160,7 @@ public class GameUI : MonoBehaviour {
     [Header("MenuUI")]
     [SerializeField] Canvas menuUI; 
 	[SerializeField] Canvas graphicsMenu;
+    [SerializeField] Canvas audioMenu;
 
     public delegate void QuitEvent();
     public event QuitEvent OnQuit;
@@ -483,5 +484,12 @@ public class GameUI : MonoBehaviour {
         }
 
         Application.Quit();
+    }
+
+    //Audio UI
+    public void DisplayAudioMenu()
+    {
+        menuUI.gameObject.SetActive(false);
+        audioMenu.gameObject.SetActive(true);
     }
 }
