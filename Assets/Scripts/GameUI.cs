@@ -102,7 +102,6 @@ public class GameUI : MonoBehaviour {
     Canvas teamUI;
     [SerializeField]
     List<PlayerController> team = new List<PlayerController>();
-    public List<PlayerController> GetPlayerList() { return team; }
     int currentPos = 0;
     int maxPos;
     [SerializeField]
@@ -160,20 +159,14 @@ public class GameUI : MonoBehaviour {
 
     [Header("MenuUI")]
     [SerializeField] Canvas menuUI; 
+	[SerializeField] Canvas graphicsMenu;
+    [SerializeField] Canvas audioMenu;
 
     public delegate void QuitEvent();
     public event QuitEvent OnQuit;
 
     Vector3 SelectedWeaponScale = new Vector3(1.25f, 1.25f, 1.25f);
     Vector3 UnselectedWeaponScale = Vector3.one;
-
-    [Header("Win/Loss")]
-    [SerializeField]
-    Canvas winUI;
-    [SerializeField]
-    RectTransform[] teamResumeUIPosition;
-    [SerializeField]    
-    Canvas lossUI;
 
     void Start()
     {
@@ -184,6 +177,7 @@ public class GameUI : MonoBehaviour {
         }
 
         ToggleMenu(false);
+		graphicsMenu.gameObject.SetActive (false);
     }
 
 	void Update () {
@@ -197,8 +191,6 @@ public class GameUI : MonoBehaviour {
         } else if (playerUI.gameObject.activeSelf) {
             playerUI.gameObject.SetActive(false);
         }
-
-        team.RemoveAll(item => item == null);
 
         if (Input.GetButtonDown("Menu") && !_isVr)
 			ToggleMenu(true);
@@ -480,6 +472,12 @@ public class GameUI : MonoBehaviour {
             Cursor.lockState = CursorLockMode.None;            
     }
 
+	//Graphics UI
+	public void DisplayGraphicsMenu(){
+		menuUI.gameObject.SetActive (false);
+		graphicsMenu.gameObject.SetActive (true);
+	}
+
     public void Quit() {
         if (OnQuit != null) {
             OnQuit.Invoke();
@@ -488,34 +486,10 @@ public class GameUI : MonoBehaviour {
         Application.Quit();
     }
 
-    public void Win() {
-        winUI.gameObject.SetActive(true);
-        lossUI.gameObject.SetActive(false);
-        teamUI.gameObject.SetActive(false);
-        deathUI.gameObject.SetActive(false);
-        observerUI.gameObject.SetActive(false);
-        vrUI.gameObject.SetActive(false);
-        playerUI.gameObject.SetActive(false);
-        gamemodeUI.gameObject.SetActive(false);
-
-        if (isVr)
-            return;
-
-        for (int i = 0; i < team.Count; i++) {
-            GameObject tm = Instantiate(teamPlayerPrefab, teamResumeUIPosition[i]);
-
-            tm.GetComponent<UITeamPlayer>().SetPlayercontroller(team[i]);
-        }
-    }
-
-    public void Lose() {
-        winUI.gameObject.SetActive(false);
-        lossUI.gameObject.SetActive(true);
-        teamUI.gameObject.SetActive(false);
-        deathUI.gameObject.SetActive(false);
-        observerUI.gameObject.SetActive(false);
-        vrUI.gameObject.SetActive(false);
-        playerUI.gameObject.SetActive(false);
-        gamemodeUI.gameObject.SetActive(false);
+    //Audio UI
+    public void DisplayAudioMenu()
+    {
+        menuUI.gameObject.SetActive(false);
+        audioMenu.gameObject.SetActive(true);
     }
 }
