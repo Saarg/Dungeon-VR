@@ -10,6 +10,9 @@ public abstract class AreaSpell : MonoBehaviour {
     public float LifeTime = 5f;
     private float remainingLifetime;
 
+    public float tickTime = 1f;
+    public bool tickOnFixedUpdate = false;
+
     //protected List<Player>
 
 	// Use this for initialization
@@ -59,7 +62,11 @@ public abstract class AreaSpell : MonoBehaviour {
         {
             //Affect all players in the zone
             Affect();
-            yield return new WaitForSeconds(1);
+
+            if (tickOnFixedUpdate)
+                yield return new WaitForFixedUpdate();
+            else                
+                yield return new WaitForSeconds(tickTime);
         }
     }
 

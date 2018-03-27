@@ -142,7 +142,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114113635199545854
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1764146638759282}
@@ -154,7 +154,7 @@ MonoBehaviour:
   _guid: 726c2300-0de2-4d7c-b040-d65a6d59cce6
 --- !u!114 &114311411741911532
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1610766790051260}
@@ -205,7 +205,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LifeTime: 5
-  force: 50
+  tickTime: 1
+  tickOnFixedUpdate: 1
+  force: 1000
 --- !u!114 &114900055336662662
 MonoBehaviour:
   m_ObjectHideFlags: 11
@@ -228,7 +230,7 @@ MonoBehaviour:
   _assetGuid: 6affb3f3477cfdb4bbac366f27caf1ed
 --- !u!114 &114928835990255550
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1802319296909770}
