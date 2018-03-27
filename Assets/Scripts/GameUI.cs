@@ -203,10 +203,10 @@ public class GameUI : MonoBehaviour {
         int i = 0;
         team.RemoveAll((item) => {
             if (item == null) {
-                (item.transform as RectTransform).anchoredPosition = teammatesUIPosition[i++].anchoredPosition;
-
                 return true;
             } else {
+                (item.transform as RectTransform).anchoredPosition = teammatesUIPosition[i++].anchoredPosition;
+
                 return false;
             }
         });

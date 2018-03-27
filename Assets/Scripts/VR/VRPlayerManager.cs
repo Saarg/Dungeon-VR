@@ -47,6 +47,8 @@ public class VRPlayerManager : MonoBehaviour {
 
     void Update()
     {
+        totalGold = Mathf.Clamp(totalGold + Mathf.FloorToInt(Time.timeScale * 5), 0, maxGold);
+
         if (gameUI != null)
         {
             gameUI.UpdateVRUI(this);
