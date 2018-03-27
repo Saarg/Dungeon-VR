@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 19893420}
   - component: {fileID: 19961642}
   - component: {fileID: 11471050}
+  - component: {fileID: 114936040617034148}
   m_Layer: 0
   m_Name: Sparkles
   m_TagString: Untagged
@@ -28,6 +29,8 @@ GameObject:
   - component: {fileID: 491242}
   - component: {fileID: 19802240}
   - component: {fileID: 19911704}
+  - component: {fileID: 114152806796263594}
+  - component: {fileID: 114802034090191032}
   m_Layer: 0
   m_Name: DAX_Wind_Shield_03
   m_TagString: Untagged
@@ -46,6 +49,7 @@ GameObject:
   - component: {fileID: 19875724}
   - component: {fileID: 19909070}
   - component: {fileID: 11485704}
+  - component: {fileID: 114905058298336382}
   m_Layer: 0
   m_Name: Sparkles_R
   m_TagString: Untagged
@@ -63,6 +67,7 @@ GameObject:
   - component: {fileID: 485922}
   - component: {fileID: 19928354}
   - component: {fileID: 19802084}
+  - component: {fileID: 114437012236105950}
   m_Layer: 0
   m_Name: CounterWind
   m_TagString: Untagged
@@ -80,6 +85,7 @@ GameObject:
   - component: {fileID: 466576}
   - component: {fileID: 19871750}
   - component: {fileID: 19972646}
+  - component: {fileID: 114661117659158976}
   m_Layer: 0
   m_Name: Glow_Ground
   m_TagString: Untagged
@@ -97,6 +103,7 @@ GameObject:
   - component: {fileID: 453024}
   - component: {fileID: 19874312}
   - component: {fileID: 19991294}
+  - component: {fileID: 114572140468754442}
   m_Layer: 0
   m_Name: Glow_Ground_R
   m_TagString: Untagged
@@ -3756,7 +3763,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -3797,7 +3804,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -3838,7 +3845,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationX:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -3879,7 +3886,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -20398,3 +20405,97 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 133350}
   m_IsPrefabParent: 1
+--- !u!114 &114152806796263594
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 133350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isConnected: 1
+  _guid: 
+  _referenceCollection:
+    _collection:
+    - {fileID: 133350}
+    - {fileID: 180256}
+    - {fileID: 183680}
+    - {fileID: 187718}
+    - {fileID: 160354}
+    - {fileID: 122668}
+  _assetGuid: da96051ce71b9f445aaaadf8c60a760d
+--- !u!114 &114437012236105950
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 5019bb4f-38bc-4ebc-be7f-0acf10c97861
+--- !u!114 &114572140468754442
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 187718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 5277c32d-648b-4583-a34d-c2bc4f28f43c
+--- !u!114 &114661117659158976
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 183680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 8ff3ab27-9ca6-41d5-bf36-b4bd4579c4ce
+--- !u!114 &114802034090191032
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 133350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: b1bf7531-acb0-4674-b90c-62cc2957ff07
+--- !u!114 &114905058298336382
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 0b7565be-10a9-4e21-9864-52b08fca46e1
+--- !u!114 &114936040617034148
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 251807c8-f458-4450-9372-2f81d2fca03a

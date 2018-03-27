@@ -10,6 +10,8 @@ GameObject:
   - component: {fileID: 452348}
   - component: {fileID: 19841794}
   - component: {fileID: 19961266}
+  - component: {fileID: 114242465564998166}
+  - component: {fileID: 114033262911713184}
   m_Layer: 0
   m_Name: DAX_Wind_Shield_02
   m_TagString: Untagged
@@ -28,6 +30,7 @@ GameObject:
   - component: {fileID: 19893062}
   - component: {fileID: 19979586}
   - component: {fileID: 11457162}
+  - component: {fileID: 114928762814918298}
   m_Layer: 0
   m_Name: Sparkles
   m_TagString: Untagged
@@ -45,6 +48,7 @@ GameObject:
   - component: {fileID: 406912}
   - component: {fileID: 19931724}
   - component: {fileID: 19836370}
+  - component: {fileID: 114531822093284246}
   m_Layer: 0
   m_Name: CounterWind
   m_TagString: Untagged
@@ -63,6 +67,7 @@ GameObject:
   - component: {fileID: 19802308}
   - component: {fileID: 19934158}
   - component: {fileID: 11416818}
+  - component: {fileID: 114507973781265982}
   m_Layer: 0
   m_Name: Sparkles_R
   m_TagString: Untagged
@@ -6983,7 +6988,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -7024,7 +7029,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -7065,7 +7070,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationX:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -7106,7 +7111,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -13554,3 +13559,71 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 107182}
   m_IsPrefabParent: 1
+--- !u!114 &114033262911713184
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: f9ed644b-d01e-4d6f-b777-2980b012d016
+--- !u!114 &114242465564998166
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isConnected: 1
+  _guid: 
+  _referenceCollection:
+    _collection:
+    - {fileID: 107182}
+    - {fileID: 130858}
+    - {fileID: 191950}
+    - {fileID: 179288}
+  _assetGuid: b315c3cfa04610d41bc270425a98edc5
+--- !u!114 &114507973781265982
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 191950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 36993241-37a4-4d58-b2e0-3404a9a1ae3a
+--- !u!114 &114531822093284246
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 0c5a797e-1ad7-4c24-8267-525e71f50f93
+--- !u!114 &114928762814918298
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 130858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: b4024705-d424-4b8d-a431-7bb83c1698f6

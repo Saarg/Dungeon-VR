@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 19822844}
   - component: {fileID: 19991772}
   - component: {fileID: 11463890}
+  - component: {fileID: 114531532339621700}
   m_Layer: 0
   m_Name: Drops
   m_TagString: Untagged
@@ -28,6 +29,7 @@ GameObject:
   - component: {fileID: 496256}
   - component: {fileID: 19923378}
   - component: {fileID: 19849982}
+  - component: {fileID: 114726126404102860}
   m_Layer: 0
   m_Name: CounterWind
   m_TagString: Untagged
@@ -45,6 +47,8 @@ GameObject:
   - component: {fileID: 450238}
   - component: {fileID: 19823680}
   - component: {fileID: 19982672}
+  - component: {fileID: 114062631910061844}
+  - component: {fileID: 114865246566002568}
   m_Layer: 0
   m_Name: DAX_Wind_Shield_04
   m_TagString: Untagged
@@ -3669,7 +3673,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -3710,7 +3714,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -3751,7 +3755,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationX:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -3792,7 +3796,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startRotationY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -10192,3 +10196,58 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 182422}
   m_IsPrefabParent: 1
+--- !u!114 &114062631910061844
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 182422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -605777808, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isConnected: 1
+  _guid: 
+  _referenceCollection:
+    _collection:
+    - {fileID: 182422}
+    - {fileID: 121952}
+    - {fileID: 102354}
+  _assetGuid: fd7e59025e13b1049b3db81fb37435f9
+--- !u!114 &114531532339621700
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 102354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 151da1b7-8c62-4149-820e-fe4eb5271c51
+--- !u!114 &114726126404102860
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 121952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: eaca3420-cec2-44ac-a9ab-e2e0c4c5ba7f
+--- !u!114 &114865246566002568
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 182422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 112998890, guid: 325c5b2a7434372429c2ca9d61dba58e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _guid: 9ffadf5c-5bf3-4f9c-8d79-5f7ab2344d8d

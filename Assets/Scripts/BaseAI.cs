@@ -137,7 +137,7 @@ public class BaseAI : NetworkBehaviour {
         else if ((transform.position - currentDestination).magnitude < pickNextNodeRange)
             PickNextNode();
         else
-            if (agent.enabled)
+            if (agent.enabled && currentDestination != null)
             {
                 agent.SetDestination(currentDestination);
             }
