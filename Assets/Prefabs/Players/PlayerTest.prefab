@@ -636,7 +636,10 @@ MonoBehaviour:
   jumpHeight: 6
   jumpFactor: 2
   drag: {x: 0.05, y: 0, z: 0.05}
-  isGrounded: 0
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 16640
+  isGrounded: 1
   moveStatus: 0
   canRun: 1
   canJump: 1
@@ -652,6 +655,7 @@ MonoBehaviour:
   _hitReaction: {fileID: 0}
   _bloodPrefab: {fileID: 198128293353908626, guid: 6f46ebc67539c964fa94f6a591658807,
     type: 2}
+  collidersList: []
   dead: 0
   _animator: {fileID: 0}
   _netAnimator: {fileID: 0}
@@ -665,6 +669,7 @@ MonoBehaviour:
   - {fileID: 1545199772545022, guid: e61670aec83a70e46b50b4ac7d5e9580, type: 2}
   - {fileID: 1473256315083314, guid: e67f7a2843b58504696338200a7d88cb, type: 2}
   - {fileID: 1241146669113484, guid: 5ca84cd8524a9a940afb55fb5ffc5cef, type: 2}
+  spawnPos: {x: 0, y: 0, z: 0}
 --- !u!114 &114630188458626750
 MonoBehaviour:
   m_ObjectHideFlags: 11

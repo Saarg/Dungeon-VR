@@ -3072,7 +3072,10 @@ MonoBehaviour:
   jumpHeight: 1
   jumpFactor: 2
   drag: {x: 0, y: 0, z: 0}
-  isGrounded: 0
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  isGrounded: 1
   moveStatus: 0
   canRun: 1
   canJump: 1

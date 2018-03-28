@@ -99,9 +99,6 @@ public class Living : NetworkBehaviour {
     /// </summary>
     public virtual void Update()
     {
-        if (isLocalPlayer) {
-            CheckIfGrounded();
-        }
     }
 
     [Command]
@@ -126,24 +123,6 @@ public class Living : NetworkBehaviour {
 		}
 	}
 
-    bool CheckIfGrounded() {
-        if (Time.realtimeSinceStartup - lastGroundedCheck < 0.05f)
-            return isGrounded;
-
-        if (_collider == null) {
-            _collider = GetComponent<Collider>();
-        }
-
-        if (_collider is CapsuleCollider) {
-            isGrounded = Physics.Raycast(transform.position + (_collider as CapsuleCollider).center, -transform.up, (_collider as CapsuleCollider).height/1.8f);
-        }
-        else if (_collider is BoxCollider)
-            isGrounded = Physics.Raycast(transform.position + (_collider as BoxCollider).center, -transform.up, (_collider as BoxCollider).size.y/1.8f);
-        else if (_collider is SphereCollider)
-            isGrounded = Physics.Raycast(transform.position + (_collider as SphereCollider).center, -transform.up, (_collider as SphereCollider).radius/1.8f);
-
-        return isGrounded;
-    }
 
     [Command]
     public void CmdUpdateMana(float mana) {
@@ -262,5 +241,19 @@ public class Living : NetworkBehaviour {
     {
         //Play death animation and whatever is needed in child
         Destroy(gameObject);
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.layer.Equals(LayerMask.NameToLayer("Dungeon"))) {
+            isGrounded = true;
+        }
+    }
+
+    void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.layer.Equals(LayerMask.NameToLayer("Dungeon"))) {
+            isGrounded = false;
+        }
     }
 }
