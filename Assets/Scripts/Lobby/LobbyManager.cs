@@ -143,6 +143,10 @@ namespace Lobby
 		{
 			// Debug.Log("OnLobbyClientAddPlayerFailed");
 		}
+
+		public override void  OnClientDisconnect(NetworkConnection conn) {
+			SceneManager.LoadScene("_MainMenu");
+		}
 		
 		public delegate void OnPlayerConnect(NetworkConnection conn);
     	public OnPlayerConnect playerConnectDelegate;
