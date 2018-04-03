@@ -16,7 +16,15 @@ public class TrapSpawner : NetworkBehaviour {
 
 	public static TrapSpawner singleton;
 
-	public List<TrapSpawn> traps;
+	[SerializeField]
+	List<GameObject> spawnableTraps = new List<GameObject>();
+	GameObject GetTrap(string name) {
+		if (name.Contains("(Clone)"))
+			name = name.Substring(0, name.Length - 7);
+
+		return spawnableTraps.Find(index => index.name.Equals(name));
+	}
+
 	[SerializeField]
 	List<GameObject> spawnedTraps = new List<GameObject>();
 	
@@ -57,21 +65,7 @@ public class TrapSpawner : NetworkBehaviour {
 			GameManager.instance.onStartGame += StartSpawningForClients;
 
 		singleton = this;
-
-		foreach (TrapSpawn t in traps) {
-			Spawn(t);
-		}
 	}
-
-	void Update () {
-		if (isServer && spawnForClients) {
-			foreach (TrapSpawn t in traps) {
-				RpcSpawnForClients(t);
-			}
-
-			traps.Clear();
-		}
-    }
 
     void Respawn() {
 		if (!spawnForClients)
@@ -149,7 +143,7 @@ public class TrapSpawner : NetworkBehaviour {
 
     DungeonTrap Spawn(TrapSpawn t) {
 		Debug.Log(t.path);
-		GameObject go = Resources.Load(t.path) as GameObject;
+		GameObject go = GetTrap(t.path);
 
 		if (go != null) {
 			go = Instantiate(go, transform);

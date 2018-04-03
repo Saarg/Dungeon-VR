@@ -6,9 +6,14 @@ using UnityEngine;
 public class VRSpellManager : NetworkBehaviour {
 	static VRSpellManager instance;
 
-	[Header("Used in editor")]
 	[SerializeField]
 	public List<GameObject> spells = new List<GameObject>();
+	GameObject GetSpell(string name) {
+		if (name.Contains("(Clone)"))
+			name = name.Substring(0, name.Length - 7);
+
+		return spells.Find(index => index.name.Equals(name));
+	}
 
 	void Start()
 	{
@@ -35,7 +40,7 @@ public class VRSpellManager : NetworkBehaviour {
 	void RpcThrowSpell(string ressource, Vector3 position, Quaternion rotation, Vector3 velocity) {
 		if (isServer) return;
 
-		GameObject go = Resources.Load(ressource) as GameObject;
+		GameObject go = GetSpell(ressource);
 		go = Instantiate(go, position, rotation);
 
 		Rigidbody rb = go.GetComponent<Rigidbody>();

@@ -9,6 +9,12 @@ public class GameUI : MonoBehaviour {
 
     [Header("Player")]
     [SerializeField]
+    Sprite[] classSprites;    
+    [SerializeField]
+    Image playerClassImage;
+    [SerializeField]
+    Text playerName;
+    [SerializeField]
     Canvas playerUI;
     [SerializeField]
     Image healthBar;
@@ -102,6 +108,7 @@ public class GameUI : MonoBehaviour {
     Canvas teamUI;
     [SerializeField]
     List<PlayerController> team = new List<PlayerController>();
+    List<GameObject> teamPlayerUI = new List<GameObject>();
     int currentPos = 0;
     int maxPos;
     [SerializeField]
@@ -200,15 +207,10 @@ public class GameUI : MonoBehaviour {
             playerUI.gameObject.SetActive(false);
         }
 
+        team.RemoveAll((item) => item == null);
         int i = 0;
-        team.RemoveAll((item) => {
-            if (item == null) {
-                return true;
-            } else {
-                (item.transform as RectTransform).anchoredPosition = teammatesUIPosition[i++].anchoredPosition;
-
-                return false;
-            }
+        teamPlayerUI.ForEach(item => {
+            (item.transform as RectTransform).anchoredPosition = teammatesUIPosition[i++].anchoredPosition;
         });
 
         if (Input.GetButtonDown("Menu") && !_isVr)
@@ -219,10 +221,16 @@ public class GameUI : MonoBehaviour {
     public void SetPlayerController(PlayerController playerController)
     {
         player = playerController;
+        playerName.text = playerController.name;
+        playerClassImage.sprite = classSprites[(int)player.playerClassID];
 
         playerUI.gameObject.SetActive(player != null && !isVr);
-
         ToggleMenu(false);        
+    }
+
+    public PlayerController GetPlayerController()
+    {
+        return player;
     }
 
     public void SetDeathUI(bool val)
@@ -407,6 +415,7 @@ public class GameUI : MonoBehaviour {
             team.Add(mate);
 
             tm.GetComponent<UITeamPlayer>().SetPlayercontroller(mate);
+            teamPlayerUI.Add(tm);
         }
     }
 
