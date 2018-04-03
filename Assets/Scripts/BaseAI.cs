@@ -57,6 +57,8 @@ public class BaseAI : NetworkBehaviour {
     Coroutine shootingCoroutine = null;
     Coroutine interruptCoroutine = null;
 
+    Rigidbody rb;
+
     // Use this for initialization
     void Start() {
         if (weaponObj == null) {
@@ -70,10 +72,12 @@ public class BaseAI : NetworkBehaviour {
             shootingController.weapon = weapon;
         }
 
-        agent = gameObject.GetComponent<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
         lastDetectTarget = Time.time;
-        gameObject.GetComponent<Living>().OnDeath += OnDeath;
+        GetComponent<Living>().OnDeath += OnDeath;
         CmdSetBool("moving", true);
+
+        rb = GetComponent<Rigidbody>();
     }
 
     public void SetShooter(bool val)
@@ -127,6 +131,14 @@ public class BaseAI : NetworkBehaviour {
         {
             DetectPlayer();
             lastDetectTarget = Time.time;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (agent.enabled) {
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
         }
     }
 
