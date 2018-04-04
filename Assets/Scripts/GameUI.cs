@@ -208,9 +208,12 @@ public class GameUI : MonoBehaviour {
         }
 
         team.RemoveAll((item) => item == null);
+        teamPlayerUI.RemoveAll((item) => item == null);
         int i = 0;
-        teamPlayerUI.ForEach(item => {
-            (item.transform as RectTransform).anchoredPosition = teammatesUIPosition[i++].anchoredPosition;
+        teamPlayerUI.ForEach((item) => {
+            item.transform.SetParent(teammatesUIPosition[i++]);
+            (item.transform as RectTransform).anchoredPosition = Vector3.zero;
+            (item.transform as RectTransform).localScale = Vector3.one;
         });
 
         if (Input.GetButtonDown("Menu") && !_isVr)
@@ -410,8 +413,11 @@ public class GameUI : MonoBehaviour {
     // Team UI
     public void AddTeamMate(PlayerController mate) {
         if (mate != null) {
-            GameObject tm = Instantiate(teamPlayerPrefab, teammatesUIPosition[team.Count]);
-            
+            GameObject tm = Instantiate(teamPlayerPrefab);
+            tm.transform.SetParent(teammatesUIPosition[team.Count]);
+            (tm.transform as RectTransform).anchoredPosition = Vector3.zero;
+            (tm.transform as RectTransform).localScale = Vector3.one;            
+
             team.Add(mate);
 
             tm.GetComponent<UITeamPlayer>().SetPlayercontroller(mate);
