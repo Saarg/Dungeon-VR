@@ -168,6 +168,9 @@ public class GameUI : MonoBehaviour {
     [SerializeField] Canvas menuUI; 
 	[SerializeField] Canvas graphicsMenu;
     [SerializeField] Canvas audioMenu;
+	[SerializeField] MenusEnum currentMenu;
+
+	public enum MenusEnum {none, main, sounds, graphics}
 
     public delegate void QuitEvent();
     public event QuitEvent OnQuit;
@@ -193,6 +196,8 @@ public class GameUI : MonoBehaviour {
 
         ToggleMenu(false);
 		graphicsMenu.gameObject.SetActive (false);
+
+		currentMenu = MenusEnum.none;
     }
 
 	void Update () {
@@ -216,8 +221,18 @@ public class GameUI : MonoBehaviour {
             (item.transform as RectTransform).localScale = Vector3.one;
         });
 
-        if (Input.GetButtonDown("Menu") && !_isVr)
-			ToggleMenu(true);
+		if (Input.GetButtonDown ("Menu") && !_isVr && (currentMenu == MenusEnum.none))
+			ShowMenu (MenusEnum.main);
+		else if (Input.GetButtonDown ("Menu") && (currentMenu == MenusEnum.main)) {
+			HideMenu (MenusEnum.main);
+			currentMenu = MenusEnum.none;
+		} else if (Input.GetButtonDown ("Menu") && (currentMenu == MenusEnum.graphics)) {
+			HideMenu (MenusEnum.graphics);
+			ShowMenu (MenusEnum.main);
+		} else if (Input.GetButtonDown ("Menu") && (currentMenu == MenusEnum.sounds)) {
+			HideMenu (MenusEnum.sounds);
+			ShowMenu (MenusEnum.main);
+		}
     }
 
     // Player UI
@@ -500,6 +515,11 @@ public class GameUI : MonoBehaviour {
     public void ToggleMenu(bool display) {
         menuUI.gameObject.SetActive(display);
 
+		if (display = true)
+			currentMenu = MenusEnum.main;
+		else
+			currentMenu = MenusEnum.none;
+
         if (player != null && !player.dead)
             Cursor.lockState = display ? CursorLockMode.None : CursorLockMode.Locked;
         else
@@ -541,6 +561,15 @@ public class GameUI : MonoBehaviour {
 	public void DisplayGraphicsMenu(){
 		menuUI.gameObject.SetActive (false);
 		graphicsMenu.gameObject.SetActive (true);
+		currentMenu = MenusEnum.graphics;
+	}
+
+	//Audio UI
+	public void DisplayAudioMenu()
+	{
+		menuUI.gameObject.SetActive(false);
+		audioMenu.gameObject.SetActive(true);
+		currentMenu = MenusEnum.sounds;
 	}
 
     public void Quit() {
@@ -551,10 +580,44 @@ public class GameUI : MonoBehaviour {
         Application.Quit();
     }
 
-    //Audio UI
-    public void DisplayAudioMenu()
-    {
-        menuUI.gameObject.SetActive(false);
-        audioMenu.gameObject.SetActive(true);
-    }
+	//ALL UI
+	public void ShowMenu(MenusEnum menu){
+		switch (menu) {
+		case MenusEnum.main:
+			ToggleMenu (true);
+			break;
+		case MenusEnum.graphics:
+			DisplayGraphicsMenu ();
+			break;
+		case MenusEnum.sounds:
+			DisplayAudioMenu ();
+			break;
+		}
+	}
+
+	public void HideMenu(MenusEnum menu){
+		switch (menu) {
+		case MenusEnum.main:
+			ToggleMenu (false);
+			break;
+		case MenusEnum.graphics:
+			graphicsMenu.gameObject.SetActive (false);
+			break;
+		case MenusEnum.sounds:
+			audioMenu.gameObject.SetActive (false);
+			break;
+		}
+	}
+
+	public void BackToMainMenu(){
+		switch (currentMenu) {
+		case MenusEnum.graphics:
+			graphicsMenu.GetComponent<GraphicsMenu> ().BackToMainMenu ();
+			break;
+		case MenusEnum.sounds:
+			audioMenu.GetComponent<AudioMenu> ().BackToMainMenu ();
+			break;
+		}
+		ToggleMenu (true);
+	}
 }
