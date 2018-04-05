@@ -17,6 +17,13 @@ public class MeleeWeaponHitPoint : MonoBehaviour {
 
 	Living lastLiving;
 
+	public void AttackAnimationStarted() {
+		gameObject.SetActive(true);
+	}
+	public void AttackAnimationEndedDamage() {
+		gameObject.SetActive(false);
+	}
+
 	private void OnTriggerEnter(Collider col)
     {
         if (owner == null)

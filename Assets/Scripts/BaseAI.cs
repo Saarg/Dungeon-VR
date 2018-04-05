@@ -506,6 +506,13 @@ public class BaseAI : NetworkBehaviour {
         return animator;
     }
 
+    public void AttackAnimationStarted() {
+		weaponObj.GetComponent<MeleeWeaponHitPoint>().AttackAnimationStarted();
+	}
+	public void AttackAnimationEndedDamage() {
+		weaponObj.GetComponent<MeleeWeaponHitPoint>().AttackAnimationEndedDamage();
+	}
+
     public void AttackAnimationEnded()
     {
         attacking = false;
