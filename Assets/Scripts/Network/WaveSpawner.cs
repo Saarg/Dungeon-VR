@@ -8,18 +8,23 @@ using UnityEngine.Networking;
 public class Wave {
 	public GameObject[] enemy;
 
-	public IEnumerator SpawnWave(Vector3 spawnPoint) {
-		foreach (GameObject e in enemy) {
-			GameObject enemy = GameObject.Instantiate(e, spawnPoint, Quaternion.identity);
-			BaseAI ai = enemy.GetComponent<BaseAI>();
+	public IEnumerator SpawnWave(Vector3 spawnPoint, int iteration){
+        for (int i = 0; i < iteration; i++)
+        {
+            foreach (GameObject e in enemy) {
+                GameObject enemy = GameObject.Instantiate(e, spawnPoint, Quaternion.identity);
+                BaseAI ai = enemy.GetComponent<BaseAI>();
 
-			NetworkServer.Spawn(enemy);
-            yield return new WaitForSeconds(0.1f);
-		}
+                NetworkServer.Spawn(enemy);
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
 	}
 }
 
 public class WaveSpawner : NetworkBehaviour {
+    [SerializeField]
+    int IterationSpawn;
 	[SerializeField]
     bool spawnEnemies;
     [SerializeField]
@@ -64,7 +69,7 @@ public class WaveSpawner : NetworkBehaviour {
 		if (curWave >= waves.Length)
 			return;
 
-		StartCoroutine(waves[curWave++].SpawnWave(spawnPoint.position));
+		StartCoroutine(waves[curWave++].SpawnWave(spawnPoint.position, IterationSpawn));
     }
 
     public void StartSpawningForClients() {
