@@ -8,5 +8,10 @@ using UnityEngine;
 public class TrapDamageArea : MonoBehaviour {
 	public DungeonTrap parent;
 
-	void OnTriggerEnter(Collider _col){ parent.OnDamageAreaTriggerEnter (_col); }
+	void OnTriggerEnter(Collider _col){
+        if(parent != null)
+        {
+            parent.OnDamageAreaTriggerEnter(_col);
+        }        
+    }
 }

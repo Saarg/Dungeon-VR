@@ -77,8 +77,8 @@ public class TrapDropZone : MonoBehaviour {
             }
         }
         else
-        {
-            // feedback not enough money
+        { 
+            trapControllerManager.ReleaseFromHand();
         }
     }
 

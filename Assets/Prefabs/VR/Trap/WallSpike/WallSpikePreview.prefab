@@ -163,7 +163,6 @@ GameObject:
   - component: {fileID: 4799457106016374}
   - component: {fileID: 95427493753614014}
   - component: {fileID: 65972460609330466}
-  - component: {fileID: 114420917403507900}
   - component: {fileID: 114768411572966882}
   - component: {fileID: 65571193918335092}
   - component: {fileID: 114683427418500790}
@@ -985,6 +984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e283db8dce764646bfb4636bd47e26b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: None
   Price: 10
   trapInHandPrefab: {fileID: 1589828240674900, guid: a5dca9bb880c1964da859d56fa46c8b3,
     type: 2}
@@ -1093,19 +1093,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114420917403507900
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1388038947483958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d8e2ebe1995d0243bb5144a2de614cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trapType: 1
-  animatePosition: {fileID: 0}
 --- !u!114 &114428989270842828
 MonoBehaviour:
   m_ObjectHideFlags: 1

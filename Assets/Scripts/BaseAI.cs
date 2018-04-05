@@ -56,6 +56,7 @@ public class BaseAI : NetworkBehaviour {
     Coroutine attackingCoroutine = null;
     Coroutine shootingCoroutine = null;
     Coroutine interruptCoroutine = null;
+    Coroutine checkNavMeshCoroutine = null;
 
     Rigidbody rb;
 
@@ -148,11 +149,35 @@ public class BaseAI : NetworkBehaviour {
             PickNode();
         else if ((transform.position - currentDestination).magnitude < pickNextNodeRange)
             PickNextNode();
+        else if (agent.isOnNavMesh && currentDestination != null)
+        {
+            agent.SetDestination(currentDestination);
+        }
         else
-            if (agent.enabled && currentDestination != null)
+        {
+            if (checkNavMeshCoroutine == null && animator.GetBool("IsGrabbed") == false)
             {
-                agent.SetDestination(currentDestination);
+                checkNavMeshCoroutine = StartCoroutine("CheckForNavMesh");
             }
+        }
+    }
+
+    //If the monster doesn't find is navmesh within 1s, he die.
+    public IEnumerator CheckForNavMesh()
+    {
+        float currentTime = 0;
+        while (currentTime < 1f)
+        {
+            if (agent.isOnNavMesh)
+            {
+                Debug.Log("NavMesh found");
+                yield break;
+            }
+            yield return new WaitForEndOfFrame();
+            currentTime += Time.deltaTime;
+        }
+        Debug.Log("NavMesh not found");
+        StartCoroutine("Death");
     }
 
     void UpdateAttack()
@@ -506,6 +531,13 @@ public class BaseAI : NetworkBehaviour {
         return animator;
     }
 
+    public void AttackAnimationStarted() {
+		weaponObj.GetComponent<MeleeWeaponHitPoint>().AttackAnimationStarted();
+	}
+	public void AttackAnimationEndedDamage() {
+		weaponObj.GetComponent<MeleeWeaponHitPoint>().AttackAnimationEndedDamage();
+	}
+
     public void AttackAnimationEnded()
     {
         attacking = false;
@@ -540,6 +572,11 @@ public class BaseAI : NetworkBehaviour {
         }
         CmdSetBool("moving", true);
         CmdSetTrigger("attack", false);
+    }
+
+    public void SetIsGrabbed(bool state)
+    {
+        CmdSetBool("IsGrabbed", state);
     }
 
     [Command]
