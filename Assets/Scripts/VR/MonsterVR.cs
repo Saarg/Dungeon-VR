@@ -10,12 +10,14 @@ public class MonsterVR : MonoBehaviour {
     private VRTK.VRTK_InteractableObject interactable;
     private NavMeshAgent navMeshAgent;
     private Animator animator;
+    private BaseAI baseAI;
 
     public void Awake()
     {
         interactable = GetComponent<VRTK.VRTK_InteractableObject>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
+        baseAI = GetComponent<BaseAI>();
     }
 
     public void OnEnable()
@@ -33,12 +35,12 @@ public class MonsterVR : MonoBehaviour {
     private void Interactable_InteractableObjectGrabbed(object sender, VRTK.InteractableObjectEventArgs e)
     {
         navMeshAgent.enabled = false;
-        animator.SetBool("IsGrabbed", true);
+        baseAI.SetIsGrabbed(true);
     }
 
     private void Interactable_InteractableObjectUngrabbed(object sender, VRTK.InteractableObjectEventArgs e)
     {
         navMeshAgent.enabled = true;
-        animator.SetBool("IsGrabbed", false);
+        baseAI.SetIsGrabbed(false);
     }
 }
