@@ -46,7 +46,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1129547282287756
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,7 +304,7 @@ Light:
   m_ShadowAngle: 0
 --- !u!114 &114312186590319076
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1738852594359302}
@@ -328,7 +328,7 @@ MonoBehaviour:
   _assetGuid: 215460171a2b9334f831b3601d52c28e
 --- !u!114 &114539455766607738
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1738852594359302}
@@ -340,7 +340,7 @@ MonoBehaviour:
   _guid: ad3dc0cb-94e2-418d-b01e-0657edfc6b09
 --- !u!114 &114546271409675692
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1129547282287756}
@@ -352,7 +352,7 @@ MonoBehaviour:
   _guid: ee357760-9083-46a7-9d54-3fd3b67b3d5a
 --- !u!114 &114640892907992598
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1594712944284254}
@@ -364,7 +364,7 @@ MonoBehaviour:
   _guid: 7d17f29e-9030-421b-bbb4-d6c02e17dc75
 --- !u!114 &114724341731092974
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1735293366587550}
@@ -376,7 +376,7 @@ MonoBehaviour:
   _guid: 0722a706-e27e-42e2-a8a5-60b079532b20
 --- !u!114 &114760920467075958
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1523187544167982}
@@ -388,7 +388,7 @@ MonoBehaviour:
   _guid: 23ba2fe8-88b2-41cd-a3c3-691f7ad32b5a
 --- !u!114 &114852343445785924
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1105525053148344}
@@ -400,7 +400,7 @@ MonoBehaviour:
   _guid: 7efaf827-2d75-4d17-9eb9-5e9b3847f72b
 --- !u!114 &114915216572563466
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1032488323018058}
@@ -412,7 +412,7 @@ MonoBehaviour:
   _guid: 880281e7-6969-4a95-bafe-8d18a188b266
 --- !u!114 &114939072966086986
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1163010716773894}
@@ -7241,7 +7241,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.7
+      scalar: 0.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -7386,7 +7386,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 5
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -24246,7 +24246,7 @@ ParticleSystemRenderer:
   m_MaxParticleSize: 0.5
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
-  m_LengthScale: 20
+  m_LengthScale: 4
   m_SortingFudge: 0
   m_NormalDirection: 1
   m_RenderAlignment: 0

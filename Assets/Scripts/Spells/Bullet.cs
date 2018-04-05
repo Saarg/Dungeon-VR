@@ -34,7 +34,7 @@ public class Bullet : NetworkBehaviour {
 
     public int Damage { get { return spec.Damage; } }
 
-    float lifeTime { get { return spec.Damage; } }
+    float lifeTime { get { return spec.LifeTime; } }
 
     bool persistentBullet { get { return spec.PersistentBullet; } }
 
@@ -142,7 +142,8 @@ public class Bullet : NetworkBehaviour {
             dir.Normalize();
             lastLiving.HitReaction(col, dir * rigidbody.mass, col.ClosestPoint(transform.position));
 
-            Destroy(gameObject);
+            if (destroyOnHit)
+                Destroy(gameObject);
         }
 
         if (explodeOnHit)
