@@ -15,9 +15,12 @@ public class SpellSpawner : MonoBehaviour {
 
     public Image progressBar;
 
+    public static List<SpellSpawner> spawners = new List<SpellSpawner>();
 
     // Use this for initialization
     void Start () {
+        spawners.Add(this);
+
         spawnPoint = transform.Find("SpawnPoint");
     }
 	
@@ -49,5 +52,10 @@ public class SpellSpawner : MonoBehaviour {
     {
         CurrentSpell = Instantiate(spellPrefab, spawnPoint.position, spawnPoint.rotation);
         CurrentSpell.SpellSpawner = this;
+    }
+
+    public void SmallCooldown() {
+        Destroy(CurrentSpell.gameObject);
+        currentTimeBeforeRespawn = respawnTime/2f;
     }
 }
