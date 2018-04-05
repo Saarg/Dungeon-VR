@@ -31,6 +31,12 @@ public class VR_Spell : MonoBehaviour {
     {
         this.SpellSpawner.CurrentSpell = null;
         this.GetComponent<SphereCollider>().radius = 2f; //  for a more accurate collision
+
+        SpellSpawner.spawners.ForEach(spawner => {
+            if (spawner != this.SpellSpawner) {
+                spawner.SmallCooldown();
+            }
+        });
     }
 
     private void VR_Spell_InteractableObjectUngrabbed(object sender, VRTK.InteractableObjectEventArgs e)
