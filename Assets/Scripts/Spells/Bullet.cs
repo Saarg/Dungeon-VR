@@ -151,7 +151,7 @@ public class Bullet : NetworkBehaviour {
         else
         {
             Living comp = col.gameObject.GetComponentInParent<Living>();
-            if (comp != null) {
+            if (comp != null && (col.gameObject.layer == 0 || col.gameObject.layer == 11)) {
                 comp.TakeDamage(Damage, DamageType);
 
                 lastLiving = comp;
