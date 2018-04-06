@@ -107,7 +107,7 @@ public class ShootingController : NetworkBehaviour {
 
     public void AiFire(Vector3 targetPosition)
     {
-        Vector3 direction = (targetPosition - transform.position).normalized;
+        Vector3 direction = ((targetPosition + new Vector3(0,1.5f,0) ) - weapon.SpellOrigin.position).normalized;
         Quaternion rot = Quaternion.LookRotation(direction, Vector3.up);
         CmdFire(direction, rot, offset);
         weapon.PlaySound();
