@@ -64,7 +64,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4590078474368320
 Transform:
   m_ObjectHideFlags: 1
@@ -168,7 +168,7 @@ MonoBehaviour:
   _guid: 2c6f2101-554a-41db-bb95-6b46545985c3
 --- !u!114 &114785569723526494
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1686284480147724}
@@ -180,7 +180,7 @@ MonoBehaviour:
   _guid: 77c0f039-8bd8-402a-8327-5f1d711096d7
 --- !u!114 &114874240583684484
 MonoBehaviour:
-  m_ObjectHideFlags: 11
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1686284480147724}
@@ -257,7 +257,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 0
-  randomSeed: 2142116887
+  randomSeed: -1169043821
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -653,7 +653,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     randomizeRotationDirection: 0
-    maxNumParticles: 2000
+    maxNumParticles: 100
     size3D: 0
     rotation3D: 0
     gravityModifier:
@@ -817,7 +817,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 50
+      scalar: 25
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -6919,7 +6919,7 @@ ParticleSystemRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 2100000, guid: e7828fef6932d234d8e16dae4570464d, type: 2}
+  - {fileID: 2100000, guid: ba67e6036fc0e6e458a752d8c702039c, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
