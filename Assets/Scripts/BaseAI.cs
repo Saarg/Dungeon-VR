@@ -488,10 +488,14 @@ public class BaseAI : NetworkBehaviour {
         }
         CmdSetBool("moving", false);
         gameObject.GetComponent<Living>().OnDeath -= OnDeath;
-        if (isServer && Random.Range(0f, 1f) < 0.4f) {
-            TrapSpawner.singleton.SpawnWeapon(transform.position);
+        if (isServer)
+        {
+            RaycastHit hit;
+            Vector3 pos = transform.position;
+            if(Physics.Raycast(transform.position, Vector3.down * 5f, out hit, 5f, 1 << 8))
+                pos = new Vector3(transform.position.x, hit.point.y + 0.1f, transform.position.z);
+            TrapSpawner.singleton.SpawnWeapon(pos);
         }
-
         StartCoroutine("Death");
     }
 

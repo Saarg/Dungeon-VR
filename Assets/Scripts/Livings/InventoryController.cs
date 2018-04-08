@@ -228,6 +228,11 @@ public class InventoryController : NetworkBehaviour {
             dropWeapon.transform.SetParent(null);
             dropWeapon.transform.localScale = Vector3.one;
             dropWeapon.transform.localPosition = new Vector3(dropWeapon.transform.localPosition.x, 0, dropWeapon.transform.localPosition.z);
+            RaycastHit hit;
+            if(Physics.Raycast(dropWeapon.transform.position, Vector3.down * 5f, out hit, 5f, 1 << 8))
+                dropWeapon.transform.position = new Vector3(dropWeapon.transform.position.x, hit.point.y + 0.1f, dropWeapon.transform.position.z);
+            else
+                dropWeapon.transform.position = new Vector3(dropWeapon.transform.position.x, transform.position.y, dropWeapon.transform.position.z);
             dropWeapon.transform.rotation = Quaternion.identity;
             dropWeapon.SetActive(true);
             dropWeapon.AddComponent<DroppedWeapon>();
