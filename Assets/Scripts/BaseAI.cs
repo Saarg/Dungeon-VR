@@ -165,19 +165,23 @@ public class BaseAI : NetworkBehaviour {
     //If the monster doesn't find is navmesh within 1s, he die.
     public IEnumerator CheckForNavMesh()
     {
+
+        float lifeTimeOutofNavmesh = 5f;
         float currentTime = 0;
-        while (currentTime < 1f)
+        while (currentTime < lifeTimeOutofNavmesh)
         {
             if (agent.isOnNavMesh)
             {
-                Debug.Log("NavMesh found");
                 yield break;
             }
             yield return new WaitForEndOfFrame();
             currentTime += Time.deltaTime;
         }
-        Debug.Log("NavMesh not found");
-        StartCoroutine("Death");
+        // to avoid grab during death
+        if (animator.GetBool("IsGrabbed") == false)
+        {
+            StartCoroutine("Death");
+        }
     }
 
     void UpdateAttack()
@@ -496,6 +500,8 @@ public class BaseAI : NetworkBehaviour {
     }
 
     IEnumerator Death() {
+        GetComponent<VRTK.VRTK_InteractableObject>().isGrabbable = false;
+        GetComponent<VRTK.VRTK_InteractableObject>().touchHighlightColor = Color.black;
         CmdSetBool("IsDead", true);
         yield return new WaitForSecondsRealtime(DEATH_ANIM_DELAY); //time of the death animation
         CmdOnDeath(netId);
