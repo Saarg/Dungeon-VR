@@ -99,8 +99,8 @@ public class Living : NetworkBehaviour {
     /// </summary>
     public virtual void Update()
     {
-        if (transform.position.y < -100f) {
-            TakeDamage(10, Bullet.DamageTypeEnum.physical);
+        if (!dead && transform.position.y < -20f) {
+            TakeDamage(999999, Bullet.DamageTypeEnum.physical);
         }
     }
 
