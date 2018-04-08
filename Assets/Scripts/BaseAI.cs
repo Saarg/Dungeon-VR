@@ -305,10 +305,71 @@ public class BaseAI : NetworkBehaviour {
                 if (living.dead)
                     continue;
 
-                if (hit.gameObject == target)
-                    sameTarget = true;
+                InvisibilitySpell invisibility = hit.gameObject.GetComponentInChildren<InvisibilitySpell>();
+                if (invisibility != null)
+                    if (invisibility.IsEffectActive)
+                        continue;
 
-                targetFound = hit.gameObject;
+                if (hit.gameObject == target)
+                {
+                    if (targetFound != null)
+                    {
+                        float distanceHit = (hit.gameObject.transform.position - transform.position).magnitude;
+                        float distanceClosest = (targetFound.transform.position - transform.position).magnitude;
+                        if (distanceClosest * 2 > distanceHit)
+                        {
+                            sameTarget = true;
+                            targetFound = hit.gameObject;
+                        }
+                    }
+                    else
+                    {
+                        targetFound = hit.gameObject;
+                        sameTarget = true;
+                    }
+                }
+                else
+                {
+                    float distanceHit = (hit.gameObject.transform.position - transform.position).magnitude;
+                    if (targetFound)
+                    {
+                        float distanceTarget = (targetFound.transform.position - transform.position).magnitude;
+                        if (distanceTarget < distanceHit)
+                            continue;
+
+                        if (target != null)
+                        {
+                            float distanceCurrent = (target.transform.position - transform.position).magnitude;
+                            if (distanceHit * 2 < distanceCurrent)
+                            {
+                                sameTarget = false;
+                                targetFound = hit.gameObject;
+                            }
+                        }
+                        else
+                        {
+                            sameTarget = false;
+                            targetFound = hit.gameObject;
+                        }
+                    }
+                    else
+                    {
+                        if (target != null)
+                        {
+                            float distanceCurrent = (target.transform.position - transform.position).magnitude;
+                            if (distanceHit * 2 < distanceCurrent)
+                            {
+                                targetFound = hit.gameObject;
+                                sameTarget = false;
+                            }
+                        }
+                        else
+                        {
+                            sameTarget = false;
+                            targetFound = hit.gameObject;
+                        }
+                    } 
+                }
             }
         }
 

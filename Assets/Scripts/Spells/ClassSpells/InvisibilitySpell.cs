@@ -12,6 +12,9 @@ public class InvisibilitySpell : Spell
 
     List<Renderer> _renderers = new List<Renderer>();
 
+    bool isEffectActive = false;
+    public bool IsEffectActive { get { return isEffectActive; } }
+
     protected override void Start()
     {
         base.Start();
@@ -38,6 +41,7 @@ public class InvisibilitySpell : Spell
 
     protected override void Effects()
     {
+        isEffectActive = true;
         foreach (Renderer r in _renderers) {
             foreach (Material mat in r.materials) {
                 mat.SetFloat("_Mode", 3.0f);
@@ -61,6 +65,7 @@ public class InvisibilitySpell : Spell
 
     protected override void EndEffects()
     {
+        isEffectActive = false;
         foreach (Renderer r in _renderers) {
             foreach (Material mat in r.materials) {
                 mat.SetFloat("_Mode", 0.0f);
