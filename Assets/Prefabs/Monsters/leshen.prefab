@@ -2845,7 +2845,7 @@ MonoBehaviour:
   _guid: cf79633b-a5be-4829-9797-43de519b544d
 --- !u!114 &114018787029677460
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1501085806012814}
@@ -3127,7 +3127,7 @@ MonoBehaviour:
   _guid: 8ee29471-c189-4464-8872-015f44e4f10c
 --- !u!114 &114314007360087782
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1501085806012814}
@@ -3301,6 +3301,7 @@ MonoBehaviour:
   weaponPosition: {fileID: 4525125091891430}
   weaponObj: {fileID: 1204196754268336}
   weaponSpec: {fileID: 0}
+  realSpellOrigin: {fileID: 0}
   animator: {fileID: 95409672271115670}
   netAnimator: {fileID: 114502732011719214}
   DEATH_ANIM_DELAY: 6
@@ -3594,11 +3595,11 @@ MonoBehaviour:
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
-  m_MovementTheshold: 0.001
+  m_MovementTheshold: 0.07
   m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
+  m_SnapThreshold: 350
   m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  m_InterpolateMovement: 0.5
 --- !u!114 &114725978277832962
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1579,7 +1579,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114027895956250906
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1472075138058696}
@@ -2402,6 +2402,7 @@ MonoBehaviour:
   weaponPosition: {fileID: 4856421487939932}
   weaponObj: {fileID: 1776113556621522}
   weaponSpec: {fileID: 0}
+  realSpellOrigin: {fileID: 0}
   animator: {fileID: 95430347859695926}
   netAnimator: {fileID: 114836721140510564}
   DEATH_ANIM_DELAY: 6
@@ -2424,7 +2425,7 @@ MonoBehaviour:
   _guid: 752f2f27-a9fb-4502-a566-b184781875d0
 --- !u!114 &114512362482547492
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 11
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1472075138058696}
@@ -3288,11 +3289,11 @@ MonoBehaviour:
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
-  m_MovementTheshold: 0.001
+  m_MovementTheshold: 0.07
   m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
+  m_SnapThreshold: 350
   m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  m_InterpolateMovement: 0.5
 --- !u!114 &114817482558710132
 MonoBehaviour:
   m_ObjectHideFlags: 1
