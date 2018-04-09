@@ -360,7 +360,13 @@ public class PlayerController : Living
         PlayerClassDesignation cd = go.GetComponent<PlayerClassDesignation>();
 
         maxLife = cd.maxLife;
+        if (Lobby.PlayerUI.playerCount > 1)
+            maxLife *= (1f + 1f/(Lobby.PlayerUI.playerCount - 1));
+        else 
+            maxLife *= 2;
+        curLife = maxLife;
         maxMana = cd.maxMana;
+        curMana = maxMana;
 
         speed = cd.speed;
         walkSpeed = cd.walkSpeed;
