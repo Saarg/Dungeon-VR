@@ -78,10 +78,9 @@ public class PlayerController : Living
         } else {
             Destroy(cam.gameObject);
 
-            GameObject ui = GameObject.Find("GameUI");
-            if (ui != null)
+            GameUI gameUI = GameObject.FindObjectOfType<GameUI>();
+            if (gameUI != null)
             {
-                gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
                 gameUI.AddTeamMate(this);
                 gameUI.enabled = true;
             }

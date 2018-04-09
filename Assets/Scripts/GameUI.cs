@@ -208,6 +208,9 @@ public class GameUI : MonoBehaviour {
             targetBar.gameObject.SetActive(player.HasTarget());
             if(player.HasTarget())
                 targetBar.fillAmount = Mathf.Lerp(targetBar.fillAmount, (float)player.TargetCurLife() / (float)player.TargetMaxLife(), Time.deltaTime * 2f);
+        
+            playerName.text = player.name;
+            playerClassImage.sprite = classSprites[(int)player.playerClassID];
         } else if (playerUI.gameObject.activeSelf) {
             playerUI.gameObject.SetActive(false);
         }
@@ -217,7 +220,7 @@ public class GameUI : MonoBehaviour {
         int i = 0;
         teamPlayerUI.ForEach((item) => {
             item.transform.SetParent(teammatesUIPosition[i++]);
-            (item.transform as RectTransform).anchoredPosition = Vector3.zero;
+            (item.transform as RectTransform).anchoredPosition3D = Vector2.zero;
             (item.transform as RectTransform).localScale = Vector3.one;
         });
 
@@ -239,7 +242,7 @@ public class GameUI : MonoBehaviour {
     public void SetPlayerController(PlayerController playerController)
     {
         player = playerController;
-        playerName.text = playerController.name;
+        playerName.text = player.name;
         playerClassImage.sprite = classSprites[(int)player.playerClassID];
 
         playerUI.gameObject.SetActive(player != null && !isVr);
@@ -515,7 +518,7 @@ public class GameUI : MonoBehaviour {
     public void ToggleMenu(bool display) {
         menuUI.gameObject.SetActive(display);
 
-		if (display = true)
+		if (display == true)
 			currentMenu = MenusEnum.main;
 		else
 			currentMenu = MenusEnum.none;
