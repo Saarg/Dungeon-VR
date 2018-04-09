@@ -72,6 +72,14 @@ public class ShootingController : NetworkBehaviour {
                 }
             }
         }
+        else
+        {
+            if (firing)
+            {
+                CmdStopContinousFire();
+                firing = false;
+            }
+        }
     }
 
     [Command]
