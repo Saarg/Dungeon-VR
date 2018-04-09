@@ -86,6 +86,7 @@ public class Living : NetworkBehaviour {
     [SerializeField]
     public List<Collider> collidersList = new List<Collider>();
 
+    [SyncVar]
     public bool dead = false;
 	// Events
 	public delegate void DeathEvent();
@@ -119,13 +120,18 @@ public class Living : NetworkBehaviour {
 		curLife = Mathf.Clamp(life, 0, maxLife);
 
 		if (curLife == 0f) {
-            dead = true;
+            CmdDie();
             gameObject.layer = 18;
             if (OnDeath != null)
 			    OnDeath.Invoke();
 		}
 	}
 
+    [Command]
+    void CmdDie()
+    {
+        dead = true;
+    }
 
     [Command]
     public void CmdUpdateMana(float mana) {
