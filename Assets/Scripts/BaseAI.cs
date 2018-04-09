@@ -18,6 +18,8 @@ public class BaseAI : NetworkBehaviour {
     GameObject weaponObj;
     [SerializeField]
     WeaponSpec weaponSpec;
+    [SerializeField]
+    GameObject realSpellOrigin;
 
     [SerializeField] protected Animator animator;
     [SerializeField] protected NetworkAnimator netAnimator;
@@ -70,6 +72,8 @@ public class BaseAI : NetworkBehaviour {
 
             weapon = weaponObj.GetComponent<Weapon>();
             weapon.spec = weaponSpec;
+            if(realSpellOrigin != null)
+                weapon.SpellOrigin = realSpellOrigin.transform;
             shootingController.weapon = weapon;
         }
 

@@ -46,7 +46,7 @@ public class Weapon : MonoBehaviour {
 
     [SerializeField]
     Transform spellOrigin;
-    public Transform SpellOrigin { get { return spellOrigin; } }
+    public Transform SpellOrigin { get { return spellOrigin; } set { spellOrigin = value; } }
 
     [SerializeField]
     AudioClip clip { get { return spec.Clip; } }
@@ -64,8 +64,6 @@ public class Weapon : MonoBehaviour {
             model = Instantiate(spec.Model, transform);
             model.transform.localPosition = Vector3.zero;
             model.transform.localRotation = Quaternion.identity;
-        } else {
-            spellOrigin.localPosition = Vector3.zero;
         }
     }
 
