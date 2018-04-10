@@ -5,12 +5,14 @@ using UnityEngine;
 public class VRControllerManager : MonoBehaviour {
 
     private VRTK.VRTK_ControllerEvents controllerEvents;
+    private VRTK.VRTK_InteractGrab interactGrab;
 
     public GameObject triggerSphereModel;
 
     private void Awake()
     {
         controllerEvents = GetComponent<VRTK.VRTK_ControllerEvents>();
+        interactGrab = GetComponent<VRTK.VRTK_InteractGrab>();
     }
 
     private void OnEnable()
@@ -33,5 +35,6 @@ public class VRControllerManager : MonoBehaviour {
     private void ControllerEvents_TriggerReleased(object sender, VRTK.ControllerInteractionEventArgs e)
     {
         triggerSphereModel.SetActive(true);
+        interactGrab.grabButton = VRTK.VRTK_ControllerEvents.ButtonAlias.GripPress;
     }
 }
