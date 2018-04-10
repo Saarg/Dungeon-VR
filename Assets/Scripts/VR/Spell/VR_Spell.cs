@@ -8,6 +8,7 @@ public class VR_Spell : MonoBehaviour {
     public SpellSpawner SpellSpawner { get; set; }
     public AreaSpell AreaSpellPrefab;
 
+    public VRTK.VRTK_InteractGrab interactGrab;
     private VRTK.VRTK_InteractableObject interactableObject;
 
     public void Awake()
@@ -29,6 +30,7 @@ public class VR_Spell : MonoBehaviour {
 
     private void VR_Spell_InteractableObjectGrabbed(object sender, VRTK.InteractableObjectEventArgs e)
     {
+        interactGrab = e.interactingObject.GetComponentInParent<VRTK.VRTK_InteractGrab>();
         this.SpellSpawner.CurrentSpell = null;
         this.GetComponent<SphereCollider>().radius = 2f; //  for a more accurate collision
 
@@ -41,13 +43,13 @@ public class VR_Spell : MonoBehaviour {
 
     private void VR_Spell_InteractableObjectUngrabbed(object sender, VRTK.InteractableObjectEventArgs e)
     {
+        interactGrab = null;
         interactableObject.isGrabbable = false;
         VRSpellManager.ThrowSpell(gameObject);
     }
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
         if(other.gameObject.layer != LayerMask.NameToLayer("VRController"))
         {           
             Explode();

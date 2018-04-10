@@ -4,13 +4,38 @@ using UnityEngine;
 
 public class TrapControllerManager : MonoBehaviour {
 
-    public Transform trapAttachPoint;
+    private VRTK.VRTK_ControllerEvents controllerEvents;
 
-    [Header("Trap in hand prefab.")]
+    public Transform trapAttachPoint;
     private GameObject trapInHand;
     public DungeonTrap selectedTrap;
-
     private TrapDropZone trapDropZone;
+
+
+    private void Awake()
+    {
+        controllerEvents = GetComponent<VRTK.VRTK_ControllerEvents>();
+    }
+
+    private void OnEnable()
+    {   
+        controllerEvents.GripPressed += ControllerEvents_GripPressed;
+    }
+
+    private void OnDisable()
+    {       
+        controllerEvents.GripPressed -= ControllerEvents_GripPressed;
+    }
+
+    private void ControllerEvents_GripPressed(object sender, VRTK.ControllerInteractionEventArgs e)
+    {
+        ReleaseFromHand();
+    }
+
+    private void ControllerEvents_ButtonTwoPressed(object sender, VRTK.ControllerInteractionEventArgs e)
+    {
+        trapDropZone.RotatePreview(45);
+    }
 
     public void AttachToHand(GameObject trapInHandToInstantiate, DungeonTrap trap)
     {
@@ -32,24 +57,24 @@ public class TrapControllerManager : MonoBehaviour {
         }
     }
 
-    public void OnTrapDropZoneEnter(object o, TriggerUtility.TriggerEventArgs e)
+    public void OnTrapDropZoneStay(object o, TriggerUtility.TriggerEventArgs e)
     {
-        trapDropZone = e.triggeredObject.GetComponent<TrapDropZone>();
-        trapDropZone.ShowPreview(this);
-        GetComponent<VRTK.VRTK_ControllerEvents>().TouchpadTouchStart += OnTouchpadTouchStart;
-
-    }
-
-    private void OnTouchpadTouchStart(object sender, VRTK.ControllerInteractionEventArgs e)
-    {
-        trapDropZone.RotatePreview(45);
+        if (trapDropZone == null)
+        {
+            trapDropZone = e.triggeredObject.GetComponent<TrapDropZone>();
+            trapDropZone.ShowPreview(this);
+            controllerEvents.ButtonTwoPressed += ControllerEvents_ButtonTwoPressed;
+        }
     }
 
     public void OnTrapDropZoneExit(object o, TriggerUtility.TriggerEventArgs e)
     {
-        trapDropZone = e.triggeredObject.GetComponent<TrapDropZone>();
-        trapDropZone.DestroyPreview();
-        GetComponent<VRTK.VRTK_ControllerEvents>().TouchpadTouchStart -= OnTouchpadTouchStart;
+        if (trapDropZone != null)
+        {
+            trapDropZone.DestroyPreview();
+            trapDropZone = null;
+            controllerEvents.ButtonTwoPressed -= ControllerEvents_ButtonTwoPressed;
+        }
     }
 
 }

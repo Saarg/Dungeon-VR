@@ -11,13 +11,16 @@ public class DropableItemVR : ItemVR {
     protected override void OnEnable()
     {
         base.OnEnable();
+        GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectTouched += DropableItemVR_InteractableObjectTouched;
         GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectUsed += DropableItemVR_InteractableObjectUsed;
+        
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectUsed -= DropableItemVR_InteractableObjectUsed;
+        GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectTouched -= DropableItemVR_InteractableObjectTouched;
+        GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectUsed -= DropableItemVR_InteractableObjectUsed;        
     }
 
     // Use this for initialization
@@ -31,12 +34,22 @@ public class DropableItemVR : ItemVR {
 
     }
 
+    private void DropableItemVR_InteractableObjectTouched(object sender, VRTK.InteractableObjectEventArgs e)
+    {
+        // Can't make it work and I dont know why ... -> Using Unity event the same way and it works
+        //associatedTrap.GetComponent<Trap>().StartTrap();
+    }
+
     private void DropableItemVR_InteractableObjectUsed(object sender, VRTK.InteractableObjectEventArgs e)
     {
         if (HasEnoughMoney())
         {
             associatedTrap.price = this.Price;
             e.interactingObject.GetComponent<TrapControllerManager>().AttachToHand(trapInHandPrefab, associatedTrap);
+        }
+        else
+        {
+            e.interactingObject.GetComponent<VRControllerManager>().PlayHaptic(1,.5f,.05f);
         }
     }
 }

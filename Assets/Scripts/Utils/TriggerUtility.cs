@@ -13,8 +13,9 @@ public class TriggerUtility : MonoBehaviour {
 
     public delegate void TriggerEventHandler(object sender, TriggerEventArgs e);
 
-    public event TriggerEventHandler TriggerEntered;
-    public event TriggerEventHandler TriggerExited;
+    public event TriggerEventHandler TriggerEnter;
+    public event TriggerEventHandler TriggerStay;
+    public event TriggerEventHandler TriggerExit;
 
     /// <summary>
     /// The types of element that can be checked against.
@@ -36,12 +37,21 @@ public class TriggerUtility : MonoBehaviour {
         if (checkType == CheckTypes.Script && identifiers != "" && other.GetComponent( Type.GetType( identifiers))  != null 
             || checkType == CheckTypes.Tag && other.tag == identifiers)
         {
-            //emit event
             TriggerEventArgs args = new TriggerEventArgs();
             args.triggeredObject = other.gameObject;
-            TriggerEntered(this, args);
+            TriggerEnter(this, args);
+        }     
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (checkType == CheckTypes.Script && identifiers != "" && other.GetComponent(Type.GetType(identifiers)) != null
+            || checkType == CheckTypes.Tag && other.tag == identifiers)
+        {
+            TriggerEventArgs args = new TriggerEventArgs();
+            args.triggeredObject = other.gameObject;
+            TriggerStay(this, args);
         }
-            
     }
 
     private void OnTriggerExit(Collider other)
@@ -52,7 +62,7 @@ public class TriggerUtility : MonoBehaviour {
             //emit event
             TriggerEventArgs args = new TriggerEventArgs();
             args.triggeredObject = other.gameObject;
-            TriggerExited(this, args);
+            TriggerExit(this, args);
         }
 
     }
