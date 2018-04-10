@@ -12,6 +12,7 @@ public class TriggerUtility_UnityEvent : MonoBehaviour
     public class TriggerEvent : UnityEvent<object, TriggerUtility.TriggerEventArgs> { }
 
     public TriggerEvent OnEnter = new TriggerEvent();
+    public TriggerEvent OnStay = new TriggerEvent();
     public TriggerEvent OnExit = new TriggerEvent();
 
     TriggerUtility triggerUtility;
@@ -21,20 +22,27 @@ public class TriggerUtility_UnityEvent : MonoBehaviour
     {
         triggerUtility = GetComponent<TriggerUtility>();
 
-        triggerUtility.TriggerEntered += Enter;
-        triggerUtility.TriggerExited += Exit;
+        triggerUtility.TriggerEnter += Enter;
+        triggerUtility.TriggerStay += Stay;
+        triggerUtility.TriggerExit += Exit;
     }
 
     public void OnDisable()
     {
-        triggerUtility.TriggerEntered -= Enter;
-        triggerUtility.TriggerExited -= Exit;
+        triggerUtility.TriggerEnter -= Enter;
+        triggerUtility.TriggerStay += Stay;
+        triggerUtility.TriggerExit -= Exit;
     }
 
 
     private void Enter(object o, TriggerUtility.TriggerEventArgs e)
     {
         OnEnter.Invoke(o, e);
+    }
+
+    private void Stay(object o, TriggerUtility.TriggerEventArgs e)
+    {
+        OnStay.Invoke(o, e);
     }
 
     private void Exit(object o, TriggerUtility.TriggerEventArgs e)

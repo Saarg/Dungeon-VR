@@ -57,20 +57,24 @@ public class TrapControllerManager : MonoBehaviour {
         }
     }
 
-    public void OnTrapDropZoneEnter(object o, TriggerUtility.TriggerEventArgs e)
+    public void OnTrapDropZoneStay(object o, TriggerUtility.TriggerEventArgs e)
     {
-        trapDropZone = e.triggeredObject.GetComponent<TrapDropZone>();
-        trapDropZone.ShowPreview(this);
-        controllerEvents.ButtonTwoPressed += ControllerEvents_ButtonTwoPressed;
+        if (trapDropZone == null)
+        {
+            trapDropZone = e.triggeredObject.GetComponent<TrapDropZone>();
+            trapDropZone.ShowPreview(this);
+            controllerEvents.ButtonTwoPressed += ControllerEvents_ButtonTwoPressed;
+        }
     }
-
-    
 
     public void OnTrapDropZoneExit(object o, TriggerUtility.TriggerEventArgs e)
     {
-        trapDropZone = e.triggeredObject.GetComponent<TrapDropZone>();
-        trapDropZone.DestroyPreview();
-        controllerEvents.ButtonTwoPressed -= ControllerEvents_ButtonTwoPressed;
+        if (trapDropZone != null)
+        {
+            trapDropZone.DestroyPreview();
+            trapDropZone = null;
+            controllerEvents.ButtonTwoPressed -= ControllerEvents_ButtonTwoPressed;
+        }
     }
 
 }

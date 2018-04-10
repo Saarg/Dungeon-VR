@@ -22365,9 +22365,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnEnter:
     m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: TriggerUtility_UnityEvent+TriggerEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnStay:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 995578909}
-        m_MethodName: OnTrapDropZoneEnter
+        m_MethodName: OnTrapDropZoneStay
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -73376,9 +73381,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnEnter:
     m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: TriggerUtility_UnityEvent+TriggerEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnStay:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 461827792}
-        m_MethodName: OnTrapDropZoneEnter
+        m_MethodName: OnTrapDropZoneStay
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
