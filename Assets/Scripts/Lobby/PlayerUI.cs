@@ -45,7 +45,8 @@ namespace Lobby {
 		public GameObject classButtons;
 		public GameObject readyButtons;
 
-		public Text pName;
+        public Image readySymbol;
+        public Text pName;
 		public InputField nameInput;
 		public Image classLogo;
 		public RawImage playerFace;
@@ -120,11 +121,21 @@ namespace Lobby {
 			}
 		}
 
-		/// <summary>
-		/// Command to switch class 
-		/// </summary>
-		/// <param name="c">class integer tank, healer, assasin, mage, gm</param>  
-		[Command]	
+        public void IsReady()
+        {
+            readySymbol.enabled = true;
+        }
+
+        public void IsNotReady()
+        {
+            readySymbol.enabled = false;
+        }
+
+        /// <summary>
+        /// Command to switch class 
+        /// </summary>
+        /// <param name="c">class integer tank, healer, assasin, mage, gm</param>  
+        [Command]	
 		public void CmdSelectClass(int c) {
 			RpcUpdateSprite(c);
 		}
