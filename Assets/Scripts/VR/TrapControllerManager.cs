@@ -5,12 +5,10 @@ using UnityEngine;
 public class TrapControllerManager : MonoBehaviour {
 
     private VRTK.VRTK_ControllerEvents controllerEvents;
-    public Transform trapAttachPoint;
 
-    [Header("Trap in hand prefab.")]
+    public Transform trapAttachPoint;
     private GameObject trapInHand;
     public DungeonTrap selectedTrap;
-
     private TrapDropZone trapDropZone;
 
 
@@ -20,18 +18,23 @@ public class TrapControllerManager : MonoBehaviour {
     }
 
     private void OnEnable()
-    {
+    {   
         controllerEvents.GripPressed += ControllerEvents_GripPressed;
     }
 
     private void OnDisable()
-    {
+    {       
         controllerEvents.GripPressed -= ControllerEvents_GripPressed;
     }
 
     private void ControllerEvents_GripPressed(object sender, VRTK.ControllerInteractionEventArgs e)
     {
         ReleaseFromHand();
+    }
+
+    private void ControllerEvents_ButtonTwoPressed(object sender, VRTK.ControllerInteractionEventArgs e)
+    {
+        trapDropZone.RotatePreview(45);
     }
 
     public void AttachToHand(GameObject trapInHandToInstantiate, DungeonTrap trap)
@@ -58,20 +61,16 @@ public class TrapControllerManager : MonoBehaviour {
     {
         trapDropZone = e.triggeredObject.GetComponent<TrapDropZone>();
         trapDropZone.ShowPreview(this);
-        GetComponent<VRTK.VRTK_ControllerEvents>().TouchpadTouchStart += OnTouchpadTouchStart;
-
+        controllerEvents.ButtonTwoPressed += ControllerEvents_ButtonTwoPressed;
     }
 
-    private void OnTouchpadTouchStart(object sender, VRTK.ControllerInteractionEventArgs e)
-    {
-        trapDropZone.RotatePreview(45);
-    }
+    
 
     public void OnTrapDropZoneExit(object o, TriggerUtility.TriggerEventArgs e)
     {
         trapDropZone = e.triggeredObject.GetComponent<TrapDropZone>();
         trapDropZone.DestroyPreview();
-        GetComponent<VRTK.VRTK_ControllerEvents>().TouchpadTouchStart -= OnTouchpadTouchStart;
+        controllerEvents.ButtonTwoPressed -= ControllerEvents_ButtonTwoPressed;
     }
 
 }
