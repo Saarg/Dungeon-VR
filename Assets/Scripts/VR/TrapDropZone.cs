@@ -79,6 +79,7 @@ public class TrapDropZone : MonoBehaviour {
         else
         { 
             trapControllerManager.ReleaseFromHand();
+            trapControllerManager.GetComponent<VRControllerManager>().PlayHaptic(1,0.5f,.05f);
         }
     }
 

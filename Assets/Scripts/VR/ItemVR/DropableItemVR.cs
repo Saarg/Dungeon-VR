@@ -47,6 +47,10 @@ public class DropableItemVR : ItemVR {
             associatedTrap.price = this.Price;
             e.interactingObject.GetComponent<TrapControllerManager>().AttachToHand(trapInHandPrefab, associatedTrap);
         }
+        else
+        {
+            e.interactingObject.GetComponent<VRControllerManager>().PlayHaptic(1,.5f,.05f);
+        }
     }
 }
 
