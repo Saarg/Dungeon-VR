@@ -10,6 +10,8 @@ public class VRPlayerManager : MonoBehaviour {
 
     public int maxGold;
     public int totalGold = 10;
+    [Range(0.1f,2f)]
+    public float timeStepGeneration = 1f;
 
 	public VRPlayerManager()
     {
@@ -43,15 +45,26 @@ public class VRPlayerManager : MonoBehaviour {
         {
             gameUI = GameObject.Find("GameUI").GetComponent<GameUI>();
         }
+        StartCoroutine("GoldGenerator");
     }
 
     void Update()
     {
-        totalGold = Mathf.Clamp(totalGold + Mathf.FloorToInt(Time.timeScale * 5), 0, maxGold);
-
         if (gameUI != null)
         {
             gameUI.UpdateVRUI(this);
+        }
+    }
+
+    IEnumerator GoldGenerator()
+    {
+        while (true)
+        {
+            if(totalGold < maxGold)
+            {
+                totalGold++;
+            }          
+            yield return new WaitForSeconds(timeStepGeneration);
         }
     }
 }

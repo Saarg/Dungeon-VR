@@ -11,13 +11,16 @@ public class DropableItemVR : ItemVR {
     protected override void OnEnable()
     {
         base.OnEnable();
+        GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectTouched += DropableItemVR_InteractableObjectTouched;
         GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectUsed += DropableItemVR_InteractableObjectUsed;
+        
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectUsed -= DropableItemVR_InteractableObjectUsed;
+        GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectTouched -= DropableItemVR_InteractableObjectTouched;
+        GetComponent<VRTK.VRTK_InteractableObject>().InteractableObjectUsed -= DropableItemVR_InteractableObjectUsed;        
     }
 
     // Use this for initialization
@@ -29,6 +32,12 @@ public class DropableItemVR : ItemVR {
             Debug.LogError("Need to select a trap in hand prefab for this table trap.");
         }
 
+    }
+
+    private void DropableItemVR_InteractableObjectTouched(object sender, VRTK.InteractableObjectEventArgs e)
+    {
+        // Can't make it work and I dont know why ... -> Using Unity event the same way and it works
+        //associatedTrap.GetComponent<Trap>().StartTrap();
     }
 
     private void DropableItemVR_InteractableObjectUsed(object sender, VRTK.InteractableObjectEventArgs e)

@@ -55,7 +55,10 @@ public class SpellSpawner : MonoBehaviour {
     }
 
     public void SmallCooldown() {
-        Destroy(CurrentSpell.gameObject);
+        if(CurrentSpell != null)
+        {
+            Destroy(CurrentSpell.gameObject);
+        }      
         currentTimeBeforeRespawn = respawnTime/2f;
     }
 }

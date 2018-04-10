@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TrapControllerManager : MonoBehaviour {
 
+    private VRTK.VRTK_ControllerEvents controllerEvents;
     public Transform trapAttachPoint;
 
     [Header("Trap in hand prefab.")]
@@ -11,6 +12,27 @@ public class TrapControllerManager : MonoBehaviour {
     public DungeonTrap selectedTrap;
 
     private TrapDropZone trapDropZone;
+
+
+    private void Awake()
+    {
+        controllerEvents = GetComponent<VRTK.VRTK_ControllerEvents>();
+    }
+
+    private void OnEnable()
+    {
+        controllerEvents.GripPressed += ControllerEvents_GripPressed;
+    }
+
+    private void OnDisable()
+    {
+        controllerEvents.GripPressed -= ControllerEvents_GripPressed;
+    }
+
+    private void ControllerEvents_GripPressed(object sender, VRTK.ControllerInteractionEventArgs e)
+    {
+        ReleaseFromHand();
+    }
 
     public void AttachToHand(GameObject trapInHandToInstantiate, DungeonTrap trap)
     {
