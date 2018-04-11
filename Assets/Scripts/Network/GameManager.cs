@@ -70,11 +70,11 @@ public class GameManager : NetworkBehaviour {
 				if (gameUI.isVr) {
 					gameUI.Win();
 					if(clip != null)
-            			AudioSource.PlayClipAtPoint(victoryAudio, transform.position, 1f);
+            			AudioSource.PlayOneShot(victoryAudio, 1f);
 				} else {
 					gameUI.Lose();
 					if(clip != null)
-            			AudioSource.PlayClipAtPoint(defeatAudio, transform.position, 1f);
+            			AudioSource.PlayOneShot(defeatAudio, 1f);
 				}
 
 				gameObject.SetActive(false);
@@ -82,11 +82,11 @@ public class GameManager : NetworkBehaviour {
 				if (gameUI.isVr) {
 					gameUI.Lose();
 					if(clip != null)
-            			AudioSource.PlayClipAtPoint(defeatAudio, transform.position, 1f);
+            			AudioSource.PlayOneShot(defeatAudio, 1f);
 				} else {
 					gameUI.Win();
 					if(clip != null)
-            			AudioSource.PlayClipAtPoint(victoryAudio, transform.position, 1f);
+            			AudioSource.PlayOneShot(victoryAudio, 1f);
 				}
 				gameObject.SetActive(false);
 			}
