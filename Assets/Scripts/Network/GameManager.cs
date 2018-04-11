@@ -31,6 +31,9 @@ public class GameManager : NetworkBehaviour {
 
 	PlayerController[] players;
 
+	[SerializeField] AudioClip victoryAudio;
+	[SerializeField] AudioClip defeatAudio;	
+
 	void Awake()
 	{
 		instance = this;
@@ -64,18 +67,27 @@ public class GameManager : NetworkBehaviour {
 			}
 
 			if (allDead) {
-				if (gameUI.isVr)
+				if (gameUI.isVr) {
 					gameUI.Win();
-				else
+					if(clip != null)
+            			AudioSource.PlayClipAtPoint(victoryAudio, transform.position, 1f);
+				} else {
 					gameUI.Lose();
+					if(clip != null)
+            			AudioSource.PlayClipAtPoint(defeatAudio, transform.position, 1f);
+				}
 
 				gameObject.SetActive(false);
 			} else if (timeLeft <= 0) {
-				if (gameUI.isVr)
+				if (gameUI.isVr) {
 					gameUI.Lose();
-				else
+					if(clip != null)
+            			AudioSource.PlayClipAtPoint(defeatAudio, transform.position, 1f);
+				} else {
 					gameUI.Win();
-
+					if(clip != null)
+            			AudioSource.PlayClipAtPoint(victoryAudio, transform.position, 1f);
+				}
 				gameObject.SetActive(false);
 			}
 
