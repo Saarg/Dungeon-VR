@@ -37,6 +37,7 @@ public class BaseAI : NetworkBehaviour {
     [SerializeField] float attackDelay = 1f;
     [SerializeField] float shootingDelay = 3f;
     float lastAttack = 0f;
+    float lastShoot = 0f;
 
     float detectTargetDelay = 0.5f;
     float lastDetectTarget = 0f;
@@ -149,6 +150,7 @@ public class BaseAI : NetworkBehaviour {
 
     void UpdateMovement()
     {
+
         if (currentNodeDestination == null)
             PickNode();
         else if ((transform.position - currentDestination).magnitude < pickNextNodeRange)
@@ -181,6 +183,7 @@ public class BaseAI : NetworkBehaviour {
             yield return new WaitForEndOfFrame();
             currentTime += Time.deltaTime;
         }
+
         // to avoid grab during death
         if (animator.GetBool("IsGrabbed") == false)
         {
@@ -203,11 +206,19 @@ public class BaseAI : NetworkBehaviour {
             return;
 
         StayAwayFromPlayer();
-        ShootPlayer();
+
+        if (Time.time - lastShoot > shootingDelay)
+        {
+            ShootPlayer();
+            lastShoot = Time.time;
+        }
     }
 
     void PickNode()
     {
+        if (animator.GetBool("IsGrabbed") == true)
+            return;
+
         PathNode closestNode = null;
         PathNode secondClosestNode = null;
 
@@ -403,36 +414,40 @@ public class BaseAI : NetworkBehaviour {
             if (LineOfSightToTarget(target))
             {
                 Vector3 destination = target.transform.position + (transform.position - target.transform.position).normalized * farPositionMultiplier;
-                agent.SetDestination(destination);
-                targetDestination = destination;
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(destination, out hit, 1f, 1))
+                {
+                    if (agent.enabled)
+                    {
+                        agent.SetDestination(hit.position);
+                    }
+                    targetDestination = hit.position;
+                }
             }
             else
             {
-                Vector3 lineToTarget = (transform.position - target.transform.position).normalized;
-                Vector3 offsetPosition = Vector3.Cross(lineToTarget, Vector3.up);
-                Vector3 destination = target.transform.position + offsetPosition * farPositionMultiplier;
-                if (agent.enabled)
-                {
-                    agent.SetDestination(destination);
-                }
-                targetDestination = destination;
+                MoveNearPlayer();
             }
         }
     }
 
     void MoveNearPlayer()
     {
-
         //FindClosestEdge
         //SamplePathPosition
         if (target != null)
         {
             Vector3 destination = target.transform.position + (transform.position - target.transform.position).normalized * nearPositionMultiplier;
-            if (agent.enabled)
+            NavMeshHit hit;
+            
+            if (NavMesh.SamplePosition(destination, out hit, 2f, 1))
             {
-                agent.SetDestination(destination);
+                if (agent.enabled)
+                {
+                    agent.SetDestination(hit.position);
+                }
+                targetDestination = hit.position;
             }
-            targetDestination = destination;
         }
     }
 
@@ -557,7 +572,7 @@ public class BaseAI : NetworkBehaviour {
         }
         CmdSetBool("moving", false);
         gameObject.GetComponent<Living>().OnDeath -= OnDeath;
-        if (isServer && Random.Range(0f, 1f) < 0.4f)
+        if (isServer)
         {
             RaycastHit hit;
             Vector3 pos = transform.position;
@@ -574,6 +589,51 @@ public class BaseAI : NetworkBehaviour {
         CmdSetBool("IsDead", true);
         yield return new WaitForSecondsRealtime(DEATH_ANIM_DELAY); //time of the death animation
         CmdOnDeath(netId);
+    }
+
+    public void ResetDestination()
+    {
+        if (isServer)
+        {
+            CmdResetDestination();
+        }
+    }
+
+    [Command]
+    void CmdResetDestination()
+    {
+        currentNodeDestination = null;
+        currentDestination = Vector3.positiveInfinity;
+        RpcResetDestination(netId);
+    }
+
+    [ClientRpc]
+    void RpcResetDestination(NetworkInstanceId id)
+    {
+        GameObject obj = ClientScene.FindLocalObject(id);
+        BaseAI ai = obj.GetComponent<BaseAI>();
+        ai.currentNodeDestination = null;
+        ai.currentDestination = Vector3.positiveInfinity;
+    }
+
+    public void SetNavMeshEnable(bool value)
+    {
+        CmdSetNavMeshEnable(value);
+    }
+
+    [Command]
+    void CmdSetNavMeshEnable(bool value)
+    {
+        agent.enabled = value;
+        RpcSetNavMeshEnable(value, netId);
+    }
+
+    [ClientRpc]
+    void RpcSetNavMeshEnable(bool value, NetworkInstanceId id)
+    {
+        GameObject obj = ClientScene.FindLocalObject(id);
+        BaseAI ai = obj.GetComponent<BaseAI>();
+        ai.agent.enabled = value;
     }
 
     [Command]
