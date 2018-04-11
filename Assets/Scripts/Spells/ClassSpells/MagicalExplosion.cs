@@ -26,9 +26,11 @@ public class MagicalExplosion : MonoBehaviour {
             Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, 3);
             foreach (Collider col in hitColliders)
             {
-                if (col.gameObject.CompareTag("Player"))
+                if (!col.gameObject.CompareTag("Player"))
                 {
-                    col.GetComponent<Living>().TakeDamage(damage, Bullet.DamageTypeEnum.fire);
+                    var living = col.GetComponent<Living>();
+                    if(living != null)
+                        living.TakeDamage(damage, Bullet.DamageTypeEnum.fire);
                 }
             }
             nextTime += interval;
@@ -43,7 +45,9 @@ public class MagicalExplosion : MonoBehaviour {
 
 	void OnTriggerEnter (Collider _col){
 		if (!_col.gameObject.CompareTag ("Player") && isBurning) {
-			_col.GetComponent<Living>().TakeDamage(damage, Bullet.DamageTypeEnum.fire);
+            var living = _col.gameObject.GetComponent<Living>();
+            if (living != null)
+                living.TakeDamage(damage, Bullet.DamageTypeEnum.fire);
 		}
 	}
 
