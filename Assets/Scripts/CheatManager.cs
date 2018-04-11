@@ -7,6 +7,7 @@ public class CheatManager : MonoBehaviour {
 	
 	[SerializeField]
 	GameUI gameUI;
+    bool inverse = true;
 
 	void Start()
 	{
@@ -28,6 +29,20 @@ public class CheatManager : MonoBehaviour {
 				PlayerController pc = gameUI.GetPlayerController();
 				pc.curMana = pc.maxMana;
 			}
-		}
+            else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C))
+            {
+                PlayerController pc = gameUI.GetPlayerController();
+                pc.cam.GetComponent<CameraControl>().setInverse(inverse);
+                if (inverse)
+                {
+                    inverse = false;
+                }
+                else
+                {
+                    inverse = true;
+                }
+                
+            }
+        }
 	}
 }

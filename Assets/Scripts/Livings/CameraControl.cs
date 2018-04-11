@@ -21,16 +21,26 @@ public class CameraControl : MonoBehaviour
     private float currentY = 0.0f; // Holds value of Y mouse movement
 
     public Vector3 viewOffset;
-    
+
+    [SerializeField] public bool inverse = false;
+
     void Start(){
         controller = character.GetComponent<PlayerController>();
     }
 
     void Update()
     {
-         currentX += Input.GetAxis("Mouse X");
-         currentY += Input.GetAxis("Mouse Y");
-         currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
+        currentX += Input.GetAxis("Mouse X");
+        if (inverse)
+        {
+            currentY += -1 * Input.GetAxis("Mouse Y");
+        }
+        else
+        {
+            currentY += Input.GetAxis("Mouse Y");
+        }
+        currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
+
     }
 
     void LateUpdate()
@@ -41,5 +51,10 @@ public class CameraControl : MonoBehaviour
         gameObject.transform.RotateAround(character.position, character.right, currentY);
 
         gameObject.transform.LookAt(character.position + character.TransformDirection(viewOffset));
+    }
+
+    public void setInverse(bool b)
+    {
+        inverse = b;
     }
 }
