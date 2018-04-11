@@ -53,7 +53,7 @@ public class CameraControl : MonoBehaviour
         gameObject.transform.LookAt(character.position + character.TransformDirection(viewOffset));
     }
 
-    public void setInverse(bool b)
+    public void SetInverse(bool b)
     {
         inverse = b;
     }

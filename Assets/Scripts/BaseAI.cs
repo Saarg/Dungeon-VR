@@ -557,7 +557,7 @@ public class BaseAI : NetworkBehaviour {
         }
         CmdSetBool("moving", false);
         gameObject.GetComponent<Living>().OnDeath -= OnDeath;
-        if (isServer)
+        if (isServer && Random.Range(0f, 1f) < 0.4f)
         {
             RaycastHit hit;
             Vector3 pos = transform.position;

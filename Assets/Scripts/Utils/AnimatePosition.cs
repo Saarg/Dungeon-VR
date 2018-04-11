@@ -33,6 +33,9 @@ public class AnimatePosition : MonoBehaviour {
 	public bool enableOnStart = true;
 	public bool disableOnStop = false;	
 
+	Vector3 startPos;
+	Vector3 startRot;
+
 	/// <summary>  
 	///		Start the animation if runOnStart is true
 	/// </summary> 
@@ -49,6 +52,19 @@ public class AnimatePosition : MonoBehaviour {
 		if (runOnEnable) {
 			StartAnimation();
 		}
+	}
+
+	/// <summary>
+	/// 	This function is called when the behaviour becomes disabled or inactive.
+	/// </summary>
+	void OnDisable()
+	{
+		if (running) {
+			transform.localPosition = startPos;
+			transform.localRotation = Quaternion.Euler(startRot);
+		}
+
+		running = false;
 	}
 
 	/// <summary>  
@@ -73,8 +89,8 @@ public class AnimatePosition : MonoBehaviour {
 	/// 	Coroutine running the animation
 	/// </summary> 
 	IEnumerator RunAnimation () {
-		Vector3 startPos = transform.localPosition;
-		Vector3 startRot = transform.localRotation.eulerAngles;
+		startPos = transform.localPosition;
+		startRot = transform.localRotation.eulerAngles;
 
 		float startTime = Time.realtimeSinceStartup + offset;
 		running = true;

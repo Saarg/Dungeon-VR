@@ -61,8 +61,8 @@ namespace Lobby {
 		}
 		
 		void Start () {
-			GameObject ui = GameObject.Find("UI");
-			transform.SetParent(ui.transform);
+			Transform ui = NetworkManager.singleton.transform.Find("UI");
+			transform.SetParent(ui);
 
 			curPlayer = playerCount++;
 
@@ -119,17 +119,9 @@ namespace Lobby {
 				if (minPlayers <= playerCount)
 					readyButtons.SetActive(true);
 			}
+
+			readySymbol.enabled = readyToBegin;
 		}
-
-        public void IsReady()
-        {
-            readySymbol.enabled = true;
-        }
-
-        public void IsNotReady()
-        {
-            readySymbol.enabled = false;
-        }
 
         /// <summary>
         /// Command to switch class 
