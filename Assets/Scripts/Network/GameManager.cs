@@ -69,24 +69,24 @@ public class GameManager : NetworkBehaviour {
 			if (allDead) {
 				if (gameUI.isVr) {
 					gameUI.Win();
-					if(clip != null)
-            			AudioSource.PlayOneShot(victoryAudio, 1f);
+					if(victoryAudio != null)
+            			AudioSource.PlayClipAtPoint(victoryAudio, transform.position, 1f);
 				} else {
 					gameUI.Lose();
-					if(clip != null)
-            			AudioSource.PlayOneShot(defeatAudio, 1f);
+					if(defeatAudio != null)
+            			AudioSource.PlayClipAtPoint(defeatAudio, transform.position, 1f);
 				}
 
 				gameObject.SetActive(false);
 			} else if (timeLeft <= 0) {
 				if (gameUI.isVr) {
 					gameUI.Lose();
-					if(clip != null)
-            			AudioSource.PlayOneShot(defeatAudio, 1f);
+					if(defeatAudio != null)
+            			AudioSource.PlayClipAtPoint(defeatAudio, transform.position, 1f);
 				} else {
 					gameUI.Win();
-					if(clip != null)
-            			AudioSource.PlayOneShot(victoryAudio, 1f);
+					if(victoryAudio != null)
+            			AudioSource.PlayClipAtPoint(victoryAudio, transform.position, 1f);
 				}
 				gameObject.SetActive(false);
 			}
