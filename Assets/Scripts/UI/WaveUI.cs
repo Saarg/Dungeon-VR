@@ -27,6 +27,6 @@ public class WaveUI : MonoBehaviour {
 		name = "Wave " + i.ToString();
 		waveName.text = name;
 
-		(transform as RectTransform).anchoredPosition = new Vector3(200 + 350 * i, 0, 0); 
+		(transform as RectTransform).anchoredPosition = new Vector3(350 * i, 0, 0); 
 	}
 }
