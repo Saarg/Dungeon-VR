@@ -42,7 +42,7 @@ public class MagicalExplosion : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider _col){
-		if (_col.gameObject.CompareTag ("Player") && isBurning) {
+		if (!_col.gameObject.CompareTag ("Player") && isBurning) {
 			_col.GetComponent<Living>().TakeDamage(damage, Bullet.DamageTypeEnum.fire);
 		}
 	}

@@ -36,11 +36,14 @@ public class MonsterVR : MonoBehaviour {
     {
         navMeshAgent.enabled = false;
         baseAI.SetIsGrabbed(true);
+        baseAI.ResetDestination();
+        baseAI.SetNavMeshEnable(false);
     }
 
     private void Interactable_InteractableObjectUngrabbed(object sender, VRTK.InteractableObjectEventArgs e)
     {
         navMeshAgent.enabled = true;
         baseAI.SetIsGrabbed(false);
+        baseAI.SetNavMeshEnable(true);
     }
 }

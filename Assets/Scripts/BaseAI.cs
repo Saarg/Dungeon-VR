@@ -150,6 +150,7 @@ public class BaseAI : NetworkBehaviour {
 
     void UpdateMovement()
     {
+
         if (currentNodeDestination == null)
             PickNode();
         else if ((transform.position - currentDestination).magnitude < pickNextNodeRange)
@@ -182,6 +183,7 @@ public class BaseAI : NetworkBehaviour {
             yield return new WaitForEndOfFrame();
             currentTime += Time.deltaTime;
         }
+
         // to avoid grab during death
         if (animator.GetBool("IsGrabbed") == false)
         {
@@ -214,6 +216,9 @@ public class BaseAI : NetworkBehaviour {
 
     void PickNode()
     {
+        if (animator.GetBool("IsGrabbed") == true)
+            return;
+
         PathNode closestNode = null;
         PathNode secondClosestNode = null;
 
@@ -584,6 +589,51 @@ public class BaseAI : NetworkBehaviour {
         CmdSetBool("IsDead", true);
         yield return new WaitForSecondsRealtime(DEATH_ANIM_DELAY); //time of the death animation
         CmdOnDeath(netId);
+    }
+
+    public void ResetDestination()
+    {
+        if (isServer)
+        {
+            CmdResetDestination();
+        }
+    }
+
+    [Command]
+    void CmdResetDestination()
+    {
+        currentNodeDestination = null;
+        currentDestination = Vector3.positiveInfinity;
+        RpcResetDestination(netId);
+    }
+
+    [ClientRpc]
+    void RpcResetDestination(NetworkInstanceId id)
+    {
+        GameObject obj = ClientScene.FindLocalObject(id);
+        BaseAI ai = obj.GetComponent<BaseAI>();
+        ai.currentNodeDestination = null;
+        ai.currentDestination = Vector3.positiveInfinity;
+    }
+
+    public void SetNavMeshEnable(bool value)
+    {
+        CmdSetNavMeshEnable(value);
+    }
+
+    [Command]
+    void CmdSetNavMeshEnable(bool value)
+    {
+        agent.enabled = value;
+        RpcSetNavMeshEnable(value, netId);
+    }
+
+    [ClientRpc]
+    void RpcSetNavMeshEnable(bool value, NetworkInstanceId id)
+    {
+        GameObject obj = ClientScene.FindLocalObject(id);
+        BaseAI ai = obj.GetComponent<BaseAI>();
+        ai.agent.enabled = value;
     }
 
     [Command]
