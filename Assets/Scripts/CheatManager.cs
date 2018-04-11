@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 public class CheatManager : MonoBehaviour {
 	
 	[SerializeField]
+	GameObject graphy;
+
+	[SerializeField]
 	GameUI gameUI;
     bool inverse = true;
 
@@ -21,7 +24,9 @@ public class CheatManager : MonoBehaviour {
 			if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.T)) {
 				SceneManager.LoadScene("PlayerTestScene");
 			}
-		} else if (gameUI != null) {
+		}
+		
+		if (gameUI != null) {
 			if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.L)) {
 				PlayerController pc = gameUI.GetPlayerController();
 				pc.curLife = pc.maxLife;
@@ -32,7 +37,7 @@ public class CheatManager : MonoBehaviour {
             else if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.C))
             {
                 PlayerController pc = gameUI.GetPlayerController();
-                pc.cam.GetComponent<CameraControl>().setInverse(inverse);
+                pc.cam.GetComponent<CameraControl>().SetInverse(inverse);
                 if (inverse)
                 {
                     inverse = false;
@@ -44,5 +49,9 @@ public class CheatManager : MonoBehaviour {
                 
             }
         }
+
+		if (graphy != null && Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.D)) {
+			graphy.SetActive(!graphy.activeSelf);
+		}
 	}
 }

@@ -106,7 +106,6 @@ namespace Lobby
 		{
 			// Debug.Log("OnLobbyClientExit");
 
-			lobbyUI.SetActive(true);			
 			lobbyUI.SetActive(false);
 		}
 		
