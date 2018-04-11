@@ -37,6 +37,7 @@ public class BaseAI : NetworkBehaviour {
     [SerializeField] float attackDelay = 1f;
     [SerializeField] float shootingDelay = 3f;
     float lastAttack = 0f;
+    float lastShoot = 0f;
 
     float detectTargetDelay = 0.5f;
     float lastDetectTarget = 0f;
@@ -203,7 +204,12 @@ public class BaseAI : NetworkBehaviour {
             return;
 
         StayAwayFromPlayer();
-        ShootPlayer();
+
+        if (Time.time - lastShoot > shootingDelay)
+        {
+            ShootPlayer();
+            lastShoot = Time.time;
+        }
     }
 
     void PickNode()
@@ -403,36 +409,40 @@ public class BaseAI : NetworkBehaviour {
             if (LineOfSightToTarget(target))
             {
                 Vector3 destination = target.transform.position + (transform.position - target.transform.position).normalized * farPositionMultiplier;
-                agent.SetDestination(destination);
-                targetDestination = destination;
+                NavMeshHit hit;
+                if (NavMesh.SamplePosition(destination, out hit, 1f, 1))
+                {
+                    if (agent.enabled)
+                    {
+                        agent.SetDestination(hit.position);
+                    }
+                    targetDestination = hit.position;
+                }
             }
             else
             {
-                Vector3 lineToTarget = (transform.position - target.transform.position).normalized;
-                Vector3 offsetPosition = Vector3.Cross(lineToTarget, Vector3.up);
-                Vector3 destination = target.transform.position + offsetPosition * farPositionMultiplier;
-                if (agent.enabled)
-                {
-                    agent.SetDestination(destination);
-                }
-                targetDestination = destination;
+                MoveNearPlayer();
             }
         }
     }
 
     void MoveNearPlayer()
     {
-
         //FindClosestEdge
         //SamplePathPosition
         if (target != null)
         {
             Vector3 destination = target.transform.position + (transform.position - target.transform.position).normalized * nearPositionMultiplier;
-            if (agent.enabled)
+            NavMeshHit hit;
+            
+            if (NavMesh.SamplePosition(destination, out hit, 2f, 1))
             {
-                agent.SetDestination(destination);
+                if (agent.enabled)
+                {
+                    agent.SetDestination(hit.position);
+                }
+                targetDestination = hit.position;
             }
-            targetDestination = destination;
         }
     }
 
