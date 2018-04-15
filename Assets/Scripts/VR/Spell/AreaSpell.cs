@@ -30,7 +30,10 @@ public abstract class AreaSpell : MonoBehaviour {
             StopCoroutine("AffectCoroutine");
             foreach(Living liv in insideAreaLivings)
             {
-                StopAffect(liv);
+                if (liv != null)
+                {
+                    StopAffect(liv);
+                }
             }
             Destroy(this.gameObject);
         }
