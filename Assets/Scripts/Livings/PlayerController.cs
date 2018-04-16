@@ -59,6 +59,16 @@ public class PlayerController : Living
 
     public Vector3 spawnPos;
 
+    ShootingController shootingController;
+    public ShootingController GetShootingController {
+        get {
+            if (shootingController == null) {
+                shootingController = GetComponent<ShootingController>();
+            }
+            return shootingController;
+        }
+    }
+
     /// <summary>
     /// 	Fetch animator
     ///		Destroy camera if not localplayer

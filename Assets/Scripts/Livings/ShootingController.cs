@@ -9,6 +9,8 @@ public class ShootingController : NetworkBehaviour {
 
     [Header("Weapon")]
     public Living owner;
+
+    public bool canShoot = true;
     
     public Weapon weapon;
     float lastShotTime = 0;
@@ -39,7 +41,7 @@ public class ShootingController : NetworkBehaviour {
         {
             if (!firing)
             {
-                if (Input.GetButtonDown("Fire1"))
+                if (Input.GetButtonDown("Fire1") && canShoot)
                 {
                     if (weapon != null && Time.time - lastShotTime > weapon.FiringInterval)
                     {

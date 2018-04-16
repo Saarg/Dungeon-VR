@@ -516,6 +516,7 @@ public class GameUI : MonoBehaviour {
 
     // Menu UI
     public void ToggleMenu(bool display) {
+        player.GetShootingController.canShoot = !display;
         menuUI.gameObject.SetActive(display);
 
 		if (display == true)
@@ -585,6 +586,8 @@ public class GameUI : MonoBehaviour {
 
 	//ALL UI
 	public void ShowMenu(MenusEnum menu){
+        player.GetShootingController.canShoot = false;
+        
 		switch (menu) {
 		case MenusEnum.main:
 			ToggleMenu (true);
@@ -595,10 +598,15 @@ public class GameUI : MonoBehaviour {
 		case MenusEnum.sounds:
 			DisplayAudioMenu ();
 			break;
+        default:
+            player.GetShootingController.canShoot = true;            
+            break;
 		}
 	}
 
 	public void HideMenu(MenusEnum menu){
+        player.GetShootingController.canShoot = true;
+        
 		switch (menu) {
 		case MenusEnum.main:
 			ToggleMenu (false);
@@ -609,6 +617,9 @@ public class GameUI : MonoBehaviour {
 		case MenusEnum.sounds:
 			audioMenu.gameObject.SetActive (false);
 			break;
+        default:
+            player.GetShootingController.canShoot = false;            
+            break;
 		}
 	}
 

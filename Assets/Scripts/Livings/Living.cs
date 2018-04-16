@@ -103,6 +103,10 @@ public class Living : NetworkBehaviour {
         if (!dead && transform.position.y < -20f) {
             TakeDamage(999999, Bullet.DamageTypeEnum.physical);
         }
+
+        if (dead && curLife > 0f && isServer) { 
+            curLife = 0f;
+        }
     }
 
     [Command]
