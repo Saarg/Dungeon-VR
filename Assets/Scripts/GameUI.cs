@@ -524,6 +524,7 @@ public class GameUI : MonoBehaviour {
 		else
 			currentMenu = MenusEnum.none;
 
+        Cursor.visible = display;
         if (player != null && !player.dead)
             Cursor.lockState = display ? CursorLockMode.None : CursorLockMode.Locked;
         else
